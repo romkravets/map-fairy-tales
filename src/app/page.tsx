@@ -7,7 +7,6 @@ import {v4 as uuid} from "uuid"
 import {ref, update, child, get} from "firebase/database"
 import {db} from "../db/firebase"
 
-
 export default function Home() {
   const tasksRef = ref(db)
   const region = {
@@ -83,7 +82,7 @@ export default function Home() {
             const regionId = uuid()
             setRegionData({...regionData, id: regionId})
             const dbRef = ref(db, `regions/${regionData.region}`)
-            update(dbRef, {value: oldValue?.value + regionData?.value}).then(() => {
+            update(dbRef, {value: regionData?.value}).then(() => {
               getFormApp(regionData.region)
             }).catch((err) => {
               console.log(err)
