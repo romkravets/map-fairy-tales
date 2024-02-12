@@ -7,6 +7,7 @@ import {v4 as uuid} from "uuid"
 import {ref, update, child, get, set} from "firebase/database"
 import {db} from "../db/firebase"
 import Login from "@/components/Auth/Login/Login"
+import {auth} from '../db/firebase'
 
 export default function Home() {
   const tasksRef = ref(db)
@@ -110,6 +111,18 @@ export default function Home() {
               id: ''
             })
             setModal(false)
+            auth.signOut().then( () => {
+              setAuthData(prevState => ({
+                ...prevState,
+                isAuthenticated: false,
+                userName: '',
+                userId: '',
+                email: '',
+                token: ''
+              }))
+            }, function(error) {
+              console.error('Sign Out Error', error)
+            })
           }}>X
           </button>
           <div>{regionData.region}</div>
@@ -138,9 +151,12 @@ export default function Home() {
                   set(ref(db, 'users/' + authData.userId), {
                     userId: authData.userId,
                     status: true,
-                    value: regionData.value
+                    region: regionData.region,
+                    value: regionData.value,
+                    id: regionId
                   }).then(() => {
-                    console.log('send user status')
+                    alert('send user status')
+                    setModal(false)
                   })
                 }).catch((err) => {
                   console.log(err)
@@ -150,32 +166,44 @@ export default function Home() {
           }
           }
           >Підтвердити</button> : null}
-          {userVoting ? <button disabled={checkIfSetValue} onClick={() => {
-            getDataUser()
-            const getKeyByValue = (object, value) => {
-              return Object.keys(object).find(key => object[key] === value);
-            }
-            const newValue = {...oldValue.value}
-            newValue[getKeyByValue(regionData.value, 1)] = (newValue[getKeyByValue(regionData.value, 1)] || 0) + 1
-              if (Object.values(newValue).every(item => item === 0)) {
-                alert('Ви не вибрали варіант')
-                return
-              } else {
-                const dbRef = ref(db, `regions/${regionData.region}`)
-                update(dbRef, {value: newValue}).then(() => {
-                  getFormApp(regionData.region)
-                  set(ref(db, 'users/' + authData.userId), {
-                    userId: authData.userId,
-                    status: true,
-                    value: regionData.value
-                  }).then(() => {
-                    console.log('send user status')
-                  })
-                }).catch((err) => {
-                  console.log(err)
-                })
-              }
-          }}>Редагувати відповідь</button> : null}
+          {/*{userVoting ? (*/}
+          {/*  <button disabled={checkIfSetValue} onClick={() => {*/}
+          {/*    getDataUser();*/}
+          {/*    const getKeyByValue = (object, value) => {*/}
+          {/*      return Object.keys(object).find(key => object[key] === value);*/}
+          {/*    };*/}
+          {/*    const oldValue = { ...regionData.value }; // Збереження старих значень*/}
+          {/*    const newValue = { ...oldValue };*/}
+          {/*    const editedKey = getKeyByValue(regionData.value, 1); // Отримання ключа редагованого значення*/}
+          {/*    newValue[editedKey] = (newValue[editedKey] || 0) + 1; // Збільшення нового значення*/}
+
+          {/*    // Зменшення попереднього значення на одиницю, якщо воно не нульове*/}
+          {/*    if (oldValue[editedKey] && oldValue[editedKey] > 0) {*/}
+          {/*      oldValue[editedKey] -= 1;*/}
+          {/*    }*/}
+
+          {/*    // Перевірка, чи користувач обрав хоча б один варіант*/}
+          {/*    if (Object.values(newValue).every(item => item === 0)) {*/}
+          {/*      alert('Ви не вибрали варіант');*/}
+          {/*      return;*/}
+          {/*    } else {*/}
+          {/*      const dbRef = ref(db, `regions/${regionData.region}`);*/}
+          {/*      update(dbRef, { value: newValue }).then(() => {*/}
+          {/*        getFormApp(regionData.region);*/}
+          {/*        set(ref(db, 'users/' + authData.userId), {*/}
+          {/*          userId: authData.userId,*/}
+          {/*          status: true,*/}
+          {/*          region: regionData.region,*/}
+          {/*          value: regionData.value*/}
+          {/*        }).then(() => {*/}
+          {/*          alert('send user status відредаговано');*/}
+          {/*        });*/}
+          {/*      }).catch((err) => {*/}
+          {/*        console.log(err);*/}
+          {/*      });*/}
+          {/*    }*/}
+          {/*  }}>Редагувати відповідь</button>*/}
+          {/*) : null}*/}
         </Modal>
       )
       }
