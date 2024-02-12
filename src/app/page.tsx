@@ -1,14 +1,16 @@
 "use client"
 import MapUa from '../components/MapUa/MapUa';
 import Modal from '../components/Modal/Modal';
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Voting from "@/components/Voting/Voting";
 import {v4 as uuid} from "uuid"
-import {ref, update, child, get} from "firebase/database"
+import {ref, update, child, get, set} from "firebase/database"
 import {db} from "../db/firebase"
+import Login from "@/components/Auth/Login/Login"
 
 export default function Home() {
   const tasksRef = ref(db)
+
   const region = {
     id: '',
     region: '',
@@ -19,20 +21,55 @@ export default function Home() {
       4: 0
     }
   }
+
+  const initialState = {
+    token: "",
+    isError: false,
+    errorMessage: "",
+    userId: "",
+    userName: "",
+    email: "",
+    isAuthenticated: false,
+  }
+
   const [modal, setModal] = useState(false)
   const [regionData, setRegionData] = useState(region)
-  const [oldValue, setOldValue] = useState(0)
-  console.log(regionData, 'regionData')
-  console.log(oldValue, 'oldValue')
+  const [oldValue, setOldValue] = useState(null)
+
+  const [authData, setAuthData] = useState(initialState)
+  const [userVoting, setUserVoting] = useState(false)
+  const [checkIfSetValue, setCheckIfSetValue] = useState(true)
+  console.log(checkIfSetValue)
+
   const getFormApp = async (regionName) => {
     try {
       get(child(tasksRef, `regions/${regionName}`)).then((snapshot) => {
         if (snapshot.exists()) {
           setOldValue(snapshot.val())
         } else {
-          console.log("No data available")
+          console.log("No data getFormApp available")
         }
       }).catch((err) => {
+        console.error(err)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getDataUser = () => {
+    try {
+      get(child(tasksRef, `users/${authData.userId}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log(snapshot.exists())
+         if (authData.userId) {setUserVoting(true)}
+        } else {
+          console.log("No data getDataUser available")
+        }
+      }).then(() => {
+
+      })
+        .catch((err) => {
         console.error(err)
       })
     } catch (error) {
@@ -76,19 +113,69 @@ export default function Home() {
           }}>X
           </button>
           <div>{regionData.region}</div>
-          <div>{oldValue.value}</div>
-          <Voting setRegionData={setRegionData} regionData={regionData} getFormApp={getFormApp}/>
-          {regionData.value != 0 && <button onClick={() => {
-            const regionId = uuid()
-            setRegionData({...regionData, id: regionId})
-            const dbRef = ref(db, `regions/${regionData.region}`)
-            update(dbRef, {value: regionData?.value}).then(() => {
-              getFormApp(regionData.region)
-            }).catch((err) => {
-              console.log(err)
-            })
+          <Voting setRegionData={setRegionData} regionData={regionData} getFormApp={getFormApp} setCheckIfSetValue={setCheckIfSetValue}/>
+          {!checkIfSetValue && !authData?.userId ? <Login authData={authData} setAuthData={setAuthData} getDataUser={getDataUser}/> : null}
+          {authData?.userId ? <button disabled={checkIfSetValue}
+            onClick={() => {
+            getDataUser()
+            if (userVoting) {
+              alert('Ви вже голосували!')
+            } else {
+              const getKeyByValue = (object, value) => {
+                return Object.keys(object).find(key => object[key] === value);
+              }
+              const newValue = {...oldValue.value}
+              newValue[getKeyByValue(regionData.value, 1)] = (newValue[getKeyByValue(regionData.value, 1)] || 0) + 1
+              const regionId = uuid()
+              if (Object.values(newValue).every(item => item === 0)) {
+                alert('Ви не вибрали варіант')
+                return
+              } else {
+                setRegionData({...regionData, id: regionId})
+                const dbRef = ref(db, `regions/${regionData.region}`)
+                update(dbRef, {value: newValue}).then(() => {
+                  getFormApp(regionData.region)
+                  set(ref(db, 'users/' + authData.userId), {
+                    userId: authData.userId,
+                    status: true,
+                    value: regionData.value
+                  }).then(() => {
+                    console.log('send user status')
+                  })
+                }).catch((err) => {
+                  console.log(err)
+                })
+              }
+            }
           }
-          }>Підтвердити</button>}
+          }
+          >Підтвердити</button> : null}
+          {userVoting ? <button disabled={checkIfSetValue} onClick={() => {
+            getDataUser()
+            const getKeyByValue = (object, value) => {
+              return Object.keys(object).find(key => object[key] === value);
+            }
+            const newValue = {...oldValue.value}
+            newValue[getKeyByValue(regionData.value, 1)] = (newValue[getKeyByValue(regionData.value, 1)] || 0) + 1
+              if (Object.values(newValue).every(item => item === 0)) {
+                alert('Ви не вибрали варіант')
+                return
+              } else {
+                const dbRef = ref(db, `regions/${regionData.region}`)
+                update(dbRef, {value: newValue}).then(() => {
+                  getFormApp(regionData.region)
+                  set(ref(db, 'users/' + authData.userId), {
+                    userId: authData.userId,
+                    status: true,
+                    value: regionData.value
+                  }).then(() => {
+                    console.log('send user status')
+                  })
+                }).catch((err) => {
+                  console.log(err)
+                })
+              }
+          }}>Редагувати відповідь</button> : null}
         </Modal>
       )
       }
