@@ -1,7 +1,7 @@
 import {auth, db, GoogleProvider} from "../../../db/firebase"
 import {useState} from "react"
 
-const Login = ({setAuthData, getDataUser}) => {
+const Login = ({setAuthData}) => {
   const [loading, setLoadingDb] = useState(false)
 
   return (
@@ -30,10 +30,7 @@ const Login = ({setAuthData, getDataUser}) => {
                    }))
                   return auth.currentUser.getIdToken()
                 }
-              }).then(() => {
-                getDataUser()
-              })
-              .catch(error => console.log(error))
+              }).catch(error => console.log(error))
           }
           }
         >
