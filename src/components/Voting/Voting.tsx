@@ -3,10 +3,10 @@ export default function Voting({regionData, setRegionData, getFormApp, setCheckI
   let setValueData = (valueToUpdate) => {
     const updatedRegionData = { ...regionData };
     updatedRegionData.value = {
+      0: 0,
       1: 0,
       2: 0,
-      3: 0,
-      4: 0
+      3: 0
     };
 
     updatedRegionData.value = {
@@ -14,30 +14,23 @@ export default function Voting({regionData, setRegionData, getFormApp, setCheckI
       ...valueToUpdate
     };
     setRegionData(updatedRegionData);
+    setCheckIfSetValue(false)
   };
 
   return (
     <main className="voutingName">
       <button onClick={() => {
-        setCheckIfSetValue(false)
-        getFormApp(regionData.region)
+        setValueData( {0: 1});
+      }}>0</button>
+      <button onClick={() => {
         setValueData( {1: 1});
       }}>1</button>
       <button onClick={() => {
-        setCheckIfSetValue(false)
-        getFormApp(regionData.region)
         setValueData( {2: 1});
       }}>2</button>
       <button onClick={() => {
-        setCheckIfSetValue(false)
-        getFormApp(regionData.region)
         setValueData( {3: 1});
       }}>3</button>
-      <button onClick={() => {
-        setCheckIfSetValue(false)
-        getFormApp(regionData.region)
-        setValueData( {4: 1});
-      }}>4</button>
     </main>
   );
 }

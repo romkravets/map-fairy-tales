@@ -1,11 +1,15 @@
+"use client"
 import Link from 'next/link'
+import {useEffect} from "react";
 
-const MapUa = ({modal, setModal, setRegionData, regionData}) => {
+const MapUa = ({modal, setModal, setRegionData, regionData, usersVoting}) => {
   const width = 40
   const height = 40
   const mapImage = 'mapImage'
   const x = "0"
   const y = "0"
+
+  console.log(usersVoting, 'usersVoting')
 
   return (
     <div style={{

@@ -1,10 +1,10 @@
 "use client"
 import MapUa from '../components/MapUa/MapUa';
 import Modal from '../components/Modal/Modal';
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Voting from "@/components/Voting/Voting";
 import {v4 as uuid} from "uuid"
-import {ref, update, child, get, set} from "firebase/database"
+import {ref, child, get, set} from "firebase/database"
 import {db} from "../db/firebase"
 import Login from "@/components/Auth/Login/Login"
 import {auth} from '../db/firebase'
@@ -16,10 +16,10 @@ export default function Home() {
     id: '',
     region: '',
     value: {
+      0: 0,
       1: 0,
       2: 0,
-      3: 0,
-      4: 0
+      3: 0
     }
   }
 
@@ -35,20 +35,34 @@ export default function Home() {
 
   const [modal, setModal] = useState(false)
   const [regionData, setRegionData] = useState(region)
-  const [oldValue, setOldValue] = useState(null)
 
   const [authData, setAuthData] = useState(initialState)
-  const [userVoting, setUserVoting] = useState(false)
+  const [usersVoting, setUsersVoting] = useState({})
   const [checkIfSetValue, setCheckIfSetValue] = useState(true)
-  console.log(checkIfSetValue)
+  console.log(usersVoting)
 
-  const getFormApp = async (regionName) => {
+  const getDataUsers = () => {
     try {
-      get(child(tasksRef, `regions/${regionName}`)).then((snapshot) => {
+      get(child(tasksRef, `users/${regionData.region}/${authData.userId}`)).then((snapshot) => {
         if (snapshot.exists()) {
-          setOldValue(snapshot.val())
+          const dataArray = Object.keys(snapshot.val() || {}).length > 0 ? Object.values(snapshot.val()) : []
+          const result = {};
+          dataArray.forEach(obj => {
+            for (const userId in obj) {
+              const { region, value } = obj[userId];
+              if (!result[region]) {
+                result[region] = [0, 0, 0, 0];
+              }
+              for (let i = 1; i <= value.length; i++) {
+                if (typeof value[i] === 'number') {
+                  result[region][i] += value[i];
+                }
+              }
+            }
+          });
+          setUsersVoting(result)
         } else {
-          console.log("No data getFormApp available")
+          console.log("No data getDataUser available")
         }
       }).catch((err) => {
         console.error(err)
@@ -58,29 +72,7 @@ export default function Home() {
     }
   }
 
-  const getDataUser = () => {
-    try {
-      get(child(tasksRef, `users/${authData.userId}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-          console.log(snapshot.exists())
-         if (authData.userId) {setUserVoting(true)}
-        } else {
-          console.log("No data getDataUser available")
-        }
-      }).then(() => {
-
-      })
-        .catch((err) => {
-        console.error(err)
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    getFormApp(regionData.region)
-  }, [modal])
+  useEffect(() => getDataUsers(), [])
 
   return (
     <>
@@ -90,6 +82,7 @@ export default function Home() {
           setModal={setModal}
           setRegionData={setRegionData}
           regionData={regionData}
+          usersVoting={usersVoting}
         />
       </main>
       {modal && (
@@ -103,10 +96,10 @@ export default function Home() {
               ...regionData,
               region: '',
               value: {
+                0: 0,
                 1: 0,
                 2: 0,
-                3: 0,
-                4: 0
+                3: 0
               },
               id: ''
             })
@@ -126,29 +119,22 @@ export default function Home() {
           }}>X
           </button>
           <div>{regionData.region}</div>
-          <Voting setRegionData={setRegionData} regionData={regionData} getFormApp={getFormApp} setCheckIfSetValue={setCheckIfSetValue}/>
-          {!checkIfSetValue && !authData?.userId ? <Login authData={authData} setAuthData={setAuthData} getDataUser={getDataUser}/> : null}
+          <Voting
+            setRegionData={setRegionData}
+            regionData={regionData}
+            setCheckIfSetValue={setCheckIfSetValue}
+          />
+          {!checkIfSetValue && !authData?.userId ?
+            <Login
+              setAuthData={setAuthData}
+            />
+            : null
+          }
           {authData?.userId ? <button disabled={checkIfSetValue}
             onClick={() => {
-            getDataUser()
-            if (userVoting) {
-              alert('Ви вже голосували!')
-            } else {
-              const getKeyByValue = (object, value) => {
-                return Object.keys(object).find(key => object[key] === value);
-              }
-              const newValue = {...oldValue.value}
-              newValue[getKeyByValue(regionData.value, 1)] = (newValue[getKeyByValue(regionData.value, 1)] || 0) + 1
               const regionId = uuid()
-              if (Object.values(newValue).every(item => item === 0)) {
-                alert('Ви не вибрали варіант')
-                return
-              } else {
                 setRegionData({...regionData, id: regionId})
-                const dbRef = ref(db, `regions/${regionData.region}`)
-                update(dbRef, {value: newValue}).then(() => {
-                  getFormApp(regionData.region)
-                  set(ref(db, 'users/' + authData.userId), {
+                  set(ref(db, `users/${regionData.region}/${authData.userId}`), {
                     userId: authData.userId,
                     status: true,
                     region: regionData.region,
@@ -157,53 +143,14 @@ export default function Home() {
                   }).then(() => {
                     alert('send user status')
                     setModal(false)
-                  })
-                }).catch((err) => {
+                    setCheckIfSetValue(false)
+                    getDataUsers()
+                  }).catch((err) => {
                   console.log(err)
                 })
               }
-            }
-          }
-          }
+             }
           >Підтвердити</button> : null}
-          {/*{userVoting ? (*/}
-          {/*  <button disabled={checkIfSetValue} onClick={() => {*/}
-          {/*    getDataUser();*/}
-          {/*    const getKeyByValue = (object, value) => {*/}
-          {/*      return Object.keys(object).find(key => object[key] === value);*/}
-          {/*    };*/}
-          {/*    const oldValue = { ...regionData.value }; // Збереження старих значень*/}
-          {/*    const newValue = { ...oldValue };*/}
-          {/*    const editedKey = getKeyByValue(regionData.value, 1); // Отримання ключа редагованого значення*/}
-          {/*    newValue[editedKey] = (newValue[editedKey] || 0) + 1; // Збільшення нового значення*/}
-
-          {/*    // Зменшення попереднього значення на одиницю, якщо воно не нульове*/}
-          {/*    if (oldValue[editedKey] && oldValue[editedKey] > 0) {*/}
-          {/*      oldValue[editedKey] -= 1;*/}
-          {/*    }*/}
-
-          {/*    // Перевірка, чи користувач обрав хоча б один варіант*/}
-          {/*    if (Object.values(newValue).every(item => item === 0)) {*/}
-          {/*      alert('Ви не вибрали варіант');*/}
-          {/*      return;*/}
-          {/*    } else {*/}
-          {/*      const dbRef = ref(db, `regions/${regionData.region}`);*/}
-          {/*      update(dbRef, { value: newValue }).then(() => {*/}
-          {/*        getFormApp(regionData.region);*/}
-          {/*        set(ref(db, 'users/' + authData.userId), {*/}
-          {/*          userId: authData.userId,*/}
-          {/*          status: true,*/}
-          {/*          region: regionData.region,*/}
-          {/*          value: regionData.value*/}
-          {/*        }).then(() => {*/}
-          {/*          alert('send user status відредаговано');*/}
-          {/*        });*/}
-          {/*      }).catch((err) => {*/}
-          {/*        console.log(err);*/}
-          {/*      });*/}
-          {/*    }*/}
-          {/*  }}>Редагувати відповідь</button>*/}
-          {/*) : null}*/}
         </Modal>
       )
       }
