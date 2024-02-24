@@ -58,9 +58,9 @@ body {
 }
 
 .mapBackground {
-  fill: var(--yelow);
   stroke: var(--dark);
   stroke-width: 0.5;
+  cursor: pointer;
 }
 
 #Ukraine path:hover {
@@ -87,10 +87,7 @@ body {
 }
 
 .cityName {
-  /*visibility: hidden;*/
-  /*opacity: 0;*/
   transition: all 0.3s ease;
-  /*pointer-events: none;*/
   font-family: 'Roboto', sans-serif;
   font-weight: normal;
   font-size: 8px;
@@ -98,12 +95,6 @@ body {
   text-shadow: white 0.1px 0.1px 0, white -0.1px -0.1px 0,
   white -0.1px 0.1px 0, white 0.1px -0.1px;
 }
-
-/*.voutingName {*/
-/*  visibility: hidden;*/
-/*  opacity: 0;*/
-/*}*/
-
 
 #Kyiv:hover ~.cityKyiv,
 #KyivCity:hover ~.cityKiev,

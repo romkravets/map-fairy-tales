@@ -18,8 +18,7 @@ export default function Home() {
     value: {
       0: 0,
       1: 0,
-      2: 0,
-      3: 0
+      2: 0
     }
   }
 
@@ -47,11 +46,12 @@ export default function Home() {
         if (snapshot.exists()) {
           const dataArray = Object.keys(snapshot.val() || {}).length > 0 ? Object.values(snapshot.val()) : []
           const result = {};
+          debugger
           dataArray.forEach(obj => {
             for (const userId in obj) {
               const { region, value } = obj[userId];
               if (!result[region]) {
-                result[region] = [0, 0, 0, 0];
+                result[region] = value;
               }
               for (let i = 1; i <= value.length; i++) {
                 if (typeof value[i] === 'number') {
@@ -99,7 +99,6 @@ export default function Home() {
                 0: 0,
                 1: 0,
                 2: 0,
-                3: 0
               },
               id: ''
             })
@@ -144,6 +143,7 @@ export default function Home() {
                     alert('send user status')
                     setModal(false)
                     setCheckIfSetValue(false)
+                  }).then(() => {
                     getDataUsers()
                   }).catch((err) => {
                   console.log(err)

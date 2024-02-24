@@ -5,8 +5,7 @@ export default function Voting({regionData, setRegionData, getFormApp, setCheckI
     updatedRegionData.value = {
       0: 0,
       1: 0,
-      2: 0,
-      3: 0
+      2: 0
     };
 
     updatedRegionData.value = {
@@ -28,9 +27,6 @@ export default function Voting({regionData, setRegionData, getFormApp, setCheckI
       <button onClick={() => {
         setValueData( {2: 1});
       }}>2</button>
-      <button onClick={() => {
-        setValueData( {3: 1});
-      }}>3</button>
     </main>
   );
 }
