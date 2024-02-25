@@ -126,3 +126,20 @@ body {
   visibility: visible;
   opacity: 1;
 }
+
+.btn {
+  padding: 20px;
+  margin: 0 20px;
+  background-color: #62a1a9;
+  border-radius: 17px;
+}
+
+.btn:hover {
+  background-color: #99af5d;
+}
+
+
+.active {
+  background-color: #e6b740;
+  color: #fff;
+}

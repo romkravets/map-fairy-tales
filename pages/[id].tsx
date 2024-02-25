@@ -1,7 +1,7 @@
 "use client"
 import {useEffect, useState} from "react"
-import MapUa from '../components/MapUa/MapUa'
-import Modal from '../components/Modal/Modal'
+import MapUa from '@/components/MapUa/MapUa'
+import Modal from '@/components/Modal/Modal'
 import Voting from "@/components/Voting/Voting"
 import {ref, child, get, set} from "firebase/database"
 import {db} from "@/db/firebase"
@@ -10,9 +10,9 @@ import {auth} from '@/db/firebase'
 import {ToastContainer} from "react-toastify"
 import {showNotification} from "@/helpers/showNotification"
 import AnonymouslyLogin from "@/components/Auth/AnonymouslyLogin/AnonymouslyLogin"
+import "../src/app/globals.css"
 
-
-export default function Home() {
+export default function Id() {
   const tasksRef = ref(db)
 
   const region = {
@@ -42,6 +42,11 @@ export default function Home() {
   const [checkIfSetValue, setCheckIfSetValue] = useState(true)
 
   const [btnVotingActive, setBtnVotingActive] = useState(null)
+
+  console.log(regionData, 'regionData')
+  console.log(usersVoting, 'usersVoting')
+  console.log(btnVotingActive, 'btnVotingActive')
+
 
   const getDataUsers = () => {
     try {
@@ -133,25 +138,25 @@ export default function Home() {
           {authData?.userId ? <button
             disabled={checkIfSetValue}
             onClick={() => {
-                set(ref(db, `users/${regionData.region}/${authData.userId}`), {
-                  userId: authData.userId,
-                  region: regionData.region,
-                  value: regionData.value,
-                }).then(() => {
-                  showNotification("Ваш голос записаний!", 'success')
-                  setCheckIfSetValue(false)
-                  setRegionData({
-                    ...regionData,
-                    region: '',
-                    value: 0,
-                  })
-                }).then(() => {
-                  getDataUsers()
-                }).catch((err) => {
+              set(ref(db, `users/${regionData.region}/${authData.userId}`), {
+                userId: authData.userId,
+                region: regionData.region,
+                value: regionData.value,
+              }).then(() => {
+                showNotification("Ваш голос записаний!", 'success')
+                setCheckIfSetValue(false)
+                setRegionData({
+                  ...regionData,
+                  region: '',
+                  value: 0,
+                })
+              }).then(() => {
+                getDataUsers()
+              }).catch((err) => {
                 console.log(err)
               })
             }
-          }
+            }
           >Підтвердити голос</button> : null}
         </Modal>
       )
