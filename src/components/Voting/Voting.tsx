@@ -1,32 +1,38 @@
+export default function Voting({regionData, setRegionData, setCheckIfSetValue, btnVotingActive, setBtnVotingActive, valuesBtnVoting}) {
 
-export default function Voting({regionData, setRegionData, getFormApp, setCheckIfSetValue}) {
-  let setValueData = (valueToUpdate) => {
-    const updatedRegionData = { ...regionData };
-    updatedRegionData.value = {
-      0: 0,
-      1: 0,
-      2: 0
-    };
-
-    updatedRegionData.value = {
-      ...updatedRegionData.value,
-      ...valueToUpdate
-    };
+  const setValueData = (valueToAdd) => {
+    const updatedRegionData = {...regionData};
+    updatedRegionData.value = valueToAdd;
+    console.log(updatedRegionData);
     setRegionData(updatedRegionData);
-    setCheckIfSetValue(false)
-  };
+    setCheckIfSetValue(false);
+  }
+
+  const handleButtonClick = (valueToAdd) => {
+    setValueData(valueToAdd)
+    setBtnVotingActive(valueToAdd)
+  }
 
   return (
-    <main className="voutingName">
-      <button onClick={() => {
-        setValueData( {0: 1});
-      }}>0</button>
-      <button onClick={() => {
-        setValueData( {1: 1});
-      }}>1</button>
-      <button onClick={() => {
-        setValueData( {2: 1});
-      }}>2</button>
+    <main className="votingName">
+      <button
+        className={`btn ${btnVotingActive === valuesBtnVoting.one ? 'active' : ''}`}
+        onClick={() => handleButtonClick(valuesBtnVoting.one)}
+      >
+        Не дуже
+      </button>
+      <button
+        className={`btn ${btnVotingActive === valuesBtnVoting.two ? 'active' : ''}`}
+        onClick={() => handleButtonClick(valuesBtnVoting.two)}
+      >
+        Середній
+      </button>
+      <button
+        className={`btn ${btnVotingActive === valuesBtnVoting.three ? 'active' : ''}`}
+        onClick={() => handleButtonClick(valuesBtnVoting.three)}
+      >
+        Супер!
+      </button>
     </main>
   );
 }

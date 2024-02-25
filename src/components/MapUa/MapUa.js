@@ -1,26 +1,19 @@
 import Link from 'next/link'
 import * as d3 from 'd3'
-import {useEffect} from "react";
 
 const MapUa = ({setModal, setRegionData, regionData, usersVoting}) => {
-  console.log(regionData, 'regionData')
 
   const setColorRegions = (value) => {
-    debugger
+    if (!value) return
     if (d3) {
       let color = d3.scaleLinear()
-        .domain(value ? value : [])
-        .range(value ? ["orange", "yellow", "green"] : ["transparent"]);
-console.log(color)
-        return color(3)
+        .domain([0,100])
+        .range(["orange", "green"])
+      return color(value)
     } else {
-      console.error('D3 library not available');
+      console.error('D3 library not available')
     }
   }
-
-  useEffect(() => {
-    setColorRegions(usersVoting)
-  }, [usersVoting])
 
 
   const width = 40
@@ -29,7 +22,6 @@ console.log(color)
   const x = "0"
   const y = "0"
 
-  console.log(usersVoting, 'usersVoting')
 
   return (
     <div style={{
