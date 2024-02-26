@@ -84,14 +84,16 @@ export default function Id() {
   const getDataUsers = () => {
     const dataArray = Object.keys(itemMapVoting.voting || {}).length > 0 ? Object.values(itemMapVoting.voting) : []
     console.log(dataArray, 'dataArray')
-    const result = {}
+    const result: {[key: string]: number} = {}
     dataArray.forEach(obj => {
-      for (const userId in obj) {
-        const { region, value } = obj[userId]
-        if (!result[region]) {
-          result[region] = 0
+      if (typeof obj === 'object' && obj !== null) {
+        for (const userId in obj) {
+          const { region, value } = obj[userId];
+          if (!result[region]) {
+            result[region] = 0;
+          }
+          result[region] += value;
         }
-        result[region] += value
       }
     })
     setUsersVoting(result)
