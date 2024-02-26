@@ -4,6 +4,7 @@ import {v4 as uuid} from "uuid"
 import TextArea from "../../inputs/TextArea"
 //import Compressor from "compressorjs"
 import {ref, getDownloadURL, getStorage, uploadBytes} from "firebase/storage"
+import Image from "next/image";
 //import {RegionContext, ThemeContext} from "../../../../../pages/_app"
 
 
@@ -62,7 +63,7 @@ const MapSettings = ({
 
   useEffect(() => {
     setDataInput({...dataInput, answers: variantsArray})
-  }, [variantsArray])
+  }, [variantsArray, dataInput])
 
 
   // const handleImageChange = (e) => {
@@ -119,7 +120,7 @@ const MapSettings = ({
                         <ol key={index}>
                           {item?.answers.map((item, index) => {
                             return (
-                                <li style={{margin: '10px'}}>{item}</li>
+                                <li key={index} style={{margin: '10px'}}>{item}</li>
                             )
                           })}
                         </ol>
@@ -128,7 +129,7 @@ const MapSettings = ({
                       <h4 className="cart-color-second">Пояснення до відповіді: {item.explanation}</h4>
                       <h4 className="cart-color-second">Кількість балів: {item.point}</h4>
                       {item.questionPic ?
-                        <img
+                        <Image
                           width='100'
                           height='100'
                           src={item.questionPic}
@@ -253,7 +254,7 @@ const MapSettings = ({
             accept="image/*, .heic, .heif"
           />
           {imagesPreviewUrls || dataInput.questionPic ?
-            <img
+            <Image
               width='100'
               height='100'
               src={imagesPreviewUrls || dataInput.questionPic || ''}
