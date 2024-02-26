@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import * as d3 from 'd3'
 
-const MapUa = ({setModal, setRegionData, regionData, usersVoting}) => {
+const MapUa = ({setModal, setRegionData, regionData, usersVoting, loadingMapApp}) => {
 
   const setColorRegions = (value) => {
     if (!value) return
     if (d3) {
       let color = d3.scaleLinear()
         .domain([0,100])
-        .range(["orange", "green"])
+        .range(["orange", "yellow", "green"])
       return color(value)
     } else {
       console.error('D3 library not available')
@@ -16,11 +16,11 @@ const MapUa = ({setModal, setRegionData, regionData, usersVoting}) => {
   }
 
 
-  const width = 40
-  const height = 40
-  const mapImage = 'mapImage'
-  const x = "0"
-  const y = "0"
+  // const width = 40
+  // const height = 40
+  // const mapImage = 'mapImage'
+  // const x = "0"
+  // const y = "0"
 
 
   return (
