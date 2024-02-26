@@ -13,12 +13,12 @@ import {ToastContainer} from "react-toastify"
 import {showNotification} from "@/helpers/showNotification"
 import "../src/app/globals.css"
 
-export default function Id() {
+const Id = () => {
   const router = useRouter()
   const id = router.query.id
   const tasksRef = ref(db)
 
-  const region = {
+  const votingItemRegionUser = {
     region: '',
     value: 0
   }
@@ -29,7 +29,7 @@ export default function Id() {
     'three': 1
   }
 
-  const initialState = {
+  const initialUserState = {
     token: "",
     isError: false,
     errorMessage: "",
@@ -48,28 +48,35 @@ export default function Id() {
     description: '',
     userId: '',
     userName: '',
-    voting: {}
+    voting: {},
+    valuesBtnVoting: {
+      'one': 0.1,
+      'two': 0.5,
+      'three': 1
+    },
+    colorRange: ["orange", "yellow", "green"],
+    domainRange: [0,100]
   }
 
   const [modal, setModal] = useState(false)
 
-  const [authData, setAuthData] = useState(initialState)
-  const [regionData, setRegionData] = useState(region)
+  const [authData, setAuthData] = useState(initialUserState)
+  const [regionData, setRegionData] = useState(votingItemRegionUser)
   const [usersVoting, setUsersVoting] = useState({})
   const [checkIfSetValue, setCheckIfSetValue] = useState(true)
 
   const [btnVotingActive, setBtnVotingActive] = useState(null)
 
   const [itemMapVoting, setItemMapVoting] = useState(votingType)
-  const [loading, setLoadingDb] = useState(false)
+  const [loadingMapApp, setLoadingMapApp] = useState(false)
 
   const getMapApp = async () => {
-    setLoadingDb(true)
+    setLoadingMapApp(true)
     try {
       get(child(tasksRef, `ukraine/${id}`)).then((snapshot) => {
         if (snapshot.exists()) {
           setItemMapVoting(snapshot.val())
-          setLoadingDb(false)
+          setLoadingMapApp(false)
         } else {
           console.log("No data available")
         }
@@ -83,7 +90,6 @@ export default function Id() {
 
   const getDataUsers = () => {
     const dataArray = Object.keys(itemMapVoting.voting || {}).length > 0 ? Object.values(itemMapVoting.voting) : []
-    console.log(dataArray, 'dataArray')
     const result = {}
     dataArray.forEach(obj => {
       for (const userId in obj) {
@@ -93,8 +99,7 @@ export default function Id() {
           }
           result[region] += value
       }
-    });
-
+    })
     setUsersVoting(result)
   }
 
@@ -117,6 +122,7 @@ export default function Id() {
           setRegionData={setRegionData}
           regionData={regionData}
           usersVoting={usersVoting}
+          loadingMapApp={loadingMapApp}
         />
       </main>
       {modal && (
@@ -135,12 +141,7 @@ export default function Id() {
             setBtnVotingActive(null)
             setCheckIfSetValue(true)
             auth.signOut().then( () => {
-              setAuthData(prevState => ({
-                ...prevState,
-                isAuthenticated: false,
-                userId: '',
-                token: ''
-              }))
+              setAuthData(initialUserState)
             }, function(error) {
               console.error('Sign Out Error', error)
             })
@@ -176,8 +177,9 @@ export default function Id() {
                   ...regionData,
                   value: 0,
                 })
+                setModal(false)
               }).then(() => {
-                getMapApp()
+                getMapApp().catch((err) => {console.log(err)})
               }).catch((err) => {
                 console.log(err)
               })
@@ -191,3 +193,5 @@ export default function Id() {
     </>
   )
 }
+
+export default Id
