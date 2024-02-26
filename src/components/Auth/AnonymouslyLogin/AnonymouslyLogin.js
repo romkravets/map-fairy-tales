@@ -1,7 +1,7 @@
 import {auth, db, GoogleProvider} from "../../../db/firebase"
 import {useState} from "react"
 
-const Login = ({setAuthData}) => {
+const AnonymouslyLogin = ({setAuthData}) => {
   const [loading, setLoadingDb] = useState(false)
 
   return (
@@ -11,14 +11,13 @@ const Login = ({setAuthData}) => {
           className="button-login"
           onClick={async () => {
             setLoadingDb(true)
-            await auth.signInWithPopup(GoogleProvider)
+            await auth.signInAnonymously()
               .then((response) => {
                 const {user} = response
                 setAuthData(prevState => ({
                   ...prevState,
                   isAuthenticated: true,
-                  userId: user!.uid,
-                  //email: user!.email,
+                  userId: user.uid,
                 }))
                 setLoadingDb(false)
               }).then(async () => {
@@ -34,11 +33,11 @@ const Login = ({setAuthData}) => {
           }
           }
         >
-          {loading ? 'Завантаження...' : ' Підтвердити через Google'}
+          {loading ? 'Завантаження...' : ' Підтвердити через Aнонімний вхід'}
         </button>
       </div>
     </div>
   )
 }
 
-export default Login
+export default AnonymouslyLogin

@@ -1,11 +1,7 @@
-import {useContext} from "react"
-import {ThemeContext} from "../../../pages/_app"
 import {useRouter} from "next/router"
 import Link from "next/link"
-import {auth} from '../../db/firebase'
 
 const BuilderLayout = ({ children }) => {
-  const contextValue = useContext(ThemeContext)
   const router = useRouter()
 
   return (
@@ -18,21 +14,21 @@ const BuilderLayout = ({ children }) => {
             <Link href="/builder/settings">Налаштування</Link>
           </li>
           <li className="builder-li-exit">
-            <button onClick={()=> {
-              auth.signOut().then( () => {
-                contextValue.setAuthObject(prevState => ({
-                  ...prevState,
-                  isAuthenticated: false,
-                  userName: '',
-                  userId: '',
-                  email: '',
-                  token: ''
-                }))
-                router.push('/')
-              }, function(error) {
-                console.error('Sign Out Error', error)
-              })
-            }}>Вихід</button>
+            {/*<button onClick={()=> {*/}
+            {/*  auth.signOut().then( () => {*/}
+            {/*    contextValue.setAuthObject(prevState => ({*/}
+            {/*      ...prevState,*/}
+            {/*      isAuthenticated: false,*/}
+            {/*      userName: '',*/}
+            {/*      userId: '',*/}
+            {/*      email: '',*/}
+            {/*      token: ''*/}
+            {/*    }))*/}
+            {/*    router.push('/')*/}
+            {/*  }, function(error) {*/}
+            {/*    console.error('Sign Out Error', error)*/}
+            {/*  })*/}
+            {/*}}>Вихід</button>*/}
           </li>
         </ul>
       </nav>

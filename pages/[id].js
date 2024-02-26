@@ -1,17 +1,17 @@
 "use client"
 import {useEffect, useState} from "react"
+import {useRouter} from "next/router"
+import {auth} from '@/db/firebase'
+import {db} from "@/db/firebase"
+import {ref, child, get, set, serverTimestamp} from "firebase/database"
 import MapUa from '@/components/MapUa/MapUa'
 import Modal from '@/components/Modal/Modal'
 import Voting from "@/components/Voting/Voting"
-import {ref, child, get, set} from "firebase/database"
-import {db} from "@/db/firebase"
+import AnonymouslyLogin from "@/components/Auth/AnonymouslyLogin/AnonymouslyLogin"
 import Login from "@/components/Auth/Login/Login"
-import {auth} from '@/db/firebase'
 import {ToastContainer} from "react-toastify"
 import {showNotification} from "@/helpers/showNotification"
-import AnonymouslyLogin from "@/components/Auth/AnonymouslyLogin/AnonymouslyLogin"
 import "../src/app/globals.css"
-import {useRouter} from "next/router"
 
 export default function Id() {
   const router = useRouter()
@@ -37,6 +37,20 @@ export default function Id() {
     isAuthenticated: false,
   }
 
+  const votingType = {
+    id: '',
+    regionName: '',
+    time: serverTimestamp(),
+    status: false,
+    like: 0,
+    reports: 0,
+    title: '',
+    description: '',
+    userId: '',
+    userName: '',
+    voting: {}
+  }
+
   const [modal, setModal] = useState(false)
 
   const [authData, setAuthData] = useState(initialState)
@@ -46,24 +60,19 @@ export default function Id() {
 
   const [btnVotingActive, setBtnVotingActive] = useState(null)
 
-  const [itemMap, setItemMap] = useState([])
+  const [itemMapVoting, setItemMapVoting] = useState(votingType)
   const [loading, setLoadingDb] = useState(false)
-
-  console.log(usersVoting, 'usersVoting')
 
   const getMapApp = async () => {
     setLoadingDb(true)
     try {
       get(child(tasksRef, `ukraine/${id}`)).then((snapshot) => {
         if (snapshot.exists()) {
-          setItemMap(snapshot.val())
+          setItemMapVoting(snapshot.val())
           setLoadingDb(false)
         } else {
           console.log("No data available")
         }
-      //})
-        //.then(() => {
-        //getDataUsers()
       }).catch((err) => {
         console.error(err)
       })
@@ -72,22 +81,21 @@ export default function Id() {
     }
   }
 
-
   const getDataUsers = () => {
-      const dataArray = Object.keys(itemMap.voting || {}).length > 0 ? Object.values(itemMap.voting) : []
-      console.log(dataArray, 'dataArray')
-      const result = {};
-      debugger
-      dataArray.forEach(obj => {
-        for (const userId in obj) {
-          const { region, value } = obj[userId];
+    const dataArray = Object.keys(itemMapVoting.voting || {}).length > 0 ? Object.values(itemMapVoting.voting) : []
+    console.log(dataArray, 'dataArray')
+    const result = {}
+    dataArray.forEach(obj => {
+      for (const userId in obj) {
+          const { region, value } = obj[userId]
           if (!result[region]) {
-            result[region] = 0;
+            result[region] = 0
           }
-          result[region] += value;
-        }
-      })
-      setUsersVoting(result)
+          result[region] += value
+      }
+    });
+
+    setUsersVoting(result)
   }
 
   useEffect(() => {
@@ -98,11 +106,11 @@ export default function Id() {
     }
   }, [router.isReady])
 
-  useEffect(() => getDataUsers(), [itemMap])
+  useEffect(() => getDataUsers(), [itemMapVoting])
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <main className="min-h-screen flex-col items-center justify-between p-24">
         <MapUa
           modal={modal}
           setModal={setModal}
