@@ -84,12 +84,12 @@ export default function Id() {
   const getDataUsers = () => {
     const dataArray = Object.keys(itemMapVoting.voting || {}).length > 0 ? Object.values(itemMapVoting.voting) : []
     console.log(dataArray, 'dataArray')
-    const result: Record<string, any> = {};
+    const result: Record<string, any> = {}
     dataArray.forEach(obj => {
       if (typeof obj === 'object' && obj !== null) { // Перевірка типу obj перед використанням
         for (const userId in obj) {
           if (Object.prototype.hasOwnProperty.call(obj, userId)) { // Перевірка наявності властивості userId в об'єкті
-            const { region, value } = obj[userId] as {region: string, value: number}; // Визначення типу для властивостей об'єкта
+            const { region, value } = obj[userId] as {region: any, value: number}
             if (!result[region]) {
               result[region] = 0;
             }
