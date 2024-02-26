@@ -3,7 +3,7 @@ import {useEffect, useState} from "react"
 import {useRouter} from "next/router"
 import {auth} from '@/db/firebase'
 import {db} from "@/db/firebase"
-import {ref, child, get, set} from "firebase/database"
+import {ref, child, get, set, serverTimestamp} from "firebase/database"
 import MapUa from '@/components/MapUa/MapUa'
 import Modal from '@/components/Modal/Modal'
 import Voting from "@/components/Voting/Voting"
@@ -37,6 +37,20 @@ export default function Id() {
     isAuthenticated: false,
   }
 
+  const votingType = {
+    id: '',
+    regionName: '',
+    time: serverTimestamp(),
+    status: false,
+    like: 0,
+    reports: 0,
+    title: '',
+    description: '',
+    userId: '',
+    userName: '',
+    voting: {}
+  }
+
   const [modal, setModal] = useState(false)
 
   const [authData, setAuthData] = useState(initialState)
@@ -46,7 +60,7 @@ export default function Id() {
 
   const [btnVotingActive, setBtnVotingActive] = useState(null)
 
-  const [itemMap, setItemMap] = useState({})
+  const [itemMapVoting, setItemMapVoting] = useState(votingType)
   const [loading, setLoadingDb] = useState(false)
 
   const getMapApp = async () => {
@@ -54,7 +68,7 @@ export default function Id() {
     try {
       get(child(tasksRef, `ukraine/${id}`)).then((snapshot) => {
         if (snapshot.exists()) {
-          setItemMap(snapshot.val())
+          setItemMapVoting(snapshot.val())
           setLoadingDb(false)
         } else {
           console.log("No data available")
@@ -67,9 +81,8 @@ export default function Id() {
     }
   }
 
-
   const getDataUsers = () => {
-    const dataArray = Object.keys(itemMap.voting || {}).length > 0 ? Object.values(itemMap.voting) : []
+    const dataArray = Object.keys(itemMapVoting.voting || {}).length > 0 ? Object.values(itemMapVoting.voting) : []
     console.log(dataArray, 'dataArray')
     const result = {}
     dataArray.forEach(obj => {
@@ -92,7 +105,7 @@ export default function Id() {
     }
   }, [router.isReady])
 
-  useEffect(() => getDataUsers(), [itemMap])
+  useEffect(() => getDataUsers(), [itemMapVoting])
 
   return (
     <>
