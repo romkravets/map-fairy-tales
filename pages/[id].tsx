@@ -89,7 +89,7 @@ export default function Id() {
       if (typeof obj === 'object' && obj !== null) {
         for (const userId in obj) {
           if (Object.prototype.hasOwnProperty.call(obj, userId)) {
-            const { region, value } = obj[userId] as {region: any, value: any}
+            const { region, value } = obj[userId] as any
             if (!result[region]) {
               result[region] = 0
             }
