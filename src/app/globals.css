@@ -28,12 +28,12 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  /*background: linear-gradient(*/
+  /*    to bottom,*/
+  /*    transparent,*/
+  /*    rgb(var(--background-end-rgb))*/
+  /*  )*/
+  /*  rgb(var(--background-start-rgb));*/
 }
 
 @layer utilities {
@@ -58,9 +58,13 @@ body {
 }
 
 .mapBackground {
-  stroke: var(--dark);
+  stroke: white;
   stroke-width: 0.5;
   cursor: pointer;
+}
+
+#Ukraine path {
+  fill: #6996c6;
 }
 
 #Ukraine path:hover {
@@ -72,7 +76,7 @@ body {
 }
 
 .pointerCircle {
-  r: 2px;
+  r: 5px;
   fill: var(--darken-blue);
   stroke-linecap: square;
   stroke-linejoin: bevel;
@@ -87,10 +91,11 @@ body {
 }
 
 .cityName {
+  /*display: none;*/
   transition: all 0.3s ease;
   font-family: 'Roboto', sans-serif;
   font-weight: normal;
-  font-size: 8px;
+  font-size: 12px;
   fill: var(--dark);
   text-shadow: white 0.1px 0.1px 0, white -0.1px -0.1px 0,
   white -0.1px 0.1px 0, white 0.1px -0.1px;
