@@ -87,7 +87,7 @@ export default function Id() {
     const result: Record<string, any> = {}
     dataArray.forEach(obj => {
         for (const userId in obj as any) {
-            const { region, value } = obj[userId] as {region: string, value: number}
+            const { region, value } = obj[userId] as any
             if (!result[region]) {
               result[region] = 0;
             }
