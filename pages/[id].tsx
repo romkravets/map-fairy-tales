@@ -11,8 +11,11 @@ import {ToastContainer} from "react-toastify"
 import {showNotification} from "@/helpers/showNotification"
 import AnonymouslyLogin from "@/components/Auth/AnonymouslyLogin/AnonymouslyLogin"
 import "../src/app/globals.css"
+import {useRouter} from "next/router"
 
 export default function Id() {
+  const router = useRouter()
+  const id = router.query.id
   const tasksRef = ref(db)
 
   const region = {
@@ -43,35 +46,24 @@ export default function Id() {
 
   const [btnVotingActive, setBtnVotingActive] = useState(null)
 
-  console.log(regionData, 'regionData')
+  const [itemMap, setItemMap] = useState([])
+  const [loading, setLoadingDb] = useState(false)
+
   console.log(usersVoting, 'usersVoting')
-  console.log(btnVotingActive, 'btnVotingActive')
 
-
-  const getDataUsers = () => {
+  const getMapApp = async () => {
+    setLoadingDb(true)
     try {
-      get(child(tasksRef, `users`)).then((snapshot) => {
+      get(child(tasksRef, `ukraine/${id}`)).then((snapshot) => {
         if (snapshot.exists()) {
-          const dataArray = Object.keys(snapshot.val() || {}).length > 0 ? Object.values(snapshot.val()) : []
-          const result = {};
-          debugger
-          dataArray.forEach(obj => {
-            for (const userId in obj) {
-              const { region, value } = obj[userId];
-              if (!result[region]) {
-                result[region] = value;
-              }
-              for (let i = 1; i <= value.length; i++) {
-                if (typeof value[i] === 'number') {
-                  result[region][i] += value[i];
-                }
-              }
-            }
-          });
-          setUsersVoting(result)
+          setItemMap(snapshot.val())
+          setLoadingDb(false)
         } else {
-          console.log("No data getDataUser available")
+          console.log("No data available")
         }
+      //})
+        //.then(() => {
+        //getDataUsers()
       }).catch((err) => {
         console.error(err)
       })
@@ -80,7 +72,33 @@ export default function Id() {
     }
   }
 
-  useEffect(() => getDataUsers(), [])
+
+  const getDataUsers = () => {
+      const dataArray = Object.keys(itemMap.voting || {}).length > 0 ? Object.values(itemMap.voting) : []
+      console.log(dataArray, 'dataArray')
+      const result = {};
+      debugger
+      dataArray.forEach(obj => {
+        for (const userId in obj) {
+          const { region, value } = obj[userId];
+          if (!result[region]) {
+            result[region] = 0;
+          }
+          result[region] += value;
+        }
+      })
+      setUsersVoting(result)
+  }
+
+  useEffect(() => {
+    if (router.isReady) {
+      getMapApp().catch((error) => {
+        console.log(error)
+      })
+    }
+  }, [router.isReady])
+
+  useEffect(() => getDataUsers(), [itemMap])
 
   return (
     <>
@@ -107,6 +125,7 @@ export default function Id() {
             })
             setModal(false)
             setBtnVotingActive(null)
+            setCheckIfSetValue(true)
             auth.signOut().then( () => {
               setAuthData(prevState => ({
                 ...prevState,
@@ -138,25 +157,24 @@ export default function Id() {
           {authData?.userId ? <button
             disabled={checkIfSetValue}
             onClick={() => {
-              set(ref(db, `users/${regionData.region}/${authData.userId}`), {
+              set(ref(db, `ukraine/${id}/voting/${regionData.region}/${authData.userId}`), {
                 userId: authData.userId,
                 region: regionData.region,
                 value: regionData.value,
               }).then(() => {
                 showNotification("Ваш голос записаний!", 'success')
-                setCheckIfSetValue(false)
+                setCheckIfSetValue(true)
                 setRegionData({
                   ...regionData,
-                  region: '',
                   value: 0,
                 })
               }).then(() => {
-                getDataUsers()
+                getMapApp()
               }).catch((err) => {
                 console.log(err)
               })
             }
-            }
+          }
           >Підтвердити голос</button> : null}
         </Modal>
       )
