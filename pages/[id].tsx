@@ -46,10 +46,8 @@ export default function Id() {
 
   const [btnVotingActive, setBtnVotingActive] = useState(null)
 
-  const [itemMap, setItemMap] = useState([])
+  const [itemMap, setItemMap] = useState({})
   const [loading, setLoadingDb] = useState(false)
-
-  console.log(usersVoting, 'usersVoting')
 
   const getMapApp = async () => {
     setLoadingDb(true)
