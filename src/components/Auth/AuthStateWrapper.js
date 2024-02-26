@@ -33,7 +33,7 @@ const AuthStateWrapper = ({ children }) => {
 
     const unsubscribe = auth.onAuthStateChanged(handleAuthStateChanged)
     return () => unsubscribe()
-  }, [])
+  }, [contextValue])
 
   return <>{children}</>
 }
