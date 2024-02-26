@@ -86,14 +86,14 @@ export default function Id() {
     console.log(dataArray, 'dataArray')
     const result: {[key: string]: number} = {}
     dataArray.forEach(obj => {
-      if (typeof obj === 'object' && obj !== null) { // Перевірка типу obj перед використанням
+      if (typeof obj === 'object' && obj !== null) {
         for (const userId in obj) {
-          if (Object.prototype.hasOwnProperty.call(obj, userId)) { // Перевірка наявності властивості userId в об'єкті
-            const { region, value } = obj[userId] as {region: string, value: number}; // Визначення типу для властивостей об'єкта
+          if (Object.prototype.hasOwnProperty.call(obj, userId)) {
+            const { region, value } = obj[userId] as {region: any, value: any}
             if (!result[region]) {
-              result[region] = 0;
+              result[region] = 0
             }
-            result[region] += value;
+            result[region] += value
           }
         }
       }
