@@ -12,6 +12,7 @@ import Login from "@/components/Auth/Login/Login"
 import {ToastContainer} from "react-toastify"
 import {showNotification} from "@/helpers/showNotification"
 import "../src/app/globals.css"
+import MapWorld from "@/components/MapWorld/MapWorld";
 
 const Id = () => {
   const router = useRouter()
@@ -30,7 +31,6 @@ const Id = () => {
   }
 
   const initialUserState = {
-    token: "",
     isError: false,
     errorMessage: "",
     userId: "",
@@ -38,24 +38,17 @@ const Id = () => {
   }
 
   const votingType = {
-    id: '',
-    regionName: '',
-    time: serverTimestamp(),
-    status: false,
-    like: 0,
-    reports: 0,
-    title: '',
-    description: '',
-    userId: '',
-    userName: '',
+    // id: '',
+    // regionName: '',
+    // time: serverTimestamp(),
+    // status: false,
+    // like: 0,
+    // reports: 0,
+    // title: '',
+    // description: '',
+    // userId: '',
+    // userName: '',
     voting: {},
-    valuesBtnVoting: {
-      'one': 0.1,
-      'two': 0.5,
-      'three': 1
-    },
-    colorRange: ["orange", "yellow", "green"],
-    domainRange: [0,100]
   }
 
   const [modal, setModal] = useState(false)
@@ -63,17 +56,19 @@ const Id = () => {
   const [authData, setAuthData] = useState(initialUserState)
   const [regionData, setRegionData] = useState(votingItemRegionUser)
   const [usersVoting, setUsersVoting] = useState({})
+  console.log(usersVoting, 'usersVoting')
   const [checkIfSetValue, setCheckIfSetValue] = useState(true)
 
   const [btnVotingActive, setBtnVotingActive] = useState(null)
 
   const [itemMapVoting, setItemMapVoting] = useState(votingType)
   const [loadingMapApp, setLoadingMapApp] = useState(false)
+  console.log(itemMapVoting, 'itemMapVoting')
 
   const getMapApp = async () => {
     setLoadingMapApp(true)
     try {
-      get(child(tasksRef, `ukraine/${id}`)).then((snapshot) => {
+      get(child(tasksRef, `maps/${id}`)).then((snapshot) => {
         if (snapshot.exists()) {
           setItemMapVoting(snapshot.val())
           setLoadingMapApp(false)
@@ -89,19 +84,23 @@ const Id = () => {
   }
 
   const getDataUsers = () => {
-    const dataArray = Object.keys(itemMapVoting.voting || {}).length > 0 ? Object.values(itemMapVoting.voting) : []
-    const result = {}
-    dataArray.forEach(obj => {
-      for (const userId in obj) {
-          const { region, value } = obj[userId]
-          if (!result[region]) {
-            result[region] = 0
-          }
-          result[region] += value
+    const votingArray = itemMapVoting.voting;
+    if (!Array.isArray(votingArray)) {
+      return;
+    }
+
+    const result = {};
+
+    votingArray.forEach(obj => {
+      const {region, value} = obj;
+      if (!result[region]) {
+        result[region] = 0;
       }
-    })
-    setUsersVoting(result)
-  }
+      result[region] += value;
+    });
+
+    setUsersVoting(result);
+  };
 
   useEffect(() => {
     if (router.isReady) {
@@ -113,17 +112,30 @@ const Id = () => {
 
   useEffect(() => getDataUsers(), [itemMapVoting])
 
+  if (loadingMapApp) return <p>Loading</p>
+
   return (
     <>
       <main className="min-h-screen flex-col items-center justify-between p-24">
-        <MapUa
-          modal={modal}
-          setModal={setModal}
-          setRegionData={setRegionData}
-          regionData={regionData}
-          usersVoting={usersVoting}
-          loadingMapApp={loadingMapApp}
-        />
+        {itemMapVoting.regionName === 'ukraine' ?
+          <MapUa
+            modal={modal}
+            setModal={setModal}
+            setRegionData={setRegionData}
+            regionData={regionData}
+            usersVoting={usersVoting}
+            loadingMapApp={loadingMapApp}
+          />
+          : itemMapVoting.regionName === "world" ?
+          <MapWorld
+            modal={modal}
+            setModal={setModal}
+            setRegionData={setRegionData}
+            regionData={regionData}
+            usersVoting={usersVoting}
+            loadingMapApp={loadingMapApp}
+          /> : <h2>no data</h2>
+        }
       </main>
       {modal && (
         <Modal
@@ -140,9 +152,9 @@ const Id = () => {
             setModal(false)
             setBtnVotingActive(null)
             setCheckIfSetValue(true)
-            auth.signOut().then( () => {
+            auth.signOut().then(() => {
               setAuthData(initialUserState)
-            }, function(error) {
+            }, function (error) {
               console.error('Sign Out Error', error)
             })
           }}>X
@@ -156,7 +168,7 @@ const Id = () => {
             btnVotingActive={btnVotingActive}
             valuesBtnVoting={valuesBtnVoting}
           />
-          {!checkIfSetValue && !authData?.userId ?
+          {!checkIfSetValue && !authData?.userId && !authData?.isAuthenticated ?
             <>
               <Login setAuthData={setAuthData}/>
               <AnonymouslyLogin setAuthData={setAuthData}/>
@@ -166,10 +178,19 @@ const Id = () => {
           {authData?.userId ? <button
             disabled={checkIfSetValue}
             onClick={() => {
-              set(ref(db, `ukraine/${id}/voting/${regionData.region}/${authData.userId}`), {
+              let voting = [];
+              if (Array.isArray(itemMapVoting.voting)) {
+                voting = [...itemMapVoting.voting];
+              }
+              const data = {
                 userId: authData.userId,
-                region: regionData.region,
                 value: regionData.value,
+                region: regionData.region,
+              };
+              voting.push(data);
+              set(ref(db, `maps/${id}`), {
+                ...itemMapVoting,
+                voting: voting,
               }).then(() => {
                 showNotification("Ваш голос записаний!", 'success')
                 setCheckIfSetValue(true)
@@ -178,13 +199,20 @@ const Id = () => {
                   value: 0,
                 })
                 setModal(false)
+                auth.signOut().then(() => {
+                  setAuthData(initialUserState)
+                }, function (error) {
+                  console.error('Sign Out Error', error)
+                })
               }).then(() => {
-                getMapApp().catch((err) => {console.log(err)})
+                getMapApp().catch((err) => {
+                  console.log(err)
+                })
               }).catch((err) => {
                 console.log(err)
               })
             }
-          }
+            }
           >Підтвердити голос</button> : null}
         </Modal>
       )

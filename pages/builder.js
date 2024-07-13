@@ -4,6 +4,7 @@ import '../src/app/globals.css'
 //import {RegionContext} from "./_app"
 import Dashboard from "../src/components/Builder/Dashboard"
 import {useRouter} from "next/router"
+import BuilderLayout from "@/layout/BuilderLayout/BuilderLayout";
 
 const BuilderPage = () => {
   const router = useRouter()
@@ -18,9 +19,10 @@ const BuilderPage = () => {
 
   return (
     <>
-      <Dashboard
-        //edit={edit}
-      />
+      <BuilderLayout>
+        <Dashboard //edit={edit}
+        />
+        </BuilderLayout>
       <ToastContainer/>
     </>
   )

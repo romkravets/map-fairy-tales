@@ -4,7 +4,9 @@ export default function Home() {
   return (
     <>
       <h1>Lending</h1>
-      <Link href="/3ad7c02e-51e0-4e4c-b2fb-e49d48d3b590">Test</Link>
+      <div><Link href="/45400211-a8ed-4d72-abed-dacc4e630b3e">Test 1</Link></div>
+      <div><Link href="/defaad23-a85d-4317-b9ba-ba518dccf3a8">Test 2</Link></div>
+      <div><Link href="/auth/login">Login</Link></div>
     </>
   )
 }
