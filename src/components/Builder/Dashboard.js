@@ -1,50 +1,41 @@
 import {useEffect, useState} from "react"
 import Builder from "./Builder"
 import GeneralInformation from "./steps/GeneralInformation/GeneralInformation"
-import MapSettings from "./steps/MapSettings/MapSettings"
 import {ref, serverTimestamp, set, update} from "firebase/database"
 import {v4 as uuid} from "uuid"
 import {db} from "@/db/firebase"
 import {showNotification} from "@/helpers/showNotification"
 import {useRouter} from "next/router"
-import {useContext} from "react"
-//import {RegionContext, ThemeContext, QuizObjectContext} from "/pages/_app"
+import {useContext} from "react";
+import {UserAuthBuilder} from "../../../context/context";
 
 const initialData = {
   id: '',
   regionName: '',
   time: serverTimestamp(),
   status: false,
-  questionPic: "",
   like: 0,
   reports: 0,
-  questions: [],
   title: '',
   description: '',
-  //nrOfQuestions: '20',
   userId: '',
   userName: '',
-  // appLocale: {
-  //   "landingHeaderText": "<questionLength> запитань",
-  //   "question": "",
-  //   "startQuizBtn": "Розпочати тест",
-  //   "resultFilterAll": "Всі",
-  //   "resultFilterCorrect": "Правильні",
-  //   "resultFilterIncorrect": "Не правильні",
-  //   "prevQuestionBtn": "Попереднє",
-  //   "nextQuestionBtn": "Наступне",
-  //   "resultPageHeaderText": "Ви завершили тест. Ви набрали <correctIndexLength> з <questionLength> питань."
-  // },
-  completeQuizCount: 0,
+  completeVotingCount: 0,
+  valuesBtnVoting: {
+    'one': 0.1,
+    'two': 0.5,
+    'three': 1
+  },
+  colorRange: ["orange", "yellow", "green"],
+  domainRange: [0,100]
 }
 
 const Dashboard = (props) => {
+  const contextUserData = useContext(UserAuthBuilder)
+
   const router = useRouter()
   //const regionItemId = router.query.data
 
-  //const contextValue = useContext(ThemeContext)
-  //const contextRegion = useContext(RegionContext)
-  //const contextQuizObject = useContext(QuizObjectContext)
   const [values, setValues] = useState(initialData)
   const [editedValues, setEditedValues] = useState({})
   const [loading, setLoading] = useState(false)
@@ -160,36 +151,22 @@ const Dashboard = (props) => {
       const id = uuid()
       const data = {
         id: id,
-        regionName: '',
+        regionName: 'ukraine',
         time: serverTimestamp(),
         status: false,
         like: values.like,
         reports: values.reports,
-        //questionPic: values.questionPic,
-        questions: values.questions,
         title: values.title,
         description: values.description || '',
-        //nrOfQuestions: values.nrOfQuestions,
-        userId: '',
-        userName: '',
-        // appLocale: {
-        //   "landingHeaderText": "<questionLength> запитань",
-        //   "question": "",
-        //   "startQuizBtn": "Розпочати тест",
-        //   "resultFilterAll": "Всі",
-        //   "resultFilterCorrect": "Правильні",
-        //   "resultFilterIncorrect": "Не правильні",
-        //   "prevQuestionBtn": "Назад",
-        //   "nextQuestionBtn": "Продовжити",
-        //   "resultPageHeaderText": "Ви завершили тест. Ви набрали <correctIndexLength> з <questionLength> питань."
-        // },
+        userId: contextUserData?.user?.userId || '',
+        userName: contextUserData?.user?.userName || '',
         completeQuizCount: 0,
+        voting: []
       }
-      set(ref(db, 'ukraine/' + id), data).then(() => {
+      set(ref(db, 'maps/' + id), data).then(() => {
         setLoading(false)
         setValues(initialData)
-        showNotification("Ваш квест зараз розглядається нашою командою. Після схвалення він буде опублікований і доступний на карті", 'success')
-
+        showNotification("Ваша карта опублікована. Після схвалення вона буде доступна", 'success')
         // set(ref(db, 'users/' + contextValue.authObj.userId + '/' + id), data).then(() => {
         //   setLoading(false)
         //   setValues(initialData)
