@@ -3,7 +3,7 @@ import {useEffect, useState} from "react"
 import {useRouter} from "next/router"
 import {auth} from '@/db/firebase'
 import {db} from "@/db/firebase"
-import {ref, child, get, set, serverTimestamp} from "firebase/database"
+import {ref, child, get, set} from "firebase/database"
 import MapUa from '@/components/MapUa/MapUa'
 import Modal from '@/components/Modal/Modal'
 import Voting from "@/components/Voting/Voting"
@@ -12,7 +12,7 @@ import Login from "@/components/Auth/Login/Login"
 import {ToastContainer} from "react-toastify"
 import {showNotification} from "@/helpers/showNotification"
 import "../src/app/globals.css"
-import MapWorld from "@/components/MapWorld/MapWorld";
+import MapWorld2 from "@/components/MapWorld2/MapWorld2";
 
 const Id = () => {
   const router = useRouter()
@@ -25,9 +25,9 @@ const Id = () => {
   }
 
   const valuesBtnVoting = {
-    'one': 0.1,
-    'two': 0.5,
-    'three': 1
+    'one': 1,
+    'two': 2,
+    'three': 3
   }
 
   const initialUserState = {
@@ -38,16 +38,6 @@ const Id = () => {
   }
 
   const votingType = {
-    // id: '',
-    // regionName: '',
-    // time: serverTimestamp(),
-    // status: false,
-    // like: 0,
-    // reports: 0,
-    // title: '',
-    // description: '',
-    // userId: '',
-    // userName: '',
     voting: {},
   }
 
@@ -56,14 +46,13 @@ const Id = () => {
   const [authData, setAuthData] = useState(initialUserState)
   const [regionData, setRegionData] = useState(votingItemRegionUser)
   const [usersVoting, setUsersVoting] = useState({})
-  console.log(usersVoting, 'usersVoting')
+
   const [checkIfSetValue, setCheckIfSetValue] = useState(true)
 
   const [btnVotingActive, setBtnVotingActive] = useState(null)
 
   const [itemMapVoting, setItemMapVoting] = useState(votingType)
   const [loadingMapApp, setLoadingMapApp] = useState(false)
-  console.log(itemMapVoting, 'itemMapVoting')
 
   const getMapApp = async () => {
     setLoadingMapApp(true)
@@ -83,24 +72,48 @@ const Id = () => {
     }
   }
 
+  // const getDataUsers = () => {
+  //   const votingArray = itemMapVoting.voting;
+  //   if (!Array.isArray(votingArray)) {
+  //     return;
+  //   }
+  //
+  //   const result = {};
+  //
+  //   votingArray.forEach(obj => {
+  //     const {region, value} = obj;
+  //     if (!result[region]) {
+  //       result[region] = 0;
+  //     }
+  //     result[region] += value;
+  //   });
+  //
+  //   setUsersVoting(result);
+  // };
+
   const getDataUsers = () => {
     const votingArray = itemMapVoting.voting;
-    if (!Array.isArray(votingArray)) {
-      return;
-    }
-
+      if (!Array.isArray(votingArray)) {
+        return;
+      }
     const result = {};
 
     votingArray.forEach(obj => {
-      const {region, value} = obj;
+      const { region, value } = obj;
       if (!result[region]) {
-        result[region] = 0;
+        result[region] = { sum: 0, count: 0 };
       }
-      result[region] += value;
+      result[region].sum += value;
+      result[region].count += 1;
     });
 
-    setUsersVoting(result);
+    const averages = {};
+    for (const region in result) {
+      averages[region] = result[region].sum / result[region].count;
+    }
+    setUsersVoting(averages);
   };
+
 
   useEffect(() => {
     if (router.isReady) {
@@ -112,7 +125,7 @@ const Id = () => {
 
   useEffect(() => getDataUsers(), [itemMapVoting])
 
-  if (loadingMapApp) return <p>Loading</p>
+  if (loadingMapApp) return <p>Loading...</p>
 
   return (
     <>
@@ -127,7 +140,7 @@ const Id = () => {
             loadingMapApp={loadingMapApp}
           />
           : itemMapVoting.regionName === "world" ?
-          <MapWorld
+          <MapWorld2
             modal={modal}
             setModal={setModal}
             setRegionData={setRegionData}
@@ -157,7 +170,7 @@ const Id = () => {
             }, function (error) {
               console.error('Sign Out Error', error)
             })
-          }}>X
+          }}>
           </button>
           <div>{regionData.region}</div>
           <Voting

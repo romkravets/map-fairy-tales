@@ -27,19 +27,19 @@ export default function Voting({regionData, setRegionData, setCheckIfSetValue, b
         className={`btn ${btnVotingActive === valuesBtnVoting.one ? 'active' : ''}`}
         onClick={() => handleButtonClick(valuesBtnVoting.one)}
       >
-        Не дуже
+        Підари
       </button>
       <button
         className={`btn ${btnVotingActive === valuesBtnVoting.two ? 'active' : ''}`}
         onClick={() => handleButtonClick(valuesBtnVoting.two)}
       >
-        Середній
+        Норм
       </button>
       <button
         className={`btn ${btnVotingActive === valuesBtnVoting.three ? 'active' : ''}`}
         onClick={() => handleButtonClick(valuesBtnVoting.three)}
       >
-        Супер!
+        Хороші
       </button>
     </main>
   );
