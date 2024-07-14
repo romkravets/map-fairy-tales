@@ -1,6 +1,30 @@
-export default function Voting({regionData, setRegionData, setCheckIfSetValue, btnVotingActive, setBtnVotingActive, valuesBtnVoting}) {
+import React from 'react';
 
-  const setValueData = (valueToAdd) => {
+interface VotingProps {
+  regionData: {
+    votes?: number[];
+    value?: number;
+  };
+  setRegionData: (data: { votes?: number[]; value?: number }) => void;
+  setCheckIfSetValue: (value: boolean) => void;
+  btnVotingActive: number | null;
+  setBtnVotingActive: (value: number | null) => void;
+  valuesBtnVoting: {
+    one: number;
+    two: number;
+    three: number;
+  };
+}
+
+const Voting: React.FC<VotingProps> = ({
+       regionData,
+       setRegionData,
+       setCheckIfSetValue,
+       btnVotingActive,
+       setBtnVotingActive,
+       valuesBtnVoting
+  }) => {
+  const setValueData = (valueToAdd: number) => {
     const updatedRegionData = { ...regionData };
     if (!updatedRegionData.votes) {
       updatedRegionData.votes = [];
@@ -11,15 +35,14 @@ export default function Voting({regionData, setRegionData, setCheckIfSetValue, b
     const sumVotes = updatedRegionData.votes.reduce((sum, vote) => sum + vote, 0);
     updatedRegionData.value = sumVotes / totalVotes;
 
-    console.log(updatedRegionData)
-    setRegionData(updatedRegionData)
-    setCheckIfSetValue(false)
-  }
+    setRegionData(updatedRegionData);
+    setCheckIfSetValue(false);
+  };
 
-  const handleButtonClick = (valueToAdd) => {
-    setValueData(valueToAdd)
-    setBtnVotingActive(valueToAdd)
-  }
+  const handleButtonClick = (valueToAdd: number) => {
+    setValueData(valueToAdd);
+    setBtnVotingActive(valueToAdd);
+  };
 
   return (
     <main className="votingName">
@@ -43,4 +66,6 @@ export default function Voting({regionData, setRegionData, setCheckIfSetValue, b
       </button>
     </main>
   );
-}
+};
+
+export default Voting;
