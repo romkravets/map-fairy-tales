@@ -18,28 +18,49 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: #2b595a;
+  color: #fcfbff;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  margin: auto;
+  max-height: 200px;
+  border-radius: 17px;
+}
+
+.btn {
+  padding: 10px;
+  margin: 0 10px;
+  background-color: #62a1a9;
+  border-radius: 10px;
+}
+
+.btn:hover {
+  background-color: #99af5d;
+}
+
+
+.active {
+  background-color: #e6b740;
+  color: #fff;
+}
+
+
+.* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* Карта */
@@ -130,30 +151,6 @@ body {
 #Zhytomyr:hover ~.cityZhytomyr{
   visibility: visible;
   opacity: 1;
-}
-
-.btn {
-  padding: 20px;
-  margin: 0 20px;
-  background-color: #62a1a9;
-  border-radius: 17px;
-}
-
-.btn:hover {
-  background-color: #99af5d;
-}
-
-
-.active {
-  background-color: #e6b740;
-  color: #fff;
-}
-
-
-.* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 .worldmap svg path {

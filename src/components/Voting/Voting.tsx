@@ -2,13 +2,14 @@ import React from 'react';
 
 interface VotingProps {
   regionData: {
+    region: string;
     votes?: number[];
     value?: number;
   };
-  setRegionData: (data: { votes?: number[]; value?: number }) => void;
+  setRegionData: (data: { region: string; votes: number[]; value: number }) => void;
   setCheckIfSetValue: (value: boolean) => void;
   btnVotingActive: number | null;
-  setBtnVotingActive: (value: number | null) => void;
+  setBtnVotingActive: (value: number) => void;
   valuesBtnVoting: {
     one: number;
     two: number;
@@ -17,13 +18,13 @@ interface VotingProps {
 }
 
 const Voting: React.FC<VotingProps> = ({
-       regionData,
-       setRegionData,
-       setCheckIfSetValue,
-       btnVotingActive,
-       setBtnVotingActive,
-       valuesBtnVoting
-  }) => {
+                                         regionData,
+                                         setRegionData,
+                                         setCheckIfSetValue,
+                                         btnVotingActive,
+                                         setBtnVotingActive,
+                                         valuesBtnVoting
+                                       }) => {
   const setValueData = (valueToAdd: number) => {
     const updatedRegionData = { ...regionData };
     if (!updatedRegionData.votes) {
@@ -33,9 +34,10 @@ const Voting: React.FC<VotingProps> = ({
 
     const totalVotes = updatedRegionData.votes.length;
     const sumVotes = updatedRegionData.votes.reduce((sum, vote) => sum + vote, 0);
+    console.log(totalVotes, 'totalVotes')
+    console.log(sumVotes, 'sumVotes')
     updatedRegionData.value = sumVotes / totalVotes;
-
-    setRegionData(updatedRegionData);
+    setRegionData(updatedRegionData as { region: string; votes: number[]; value: number });
     setCheckIfSetValue(false);
   };
 
