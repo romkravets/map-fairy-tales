@@ -16,7 +16,6 @@ export default function Home() {
         const snapshot = await get(dbRef);
         if (snapshot.exists()) {
           const fetchedData = snapshot.val();
-          // Convert the object to an array
           const dataArray = Object.values(fetchedData);
           setData(dataArray);
           console.log(dataArray, 'dataArray')
@@ -37,7 +36,7 @@ export default function Home() {
       {data.length > 0 ? (
         <ul>
           {data.map((item: any) => (
-            <div>
+            <div key={item.id}>
             <Link href={`/${item.id}`}>{item.title}</Link>
             </div>
           ))}

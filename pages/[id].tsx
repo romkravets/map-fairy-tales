@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { auth } from "@/db/firebase";
 import { db } from "@/db/firebase";
 import { ref, child, get, set } from "firebase/database";
-import MapUa from "@/components/MapUa/MapUa";
 import Modal from "@/components/Modal/Modal";
 import Voting from "@/components/Voting/Voting";
 import AnonymouslyLogin from "@/components/Auth/AnonymouslyLogin/AnonymouslyLogin";
@@ -89,17 +88,6 @@ const Id = () => {
   console.log(usersVoting, 'usersVoting')
   console.log(itemMapVoting, 'itemMapVoting')
 
-  useEffect(() => {
-    if (router.isReady) {
-      getMapApp().catch((error) => {
-        console.log(error);
-      });
-    }
-  }, [router.isReady]);
-
-  useEffect(() => {
-    getDataUsers();
-  }, [itemMapVoting]);
 
   const getMapApp = async () => {
     setLoadingMapApp(true);
@@ -118,6 +106,19 @@ const Id = () => {
       console.log(error);
     }
   };
+
+
+  useEffect(() => {
+    getDataUsers();
+  }, [itemMapVoting]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      getMapApp().catch((error) => {
+        console.log(error);
+      });
+    }
+  }, [router.isReady]);
 
   const getDataUsers = () => {
     const votingArray = itemMapVoting.voting;
