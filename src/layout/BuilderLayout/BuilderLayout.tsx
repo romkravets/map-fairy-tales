@@ -1,12 +1,22 @@
-import {useRouter} from "next/router"
-import Link from "next/link"
-import {useContext} from "react";
-import {UserAuthBuilder} from "../../../context/context"
-import {auth} from "@/db/firebase"
+// components/BuilderLayout.tsx
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { useContext } from "react";
+import { UserAuthBuilder } from "../../helpers/context/context";
+import { auth } from "@/db/firebase";
+import { FC, ReactNode } from 'react';
 
-const BuilderLayout = ({ children }) => {
-  const contextUserData = useContext(UserAuthBuilder)
-  const router = useRouter()
+interface BuilderLayoutProps {
+  children: ReactNode;
+}
+
+const BuilderLayout: FC<BuilderLayoutProps> = ({ children }) => {
+  const contextUserData = useContext(UserAuthBuilder);
+  const router = useRouter();
+
+  if (!contextUserData) {
+    throw new Error('contextUserData must be used within a UserAuthBuilder Provider');
+  }
 
   return (
     <div className="builder">
@@ -18,8 +28,8 @@ const BuilderLayout = ({ children }) => {
             <Link href="/builder/settings">Налаштування</Link>
           </li>
           <li className="builder-li-exit">
-            <button onClick={()=> {
-              auth.signOut().then( () => {
+            <button onClick={() => {
+              auth.signOut().then(() => {
                 contextUserData.setUser(prevState => ({
                   ...prevState,
                   isAuthenticated: false,
@@ -27,18 +37,18 @@ const BuilderLayout = ({ children }) => {
                   userId: '',
                   email: '',
                   token: ''
-                }))
-                router.push('/')
-              }, function(error) {
-                console.error('Sign Out Error', error)
-              })
+                }));
+                router.push('/');
+              }).catch((error) => {
+                console.error('Sign Out Error', error);
+              });
             }}>Вихід</button>
           </li>
         </ul>
       </nav>
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default BuilderLayout
+export default BuilderLayout;

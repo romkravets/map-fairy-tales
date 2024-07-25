@@ -151,7 +151,7 @@ const Dashboard = (props) => {
       const id = uuid()
       const data = {
         id: id,
-        regionName: 'ukraine',
+        regionName: 'world',
         time: serverTimestamp(),
         status: false,
         like: values.like,

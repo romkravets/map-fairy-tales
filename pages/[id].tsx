@@ -18,6 +18,9 @@ type VotingItem = {
   region: string;
   value: number;
   userId?: string;
+  votes?: number[],
+  regionVotes?: number,
+
 };
 
 type ItemMapVoting = {
@@ -48,6 +51,7 @@ type VotingValue = {
   three: number,
 };
 
+
 const Id = () => {
   const router = useRouter();
   const id = router.query.id as string;
@@ -60,7 +64,7 @@ const Id = () => {
     isAuthenticated: false,
   };
 
-  const initialVotingItem: VotingItem = {
+   const initialVotingItem: VotingItem = {
     region: "",
     value: 0,
   };
@@ -77,9 +81,13 @@ const Id = () => {
   const [regionData, setRegionData] = useState<VotingItem>(initialVotingItem);
   const [usersVoting, setUsersVoting] = useState<Record<string, number>>({});
   const [checkIfSetValue, setCheckIfSetValue] = useState(true);
-  const [btnVotingActive, setBtnVotingActive] = useState<string | null>(null);
+  const [btnVotingActive, setBtnVotingActive] = useState<number | null>(null);
   const [itemMapVoting, setItemMapVoting] = useState<Partial<ItemMapVoting>>({});
   const [loadingMapApp, setLoadingMapApp] = useState(false);
+
+  console.log(regionData, 'regionData')
+  console.log(usersVoting, 'usersVoting')
+  console.log(itemMapVoting, 'itemMapVoting')
 
   useEffect(() => {
     if (router.isReady) {
@@ -138,32 +146,18 @@ const Id = () => {
 
   return (
     <>
-      <main className="min-h-screen flex-col items-center justify-between p-24">
-        {itemMapVoting.regionName === 'ukraine' ?
-          <MapUa
-            modal={modal}
-            setModal={setModal}
-            setRegionData={setRegionData}
-            regionData={regionData}
-            usersVoting={usersVoting}
-            loadingMapApp={loadingMapApp}
-          />
-          : itemMapVoting.regionName === "world" ?
-            <MapWorld2
-              modal={modal}
-              setModal={setModal}
-              setRegionData={setRegionData}
-              regionData={regionData}
-              usersVoting={usersVoting}
-              loadingMapApp={loadingMapApp}
-            /> : <h2>no data</h2>
-        }
-      </main>
-      {modal && (
-        <Modal
+      <main>
+        <MapWorld2
+          modal={modal}
           setModal={setModal}
           setRegionData={setRegionData}
           regionData={regionData}
+          usersVoting={usersVoting}
+          loadingMapApp={loadingMapApp}
+        />
+      </main>
+      {modal && (
+        <Modal
         >
           <button onClick={() => {
             setRegionData({
@@ -218,9 +212,13 @@ const Id = () => {
                 showNotification("Ваш голос записаний!", 'success');
                 setCheckIfSetValue(true);
                 setRegionData({
-                  ...regionData,
+                  region: "",
                   value: 0,
+                  votes: [],
+                  regionVotes: 0,
                 });
+                setItemMapVoting({})
+                setUsersVoting({})
                 setModal(false);
                 auth.signOut().then(() => {
                   setAuthData(initialUserState);
