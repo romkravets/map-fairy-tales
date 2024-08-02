@@ -9,6 +9,34 @@ export default function Home() {
   const [data, setData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  const [dataT, setDataT] = useState( { text:'' });
+  const [query, setQuery] = useState();
+  const [search, setSearch] = useState('Roman');
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (search) {
+        setIsLoading(true);
+        const res = await fetch(`/api/openai`, {
+          body: JSON.stringify({
+            name: search
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'POST'
+        })
+        const data = await res.json();
+        setDataT(data);
+        setIsLoading(false);
+      }};
+
+    fetchData();
+  }, []);
+
+  console.log(dataT, 'dataT')
+
   useEffect(() => {
     const fetchData = async () => {
       try {
