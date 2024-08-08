@@ -11,7 +11,7 @@ import Login from "@/components/Auth/Login/Login";
 import { ToastContainer } from "react-toastify";
 import { showNotification } from "@/helpers/showNotification";
 import "../src/app/globals.css";
-import MapWorld2 from "@/components/MapWorld2/MapWorld2";
+//import MapWorld3 from "@/components/MapWorld2/MapWorld2";
 
 type VotingItem = {
   region: string;
@@ -148,14 +148,14 @@ const Id = () => {
   return (
     <>
       <main>
-        <MapWorld2
-          modal={modal}
-          setModal={setModal}
-          setRegionData={setRegionData}
-          regionData={regionData}
-          usersVoting={usersVoting}
-          loadingMapApp={loadingMapApp}
-        />
+        {/*<MapWorld3*/}
+        {/*  modal={modal}*/}
+        {/*  setModal={setModal}*/}
+        {/*  setRegionData={setRegionData}*/}
+        {/*  regionData={regionData}*/}
+        {/*  usersVoting={usersVoting}*/}
+        {/*  loadingMapApp={loadingMapApp}*/}
+        {/*/>*/}
       </main>
       {modal && (
         <Modal
