@@ -2,7 +2,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useContext } from "react";
-import { UserAuthBuilder } from "../../helpers/context/context";
+import { UserAuthBuilder } from "../../../context/context";
 import { auth } from "@/db/firebase";
 import { FC, ReactNode } from 'react';
 

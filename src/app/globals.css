@@ -1,63 +1,63 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*@tailwind base;*/
+/*@tailwind components;*/
+/*@tailwind utilities;*/
 
-:root {
-  --bg-color: #fcfbff;
-  --dark: #333;
-  --red: #c83d32;
-  --blue: #62a1a9;
-  --green: #99af5d;
-  --yelow: #e6b740;
-  --darken-blue: #2b595a;
-}
+/*:root {*/
+/*  --bg-color: #fcfbff;*/
+/*  --dark: #333;*/
+/*  --red: #c83d32;*/
+/*  --blue: #62a1a9;*/
+/*  --green: #99af5d;*/
+/*  --yelow: #e6b740;*/
+/*  --darken-blue: #2b595a;*/
+/*}*/
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+/*:root {*/
+/*  --foreground-rgb: 0, 0, 0;*/
+/*  --background-start-rgb: 214, 219, 220;*/
+/*  --background-end-rgb: 255, 255, 255;*/
+/*}*/
 
-body {
-  background-color: #2b595a;
-  color: #fcfbff;
-}
+/*body {*/
+/*  background-color: #2b595a;*/
+/*  color: #fcfbff;*/
+/*}*/
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
+/*@layer utilities {*/
+/*  .text-balance {*/
+/*    text-wrap: balance;*/
+/*  }*/
+/*}*/
 
-.modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 400px;
-  margin: auto;
-  max-height: 200px;
-  border-radius: 17px;
-}
+/*.modal {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*  max-width: 400px;*/
+/*  margin: auto;*/
+/*  max-height: 200px;*/
+/*  border-radius: 17px;*/
+/*}*/
 
-.btn {
-  padding: 10px;
-  margin: 0 10px;
-  background-color: #62a1a9;
-  border-radius: 10px;
-}
+/*.btn {*/
+/*  padding: 10px;*/
+/*  margin: 0 10px;*/
+/*  background-color: #62a1a9;*/
+/*  border-radius: 10px;*/
+/*}*/
 
-.btn:hover {
-  background-color: #99af5d;
-}
-
-
-.active {
-  background-color: #e6b740;
-  color: #fff;
-}
+/*.btn:hover {*/
+/*  background-color: #99af5d;*/
+/*}*/
 
 
-.* {
+/*.active {*/
+/*  background-color: #e6b740;*/
+/*  color: #fff;*/
+/*}*/
+
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -65,119 +65,119 @@ body {
 
 /* Карта */
 
-.mapImage {
-  display: none;
-}
+/*.mapImage {*/
+/*  display: none;*/
+/*}*/
 
-#Ukraine {
-  height: 100vh;
-}
+/*#Ukraine {*/
+/*  height: 100vh;*/
+/*}*/
 
-#KyivCity {
-  fill: var(--blue);
-  opacity: 0;
-}
+/*#KyivCity {*/
+/*  fill: var(--blue);*/
+/*  opacity: 0;*/
+/*}*/
 
-.mapBackground {
-  stroke: white;
-  stroke-width: 0.5;
-  cursor: pointer;
-}
+/*.mapBackground {*/
+/*  stroke: white;*/
+/*  stroke-width: 0.5;*/
+/*  cursor: pointer;*/
+/*}*/
 
-#Ukraine path {
-  fill: #6996c6;
-}
+/*#Ukraine path {*/
+/*  fill: #6996c6;*/
+/*}*/
 
-#Ukraine path:hover {
-  fill: var(--green);
-}
+/*#Ukraine path:hover {*/
+/*  fill: var(--green);*/
+/*}*/
 
-#Ukraine .mapImage:hover {
-  fill: var(--green);
-}
+/*#Ukraine .mapImage:hover {*/
+/*  fill: var(--green);*/
+/*}*/
 
-.pointerCircle {
-  r: 5px;
-  fill: var(--darken-blue);
-  stroke-linecap: square;
-  stroke-linejoin: bevel;
-  stroke-miterlimit: 4;
-  stroke-dasharray: none;
-  stroke-dashoffset: 0;
-  stroke-opacity: 1;
-}
+/*.pointerCircle {*/
+/*  r: 5px;*/
+/*  fill: var(--darken-blue);*/
+/*  stroke-linecap: square;*/
+/*  stroke-linejoin: bevel;*/
+/*  stroke-miterlimit: 4;*/
+/*  stroke-dasharray: none;*/
+/*  stroke-dashoffset: 0;*/
+/*  stroke-opacity: 1;*/
+/*}*/
 
-.pointerCircleHover {
-  fill: var(--blue);
-}
+/*.pointerCircleHover {*/
+/*  fill: var(--blue);*/
+/*}*/
 
-.cityName {
-  /*display: none;*/
-  transition: all 0.3s ease;
-  font-family: 'Roboto', sans-serif;
-  font-weight: normal;
-  font-size: 12px;
-  fill: var(--dark);
-  text-shadow: white 0.1px 0.1px 0, white -0.1px -0.1px 0,
-  white -0.1px 0.1px 0, white 0.1px -0.1px;
-}
+/*.cityName {*/
+/*  !*display: none;*!*/
+/*  transition: all 0.3s ease;*/
+/*  font-family: 'Roboto', sans-serif;*/
+/*  font-weight: normal;*/
+/*  font-size: 12px;*/
+/*  fill: var(--dark);*/
+/*  text-shadow: white 0.1px 0.1px 0, white -0.1px -0.1px 0,*/
+/*  white -0.1px 0.1px 0, white 0.1px -0.1px;*/
+/*}*/
 
-#Kyiv:hover ~.cityKyiv,
-#KyivCity:hover ~.cityKiev,
-#SevastopolCity:hover ~.citySevastopol,
-#Crimea:hover ~.citySimferopol,
-#Cherkasy:hover ~.cityCherkasy,
-#Chernivtsi:hover ~.cityChernivtsi,
-#Dnipropetrovsk:hover ~.cityDnipro,
-#Donetsk:hover ~.cityDonetsk,
-#Ivano-Frankivsk:hover ~.cityIvano-Frankivsk,
-#Kharkiv:hover ~.cityKharkiv,
-#Kherson:hover ~.cityKherson,
-#Khmelnytskyi:hover ~.cityKhmelnytskyi,
-#Kirovohrad:hover ~.cityKropyvnytskyi,
-#Luhansk:hover ~.cityLuhansk,
-#Lviv:hover ~.cityLviv,
-#Mykolaiv:hover ~.cityMykolaiv,
-#Odessa:hover ~.cityOdessa,
-#Poltava:hover ~.cityPoltava,
-#Rivne:hover ~.cityRivne,
-#Sumu:hover ~.citySumu,
-#Chernihiv:hover ~.cityChernihiv,
-#Ternopil:hover ~.cityTernopil,
-#Zakarpattia:hover ~.cityUzhhorod,
-#Vinnytsia:hover ~.cityVinnytsia,
-#Volyn:hover ~.cityLutsk,
-#Zaporizhia:hover ~.cityZaporizhia,
-#Zhytomyr:hover ~.cityZhytomyr{
-  visibility: visible;
-  opacity: 1;
-}
+/*#Kyiv:hover ~.cityKyiv,*/
+/*#KyivCity:hover ~.cityKiev,*/
+/*#SevastopolCity:hover ~.citySevastopol,*/
+/*#Crimea:hover ~.citySimferopol,*/
+/*#Cherkasy:hover ~.cityCherkasy,*/
+/*#Chernivtsi:hover ~.cityChernivtsi,*/
+/*#Dnipropetrovsk:hover ~.cityDnipro,*/
+/*#Donetsk:hover ~.cityDonetsk,*/
+/*#Ivano-Frankivsk:hover ~.cityIvano-Frankivsk,*/
+/*#Kharkiv:hover ~.cityKharkiv,*/
+/*#Kherson:hover ~.cityKherson,*/
+/*#Khmelnytskyi:hover ~.cityKhmelnytskyi,*/
+/*#Kirovohrad:hover ~.cityKropyvnytskyi,*/
+/*#Luhansk:hover ~.cityLuhansk,*/
+/*#Lviv:hover ~.cityLviv,*/
+/*#Mykolaiv:hover ~.cityMykolaiv,*/
+/*#Odessa:hover ~.cityOdessa,*/
+/*#Poltava:hover ~.cityPoltava,*/
+/*#Rivne:hover ~.cityRivne,*/
+/*#Sumu:hover ~.citySumu,*/
+/*#Chernihiv:hover ~.cityChernihiv,*/
+/*#Ternopil:hover ~.cityTernopil,*/
+/*#Zakarpattia:hover ~.cityUzhhorod,*/
+/*#Vinnytsia:hover ~.cityVinnytsia,*/
+/*#Volyn:hover ~.cityLutsk,*/
+/*#Zaporizhia:hover ~.cityZaporizhia,*/
+/*#Zhytomyr:hover ~.cityZhytomyr{*/
+/*  visibility: visible;*/
+/*  opacity: 1;*/
+/*}*/
 
-.worldmap svg path {
-    fill: #679692;
-    stroke: rgba(255, 255, 255, 0.5);
-    stroke-width: 0.5;
-    cursor: pointer;
-    transition: fill 0.3s;
-}
+/*.worldmap svg path {*/
+/*    fill: #679692;*/
+/*    stroke: rgba(255, 255, 255, 0.5);*/
+/*    stroke-width: 0.5;*/
+/*    cursor: pointer;*/
+/*    transition: fill 0.3s;*/
+/*}*/
 
-.worldmap svg path:hover {
-    fill: #476966;
-}
+/*.worldmap svg path:hover {*/
+/*    fill: #476966;*/
+/*}*/
 
-.worldmap .tooltip {
-    position: fixed;
-    top: 0;
-    left: 0;
-    transform: translate(var(--x), var(--y));
-    font: 0.85rem helvetica, sans-serif;
-    white-space: nowrap;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border-radius: 0.25rem;
-    z-index: 10;
-    display: none;
-}
+/*.worldmap .tooltip {*/
+/*    position: fixed;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    transform: translate(var(--x), var(--y));*/
+/*    font: 0.85rem helvetica, sans-serif;*/
+/*    white-space: nowrap;*/
+/*    background-color: rgba(0, 0, 0, 0.5);*/
+/*    color: white;*/
+/*    border-radius: 0.25rem;*/
+/*    z-index: 10;*/
+/*    display: none;*/
+/*}*/
 
 .worldmap .active {
     padding: 0.35rem 0.5rem;

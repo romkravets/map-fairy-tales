@@ -4,7 +4,7 @@ import {useRouter} from "next/router"
 import {UserAuthBuilder} from "../../../../context/context"
 
 const LoginBuilder = () => {
-  const contextValue = useContext(UserAuthBuilder)
+  const { setUser } = useContext(UserAuthBuilder);
   const router = useRouter()
   const [loading, setLoadingDb] = useState(false)
 
@@ -19,7 +19,7 @@ const LoginBuilder = () => {
             await auth.signInWithPopup(GoogleProvider)
               .then((response) => {
                 const {user, credential} = response
-                contextValue.setUser(prevState => ({
+                setUser(prevState => ({
                   ...prevState,
                   isAuthenticated: true,
                   userName: user?.displayName,
@@ -30,7 +30,7 @@ const LoginBuilder = () => {
               }).then(async () => {
                 if (auth.currentUser) {
                   const tokenId = await auth.currentUser.getIdToken()
-                  contextValue.setUser(prevState => ({
+                  setUser(prevState => ({
                     ...prevState,
                     token: tokenId || ''
                   }))
