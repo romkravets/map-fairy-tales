@@ -37,7 +37,7 @@ export default function Country() {
   });
 
   const [userData, setUserData] = useState<UserData>([]);
-  
+
 
   const handleRadioChange = (value) => setSelectedValue(value);
 
@@ -219,7 +219,7 @@ export default function Country() {
             <p><strong>Friendly People:</strong> {friendlyPeople || 'Information not available'}</p>
           </div>
         ) : (
-          <p>Don't find information...</p>
+          <p>Don&apos;t find information...</p>
         )
       ) : (
         <p>Loading country information...</p>
