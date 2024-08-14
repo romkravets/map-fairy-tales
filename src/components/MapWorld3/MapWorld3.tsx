@@ -31,20 +31,6 @@ const MapWorld3: FC<MapWorld2Props> = ({
          usersVoting,
          loadingMapApp,
        }) => {
-//const id = useId();
-  // const [tooltipContent, setTooltipContent] = useState<string>("");
-  // const [tooltipVisibility, setTooltipVisibility] = useState(false);
-  // const [tooltipPosition, setTooltipPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
-
-  // const [zoomLevel, setZoomLevel] = useState(1);
-  // const [center, setCenter] = useState<[number, number]>([0, 0]);
-  //const shadow_custom_world_map = "shadow-md";
-
-  // const handleZoomIn = () => setZoomLevel((prev) => Math.min(prev * 1.2, 10));
-  // const handleZoomOut = () => setZoomLevel((prev) => Math.max(prev / 1.2, 1));
-  // const handleCenter = (lat: number, lon: number) => {
-  //   setCenter([lat, lon]);
-  // };
 
   const router = useRouter()
 
@@ -54,30 +40,7 @@ const MapWorld3: FC<MapWorld2Props> = ({
     const id = geo.id;
     console.log(region, id)
     router.push(`/country?region=${region}&id=${id}`)
-    // const regionVotes = usersVoting[region] || 0;
-    // setModal(true);
-    // const value = 0;
-    // setRegionData({ ...regionData, region, regionVotes, value });
   };
-
-  // const handleMouseEnter = (geo: any, event: React.MouseEvent) => {
-  //   const { clientX, clientY } = event;
-  //   setTooltipContent(`${geo.properties.name} - Votes: ${usersVoting[geo.id] || 0}`);
-  //   setTooltipPosition({ top: clientY, left: clientX });
-  //   setTooltipVisibility(true);
-  // };
-
-  // const handleMouseLeave = () => {
-  //   setTooltipVisibility(false);
-  // };
-
-  // const setColorRegions = (value: number | undefined) => {
-  //   if (value === undefined) return;
-  //   const colorScale = scaleLinear<string, string>()
-  //     .domain([0, 1.5, 3])
-  //     .range(["#cc3333", "#cccc33", "#33cc33"]);
-  //   return colorScale(value);
-  // };
 
   return (
     <>
@@ -125,55 +88,6 @@ const MapWorld3: FC<MapWorld2Props> = ({
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
-
-      {/*{tooltipVisibility && (*/}
-      {/*  <ReactTooltip*/}
-      {/*    id={id}*/}
-      {/*    effect="float"*/}
-      {/*    className={`p-0 rounded-lg bg-white text-inherit ${shadow_custom_world_map} select-none z-10`}*/}
-      {/*    style={{ top: tooltipPosition.top, left: tooltipPosition.left, position: 'absolute' }}*/}
-      {/*    opacity={1}*/}
-      {/*  >*/}
-      {/*    <div className="flex gap-x-5">*/}
-      {/*      <div className="flex justify-center items-center">*/}
-      {/*        <p className="font-primary-Regular font-bold">{tooltipContent}</p>*/}
-      {/*      </div>*/}
-      {/*    </div>*/}
-      {/*  </ReactTooltip>*/}
-      {/*)}*/}
-
-      {/* Zoom in-out 🔍🔎 */}
-      {/*<div className="absolute right-0 bottom-0">*/}
-      {/*  <div*/}
-      {/*    className={`bg-white rounded-lg p-2 mx-3 my-1 ${shadow_custom_world_map}`}*/}
-      {/*  >*/}
-      {/*    <button*/}
-      {/*      className="block p-1 pb-2"*/}
-      {/*      title="zoom in"*/}
-      {/*      type="button"*/}
-      {/*      onClick={handleZoomIn}*/}
-      {/*    >*/}
-      {/*      <FaPlus fill="#000"/>*/}
-      {/*    </button>*/}
-      {/*    <button*/}
-      {/*      className="block p-1 pt-2"*/}
-      {/*      title="zoom out"*/}
-      {/*      type="button"*/}
-      {/*      onClick={handleZoomOut}*/}
-      {/*    >*/}
-      {/*      <FaMinus fill="#000" />*/}
-      {/*    </button>*/}
-      {/*  </div>*/}
-
-      {/*  <button*/}
-      {/*    title="center"*/}
-      {/*    type="button"*/}
-      {/*    onClick={() => handleCenter(0, -30)}*/}
-      {/*    className={`p-3 mx-3 mt-1 mb-2 bg-white rounded-lg float-right ${shadow_custom_world_map}`}*/}
-      {/*  >*/}
-      {/*    <BiTargetLock fill="#000"/>*/}
-      {/*  </button>*/}
-      {/*</div>*/}
     </>
   );
 };
