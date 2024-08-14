@@ -2,8 +2,8 @@ import {toast} from "react-toastify"
 import "react-toastify/dist/ReactToastify.min.css"
 
 export const showNotification = (
-  content,
-  type,
+  content: string,
+  type: string,
 ) => {
   const defaultOptions = {
     autoClose: 1000,
