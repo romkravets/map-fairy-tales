@@ -1,8 +1,10 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { G4F } from 'g4f';
 
 const g4f = new G4F();
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { region, customValueForStory } = req.body;
 
@@ -99,6 +101,6 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Error fetching chat completion:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error });
   }
 }

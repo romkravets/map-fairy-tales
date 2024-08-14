@@ -1,11 +1,12 @@
+"use client";
 import {auth, GoogleProvider} from "@/db/firebase"
 import {useContext, useState} from "react"
-import {useRouter} from "next/router"
+//import {useRouter} from "next/router"
 import {UserAuthBuilder} from "../../../../context/context"
 
 const LoginBuilder = () => {
   const { setUser } = useContext(UserAuthBuilder);
-  const router = useRouter()
+  //const router = useRouter()
   const [loading, setLoadingDb] = useState(false)
 
   return (
@@ -37,7 +38,7 @@ const LoginBuilder = () => {
                   return auth.currentUser.getIdToken()
                 }
               }).then(() => {
-                router.push(`/builder`)
+                //router.push(`/builder`)
               }).catch(error => console.log(error))
           }
           }

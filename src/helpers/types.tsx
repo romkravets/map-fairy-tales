@@ -1,14 +1,12 @@
 export type UserData = {
-  firstName: string;
-  lastName: string;
-  countStoryDay: 3;
-  expiryTime: 0
-  stories: [
-    {
-      id: number
-    }
-  ]
+  // firstName: string;
+  // lastName: string;
+  // countStoryDay: 3;
+  // expiryTime: 0
+  stories: Array<{ id: string }>;
+
 }
+
 
 export type StoryData = {
   imageUrl: string;
@@ -44,3 +42,29 @@ export type ItemCountryMap = {
   };
   stories: StoryItem[];
 };
+
+export interface CountryInfo {
+  locationAndSize: string;
+  capitalCity: string; // Add this property
+  language: string;
+  cultureAndTraditions: string;
+  natureAndWildlife: string;
+  friendlyPeople: string;
+  food: []; // Update or add specific types if necessary
+  festivalsAndHolidays: [];
+  funFacts: [];
+}
+
+export interface Paragraph {
+  paragraph: string;
+}
+
+export interface Story {
+  title: string;
+  imageUrl: string;
+  paragraphs: Paragraph[];
+}
+
+export interface CountryStoryItem {
+  story: Story;
+}
