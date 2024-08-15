@@ -1,17 +1,18 @@
 "use client";
 import {auth, GoogleProvider} from "@/db/firebase"
 import {useContext, useState} from "react"
-//import {useRouter} from "next/router"
 import {UserAuthBuilder} from "../../../../context/context"
+import {useRouter} from "next/navigation";
 
 const LoginBuilder = () => {
   const { setUser } = useContext(UserAuthBuilder);
   const [loading, setLoadingDb] = useState(false)
+  const router = useRouter()
 
   return (
     <div>
       <div className="auth-container">
-        <h3>Вхід/Реєстрація</h3>
+        <h3>SighIn/SignUp</h3>
         <button
           className="button-login"
           onClick={async () => {
@@ -37,7 +38,7 @@ const LoginBuilder = () => {
                   return auth.currentUser.getIdToken()
                 }
               }).then(() => {
-                //router.push(`/builder`)
+                router.push(`/settings`)
               }).catch(error => console.log(error))
           }
           }
