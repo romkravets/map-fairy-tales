@@ -6,7 +6,6 @@ import {UserAuthBuilder} from "../../../../context/context"
 
 const LoginBuilder = () => {
   const { setUser } = useContext(UserAuthBuilder);
-  //const router = useRouter()
   const [loading, setLoadingDb] = useState(false)
 
   return (

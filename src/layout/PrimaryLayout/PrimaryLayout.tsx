@@ -10,11 +10,13 @@ interface PrimaryLayoutProps {
 
 const PrimaryLayout: FC<PrimaryLayoutProps> = ({children}) => {
   const {user, setUser} = useContext(UserAuthBuilder);
-  console.log('PrimaryLayout', user)
   return (
     <div>
       <header>
-        {user.isAuthenticated && user.userId ? <button onClick={() => {
+        <Link href="/">Logo</Link>
+        {user.isAuthenticated && user.userId ?
+          <>
+          <button onClick={() => {
           auth.signOut().then(() => {
             setUser(prevState => ({
               ...prevState,
@@ -26,7 +28,10 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({children}) => {
             }));
           })
         }}>SignOut</button>
+            <Link href='/settings'>User</Link>
+          </>
         : <Link href="/auth">Login</Link>}
+
       </header>
       {children}
     </div>
