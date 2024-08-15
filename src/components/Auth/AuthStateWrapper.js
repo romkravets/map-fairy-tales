@@ -8,7 +8,6 @@ const AuthStateWrapper = ({ children }) => {
 
   useEffect(() => {
     const handleAuthStateChanged = async (user) => {
-      console.log('handleAuthStateChanged',user)
       if (user) {
         try {
           const idToken = await user.getIdToken();

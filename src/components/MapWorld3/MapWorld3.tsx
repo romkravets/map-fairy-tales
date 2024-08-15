@@ -15,19 +15,9 @@ import { BiTargetLock } from "react-icons/bi";
 
 const geoUrl = "/features.json";
 
-// interface MapWorld2Props {
-//   modal: boolean;
-//   setModal: (value: boolean) => void;
-//   setRegionData: (data: { region: string; value: number; votes?: []; regionVotes?: number }) => void;
-//   regionData: { region?: string; regionVotes?: number };
-//   usersVoting: Record<string, number>;
-//   loadingMapApp: boolean;
-// }
-
 const MapWorld3 = () => {
 
   const router = useRouter()
-
 
   const handleClick = (geo: any) => () => {
     const region = geo.properties.name;
