@@ -74,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const modelVersion = '2.3';
     const imageResp = await fetch(
-      `https://engine.prod.bria-api.com/v1/text-to-vector/base/${modelVersion}`,
+      `https://engine.prod.bria-api.com/v1/text-to-image/fast/${modelVersion}`,
       {
         method: 'POST',
         headers: {
@@ -82,8 +82,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           api_token: '3c773613bb374f37a173149b171a580c'
         },
         body: JSON.stringify({
-          prompt: `An illustration for the fairy tale titled "${storyTitle}"`,
-          //prompt: `An illustration for the fairy tale titled "${storyTitle}", inspired by the cultural and artistic style of the ${region} region. Include traditional colors, patterns, and any distinctive elements associated with ${region} to make the illustration more authentic.`,
+          //prompt: `An illustration for the fairy tale titled "${storyTitle}"`,
+          prompt: `An illustration for the fairy tale titled "${storyTitle}", inspired by the cultural and artistic style of the ${region} region. Include traditional colors, patterns, and any distinctive elements associated with ${region} to make the illustration more authentic.`,
           num_results: 1,
           sync: true
         })

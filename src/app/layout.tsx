@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { UserAuthBuilderProvider } from '../../context/context';
 import AuthStateWrapper from "@/components/Auth/AuthStateWrapper";
+import PrimaryLayout from "@/layout/PrimaryLayout/PrimaryLayout";
 
 
 const inter = Inter({ subsets: ["latin"] })
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
       <UserAuthBuilderProvider>
         <AuthStateWrapper>
-         {children}
+          <PrimaryLayout>
+            {children}
+          </PrimaryLayout>
         </AuthStateWrapper>
       </UserAuthBuilderProvider>
       </body>
