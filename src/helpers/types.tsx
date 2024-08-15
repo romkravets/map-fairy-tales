@@ -2,7 +2,13 @@ export type UserData = {
   userName: string;
   countStoryOfDay: number;
   expiryTime: number;
-  stories: Array<{ id: string }>;
+  stories: Array<{
+    nameStory?: string;
+    id: string;
+    link?: string;
+    imageUrl?: string,
+    countryId?: string
+  }>;
 }
 
 

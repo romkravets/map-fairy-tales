@@ -6,6 +6,7 @@ import { UserAuthBuilder } from "../../../context/context";
 import { child, get, ref } from "firebase/database";
 import { db } from "@/db/firebase";
 import { UserData } from "@/helpers/types";
+import Link from "next/link";
 
 export default function Page() {
   const tasksRef = ref(db);
@@ -43,27 +44,38 @@ export default function Page() {
     if (typeof window !== 'undefined') {
       getUserData().catch(console.error);
     }
-  }, [user, tasksRef]);
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && (!user || !user.isAuthenticated)) {
       router.push('/auth');
     }
-  }, [user, router]);
+  }, []);
+
 
   return (
     <div className="builder">
       {loadingUser ? <p>Loading...</p> :
-        (
+        (userDB.stories.length === 0 ?
+            <div>
+              <h3>{user.userName}</h3>
+              <p>Add new story: <Link href='/'>Map</Link></p>
+            </div> :
           <div>
-              <h3>{userDB.userName}</h3>
-              <p>{userDB.countStoryOfDay}</p>
+              <h3>Name: {user.userName}</h3>
+              <p>{userDB.countStoryOfDay} Stories on Day </p>
               <div>
                 {userDB.stories.map((story, index) => {
                   return (
-                    <div key={index}>
+                    <Link key={index} href={`/story?region=${story.countryId}&id=${story.link}`}>
+                      <h3>{story.nameStory}</h3>
                       <p>{story.id}</p>
-                    </div>
+                      {story.imageUrl && <img
+                        src={story.imageUrl}
+                        alt={story.nameStory} width="600"
+                        height="400"
+                      />}
+                    </Link>
                   )
                 })}
               </div>

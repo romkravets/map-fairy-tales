@@ -19,6 +19,18 @@ interface CustomValueForStory {
   events: string;
 }
 
+const userInitialData = {
+  userName: '',
+  countStoryOfDay: 3,
+  expiryTime: 0,
+  stories: [{
+  nameStory: '',
+  id: '',
+  link: '',
+  countryId: ''
+}]
+}
+
 export default function CountryStories() {
   const searchParams = useSearchParams();
   const region = searchParams?.get('region') ?? '';
@@ -30,8 +42,8 @@ export default function CountryStories() {
   const [isLoadingStory, setIsLoadingStory] = useState(false);
   const [isLoadingSaveToDB, setIsLoadingSaveToDB] = useState(false);
   const [countryMap, setCountryMap] = useState<{
-    info: CountryInfo | null; // Update type to match structure
-    stories: CountryStoryItem[]; // Update if necessary
+    info: CountryInfo | null;
+    stories: CountryStoryItem[];
   }>({
     info: null,
     stories: [],
@@ -43,12 +55,7 @@ export default function CountryStories() {
     heroes: '',
     events: ''
   });
-  const [userData, setUserData] = useState<UserData>({
-    userName: '',
-    countStoryOfDay: 3,
-    expiryTime: 0,
-    stories: []
-  });
+  const [userData, setUserData] = useState<UserData>(userInitialData);
 
   const options = [
     {value: 'jungle', label: 'Jungle'},
@@ -150,7 +157,13 @@ export default function CountryStories() {
       const updatedStories = [...(countryMap.stories || []), newStory];
       const updatedUserStories: Array<{ id: string }> = [
         ...(userData.stories || []),
-        {id: newStoryId}
+        {
+          id: newStoryId,
+          nameStory: storyCreated.title,
+          link: newStoryId,
+          imageUrl: imageDownloadUrl,
+          countryId: id
+        }
       ];
 
       await set(dbRef(db, `maps/${id}`), {...countryMap, stories: updatedStories});
@@ -160,31 +173,15 @@ export default function CountryStories() {
         expiryTime: 0,
         stories: updatedUserStories,
       });
-      // await set(dbRef(db, `users/${user.userId}`), {...userData, stories: updatedUserStories});
 
       showNotification('Saved in DB', 'success');
       setCreatedStory(null);
       await getCountryStories();
-      await getUserData();
-      setUserData(
-        {
-          userName: '',
-          countStoryOfDay: 3,
-          expiryTime: 0,
-          stories: []
-        });
-
     } catch (error) {
       console.error('Error saving story to Firebase Realtime Database:', error);
       showNotification('Error saving story', 'error');
-      setUserData(
-        {
-          userName: '',
-          countStoryOfDay: 3,
-          expiryTime: 0,
-          stories: []
-        });
     } finally {
+      setUserData({});
       setIsLoadingSaveToDB(false);
     }
   };
