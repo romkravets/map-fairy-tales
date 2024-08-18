@@ -155,24 +155,25 @@ export default function CountryStories() {
       };
 
       const updatedStories = [...(countryMap.stories || []), newStory];
-      const updatedUserStories: Array<{ id: string }> = [
-        ...(userData.stories || []),
-        {
-          id: newStoryId,
-          nameStory: storyCreated.title,
-          link: newStoryId,
-          imageUrl: imageDownloadUrl,
-          countryId: id
-        }
-      ];
-
+      if (newStory.id && newStory.story.title) {
+        const updatedUserStories: Array<{ id: string }> = [
+          ...(userData.stories || []),
+          {
+            id: newStoryId,
+            nameStory: storyCreated.title,
+            link: newStoryId,
+            imageUrl: imageDownloadUrl,
+            countryId: id
+          }
+        ];
+        await set(dbRef(db, `users/${user.userId}`), {
+          userName: user.userName,
+          countStoryOfDay: 3,
+          expiryTime: 0,
+          stories: updatedUserStories,
+        });
+      }
       await set(dbRef(db, `maps/${id}`), {...countryMap, stories: updatedStories});
-      await set(dbRef(db, `users/${user.userId}`), {
-        userName: user.userName,
-        countStoryDay: 3,
-        expiryTime: 0,
-        stories: updatedUserStories,
-      });
 
       showNotification('Saved in DB', 'success');
       setCreatedStory(null);
@@ -181,7 +182,6 @@ export default function CountryStories() {
       console.error('Error saving story to Firebase Realtime Database:', error);
       showNotification('Error saving story', 'error');
     } finally {
-      setUserData({});
       setIsLoadingSaveToDB(false);
     }
   };
@@ -190,7 +190,6 @@ export default function CountryStories() {
 
   return (
     <>
-      <Link href="/">Back</Link>
       <h1>{region}</h1>
       {!loadingCountryMap ? (
         countryMap.info ? (
@@ -210,7 +209,7 @@ export default function CountryStories() {
       ) : (
         <p>Loading country information...</p>
       )}
-      <h2>All Stories</h2>
+      {countryMap.stories?.length ? <h2>All Stories</h2> : null}
       {countryMap.stories?.length > 0 && countryMap.stories.map((item, index) => (
         <div key={index}>
           {item.story.imageUrl && (
@@ -222,12 +221,12 @@ export default function CountryStories() {
             />
           )}
           <h3>{item.story.title}</h3>
-          {/*{item.story.paragraphs?.map((text, index) => (*/}
-          {/*  <p key={index}>{text.paragraph}</p>*/}
-          {/*))}*/}
+          {item.story.paragraphs?.map((text, index) => (
+            <p key={index}>{text.paragraph}</p>
+          ))}
         </div>
       ))}
-      <h3>Create story:</h3>
+      <h4>Create story:</h4>
       {!user?.userId && !user?.isAuthenticated && <Login/>}
       {user?.userId && user?.isAuthenticated && (
         <>
