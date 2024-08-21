@@ -12,7 +12,7 @@ const LoginBuilder = () => {
   return (
     <div>
       <div className="auth-container">
-        <h3>SighIn/SignUp</h3>
+        <h3>SignIn/SignUp</h3>
         <button
           className="button-login"
           onClick={async () => {
@@ -43,7 +43,7 @@ const LoginBuilder = () => {
           }
           }
         >
-          {loading ? 'Завантаження...' : 'Увійти через Google'}
+          {loading ? 'Loading...' : 'SingIn/SignUp with Google'}
         </button>
       </div>
     </div>
