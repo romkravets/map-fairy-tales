@@ -183,3 +183,13 @@
     padding: 0.35rem 0.5rem;
     display: block;
 }
+
+.map-container {
+  width: 100%;
+  max-width: 90rem;
+}
+
+.rsm-svg {
+  width: 100%;
+  max-width: 90rem;
+}

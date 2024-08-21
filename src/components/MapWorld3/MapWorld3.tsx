@@ -1,78 +1,114 @@
-'use client'
-import React, { FC, useId, useRef, useState } from "react";
-import { scaleLinear } from "d3-scale";
-import { useRouter } from 'next/navigation'
+"use client";
 
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  ZoomableGroup
-} from "react-simple-maps";
-
-import { FaPlus, FaMinus } from "react-icons/fa6";
-import { BiTargetLock } from "react-icons/bi";
+import React, { useEffect, useState } from "react";
+import { ComposableMap, Geographies, Geography, ZoomableGroup, Graticule, Sphere } from "react-simple-maps";
+import { useRouter } from 'next/navigation';
 
 const geoUrl = "/features.json";
 
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+interface GeoProperties {
+  name: string;
+}
+
+interface GeoType {
+  properties: GeoProperties;
+}
+
+interface DataType {
+  objects: {
+    world: {
+      geometries: GeoType[];
+    };
+  };
+}
+
 const MapWorld3 = () => {
+  const router = useRouter();
 
-  const router = useRouter()
+  const [colors, setColors] = useState<{ [key: string]: string }>({});
 
-  const handleClick = (geo: any) => () => {
+  const handleClick = (geo: GeoType) => () => {
     const region = geo.properties.name;
-    const id = geo.id;
-    console.log(region, id)
-    router.push(`/country?region=${region}&id=${id}`)
+    const id = region; // Assuming 'id' is the region name, update this if needed
+    console.log(region, id);
+    router.push(`/stories?region=${region}&id=${id}`);
   };
 
+  const getColorCountries = (newColors: { [key: string]: string }, regionName: string) => {
+    newColors[regionName] = getRandomColor();
+    setColors({ ...newColors });
+  };
+
+  useEffect(() => {
+    const countRandomColor = 3;
+    fetch(geoUrl)
+      .then((response) => response.json())
+      .then((data: DataType) => {
+        const newColors: { [key: string]: string } = {};
+        data.objects?.world?.geometries.forEach((geo: GeoType) => {
+          const regionName = geo.properties.name;
+          getColorCountries(newColors, regionName);
+          for (let i = 1; i <= countRandomColor; i++) {
+            setTimeout(() => {
+              getColorCountries(newColors, regionName);
+            }, 1000 * i);
+          }
+        });
+      });
+  }, []);
+
   return (
-    <>
-      <ComposableMap
-        projectionConfig={{
-          rotate: [-10, 0, 0],
-          scale: 147,
-        }}
-        width={800}
-        height={400}
-      >
-        <ZoomableGroup>
-          <Geographies geography={geoUrl}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                const regionCode = geo.id;
-                //const voteValue = usersVoting[regionCode] || 0;
-                return (
-                  <Geography
-                    key={regionCode}
-                    geography={geo}
-                    fill={"grey"}
-                    onClick={handleClick(geo)}
-                    //onMouseEnter={(event) => handleMouseEnter(geo, event)}
-                    //onMouseLeave={handleMouseLeave}
-                    style={{
-                      default: {
-                        outline: "none",
-                        cursor: "pointer"
-                      },
-                      hover: {
-                        outline: "none",
-                        fill: "#eae4e2",
-                        cursor: "pointer"
-                      },
-                      pressed: {
-                        outline: "none",
-                        fill: "#E42",
-                      },
-                    }}
-                  />
-                );
-              })
-            }
-          </Geographies>
-        </ZoomableGroup>
-      </ComposableMap>
-    </>
+    <ComposableMap
+      projectionConfig={{
+        rotate: [-10, 0, 0],
+        scale: 147,
+        center: [0, -30]
+      }}
+      style={{ backgroundColor: "#F0F8FF" }}
+    >
+      <Sphere stroke="#E4E5E6" strokeWidth={0.6} id='1' fill='#87CEEB' />
+      <Graticule stroke="#E4E5E6" strokeWidth={0.6} id='2' fill='#87CEEB' />
+        <Geographies geography={geoUrl}>
+          {({ geographies }) =>
+            geographies.map((geo) => {
+              const regionName = geo.properties.name;
+              const fillColor = colors[regionName] || "#87CEEB";
+              return (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  fill={fillColor}
+                  onClick={handleClick(geo)}
+                  style={{
+                    default: {
+                      outline: "none",
+                      cursor: "pointer",
+                    },
+                    hover: {
+                      outline: "none",
+                      fill: "gold",
+                      cursor: "pointer",
+                    },
+                    pressed: {
+                      outline: "none",
+                      fill: "#1E90FF",
+                    },
+                  }}
+                />
+              );
+            })
+          }
+        </Geographies>
+    </ComposableMap>
   );
 };
 

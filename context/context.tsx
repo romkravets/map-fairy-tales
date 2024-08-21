@@ -1,19 +1,3 @@
-// 'use client'
-// import { createContext, useState } from "react";
-// export const UserAuthBuilder = createContext({});
-//
-// function Context({ children }) {
-// const [user, setUser] = useState({});
-// console.log(user)
-//
-// return (
-//   <UserAuthBuilder.Provider value={{ user, setUser }}>
-//    {children}
-//   </UserAuthBuilder.Provider >
-// );
-// }
-//
-// export default Context
 "use client"
 import React, { createContext, useState, ReactNode } from 'react';
 
@@ -49,7 +33,7 @@ export const UserAuthBuilder = createContext<UserAuthBuilderContextType>({
 
 export const UserAuthBuilderProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User>(initialUser);
-  console.log(user ,'user')
+  
   return (
     <UserAuthBuilder.Provider value={{ user, setUser }}>
       {children}
