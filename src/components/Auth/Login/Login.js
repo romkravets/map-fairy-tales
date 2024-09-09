@@ -1,7 +1,11 @@
-import {auth, db, GoogleProvider} from "../../../db/firebase"
+import {auth, db, GoogleProvider} from "@/db/firebase"
 import {useState} from "react"
+import {useContext} from "react";
+import {UserAuthBuilder} from "../../../../context/context";
 
-const Login = ({setAuthData}) => {
+const Login = () => {
+  const { setUser } = useContext(UserAuthBuilder);
+
   const [loading, setLoadingDb] = useState(false)
 
   return (
@@ -14,17 +18,17 @@ const Login = ({setAuthData}) => {
             await auth.signInWithPopup(GoogleProvider)
               .then((response) => {
                 const {user} = response
-                setAuthData(prevState => ({
+                setUser(prevState => ({
                   ...prevState,
                   isAuthenticated: true,
                   userId: user.uid,
-                  //email: user!.email,
+                 // email: user!.email,
                 }))
                 setLoadingDb(false)
               }).then(async () => {
                 if (auth.currentUser) {
                   const tokenId = await auth.currentUser.getIdToken()
-                  setAuthData(prevState => ({
+                  setUser(prevState => ({
                      ...prevState,
                      token: tokenId || ''
                    }))
@@ -34,7 +38,7 @@ const Login = ({setAuthData}) => {
           }
           }
         >
-          {loading ? 'Завантаження...' : ' Підтвердити через Google'}
+          {loading ? 'Loading...' : ' LogIn/SignUp Google'}
         </button>
       </div>
     </div>
