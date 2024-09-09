@@ -64,13 +64,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log(response, 'response')
     let story;
     try {
-      story = JSON.parse(response);
+      if (typeof response === 'string') {
+        story = JSON.parse(response);
+      } else {
+        story = response;
+      }
     } catch (error) {
       console.error('Failed to parse JSON response from G4F:', response);
       return res.status(500).json({ error: 'Failed to parse story content' });
     }
 
     const storyTitle = story.title;
+
+    if (!storyTitle) {
+      return res.status(500).json({ error: 'Story title is missing in the response' });
+    }
 
     const modelVersion = '2.3';
     const imageResp = await fetch(
@@ -91,12 +99,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     const imageData = await imageResp.json();
+    console.log(imageData, 'imageData')
     if (!imageData.result || !Array.isArray(imageData.result) || imageData.result.length === 0) {
       console.error('No image results from Bria API:', imageData);
       return res.status(500).json({ error: 'Failed to generate image' });
     }
 
     story.imageUrl = imageData.result[0].urls[0];
+    // const imageData = await imageResp.json();
+    // if (!imageData.result || !Array.isArray(imageData.result) || imageData.result.length === 0) {
+    //   console.error('No image results from Bria API:', imageData);
+    //   return res.status(500).json({ error: 'Failed to generate image' });
+    // }
+    //
+    // story.imageUrl = imageData.result[0].urls[0];
+    //res.status(200).json(story);
     res.status(200).json(story);
 
   } catch (error) {

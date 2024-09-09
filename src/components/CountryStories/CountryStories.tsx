@@ -11,7 +11,7 @@ import {CountryInfo, CountryStoryItem, StoryData, UserData} from '@/helpers/type
 import {getStorage, ref as storageRef, uploadBytes, getDownloadURL} from 'firebase/storage';
 import Select from 'react-select';
 import {UserAuthBuilder} from '../../../context/context';
-import Link from "next/link";
+import {useCountdown} from "@/helpers/useCountdown";
 
 interface CustomValueForStory {
   team: string;
@@ -23,12 +23,7 @@ const userInitialData = {
   userName: '',
   countStoryOfDay: 3,
   expiryTime: 0,
-  stories: [{
-  nameStory: '',
-  id: '',
-  link: '',
-  countryId: ''
-}]
+  stories: []
 }
 
 export default function CountryStories() {
@@ -56,7 +51,6 @@ export default function CountryStories() {
     events: ''
   });
   const [userData, setUserData] = useState<UserData>(userInitialData);
-
   const options = [
     {value: 'jungle', label: 'Jungle'},
     {value: 'travel', label: 'Travel'},
@@ -128,6 +122,12 @@ export default function CountryStories() {
     }
   };
 
+  // const getDateIn24Hours = () => {
+  //   const now = Date.now();
+  //   const twentyFourHoursLater =  ;
+  //   return ;
+  // }
+
   const setStoryToDB = async () => {
     if (!storyCreated || !user?.userId || !id) return;
 
@@ -166,10 +166,14 @@ export default function CountryStories() {
             countryId: id
           }
         ];
+
+        const newCountStoryOfDay = userData.countStoryOfDay > 0 ? userData.countStoryOfDay - 1 : 0;
+        const newExpiryTime = newCountStoryOfDay === 0 ? new Date(Date.now() + 3 * 60 * 1000).getTime() : null;
+
         await set(dbRef(db, `users/${user.userId}`), {
           userName: user.userName,
-          countStoryOfDay: 3,
-          expiryTime: 0,
+          countStoryOfDay: newCountStoryOfDay,
+          expiryTime: newExpiryTime,
           stories: updatedUserStories,
         });
       }
@@ -187,6 +191,7 @@ export default function CountryStories() {
   };
 
   const handleRadioChange = (value: string) => setSelectedValue(value);
+  const { hours, minutes, seconds } = useCountdown(userData.expiryTime, userData.stories);
 
   return (
     <>
@@ -286,7 +291,15 @@ export default function CountryStories() {
               </div>
             </>
           )}
-          <button onClick={createAIStory}>{isLoadingStory ? 'Loading...' : 'Create Story'}</button>
+          { userData.countStoryOfDay > 0 ? <button onClick={createAIStory}>{isLoadingStory ? 'Loading...' : 'Create Story'}</button>
+            :
+            (
+              <div>
+                  <p>limit reached</p>
+                  <p>{hours}h {minutes}m {seconds}s</p>
+              </div>
+            )
+          }
           {storyCreated && (
             <div>
               {storyCreated.imageUrl && (
