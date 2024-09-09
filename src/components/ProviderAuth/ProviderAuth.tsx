@@ -1,6 +1,5 @@
-// context/Provider.tsx
 import React, { useState } from 'react';
-import { UserAuthBuilder } from '../../helpers/context/context';
+import { UserAuthBuilder } from '../../../context/context';
 
 const Provider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<{
