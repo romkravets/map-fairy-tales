@@ -2,7 +2,7 @@ export type UserData = {
   userName: string;
   countStoryOfDay: number;
   expiryTime: number;
-  stories: Array<{
+  stories?: Array<{
     nameStory?: string;
     id: string;
     link?: string;
@@ -44,7 +44,7 @@ export type ItemCountryMap = {
     funFacts: [],
     friendlyPeople: string
   };
-  stories: StoryItem[];
+  stories?: StoryItem[];
 };
 
 export interface CountryInfo {

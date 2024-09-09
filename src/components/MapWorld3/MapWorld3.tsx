@@ -36,9 +36,7 @@ const MapWorld3 = () => {
 
   const [colors, setColors] = useState<{ [key: string]: string }>({});
 
-  const handleClick = (geo: GeoType) => () => {
-    const region = geo.properties.name;
-    const id = region; // Assuming 'id' is the region name, update this if needed
+  const handleClick = (region: string, id: string) => () => {
     console.log(region, id);
     router.push(`/stories?region=${region}&id=${id}`);
   };
@@ -87,7 +85,7 @@ const MapWorld3 = () => {
                   key={geo.rsmKey}
                   geography={geo}
                   fill={fillColor}
-                  onClick={handleClick(geo)}
+                  onClick={handleClick(regionName, geo.id)}
                   style={{
                     default: {
                       outline: "none",

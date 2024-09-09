@@ -10,6 +10,7 @@ import Link from "next/link";
 import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 import { ToastContainer } from "react-toastify";
 import { showNotification } from "@/helpers/showNotification";
+import {useCountdown} from "@/helpers/useCountdown";
 
 export default function Page() {
   const tasksRef = dbRef(db);
@@ -20,8 +21,9 @@ export default function Page() {
     userName: '',
     countStoryOfDay: 3,
     expiryTime: 0,
-    stories: []
+    stories: [] || undefined
   });
+  console.log(userDB, 'userDB')
   const [loadingUser, setLoadingUser] = useState<boolean>(false);
   const [deleteStory, setDeleteStory] = useState<boolean>(false);
 
@@ -95,6 +97,10 @@ export default function Page() {
       setDeleteStory(false);
     }
   };
+
+  const { hours, minutes, seconds } = useCountdown(userDB.expiryTime, userDB.stories ,getUserData);
+
+console.log(userDB.expiryTime, 'user settings')
   if (loadingUser) return <p>Loading...</p>;
 
   return (
@@ -111,9 +117,15 @@ export default function Page() {
       ) : (
         <div>
           <h3>Name: {user?.userName}</h3>
-          <p>{userDB.countStoryOfDay} Stories today</p>
+          {userDB.countStoryOfDay === 0 ?
+            (
+              <div>
+                <p>{hours}h {minutes}m {seconds}s</p>
+              </div>
+            ) :  <p>{userDB.countStoryOfDay} Stories today</p>}
           <div>
-            {userDB.stories.map((story, index) => (
+            {userDB.stories.length > 0 && (
+            userDB.stories.map((story, index) => (
               <div key={index}>
                 <Link href={`/story?region=${story.countryId}&id=${story.link}`}>
                   <h3>{story.nameStory}</h3>
@@ -136,7 +148,7 @@ export default function Page() {
                   {deleteStory ? 'Deleting...' : 'Delete Story'}
                 </button>
               </div>
-            ))}
+            )))}
           </div>
         </div>
       )}
