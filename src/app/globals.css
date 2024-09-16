@@ -1,183 +1,93 @@
-/*@tailwind base;*/
-/*@tailwind components;*/
-/*@tailwind utilities;*/
-
-/*:root {*/
-/*  --bg-color: #fcfbff;*/
-/*  --dark: #333;*/
-/*  --red: #c83d32;*/
-/*  --blue: #62a1a9;*/
-/*  --green: #99af5d;*/
-/*  --yelow: #e6b740;*/
-/*  --darken-blue: #2b595a;*/
-/*}*/
-
-/*:root {*/
-/*  --foreground-rgb: 0, 0, 0;*/
-/*  --background-start-rgb: 214, 219, 220;*/
-/*  --background-end-rgb: 255, 255, 255;*/
-/*}*/
-
-/*body {*/
-/*  background-color: #2b595a;*/
-/*  color: #fcfbff;*/
-/*}*/
-
-/*@layer utilities {*/
-/*  .text-balance {*/
-/*    text-wrap: balance;*/
-/*  }*/
-/*}*/
-
-/*.modal {*/
-/*  display: flex;*/
-/*  align-items: center;*/
-/*  justify-content: center;*/
-/*  max-width: 400px;*/
-/*  margin: auto;*/
-/*  max-height: 200px;*/
-/*  border-radius: 17px;*/
-/*}*/
-
-/*.btn {*/
-/*  padding: 10px;*/
-/*  margin: 0 10px;*/
-/*  background-color: #62a1a9;*/
-/*  border-radius: 10px;*/
-/*}*/
-
-/*.btn:hover {*/
-/*  background-color: #99af5d;*/
-/*}*/
-
-
-/*.active {*/
-/*  background-color: #e6b740;*/
-/*  color: #fff;*/
-/*}*/
-
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Карта */
+body {
+  padding: 0;
+  margin: 0 auto;
+  max-width: 1440px;
+  background: #051F52;
+  color: #e0aaff;
+  font-family: "Montserrat", sans-serif;
+}
 
-/*.mapImage {*/
-/*  display: none;*/
-/*}*/
+a {
+  color: #e0aaff;
+  text-decoration: none;
+}
 
-/*#Ukraine {*/
-/*  height: 100vh;*/
-/*}*/
+button {
+  padding: 10px 15px;
+}
 
-/*#KyivCity {*/
-/*  fill: var(--blue);*/
-/*  opacity: 0;*/
-/*}*/
+header {
+  padding: 10px 20px;
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+}
 
-/*.mapBackground {*/
-/*  stroke: white;*/
-/*  stroke-width: 0.5;*/
-/*  cursor: pointer;*/
-/*}*/
+.logo-container {
+  width: 90%;
+}
 
-/*#Ukraine path {*/
-/*  fill: #6996c6;*/
-/*}*/
+.header-account {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+}
 
-/*#Ukraine path:hover {*/
-/*  fill: var(--green);*/
-/*}*/
+main {
+  margin: 0 auto;
+}
 
-/*#Ukraine .mapImage:hover {*/
-/*  fill: var(--green);*/
-/*}*/
+.country-stories {
+  margin: 0 auto;
+  max-width: 980px;
+  padding: 80px 20px 80px 20px;
+}
 
-/*.pointerCircle {*/
-/*  r: 5px;*/
-/*  fill: var(--darken-blue);*/
-/*  stroke-linecap: square;*/
-/*  stroke-linejoin: bevel;*/
-/*  stroke-miterlimit: 4;*/
-/*  stroke-dasharray: none;*/
-/*  stroke-dashoffset: 0;*/
-/*  stroke-opacity: 1;*/
-/*}*/
+.header {
+  max-width: 1920px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 
-/*.pointerCircleHover {*/
-/*  fill: var(--blue);*/
-/*}*/
+.sub-header {
+  max-width: 980px;
+  margin-bottom: 30px;
+}
 
-/*.cityName {*/
-/*  !*display: none;*!*/
-/*  transition: all 0.3s ease;*/
-/*  font-family: 'Roboto', sans-serif;*/
-/*  font-weight: normal;*/
-/*  font-size: 12px;*/
-/*  fill: var(--dark);*/
-/*  text-shadow: white 0.1px 0.1px 0, white -0.1px -0.1px 0,*/
-/*  white -0.1px 0.1px 0, white 0.1px -0.1px;*/
-/*}*/
+.map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 850px;
+  background-image: url('/assets/map-icon/stars.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 
-/*#Kyiv:hover ~.cityKyiv,*/
-/*#KyivCity:hover ~.cityKiev,*/
-/*#SevastopolCity:hover ~.citySevastopol,*/
-/*#Crimea:hover ~.citySimferopol,*/
-/*#Cherkasy:hover ~.cityCherkasy,*/
-/*#Chernivtsi:hover ~.cityChernivtsi,*/
-/*#Dnipropetrovsk:hover ~.cityDnipro,*/
-/*#Donetsk:hover ~.cityDonetsk,*/
-/*#Ivano-Frankivsk:hover ~.cityIvano-Frankivsk,*/
-/*#Kharkiv:hover ~.cityKharkiv,*/
-/*#Kherson:hover ~.cityKherson,*/
-/*#Khmelnytskyi:hover ~.cityKhmelnytskyi,*/
-/*#Kirovohrad:hover ~.cityKropyvnytskyi,*/
-/*#Luhansk:hover ~.cityLuhansk,*/
-/*#Lviv:hover ~.cityLviv,*/
-/*#Mykolaiv:hover ~.cityMykolaiv,*/
-/*#Odessa:hover ~.cityOdessa,*/
-/*#Poltava:hover ~.cityPoltava,*/
-/*#Rivne:hover ~.cityRivne,*/
-/*#Sumu:hover ~.citySumu,*/
-/*#Chernihiv:hover ~.cityChernihiv,*/
-/*#Ternopil:hover ~.cityTernopil,*/
-/*#Zakarpattia:hover ~.cityUzhhorod,*/
-/*#Vinnytsia:hover ~.cityVinnytsia,*/
-/*#Volyn:hover ~.cityLutsk,*/
-/*#Zaporizhia:hover ~.cityZaporizhia,*/
-/*#Zhytomyr:hover ~.cityZhytomyr{*/
-/*  visibility: visible;*/
-/*  opacity: 1;*/
-/*}*/
+.settings {
+  width: 100%;
+  margin: 0 auto;
+  padding: 60px 30px 100px 30px;
+}
 
-/*.worldmap svg path {*/
-/*    fill: #679692;*/
-/*    stroke: rgba(255, 255, 255, 0.5);*/
-/*    stroke-width: 0.5;*/
-/*    cursor: pointer;*/
-/*    transition: fill 0.3s;*/
-/*}*/
+.settings-image-banner {
+  object-fit: contain;
+}
 
-/*.worldmap svg path:hover {*/
-/*    fill: #476966;*/
-/*}*/
+.settings-container {
+  margin: 0 auto;
+}
 
-/*.worldmap .tooltip {*/
-/*    position: fixed;*/
-/*    top: 0;*/
-/*    left: 0;*/
-/*    transform: translate(var(--x), var(--y));*/
-/*    font: 0.85rem helvetica, sans-serif;*/
-/*    white-space: nowrap;*/
-/*    background-color: rgba(0, 0, 0, 0.5);*/
-/*    color: white;*/
-/*    border-radius: 0.25rem;*/
-/*    z-index: 10;*/
-/*    display: none;*/
-/*}*/
+.story {
+  padding: 100px 30px 100px 30px;
+}
 
 .worldmap .active {
     padding: 0.35rem 0.5rem;
