@@ -70,5 +70,7 @@ export interface Story {
 }
 
 export interface CountryStoryItem {
+  id: string;
+  regionId: string;
   story: Story;
 }

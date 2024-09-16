@@ -1,0 +1,8 @@
+export const primaryColor = "#7C39EA"
+export const accentColor = "#FF5252"
+export const secondaryColor = "#EEE4FF"
+export const helperTextColor = "#757575"
+export const textColor = "#333333"
+export const lightGrayColor = "#B3B9BD"
+export const lightColor = "#ffffff"
+export const primaryFont = "SourceSansPro, Roboto, sans-serif"
