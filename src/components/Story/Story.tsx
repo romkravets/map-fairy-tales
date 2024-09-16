@@ -3,6 +3,9 @@ import {useEffect, useState} from 'react';
 import { ref, get } from 'firebase/database';
 import { useSearchParams } from 'next/navigation';
 import {db} from '@/db/firebase';
+import Image from "next/image";
+import Preloader from "@/components/Preloader/Preloader";
+import BtnBack from "@/components/BtnBack/BtnBack";
 
 interface Story {
   id: string;
@@ -55,13 +58,19 @@ export default function Story() {
   }, [region, id]);
 
   if (!story) {
-    return <div>Loading...</div>;
+    return <Preloader/>
   }
 
   return (
-    <div>
+    <div className="story">
+      <BtnBack linkUrl="back"/>
       <h1>{story.story.title}</h1>
-      <img src={story.story.imageUrl} alt={story.story.title} />
+      <Image
+        src={story.story.imageUrl}
+        alt={story.story.title}
+        width={400}
+        height={400}
+      />
       {story.story.paragraphs.map((paragraph, index) => (
         <p key={index}>{paragraph.paragraph}</p>
       ))}
