@@ -12,6 +12,15 @@ import {getStorage, ref as storageRef, uploadBytes, getDownloadURL} from 'fireba
 import Select from 'react-select';
 import {UserAuthBuilder} from '../../../context/context';
 import {useCountdown} from "@/helpers/useCountdown";
+import Preloader from "@/components/Preloader/Preloader";
+import Grid from "@mui/material/Grid2";
+import Card from "@mui/material/Card";
+import Link from "next/link";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import BtnBack from "@/components/BtnBack/BtnBack";
 
 interface CustomValueForStory {
   team: string;
@@ -122,12 +131,6 @@ export default function CountryStories() {
     }
   };
 
-  // const getDateIn24Hours = () => {
-  //   const now = Date.now();
-  //   const twentyFourHoursLater =  ;
-  //   return ;
-  // }
-
   const setStoryToDB = async () => {
     if (!storyCreated || !user?.userId || !id) return;
 
@@ -194,7 +197,8 @@ export default function CountryStories() {
   const { hours, minutes, seconds } = useCountdown(userData.expiryTime, userData.stories);
 
   return (
-    <>
+    <div className="country-stories">
+      <BtnBack linkUrl="/"/>
       <h1>{region}</h1>
       {!loadingCountryMap ? (
         countryMap.info ? (
@@ -212,25 +216,42 @@ export default function CountryStories() {
           <p>Don&lsquo;t find information...</p>
         )
       ) : (
-        <p>Loading country information...</p>
+        <Preloader/>
       )}
       {countryMap.stories?.length ? <h2>All Stories</h2> : null}
-      {countryMap.stories?.length > 0 && countryMap.stories.map((item, index) => (
-        <div key={index}>
-          {item.story.imageUrl && (
-            <img
-              src={item.story.imageUrl}
-              alt={item.story.title}
-              width="600"
-              height="400"
-            />
-          )}
-          <h3>{item.story.title}</h3>
-          {item.story.paragraphs?.map((text, index) => (
-            <p key={index}>{text.paragraph}</p>
-          ))}
-        </div>
-      ))}
+      <Grid
+        container justify="center"
+        style={{marginTop: 20}}
+      >
+        {countryMap.stories?.length > 0 && (
+          countryMap.stories.map((item, index) => (
+            <Grid size={4}>
+              <Card key={index} sx={{maxWidth: 345}} style={{marginBottom: 20}}>
+                <Link href={`/story?region=${item.regionId}&id=${item.id}`}>
+                  {item.story.imageUrl && (
+                    <CardMedia
+                      sx={{height: 140}}
+                      image={item.story.imageUrl}
+                      alt={item.story.title}
+                      className="settings-image-banner"
+                    />
+                  )}
+                  <CardContent style={{padding: 10}}>
+                    <Typography gutterBottom variant="h3" component="div">
+                      {item.story.title}
+                    </Typography>
+                    {item.story.paragraphs?.[0] && (
+                      <Typography gutterBottom variant="body2" component="div">
+                        {item.story.paragraphs[0].paragraph}
+                      </Typography>
+                    )}
+                  </CardContent>
+                </Link>
+              </Card>
+            </Grid>
+          )))}
+      </Grid>
+
       <h4>Create story:</h4>
       {!user?.userId && !user?.isAuthenticated && <Login/>}
       {user?.userId && user?.isAuthenticated && (
@@ -291,7 +312,10 @@ export default function CountryStories() {
               </div>
             </>
           )}
-          { userData.countStoryOfDay > 0 ? <button onClick={createAIStory}>{isLoadingStory ? 'Loading...' : 'Create Story'}</button>
+          { userData.countStoryOfDay > 0 ?
+            <Button
+              variant="contained" onClick={createAIStory}>{isLoadingStory ? 'Loading...' : 'Create Story'}
+            </Button>
             :
             (
               <div>
@@ -321,6 +345,6 @@ export default function CountryStories() {
         </>
       )}
       <ToastContainer/>
-    </>
+    </div>
   );
 }
