@@ -3,9 +3,11 @@ import {useEffect, useState} from 'react';
 import { ref, get } from 'firebase/database';
 import { useSearchParams } from 'next/navigation';
 import {db} from '@/db/firebase';
-import Image from "next/image";
 import Preloader from "@/components/Preloader/Preloader";
 import BtnBack from "@/components/BtnBack/BtnBack";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
 interface Story {
   id: string;
@@ -64,16 +66,31 @@ export default function Story() {
   return (
     <div className="story">
       <BtnBack linkUrl="back"/>
-      <h1>{story.story.title}</h1>
-      <Image
-        src={story.story.imageUrl}
+      <CardMedia
+        sx={{height: '560px', width: '50%'}}
+        image={story.story.imageUrl}
         alt={story.story.title}
-        width={400}
-        height={400}
+        style={{marginBottom: '20px'}}
       />
-      {story.story.paragraphs.map((paragraph, index) => (
-        <p key={index}>{paragraph.paragraph}</p>
-      ))}
+      <Typography
+        style={{marginBottom: '20px'}}
+        gutterBottom variant="h2"
+        component="div">
+        {story.story.title}
+      </Typography>
+      <CardContent>
+        {story.story.paragraphs.map((paragraph, index) => (
+          <Typography
+            style={{paddingBottom: 15}}
+            gutterBottom
+            variant="h3"
+            component="div"
+            key={index}
+          >
+            {paragraph.paragraph}
+          </Typography>
+        ))}
+      </CardContent>
     </div>
   );
 }

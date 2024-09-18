@@ -3,11 +3,12 @@ import {FC, ReactNode, useContext} from 'react';
 import Link from "next/link";
 import {UserAuthBuilder} from "../../../context/context";
 import {auth} from "@/db/firebase";
-import {usePathname} from 'next/navigation';
+import {useRouter} from 'next/navigation';
 import Button from '@mui/material/Button';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import logo from '../../../public/assets/map-icon/logo.svg'
 import Image from "next/image";
+import sunIcon from '../../../public/assets/map-icon/san.svg'
+import saturnIcon from '../../../public/assets/map-icon/saturn.svg'
 
 interface PrimaryLayoutProps {
   children: ReactNode;
@@ -15,39 +16,55 @@ interface PrimaryLayoutProps {
 
 const PrimaryLayout: FC<PrimaryLayoutProps> = ({children}) => {
   const {user, setUser} = useContext(UserAuthBuilder);
-  const pathname = usePathname();
-
+  const router = useRouter();
   return (
     <>
       <header>
         <div className="header">
           <div className="logo-container">
-            <Link href="/"><Image src={logo} alt={'logo'}/></Link>
+            <Link href="/">
+              <Image src={logo} alt={'logo'}/>
+              AI Stories
+            </Link>
           </div>
           <div className="header-account">
             {user.isAuthenticated && user.userId ?
               <>
                 <Link
                   component="link"
-                  href='/settings'>YOU HOME</Link>
+                  href='/settings'
+                  style={{display: 'flex', alignItems: 'center'}}
+                >
+                  <Image src={sunIcon} alt="AI Stories"/>
+                  <span>You Home</span>
+                </Link>
+                <Button
+                  style={{marginLeft: 20}}
+                  variant="contained"
+                  onClick={() => {
+                    auth.signOut().then(() => {
+                      setUser(prevState => ({
+                        ...prevState,
+                        isAuthenticated: false,
+                        token: '',
+                        email: '',
+                        userName: '',
+                        userId: '',
+                      }));
+                    }).then(() => {
+                      router.push('/');
+                    }).catch((error) => {
+                      console.error('Error during sign-out:', error);
+                    });
+                  }}>SignOut</Button>
               </>
               : <Link
                 component="link"
-                href="/auth">Login</Link>}
-            <Button
-              variant="contained"
-              onClick={() => {
-                auth.signOut().then(() => {
-                  setUser(prevState => ({
-                    ...prevState,
-                    isAuthenticated: false,
-                    token: '',
-                    email: '',
-                    userName: '',
-                    userId: '',
-                  }));
-                })
-              }}>SignOut</Button>
+                href="/auth">
+                <Image src={saturnIcon} alt="AI Stories"/>
+                Login
+              </Link>
+            }
           </div>
         </div>
       </header>

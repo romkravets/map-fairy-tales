@@ -21,6 +21,9 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import BtnBack from "@/components/BtnBack/BtnBack";
+import TextField from '@mui/material/TextField';
+import Radio  from "@mui/material/Radio"
+
 
 interface CustomValueForStory {
   team: string;
@@ -199,7 +202,7 @@ export default function CountryStories() {
   return (
     <div className="country-stories">
       <BtnBack linkUrl="/"/>
-      <h1>{region}</h1>
+      <h1 style={{marginBottom: '30px'}}>{region}</h1>
       {!loadingCountryMap ? (
         countryMap.info ? (
           <div>
@@ -218,19 +221,19 @@ export default function CountryStories() {
       ) : (
         <Preloader/>
       )}
-      {countryMap.stories?.length ? <h2>All Stories</h2> : null}
+      {countryMap.stories?.length ? <h2 style={{margin: '30px 0'}}>Stories</h2> : null}
       <Grid
         container justify="center"
-        style={{marginTop: 20}}
+        style={{marginTop: 20, display: 'flex', justifyContent: 'space-around'}}
       >
         {countryMap.stories?.length > 0 && (
           countryMap.stories.map((item, index) => (
             <Grid size={4}>
-              <Card key={index} sx={{maxWidth: 345}} style={{marginBottom: 20}}>
+              <Card key={index} sx={{maxWidth: 245}} style={{marginBottom: 20}}>
                 <Link href={`/story?region=${item.regionId}&id=${item.id}`}>
                   {item.story.imageUrl && (
                     <CardMedia
-                      sx={{height: 140}}
+                      sx={{height: 260}}
                       image={item.story.imageUrl}
                       alt={item.story.title}
                       className="settings-image-banner"
@@ -241,7 +244,7 @@ export default function CountryStories() {
                       {item.story.title}
                     </Typography>
                     {item.story.paragraphs?.[0] && (
-                      <Typography gutterBottom variant="body2" component="div">
+                      <Typography className="cut-paragraph" gutterBottom variant="body2" component="div">
                         {item.story.paragraphs[0].paragraph}
                       </Typography>
                     )}
@@ -252,14 +255,18 @@ export default function CountryStories() {
           )))}
       </Grid>
 
-      <h4>Create story:</h4>
-      {!user?.userId && !user?.isAuthenticated && <Login/>}
+      <div style={{width: '50%', display: 'flex', alignItems: 'center', justifyContent: "space-between"}}>
+        <h2 style={{marginBottom: 20}}>Create story:</h2>
+        <div>
+          {!user?.userId && !user?.isAuthenticated && <Login/>}
+        </div>
+      </div>
       {user?.userId && user?.isAuthenticated && (
         <>
-          <fieldset>
+          <fieldset style={{padding: 10}}>
             <legend>Get Random Story or add Your settings:</legend>
-            <div>
-              <input
+            <div style={{marginBottom: 10}}>
+              <Radio
                 type="radio"
                 id="random"
                 name="random"
@@ -270,7 +277,7 @@ export default function CountryStories() {
               <label htmlFor="random">Random</label>
             </div>
             <div>
-              <input
+              <Radio
                 type="radio"
                 id="custom"
                 name="custom"
@@ -283,15 +290,19 @@ export default function CountryStories() {
           </fieldset>
           {selectedValue === 'custom' && (
             <>
-              <p>Choose a theme:</p>
+              <h3 style={{margin: '20px 0'}}>Choose details of story:</h3>
               <Select
                 name="team"
                 onChange={(e) => setCustomValueForStory({...customValueForStory, team: e ? e.value : ''})}
                 value={options.find(item => item.value === customValueForStory.team)}
                 options={options}
               />
-              <div>
-                <input
+              <div style={{margin: '20px 0'}}>
+                <TextField
+                  required={true}
+                  size="small"
+                  margin="dense"
+                  fullWidth
                   placeholder="Heroes"
                   value={customValueForStory.heroes}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setCustomValueForStory({
@@ -300,8 +311,11 @@ export default function CountryStories() {
                   })}
                 />
               </div>
-              <div>
-                <input
+                <TextField
+                  required={true}
+                  size="small"
+                  margin="dense"
+                  fullWidth
                   placeholder="Events in story"
                   value={customValueForStory.events}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setCustomValueForStory({
@@ -309,11 +323,11 @@ export default function CountryStories() {
                     events: e.target.value
                   })}
                 />
-              </div>
             </>
           )}
           { userData.countStoryOfDay > 0 ?
             <Button
+              style={{marginTop: 30}}
               variant="contained" onClick={createAIStory}>{isLoadingStory ? 'Loading...' : 'Create Story'}
             </Button>
             :
@@ -340,7 +354,10 @@ export default function CountryStories() {
             </div>
           )}
           {storyCreated && user?.userId && user?.isAuthenticated && (
-            <button onClick={setStoryToDB}>{isLoadingSaveToDB ? 'Send...' : 'Save'}</button>
+            <Button
+              style={{marginTop: 30}}
+              variant="contained" onClick={setStoryToDB}>{isLoadingSaveToDB ? 'Send...' : 'Save'}
+            </Button>
           )}
         </>
       )}
