@@ -1,7 +1,7 @@
 "use client"
 import {useContext, useEffect, useState} from 'react';
 import { ref, get, update } from 'firebase/database';
-import {useRouter, useSearchParams} from 'next/navigation';
+import {useSearchParams} from 'next/navigation';
 import {db} from '@/db/firebase';
 import Preloader from "@/components/Preloader/Preloader";
 import BtnBack from "@/components/BtnBack/BtnBack";
@@ -13,7 +13,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { ToastContainer } from "react-toastify"
-import { notifyApp } from "@/src/helpers/notifications/notifications"
 import {showNotification} from "@/helpers/showNotification";
 
 interface Story {
@@ -36,7 +35,6 @@ export default function Story() {
   const region = searchParams?.get('region') ?? '';
   const id = searchParams?.get('id') ?? '';
   const { user } = useContext(UserAuthBuilder);
-  const router = useRouter();
 
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
