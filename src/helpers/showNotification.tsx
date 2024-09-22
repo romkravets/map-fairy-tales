@@ -6,7 +6,7 @@ export const showNotification = (
   type: string,
 ) => {
   const defaultOptions = {
-    autoClose: 1000,
+    autoClose: 3000,
   }
   switch (type) {
     case "success":

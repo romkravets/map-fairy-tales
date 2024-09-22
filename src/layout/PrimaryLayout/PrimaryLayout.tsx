@@ -10,7 +10,7 @@ import Image from "next/image";
 import sunIcon from '../../../public/assets/map-icon/san.svg'
 import saturnIcon from '../../../public/assets/map-icon/saturn.svg'
 import jupiterIcon from '../../../public/assets/map-icon/jupiter.svg'
-
+import logoutIcon from '../../../public/assets/map-icon/logout.svg'
 
 interface PrimaryLayoutProps {
   children: ReactNode;
@@ -57,7 +57,7 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({children}) => {
                   <span>Account</span>
                 </Link>
                 <Button
-                  style={{marginLeft: 20}}
+                  style={{marginLeft: 20, backgroundColor: "transparent", color:'#e0aaff'}}
                   variant="contained"
                   onClick={() => {
                     auth.signOut().then(() => {
@@ -74,14 +74,16 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({children}) => {
                     }).catch((error) => {
                       console.error('Error during sign-out:', error);
                     });
-                  }}>SignOut</Button>
+                  }}>
+                  <Image src={logoutIcon} alt="AI Stories" style={{marginRight: 5}}/>
+                  SignOut</Button>
               </>
               : <Link
                 className={isActive('/auth') ? 'active-header' : ''}
                 onClick={() => setActive(!active)}
                 href="/auth">
                 <Image src={saturnIcon} alt="AI Stories" style={{marginRight: 5}}/>
-                Login
+                SignIn
               </Link>
             }
           </div>
