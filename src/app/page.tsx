@@ -1,7 +1,7 @@
-import MapWorld3 from "@/components/MapWorld3/MapWorld3";
+import MapWorld from "@/components/MapWorld/MapWorld";
 
 export default function Home() {
   return (
-      <MapWorld3 />
+      <MapWorld />
   );
 }
