@@ -36,13 +36,13 @@ export default function Page() {
     stories: [] || undefined,
   })
 
-
-  console.log(userDB, 'userDB')
   const [loadingUser, setLoadingUser] = useState<boolean>(false);
   const [deleteStoryMap, setDeleteStoryMap] = useState<Record<string, boolean>>({});
 
   const getUserData = async () => {
-    if (!user || !user.userId) return;
+    if (!user) {
+      router.push('/auth');
+    }
     setLoadingUser(true);
 
     try {
@@ -70,7 +70,7 @@ export default function Page() {
     if (typeof window !== 'undefined') {
       getUserData().catch(console.error);
     }
-  }, []);
+  }, [user]);
 
   const handleDeleteStory = async (storyId: string | undefined, userId: string | undefined, countryId: string | undefined) => {
     if (!storyId || !userId || !countryId) return;
@@ -156,7 +156,6 @@ export default function Page() {
             >
               {userDB.stories.length > 0 && (
                 userDB.stories.map((story, index) => {
-                  console.log(story, 'story')
                   return (
                     <Grid size={4} key={index}>
                       <Card sx={{maxWidth: 245}} style={{marginBottom: 20}}>
