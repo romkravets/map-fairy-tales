@@ -164,7 +164,7 @@ export default function CountryStories() {
         ];
 
         const newCountStoryOfDay = userData.countStoryOfDay > 0 ? userData.countStoryOfDay - 1 : 0;
-        const newExpiryTime = newCountStoryOfDay === 0 ? new Date(Date.now() + 3 * 60 * 1000).getTime() : null;
+        const newExpiryTime = newCountStoryOfDay === 0 ? new Date(Date.now() + 24 * 60 * 60 * 1000).getTime() : null;
 
         await set(dbRef(db, `users/${user.userId}`), {
           userName: user.userName,
