@@ -1,7 +1,7 @@
 'use client'
 import {useSearchParams} from 'next/navigation';
 import {useEffect, useState, useContext, ChangeEvent} from 'react';
-import {child, get, ref, set, ref as dbRef} from 'firebase/database';
+import {child, get, ref, set, ref as dbRef, update} from 'firebase/database';
 import {db} from '@/db/firebase';
 import Login from '@/components/Auth/Login/Login';
 import {showNotification} from '@/helpers/showNotification';
@@ -23,6 +23,7 @@ import Button from "@mui/material/Button";
 import BtnBack from "@/components/BtnBack/BtnBack";
 import TextField from '@mui/material/TextField';
 import Radio  from "@mui/material/Radio"
+import Image from "next/image";
 
 
 interface CustomValueForStory {
@@ -68,18 +69,6 @@ export default function CountryStories() {
     {value: 'travel', label: 'Travel'},
     {value: 'superheroes', label: 'Superheroes'}
   ];
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (id) {
-        await getCountryStories();
-        if (user?.userId) await getUserData();
-      }
-    };
-    if (typeof window !== 'undefined') {
-      fetchData().catch(console.error);
-    }
-  }, [id, user]);
 
   const getUserData = async () => {
     try {
@@ -157,7 +146,8 @@ export default function CountryStories() {
         story: {...storyCreated, imageUrl: imageDownloadUrl},
         region,
         like: 0,
-        status: false
+        status: false,
+        viewCount: 0
       };
 
       const updatedStories = [...(countryMap.stories || []), newStory];
@@ -199,6 +189,18 @@ export default function CountryStories() {
   const handleRadioChange = (value: string) => setSelectedValue(value);
   const { hours, minutes, seconds } = useCountdown(userData.expiryTime, userData.stories);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (id) {
+        await getCountryStories();
+        if (user?.userId) await getUserData();
+      }
+    };
+    if (typeof window !== 'undefined') {
+      fetchData().catch(console.error);
+    }
+  }, [id, user]);
+
   return (
     <div className="country-stories">
       <BtnBack linkUrl="/"/>
@@ -223,19 +225,18 @@ export default function CountryStories() {
       )}
       {countryMap.stories?.length ? <h2 style={{margin: '30px 0'}}>Stories</h2> : null}
       <Grid
-        container justify="center"
+        container
         style={{marginTop: 20, display: 'flex', justifyContent: 'space-around'}}
       >
         {countryMap.stories?.length > 0 && (
           countryMap.stories.map((item, index) => (
-            <Grid size={4}>
+            <Grid size={4} key={index}>
               <Card key={index} sx={{maxWidth: 245}} style={{marginBottom: 20}}>
                 <Link href={`/story?region=${item.regionId}&id=${item.id}`}>
                   {item.story.imageUrl && (
                     <CardMedia
                       sx={{height: 260}}
                       image={item.story.imageUrl}
-                      alt={item.story.title}
                       className="settings-image-banner"
                     />
                   )}
@@ -248,6 +249,7 @@ export default function CountryStories() {
                         {item.story.paragraphs[0].paragraph}
                       </Typography>
                     )}
+                    <p>Count view: {item.viewCount}</p>
                   </CardContent>
                 </Link>
               </Card>
@@ -267,7 +269,6 @@ export default function CountryStories() {
             <legend>Get Random Story or add Your settings:</legend>
             <div style={{marginBottom: 10}}>
               <Radio
-                type="radio"
                 id="random"
                 name="random"
                 value="random"
@@ -278,7 +279,6 @@ export default function CountryStories() {
             </div>
             <div>
               <Radio
-                type="radio"
                 id="custom"
                 name="custom"
                 value="custom"
@@ -341,10 +341,10 @@ export default function CountryStories() {
           {storyCreated && (
             <div>
               {storyCreated.imageUrl && (
-                <img
-                  src={storyCreated.imageUrl}
-                  alt={storyCreated.title} width="600"
-                  height="400"
+                <CardMedia
+                  sx={{height: 460}}
+                  image={storyCreated.imageUrl}
+                  className="settings-image-banner"
                 />
               )}
               <h3>{storyCreated.title}</h3>

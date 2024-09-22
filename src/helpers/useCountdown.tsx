@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { UserAuthBuilder } from '../../context/context';
 import { db } from '@/db/firebase';
 
-const useCountdown = (expiryTime: Date, updatedUserStories?: Array<{ id?: string }>, getUserData?: () => void) => {
+const useCountdown = (expiryTime: number, updatedUserStories?: Array<{ id?: string }>, getUserData?: () => void) => {
   const { user } = useContext(UserAuthBuilder);
 
   const [hours, setHours] = useState<number>(0);
@@ -58,7 +58,7 @@ const useCountdown = (expiryTime: Date, updatedUserStories?: Array<{ id?: string
     }, 1000);
 
     return () => clearInterval(updateTime);
-  }, [expiryTime]);
+  }, [expiryTime, getUserData, updatedUserStories, user.userId]);
 
   return { hours, minutes, seconds };
 };

@@ -69,7 +69,7 @@ const MapWorld = () => {
       projectionConfig={{
         rotate: [-10, 0, 0],
         scale: 147,
-        center: [0, -10]
+        center: [0, -5]
       }}
     >
         <Geographies geography={geoUrl}>
@@ -86,16 +86,17 @@ const MapWorld = () => {
                   style={{
                     default: {
                       stroke: "#FF80AB",
-                      strokeWidth: 0.5
+                      strokeWidth: 0.5,
+                      outline: "none"
                     },
                     hover: {
                       outline: "none",
                       fill: "#FFECB3",
-                      cursor: "pointer",
+                      cursor: "pointer"
                     },
                     pressed: {
                       outline: "none",
-                      fill: "#FFC107",
+                      fill: "#FFC107"
                     },
                   }}
                 />
