@@ -5,9 +5,12 @@ export type UserData = {
   stories?: Array<{
     nameStory?: string;
     id: string;
-    link?: string;
+    likes?: { [key: string]: boolean };
     imageUrl?: string,
-    countryId?: string
+    countryId?: string,
+    paragraphs?: [],
+    link?:string,
+
   }>;
 }
 
@@ -19,7 +22,7 @@ export type StoryData = {
       paragraph: string
     }
   ];
-  title: string
+  title: string,
 };
 
 export type StoryItem = {
@@ -30,6 +33,7 @@ export type StoryItem = {
   regionId: string;
   like: number;
   status: boolean;
+  viewCount?: boolean;
 };
 
 export type ItemCountryMap = {
@@ -70,5 +74,8 @@ export interface Story {
 }
 
 export interface CountryStoryItem {
+  id: string;
+  regionId: string;
   story: Story;
+  viewCount: boolean
 }
