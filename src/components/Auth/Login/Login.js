@@ -2,6 +2,7 @@ import {auth, db, GoogleProvider} from "@/db/firebase"
 import {useState} from "react"
 import {useContext} from "react";
 import {UserAuthBuilder} from "../../../../context/context";
+import Button from "@mui/material/Button";
 
 const Login = () => {
   const { setUser } = useContext(UserAuthBuilder);
@@ -11,7 +12,8 @@ const Login = () => {
   return (
     <div>
       <div className="auth-container">
-        <button
+        <Button
+          variant="contained"
           className="button-login"
           onClick={async () => {
             setLoadingDb(true)
@@ -39,7 +41,7 @@ const Login = () => {
           }
         >
           {loading ? 'Loading...' : ' LogIn/SignUp Google'}
-        </button>
+        </Button>
       </div>
     </div>
   )

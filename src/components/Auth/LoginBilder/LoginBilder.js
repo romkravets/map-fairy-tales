@@ -11,9 +11,9 @@ const LoginBuilder = () => {
   const router = useRouter()
 
   return (
-    <div>
+    <div className="auth">
       <div className="auth-container">
-        <h3>SignIn/SignUp</h3>
+        <h3 style={{marginBottom: 30}}>SignIn/SignUp</h3>
         <Button
           variant="contained"
           className="button-login"
@@ -45,7 +45,7 @@ const LoginBuilder = () => {
           }
           }
         >
-          {loading ? 'Loading...' : 'SingIn/SignUp with Google'}
+          SingIn/SignUp with Google
         </Button>
       </div>
     </div>
