@@ -55,89 +55,78 @@ const theme = createTheme({
     },
   },
   components: {
-    MuiLink: {
-      styleOverrides: {
-        root: {
-          color: secondaryColor,
-          textDecoration: "none",
-          "&:hover": {
-            textDecoration: "underline",
-          },
-        },
-      },
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          "& .MuiOutlinedInput-root": {
-            borderRadius: '1rem',
-            fontFamily: primaryFont,
-            fontWeight: 400,
-            textTransform: 'uppercase',
-            color: textColor,
-            '& fieldset': {
-              border: '0.5px solid #B3B9BD',
-            },
-            '& input': {
-              padding: '0.75rem 0.9rem'
-            },
-            '&::placeholder': {
-              color: '#B3B9BD',
-              fontSize: '0.875rem',
-              fontFamily: 'primaryFont',
-              fontWeight: 400,
-              lineHeight: '150%'
-            }
-          },
-          "& .MuiInputLabel-root": {
-            textTransform: 'uppercase',
-            fontWeight: 600,
-            color: textColor,
-            margin: "0 6px"
-          },
-          "& .MuiFormHelperText-root": {
-            fontSize: "0.625rem",
-            color: helperTextColor,
-            position: 'relative',
-            marginTop: "2px",
-            zIndex: 1
-          }
-        }
-      }
-    },
-    MuiFormLabel: {
-      styleOverrides: {
-        asterisk: {
-          color: accentColor
-        }
-      }
-    },
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          borderRadius: 16
-        },
-        notchedOutline: {
-          padding: "0 15px"
-        }
-      }
-    },
-    MuiSlider: {
-      styleOverrides: {
-        root: {
-          color: primaryColor,
-          height: 4,
-          padding: '1rem 0',
-          width: 'calc(50% - 1rem)',
-          '& .MuiSlider-thumb': {
-            width: '1rem',
-            height: '1rem',
-            marginRight: '0.5rem',
-            marginLeft: '0.5rem'
-          }
-        }
-      }
-    },
+    // MuiTextField: {
+    //   styleOverrides: {
+    //     root: {
+    //       "& .MuiOutlinedInput-root": {
+    //         borderRadius: '1rem',
+    //         fontFamily: primaryFont,
+    //         fontWeight: 400,
+    //         textTransform: 'uppercase',
+    //         color: textColor,
+    //         '& fieldset': {
+    //           border: '0.5px solid #B3B9BD',
+    //         },
+    //         '& input': {
+    //           padding: '0.75rem 0.9rem'
+    //         },
+    //         '&::placeholder': {
+    //           color: '#B3B9BD',
+    //           fontSize: '0.875rem',
+    //           fontFamily: 'primaryFont',
+    //           fontWeight: 400,
+    //           lineHeight: '150%'
+    //         }
+    //       },
+    //       "& .MuiInputLabel-root": {
+    //         textTransform: 'uppercase',
+    //         fontWeight: 600,
+    //         color: textColor,
+    //         margin: "0 6px"
+    //       },
+    //       "& .MuiFormHelperText-root": {
+    //         fontSize: "0.625rem",
+    //         color: helperTextColor,
+    //         position: 'relative',
+    //         marginTop: "2px",
+    //         zIndex: 1
+    //       }
+    //     }
+    //   }
+    // // },
+    // MuiFormLabel: {
+    //   styleOverrides: {
+    //     asterisk: {
+    //       color: accentColor
+    //     }
+    //   }
+    // },
+    // MuiOutlinedInput: {
+    //   styleOverrides: {
+    //     root: {
+    //       borderRadius: 16
+    //     },
+    //     notchedOutline: {
+    //       padding: "0 15px"
+    //     }
+    //   }
+    // },
+    // MuiSlider: {
+    //   styleOverrides: {
+    //     root: {
+    //       color: primaryColor,
+    //       height: 4,
+    //       padding: '1rem 0',
+    //       width: 'calc(50% - 1rem)',
+    //       '& .MuiSlider-thumb': {
+    //         width: '1rem',
+    //         height: '1rem',
+    //         marginRight: '0.5rem',
+    //         marginLeft: '0.5rem'
+    //       }
+    //     }
+    //   }
+    // },
     MuiSelect: {
       styleOverrides: {
         select: {
@@ -222,7 +211,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en">
     <head>
       <link rel="preconnect" href="https://fonts.googleapis.com"/>
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"/>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
       <link
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"

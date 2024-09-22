@@ -10,7 +10,9 @@ const LoginPage = () => {
         <title>Login</title>
         <meta name="description" content="" />
       </Head>
-      <LoginBuilder />
+      <div className="auth-wrapper">
+        <LoginBuilder />
+      </div>
     </>
   )
 }

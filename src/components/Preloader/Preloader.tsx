@@ -18,7 +18,7 @@ interface Story {
 export default function Preloader() {
   return (
     <Box sx={{ display: 'flex' }} style={{display: 'flex', flexDirection: 'column', width: '100%',
-      height:'100vh', alignItems: 'center', justifyContent: 'center'}}>
+      height:'50vh', alignItems: 'center', justifyContent: 'center'}}>
       <CircularProgress />
     </Box>
   );
