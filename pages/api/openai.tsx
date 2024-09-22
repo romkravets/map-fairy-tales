@@ -7,6 +7,7 @@ const g4f = new G4F();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { region, customValueForStory } = req.body;
+    console.log(region, customValueForStory, 'region, customValueForStory')
 
     if (!region) {
       return res.status(400).json({ error: 'Region is required' });
@@ -61,7 +62,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const response = await g4f.chatCompletion(messages, {
       model: 'text-davinci-003'
     });
-    console.log(response, 'response')
+    console.log('Raw response from G4F:', response);
+
     let story;
     try {
       if (typeof response === 'string') {
@@ -99,6 +101,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     const imageData = await imageResp.json();
+    console.log('Bria API response:', imageData);
+
     console.log(imageData, 'imageData')
     if (!imageData.result || !Array.isArray(imageData.result) || imageData.result.length === 0) {
       console.error('No image results from Bria API:', imageData);
