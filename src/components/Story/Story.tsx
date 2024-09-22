@@ -1,17 +1,19 @@
 "use client"
 import {useContext, useEffect, useState} from 'react';
 import { ref, get, update } from 'firebase/database';
-import { useSearchParams } from 'next/navigation';
+import {useSearchParams} from 'next/navigation';
 import {db} from '@/db/firebase';
 import Preloader from "@/components/Preloader/Preloader";
 import BtnBack from "@/components/BtnBack/BtnBack";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button"
 import {UserAuthBuilder} from "../../../context/context";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { ToastContainer } from "react-toastify"
+import {showNotification} from "@/helpers/showNotification";
 
 interface Story {
   id: string;
@@ -33,7 +35,6 @@ export default function Story() {
   const region = searchParams?.get('region') ?? '';
   const id = searchParams?.get('id') ?? '';
   const { user } = useContext(UserAuthBuilder);
-
 
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -87,6 +88,9 @@ export default function Story() {
   }, [region, id, user.userId]);
 
   const handleLike = async () => {
+    if (!user.userId && !user.isAuthenticated) {
+      showNotification('SignIn of like story', 'success')
+    }
     if (!story || !region || !id) return;
 
     try {
@@ -103,19 +107,16 @@ export default function Story() {
             let updatedStory;
 
             if (liked) {
-              // Logic to remove the like
               const { [user.userId]: removedLike, ...remainingLikes } = stories[foundStoryIndex].likes || {};
               updatedStory = {
                 ...stories[foundStoryIndex],
                 likes: remainingLikes,
               };
 
-              // Update state
               setLiked(false);
               setLikeCount(Object.keys(remainingLikes).length);
               console.log('Story unliked successfully.');
             } else {
-              // Logic to add a like
               updatedStory = {
                 ...stories[foundStoryIndex],
                 likes: {
@@ -124,7 +125,6 @@ export default function Story() {
                 },
               };
 
-              // Update state
               setLiked(true);
               setLikeCount(Object.keys(updatedStory.likes).length);
               console.log('Story liked successfully.');
@@ -150,9 +150,24 @@ export default function Story() {
     <div className="story-container">
       <div className="story-navigation" style={{display: 'flex', alignItems: 'center', justifyContent: "space-between"}}>
         <BtnBack linkUrl="back" />
-        <div style={{display: 'flex', justifyContent: "space-between", width: '20%'}}>
-          <p>View: {story.viewCount}</p>
-          <p>Likes: {likeCount}</p>
+        <div style={{display: 'flex', justifyContent: "space-between", width: '60%', alignItems: "center"}}>
+          <p className="statistic">{story.region}</p>
+          <h4 className="statistic">
+            {story.story.title}
+          </h4>
+          <div
+            className="statistic"
+            style={{ display: 'flex', alignItems: "center"}}
+          >
+            <RemoveRedEyeIcon/> {story.viewCount}
+          </div>
+          <div
+            className="statistic"
+            onClick={handleLike}
+            style={{cursor: 'pointer', display: 'flex', alignItems: "center"}}
+          >
+            {liked ? <FavoriteIcon  color={'primary'}/> : <FavoriteBorderIcon/>} {likeCount}
+          </div>
         </div>
       </div>
 
@@ -187,7 +202,7 @@ export default function Story() {
         {liked ? <FavoriteIcon  color={'primary'}/> : <FavoriteBorderIcon/>} {likeCount}
       </div>
     </div>
+      <ToastContainer/>
     </div>
-
   );
 }
