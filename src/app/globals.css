@@ -7,8 +7,7 @@
 body {
   padding: 0;
   margin: 0 auto;
-  max-width: 1440px;
-  background: #051F52;
+  background: #051f52;
   color: #e0aaff;
   font-family: "Montserrat", sans-serif;
 }
@@ -38,13 +37,13 @@ header {
   padding: 10px 20px;
   z-index: 2;
   position: absolute;
+  top: 100px;
   width: 100%;
-
 }
 
 .active-header {
-    text-decoration: underline;
-    color: white;
+  text-decoration: underline;
+  color: white;
 }
 
 .logo-container {
@@ -63,7 +62,7 @@ main {
 }
 
 .auth-wrapper {
-  background-image: url('/assets/map-icon/stars.svg');
+  background-image: url("/assets/map-icon/stars.svg");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -87,7 +86,7 @@ main {
 
 input {
   background-color: white;
-  outline: none!important;
+  outline: none !important;
   padding: 20px;
   border-radius: 8px;
 }
@@ -115,7 +114,7 @@ input {
   justify-content: center;
   align-items: center;
   height: 850px;
-  background-image: url('/assets/map-icon/stars.svg');
+  background-image: url("/assets/map-icon/stars.svg");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -124,7 +123,7 @@ input {
   width: 100%;
   margin: 0 auto;
   padding: 60px 30px 100px 30px;
-  background-image: url('/assets/map-icon/stars.svg');
+  background-image: url("/assets/map-icon/stars.svg");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -146,8 +145,8 @@ input {
 }
 
 .worldmap .active {
-    padding: 0.35rem 0.5rem;
-    display: block;
+  padding: 0.35rem 0.5rem;
+  display: block;
 }
 
 .map-container {
@@ -159,7 +158,6 @@ input {
   width: 100%;
   max-width: 90rem;
 }
-
 
 .story-container {
   max-width: 800px;

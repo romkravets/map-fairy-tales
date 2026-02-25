@@ -1,99 +1,135 @@
 "use client";
-import {FC, ReactNode, useContext, useState} from 'react';
+import { FC, ReactNode, useContext, useState } from "react";
 import Link from "next/link";
-import {UserAuthBuilder} from "../../../context/context";
-import {auth} from "@/db/firebase";
-import {useRouter, usePathname} from 'next/navigation';
-import Button from '@mui/material/Button';
-import logo from '../../../public/assets/map-icon/logo.svg'
+import { UserAuthBuilder } from "../../../context/context";
+import { auth } from "@/db/firebase";
+import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
-import sunIcon from '../../../public/assets/map-icon/san.svg'
-import saturnIcon from '../../../public/assets/map-icon/saturn.svg'
-import jupiterIcon from '../../../public/assets/map-icon/jupiter.svg'
-import logoutIcon from '../../../public/assets/map-icon/logout.svg'
+import logo from "../../../public/assets/map-icon/logo.svg";
+import sunIcon from "../../../public/assets/map-icon/san.svg";
+import saturnIcon from "../../../public/assets/map-icon/saturn.svg";
+import jupiterIcon from "../../../public/assets/map-icon/jupiter.svg";
+import logoutIcon from "../../../public/assets/map-icon/logout.svg";
+import styles from "./PrimaryLayout.module.css";
 
 interface PrimaryLayoutProps {
   children: ReactNode;
 }
 
-const PrimaryLayout: FC<PrimaryLayoutProps> = ({children}) => {
-  const {user, setUser} = useContext(UserAuthBuilder);
+const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
+  const { user, setUser } = useContext(UserAuthBuilder);
   const router = useRouter();
   const pathname = usePathname();
 
   const isActive = (path: string) => pathname === path;
 
-  const [active, setActive] = useState(false)
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        setUser((prev) => ({
+          ...prev,
+          isAuthenticated: false,
+          token: "",
+          email: "",
+          userName: "",
+          userId: "",
+        }));
+      })
+      .then(() => router.push("/"))
+      .catch((err) => console.error("Sign-out error:", err));
+  };
 
   return (
     <>
       <header>
-        <div className="header">
-          <div className="logo-container">
+        <div className={styles.header}>
+          {/* ── Logo ── */}
+          <div className={styles.logoContainer}>
             <Link href="/">
-              <Image src={logo} alt={'logo'}/>
-              AI Stories
+              <Image
+                src={logo}
+                alt="AI Stories logo"
+                width={32}
+                height={32}
+                className={styles.logoImg}
+              />
+              <span className={styles.logoText}>Stories</span>
             </Link>
           </div>
-          <div className="header-account">
+
+          {/* ── Navigation ── */}
+          <nav className={styles.nav}>
             <Link
-              className={isActive('/') ? 'active-header' : ''}
-              onClick={() => setActive(!active)}
-              href='/'
-              style={{display: 'flex', alignItems: 'center', marginRight: 20}}
+              href="/"
+              className={`${styles.navLink} ${isActive("/") ? styles.navLinkActive : ""}`}
             >
-              <Image src={sunIcon} alt="" style={{marginRight: 5}}/>
-              <span>Home</span>
+              <Image
+                src={sunIcon}
+                alt=""
+                width={16}
+                height={16}
+                className={styles.navIcon}
+              />
+              Home
             </Link>
-            {user.isAuthenticated && user.userId ?
+
+            {user.isAuthenticated && user.userId ? (
               <>
+                <div className={styles.navDivider} />
+
                 <Link
-                  className={isActive('/settings') ? 'active-header' : ''}
-                  onClick={() => setActive(!active)}
-                  href='/settings'
-                  style={{display: 'flex', alignItems: 'center'}}
+                  href="/settings"
+                  className={`${styles.navLink} ${isActive("/settings") ? styles.navLinkActive : ""}`}
                 >
-                  <Image src={jupiterIcon} alt="AI Stories" style={{marginRight: 5}}/>
-                  <span>Account</span>
+                  <Image
+                    src={jupiterIcon}
+                    alt=""
+                    width={16}
+                    height={16}
+                    className={styles.navIcon}
+                  />
+                  Account
                 </Link>
-                <Button
-                  style={{marginLeft: 20, backgroundColor: "transparent", color:'#e0aaff'}}
-                  variant="contained"
-                  onClick={() => {
-                    auth.signOut().then(() => {
-                      setUser(prevState => ({
-                        ...prevState,
-                        isAuthenticated: false,
-                        token: '',
-                        email: '',
-                        userName: '',
-                        userId: '',
-                      }));
-                    }).then(() => {
-                      router.push('/');
-                    }).catch((error) => {
-                      console.error('Error during sign-out:', error);
-                    });
-                  }}>
-                  <Image src={logoutIcon} alt="AI Stories" style={{marginRight: 5}}/>
-                  SignOut</Button>
+
+                <div className={styles.navDivider} />
+
+                <button className={styles.signOutBtn} onClick={handleSignOut}>
+                  <Image
+                    src={logoutIcon}
+                    alt=""
+                    width={16}
+                    height={16}
+                    className={styles.navIcon}
+                  />
+                  Sign Out
+                </button>
               </>
-              : <Link
-                className={isActive('/auth') ? 'active-header' : ''}
-                onClick={() => setActive(!active)}
-                href="/auth">
-                <Image src={saturnIcon} alt="AI Stories" style={{marginRight: 5}}/>
-                SignIn
-              </Link>
-            }
-          </div>
+            ) : (
+              <>
+                <div className={styles.navDivider} />
+                <Link
+                  href="/auth"
+                  className={`${styles.navLink} ${isActive("/auth") ? styles.navLinkActive : ""}`}
+                >
+                  <Image
+                    src={saturnIcon}
+                    alt=""
+                    width={16}
+                    height={16}
+                    className={styles.navIcon}
+                  />
+                  Sign In
+                </Link>
+              </>
+            )}
+          </nav>
         </div>
       </header>
-      <main>
-        {children}
-      </main>
-    </>
-  )
-}
 
-export default PrimaryLayout
+      <main className={styles.main}>{children}</main>
+    </>
+  );
+};
+
+export default PrimaryLayout;
