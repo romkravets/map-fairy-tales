@@ -71,7 +71,7 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
                 height={16}
                 className={styles.navIcon}
               />
-              Home
+              World
             </Link>
 
             {user.isAuthenticated && user.userId ? (
@@ -119,7 +119,7 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
                     height={16}
                     className={styles.navIcon}
                   />
-                  Sign In
+                  Sign In / Sign Up
                 </Link>
               </>
             )}
