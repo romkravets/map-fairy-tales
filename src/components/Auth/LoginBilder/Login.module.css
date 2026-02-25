@@ -1,0 +1,279 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #040d18;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle star bg */
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(
+      1px 1px at 15% 25%,
+      rgba(255, 255, 255, 0.5) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      1px 1px at 35% 10%,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      1.5px 1.5px at 55% 40%,
+      rgba(255, 255, 255, 0.4) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      1px 1px at 75% 20%,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      1px 1px at 88% 55%,
+      rgba(255, 255, 255, 0.4) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      1px 1px at 10% 65%,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      1.5px 1.5px at 45% 75%,
+      rgba(255, 255, 255, 0.5) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      1px 1px at 65% 85%,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      2px 2px at 90% 15%,
+      rgba(255, 255, 255, 0.6) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      1px 1px at 25% 88%,
+      rgba(200, 220, 255, 0.4) 0%,
+      transparent 100%
+    );
+  pointer-events: none;
+}
+
+/* ocean glow center */
+.page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 70% 60% at 50% 50%,
+    rgba(10, 35, 75, 0.7) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ── Card ─────────────────────────────────────────── */
+.card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 52px 48px;
+  background: rgba(6, 18, 40, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(80, 150, 220, 0.18);
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 1px rgba(80, 150, 220, 0.06),
+    0 24px 64px rgba(0, 10, 30, 0.7),
+    inset 0 1px 0 rgba(120, 200, 255, 0.08);
+  min-width: 340px;
+  animation: cardIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* top glow line */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(120, 200, 255, 0.6),
+    transparent
+  );
+  border-radius: 50%;
+}
+
+/* ── Titles ───────────────────────────────────────── */
+.titles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: "Cinzel", serif;
+  font-size: 9px;
+  letter-spacing: 0.45em;
+  color: rgba(100, 160, 220, 0.6);
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: "Cinzel", serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, #e8f4ff 0%, #7ec8ff 60%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-family: "Crimson Pro", serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(120, 170, 220, 0.55);
+  letter-spacing: 0.03em;
+}
+
+/* ── Divider ──────────────────────────────────────── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(80, 150, 220, 0.2),
+    transparent
+  );
+}
+
+/* ── Google Button ────────────────────────────────── */
+.googleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: "Cinzel", serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #d0e8ff;
+  background: rgba(20, 50, 100, 0.4);
+  border: 1px solid rgba(80, 150, 230, 0.3);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.googleBtn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(80, 150, 255, 0.08) 0%,
+    rgba(120, 80, 255, 0.06) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.googleBtn:hover:not(:disabled) {
+  color: #e8f4ff;
+  border-color: rgba(100, 180, 255, 0.55);
+  background: rgba(25, 60, 120, 0.55);
+  box-shadow:
+    0 0 32px rgba(80, 150, 255, 0.2),
+    0 8px 24px rgba(0, 10, 40, 0.4);
+  transform: translateY(-1px);
+}
+
+.googleBtn:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.googleBtn:active:not(:disabled) {
+  transform: translateY(0px);
+  box-shadow: 0 0 16px rgba(80, 150, 255, 0.15);
+}
+
+.googleBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* Google G icon */
+.googleIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.googleBtn:hover:not(:disabled) .googleIcon {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+/* spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(100, 180, 255, 0.2);
+  border-top-color: rgba(100, 180, 255, 0.8);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Footer note ──────────────────────────────────── */
+.note {
+  font-family: "Crimson Pro", serif;
+  font-size: 12px;
+  color: rgba(100, 150, 200, 0.4);
+  font-style: italic;
+  text-align: center;
+  letter-spacing: 0.02em;
+}

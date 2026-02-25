@@ -1,20 +1,48 @@
-"use client"
-import {useContext, useEffect, useState} from 'react';
-import { ref, get, update } from 'firebase/database';
-import {useSearchParams} from 'next/navigation';
-import {db} from '@/db/firebase';
+"use client";
+import { useContext, useEffect, useState } from "react";
+import { ref, get, update } from "firebase/database";
+import { useSearchParams } from "next/navigation";
+import { db } from "@/db/firebase";
 import Preloader from "@/components/Preloader/Preloader";
 import BtnBack from "@/components/BtnBack/BtnBack";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import {UserAuthBuilder} from "../../../context/context";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { ToastContainer } from "react-toastify"
-import {showNotification} from "@/helpers/showNotification";
+import { UserAuthBuilder } from "../../../context/context";
+import { ToastContainer } from "react-toastify";
+import { showNotification } from "@/helpers/showNotification";
+import styles from "./Story.module.css";
 
+// ── Icons ───────────────────────────────────────────
+const HeartIcon = ({ filled }: { filled: boolean }) => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill={filled ? "currentColor" : "none"}
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+  </svg>
+);
+
+const EyeIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+// ── Types ───────────────────────────────────────────
 interface Story {
   id: string;
   userId: string;
@@ -30,179 +58,179 @@ interface Story {
   viewCount: number;
 }
 
-export default function Story() {
+// ── Component ───────────────────────────────────────
+export default function StoryPage() {
   const searchParams = useSearchParams();
-  const region = searchParams?.get('region') ?? '';
-  const id = searchParams?.get('id') ?? '';
+  const region = searchParams?.get("region") ?? "";
+  const id = searchParams?.get("id") ?? "";
   const { user } = useContext(UserAuthBuilder);
 
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [story, setStory] = useState<Story | null>(null);
 
+  // ── Fetch + increment view ──────────────────────
   useEffect(() => {
     const fetchAndUpdateStory = async () => {
       if (!region || !id) return;
-
       try {
-        const storyRef = ref(db, `maps/${region}/stories`);
-        const snapshot = await get(storyRef);
+        const snapshot = await get(ref(db, `maps/${region}/stories`));
+        if (!snapshot.exists()) return;
 
-        if (snapshot.exists()) {
-          const stories = snapshot.val();
+        const stories = snapshot.val();
+        if (!Array.isArray(stories)) return;
 
-          if (Array.isArray(stories)) {
-            const foundStoryIndex = stories.findIndex((story) => story.id === id);
+        const idx = stories.findIndex((s) => s.id === id);
+        if (idx === -1) return;
 
-            if (foundStoryIndex !== -1) {
-              const foundStory = stories[foundStoryIndex];
-              const updatedStory = {
-                ...foundStory,
-                viewCount: (foundStory.viewCount || 0) + 1,
-              };
+        const updated = {
+          ...stories[idx],
+          viewCount: (stories[idx].viewCount || 0) + 1,
+        };
+        setStory(updated);
+        setLikeCount(Object.keys(updated.likes || {}).length);
+        setLiked(!!updated.likes?.[user.userId]);
 
-              setStory(updatedStory);
-              setLikeCount(Object.keys(updatedStory.likes || {}).length);
-              setLiked(!!updatedStory.likes?.[user.userId]);
-
-              stories[foundStoryIndex] = updatedStory;
-
-              await update(ref(db, `maps/${region}`), { stories });
-
-              console.log('Story view count incremented successfully.');
-            } else {
-              console.error('Story not found in the list.');
-            }
-          } else {
-            console.error('Stories data is not an array.');
-          }
-        } else {
-          console.error('No stories available for this region.');
-        }
-      } catch (error) {
-        console.error('Error fetching story:', error);
+        stories[idx] = updated;
+        await update(ref(db, `maps/${region}`), { stories });
+      } catch (err) {
+        console.error("Error fetching story:", err);
       }
     };
-
-    fetchAndUpdateStory().catch(() => console.log('fetchAndUpdateStory'));
+    fetchAndUpdateStory().catch(console.error);
   }, [region, id, user.userId]);
 
+  // ── Like handler ────────────────────────────────
   const handleLike = async () => {
-    if (!user.userId && !user.isAuthenticated) {
-      showNotification('SignIn of like story', 'success')
+    if (!user.userId || !user.isAuthenticated) {
+      showNotification("Sign in to like stories", "success");
+      return;
     }
     if (!story || !region || !id) return;
 
     try {
-      const storyRef = ref(db, `maps/${region}/stories`);
-      const snapshot = await get(storyRef);
+      const snapshot = await get(ref(db, `maps/${region}/stories`));
+      if (!snapshot.exists()) return;
 
-      if (snapshot.exists()) {
-        const stories = snapshot.val();
+      const stories = snapshot.val();
+      if (!Array.isArray(stories)) return;
 
-        if (Array.isArray(stories)) {
-          const foundStoryIndex = stories.findIndex((s) => s.id === id);
+      const idx = stories.findIndex((s) => s.id === id);
+      if (idx === -1) return;
 
-          if (foundStoryIndex !== -1) {
-            let updatedStory;
-
-            if (liked) {
-              const { [user.userId]: removedLike, ...remainingLikes } = stories[foundStoryIndex].likes || {};
-              updatedStory = {
-                ...stories[foundStoryIndex],
-                likes: remainingLikes,
-              };
-
-              setLiked(false);
-              setLikeCount(Object.keys(remainingLikes).length);
-              console.log('Story unliked successfully.');
-            } else {
-              updatedStory = {
-                ...stories[foundStoryIndex],
-                likes: {
-                  ...(stories[foundStoryIndex].likes || {}),
-                  [user.userId]: true,
-                },
-              };
-
-              setLiked(true);
-              setLikeCount(Object.keys(updatedStory.likes).length);
-              console.log('Story liked successfully.');
-            }
-
-            stories[foundStoryIndex] = updatedStory;
-            await update(ref(db, `maps/${region}`), { stories });
-
-          }
-        }
+      let updatedStory;
+      if (liked) {
+        const { [user.userId]: _, ...rest } = stories[idx].likes || {};
+        updatedStory = { ...stories[idx], likes: rest };
+        setLiked(false);
+        setLikeCount(Object.keys(rest).length);
+      } else {
+        updatedStory = {
+          ...stories[idx],
+          likes: { ...(stories[idx].likes || {}), [user.userId]: true },
+        };
+        setLiked(true);
+        setLikeCount(Object.keys(updatedStory.likes).length);
       }
-    } catch (error) {
-      console.error('Error liking the story:', error);
+
+      stories[idx] = updatedStory;
+      await update(ref(db, `maps/${region}`), { stories });
+    } catch (err) {
+      console.error("Error liking story:", err);
     }
   };
 
-  if (!story) {
-    return <Preloader />;
-  }
+  if (!story) return <Preloader />;
 
   return (
-    <div>
-    <div className="story-container">
-      <div className="story-navigation" style={{display: 'flex', alignItems: 'center', justifyContent: "space-between"}}>
-        <BtnBack linkUrl="back" />
-        <div style={{display: 'flex', justifyContent: "space-between", width: '60%', alignItems: "center"}}>
-          <p className="statistic">{story.region}</p>
-          <h4 className="statistic">
-            {story.story.title}
-          </h4>
-          <div
-            className="statistic"
-            style={{ display: 'flex', alignItems: "center"}}
-          >
-            <RemoveRedEyeIcon/> {story.viewCount}
+    <div className={styles.page}>
+      {/* ── Hero image ── */}
+      <div className={styles.hero}>
+        {story.story.imageUrl && (
+          <img
+            src={story.story.imageUrl}
+            alt={story.story.title}
+            className={styles.heroImg}
+          />
+        )}
+        <div className={styles.heroOverlay} />
+
+        {/* ── Navbar over hero ── */}
+        <div className={styles.navbar}>
+          <BtnBack linkUrl="back" />
+
+          <div className={styles.navMeta}>
+            <span className={styles.regionBadge}>{story.region}</span>
+            <span className={styles.navStat}>
+              <EyeIcon /> {story.viewCount}
+            </span>
           </div>
-          <div
-            className="statistic"
+
+          {/* like button top-right */}
+          <button
+            className={`${styles.likeBtn} ${liked ? styles.likeBtnActive : ""}`}
             onClick={handleLike}
-            style={{cursor: 'pointer', display: 'flex', alignItems: "center"}}
           >
-            {liked ? <FavoriteIcon  color={'primary'}/> : <FavoriteBorderIcon/>} {likeCount}
-          </div>
+            <HeartIcon filled={liked} />
+            {likeCount}
+          </button>
         </div>
       </div>
 
-      <div className="story-header">
-        <CardMedia
-          className="story-image"
-          sx={{ height: '560px', width: '100%' }}
-          image={story.story.imageUrl}
-        />
-        <Typography className="story-title" gutterBottom variant="h2" component="h2">
-          {story.story.title}
-        </Typography>
-        <p className="view-count">Count view: {story.viewCount}</p>
-      </div>
-      <CardContent className="story-content">
-        {story.story.paragraphs.map((paragraph, index) => (
-          <Typography
-            className="story-paragraph"
-            gutterBottom
-            variant="body1"
-            component="p"
-            key={index}
+      {/* ── Main content ── */}
+      <div className={styles.content}>
+        {/* Title */}
+        <div className={styles.titleBlock}>
+          <h1 className={styles.storyTitle}>{story.story.title}</h1>
+          <div className={styles.titleDivider}>
+            <div className={styles.titleDividerLine} />
+            <div className={styles.titleDividerDot} />
+            <div className={styles.titleDividerLine} />
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className={styles.statsBar}>
+          <span className={styles.statItem}>
+            <EyeIcon /> {story.viewCount} views
+          </span>
+          <span className={styles.statItem}>
+            <HeartIcon filled={liked} /> {likeCount} likes
+          </span>
+          <span className={styles.statItem}>{story.region}</span>
+        </div>
+
+        {/* Story body */}
+        <div className={styles.storyBody}>
+          {story.story.paragraphs.map((p, i) => (
+            <>
+              <p key={i} className={styles.paragraph}>
+                {p.paragraph}
+              </p>
+              {/* decorative separator every 5 paragraphs */}
+              {(i + 1) % 5 === 0 && i !== story.story.paragraphs.length - 1 && (
+                <div key={`sep-${i}`} className={styles.paragraphSep}>
+                  ✦ ✦ ✦
+                </div>
+              )}
+            </>
+          ))}
+        </div>
+
+        {/* Bottom like */}
+        <div className={styles.bottomActions}>
+          <button
+            className={`${styles.likeBtnLarge} ${liked ? styles.likeBtnLargeActive : ""}`}
+            onClick={handleLike}
           >
-            {paragraph.paragraph}
-          </Typography>
-        ))}
-      </CardContent>
-      <div
-        onClick={handleLike}
-        style={{cursor: 'pointer', display: 'flex', alignItems: "center"}}
-      >
-        {liked ? <FavoriteIcon  color={'primary'}/> : <FavoriteBorderIcon/>} {likeCount}
+            <HeartIcon filled={liked} />
+            {liked ? "You liked this tale" : "Like this tale"}
+            <span className={styles.likeCount}>{likeCount}</span>
+          </button>
+        </div>
       </div>
-    </div>
-      <ToastContainer/>
+
+      <ToastContainer />
     </div>
   );
 }
