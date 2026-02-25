@@ -1,200 +1,346 @@
-'use client';
+"use client";
 
-import {useContext, useEffect, useState} from "react";
-import {useRouter} from 'next/navigation';
-import {UserAuthBuilder} from "../../../context/context";
-import {child, get, ref as dbRef, update} from "firebase/database";
-import {db} from "@/db/firebase";
-import {UserData} from "@/helpers/types";
+import { useContext, useEffect, useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { UserAuthBuilder } from "../../../context/context";
+import { child, get, ref as dbRef, update } from "firebase/database";
+import { db } from "@/db/firebase";
+import { UserData } from "@/helpers/types";
 import Link from "next/link";
-import {getStorage, ref as storageRef, deleteObject} from "firebase/storage";
-import {ToastContainer} from "react-toastify";
-import {showNotification} from "@/helpers/showNotification";
-import {useCountdown} from "@/helpers/useCountdown";
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid2';
+import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
+import { ToastContainer } from "react-toastify";
+import { showNotification } from "@/helpers/showNotification";
+import { useCountdown } from "@/helpers/useCountdown";
 import Preloader from "@/components/Preloader/Preloader";
-import Box from '@mui/material/Box';
-import BtnBack from "../../components/BtnBack/BtnBack"
-import DeleteIcon from '@mui/icons-material/Delete';
-import AutoDeleteIcon from '@mui/icons-material/AutoDelete';
+import BtnBack from "../../components/BtnBack/BtnBack";
+import styles from "./pages.module.css";
 
+// ── Icons (inline SVG, no MUI dependency) ──────────
+const MapIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" />
+    <line x1="9" y1="3" x2="9" y2="18" />
+    <line x1="15" y1="6" x2="15" y2="21" />
+  </svg>
+);
+
+const TrashIcon = () => (
+  <svg
+    width="15"
+    height="15"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6l-1 14H6L5 6" />
+    <path d="M10 11v6" />
+    <path d="M14 11v6" />
+    <path d="M9 6V4h6v2" />
+  </svg>
+);
+
+const SpinnerIcon = () => (
+  <svg
+    width="15"
+    height="15"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+  >
+    <path d="M21 12a9 9 0 1 1-6.219-8.56" strokeOpacity="0.4" />
+    <path d="M21 12a9 9 0 0 0-6.219-8.56">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="0 12 12"
+        to="360 12 12"
+        dur="0.7s"
+        repeatCount="indefinite"
+      />
+    </path>
+  </svg>
+);
+
+// ── Component ───────────────────────────────────────
 export default function Page() {
   const tasksRef = dbRef(db);
-  const {user} = useContext(UserAuthBuilder);
+  const { user } = useContext(UserAuthBuilder);
   const router = useRouter();
 
   const [userDB, setUserDB] = useState<UserData>({
-    userName: '',
+    userName: "",
     countStoryOfDay: 0,
     expiryTime: 0,
-    stories: [] || undefined,
-  })
+    stories: [],
+  });
 
-  const [loadingUser, setLoadingUser] = useState<boolean>(false);
-  const [deleteStoryMap, setDeleteStoryMap] = useState<Record<string, boolean>>({});
+  const [loadingUser, setLoadingUser] = useState(false);
+  const [deleteStoryMap, setDeleteStoryMap] = useState<Record<string, boolean>>(
+    {},
+  );
+  const [activeCountry, setActiveCountry] = useState<string>("all");
 
+  // ── Fetch user data ─────────────────────────────
   const getUserData = async () => {
     if (!user) {
-      router.push('/auth');
+      router.push("/auth");
+      return;
     }
     setLoadingUser(true);
-
     try {
       const snapshot = await get(child(tasksRef, `users/${user.userId}`));
       if (snapshot.exists()) {
-        setUserDB(snapshot.val());
-        if (userDB.countStoryOfDay <= 2 && !userDB.expiryTime) {
-          const newCountStoryOfDay = 3;
+        const data = snapshot.val();
+        setUserDB(data);
+        if (data.countStoryOfDay <= 2 && !data.expiryTime) {
           await update(dbRef(db, `users/${user.userId}`), {
-            countStoryOfDay: newCountStoryOfDay,
+            countStoryOfDay: 3,
           });
         }
-      } else {
-        console.log('No data available');
       }
     } catch (error) {
       console.error(error);
-      setLoadingUser(false);
     } finally {
       setLoadingUser(false);
     }
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      getUserData().catch(console.error);
-    }
+    if (typeof window !== "undefined") getUserData().catch(console.error);
   }, [user]);
 
-  const handleDeleteStory = async (storyId: string | undefined, userId: string | undefined, countryId: string | undefined) => {
+  // ── Delete story ────────────────────────────────
+  const handleDeleteStory = async (
+    storyId: string | undefined,
+    userId: string | undefined,
+    countryId: string | undefined,
+  ) => {
     if (!storyId || !userId || !countryId) return;
-    setDeleteStoryMap((prev) => ({...prev, [storyId]: true}));
+    setDeleteStoryMap((prev) => ({ ...prev, [storyId]: true }));
 
     const storage = getStorage();
-    const storyPath = `maps/${countryId}/stories`;
-    const userPath = `users/${userId}/stories`;
-
     try {
-      const storySnapshot = await get(dbRef(db, storyPath));
-      const userSnapshot = await get(dbRef(db, userPath));
+      const [storySnap, userSnap] = await Promise.all([
+        get(dbRef(db, `maps/${countryId}/stories`)),
+        get(dbRef(db, `users/${userId}/stories`)),
+      ]);
+      if (!storySnap.exists() || !userSnap.exists()) return;
 
-      if (!storySnapshot.exists() || !userSnapshot.exists()) {
-        console.error("Story or User data does not exist.");
-        return;
-      }
+      const updatedMap = storySnap.val().filter((s: any) => s.id !== storyId);
+      const updatedUser = userSnap.val().filter((s: any) => s.id !== storyId);
 
-      const storyData = storySnapshot.val();
-      const userData = userSnapshot.val();
+      await Promise.all([
+        update(dbRef(db, `maps/${countryId}`), { stories: updatedMap }),
+        update(dbRef(db, `users/${userId}`), { stories: updatedUser }),
+        deleteObject(
+          storageRef(
+            storage,
+            `stories/${userId}/${countryId}/${storyId}/${storyId}.jpg`,
+          ),
+        ),
+      ]);
 
-      const updatedStories = storyData.filter((story: any) => story.id !== storyId);
-      await update(dbRef(db, `maps/${countryId}`), {stories: updatedStories.length ? updatedStories : []});
-
-      const updatedUserStories = userData.filter((story: any) => story.id !== storyId);
-      await update(dbRef(db, `users/${userId}`), {stories: updatedUserStories.length ? updatedUserStories : []});
-
-      const imageRef = storageRef(storage, `stories/${userId}/${countryId}/${storyId}/${storyId}.jpg`);
-      await deleteObject(imageRef);
-
-      getUserData().catch(console.error);
-      showNotification('Delete', 'success');
-      console.log('Story and image successfully deleted');
+      await getUserData();
+      showNotification("Delete", "success");
     } catch (error) {
-      console.error('Error deleting story and image:', error);
+      console.error("Error deleting story:", error);
     } finally {
-      setDeleteStoryMap((prev) => ({...prev, [storyId]: false}));
+      setDeleteStoryMap((prev) => ({ ...prev, [storyId]: false }));
     }
   };
 
-  const {hours, minutes, seconds} = useCountdown(userDB.expiryTime, userDB.stories, getUserData);
+  // ── Filter logic ────────────────────────────────
+  const countries = useMemo(() => {
+    if (!userDB.stories?.length) return [];
+    const map: Record<string, number> = {};
+    userDB.stories.forEach((s) => {
+      if (s.countryId) map[s.countryId] = (map[s.countryId] || 0) + 1;
+    });
+    return Object.entries(map).map(([id, count]) => ({ id, count }));
+  }, [userDB.stories]);
 
-  if (loadingUser) return <Preloader/>
+  const filteredStories = useMemo(() => {
+    if (!userDB.stories) return [];
+    if (activeCountry === "all") return userDB.stories;
+    return userDB.stories.filter((s) => s.countryId === activeCountry);
+  }, [userDB.stories, activeCountry]);
+
+  const { hours, minutes, seconds } = useCountdown(
+    userDB.expiryTime,
+    userDB.stories,
+    getUserData,
+  );
+
+  // ── Render ──────────────────────────────────────
+  if (loadingUser) return <Preloader />;
+
+  if (!user || !user.isAuthenticated) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.container}>
+          <div className={styles.noAuth}>
+            <Preloader />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="settings">
-      <div className="settings-container">
-        <BtnBack linkUrl="/"/>
-        <h1 style={{marginBottom: 30}}>Settings</h1>
-        {!user || !user.isAuthenticated ? (
-          <Box sx={{display: 'flex'}} style={{
-            display: 'flex', flexDirection: 'column', width: '100%',
-            height: '100vh', alignItems: 'center', justifyContent: 'center'
-          }}>
-            <Preloader/>
-          </Box>
-        ) : (!userDB.stories || userDB.stories.length === 0) ? (
-          <div>
-            User name: <h3>{user?.userName}</h3>
-            <Box sx={{display: 'flex'}} style={{
-              display: 'flex', flexDirection: 'column', width: '100%',
-              height: '50vh', alignItems: 'center', justifyContent: 'center'
-            }}>
-              <p>No stories available.<br/> Create you story:
-                <Link href='/'><h2>Go to World Map</h2></Link>
-              </p>
-            </Box>
+    <div className={styles.page}>
+      <div className={styles.container}>
+        <BtnBack linkUrl="/" />
+
+        {/* ── Page header ── */}
+        <div className={styles.pageHeader}>
+          <div className={styles.headerLeft}>
+            <span className={styles.eyebrow}>Your account</span>
+            <h1 className={styles.pageTitle}>Settings</h1>
+            <p className={styles.userName}>{user?.userName}</p>
+          </div>
+
+          <div className={styles.statsRow}>
+            {userDB.countStoryOfDay === 0 ? (
+              <div className={`${styles.statPill} ${styles.statPillWarning}`}>
+                <span
+                  className={`${styles.statDot} ${styles.statDotWarning}`}
+                />
+                Next stories in {hours}h {minutes}m {seconds}s
+              </div>
+            ) : (
+              <div className={styles.statPill}>
+                <span className={styles.statDot} />
+                {userDB.countStoryOfDay} stories available today
+              </div>
+            )}
+
+            <Link href="/" className={styles.goMapBtn}>
+              <MapIcon />
+              World Map
+            </Link>
+          </div>
+        </div>
+
+        <div className={styles.divider} />
+
+        {/* ── No stories ── */}
+        {!userDB.stories || userDB.stories.length === 0 ? (
+          <div className={styles.empty}>
+            <div className={styles.emptyIcon}>🗺️</div>
+            <h2 className={styles.emptyTitle}>No stories yet</h2>
+            <p className={styles.emptyText}>
+              Click on any country on the map to generate your first fairy tale
+            </p>
+            <Link href="/" className={styles.goMapBtn}>
+              <MapIcon /> Explore the Map
+            </Link>
           </div>
         ) : (
-          <div>
-            <h3 style={{marginBottom: 30}}>Name: {user?.userName}</h3>
-            <p style={{marginBottom: 30}}>Create Story: <Button variant="contained" onClick={() => router.push('/')}>Go
-              to World Map</Button></p>
-            {userDB.countStoryOfDay === 0 ?
-              (
-                <div>
-                  <p>New stories: {hours}h {minutes}m {seconds}s</p>
+          <>
+            {/* ── Country filter ── */}
+            <div className={styles.filterSection}>
+              <span className={styles.filterLabel}>Filter by country</span>
+              <div className={styles.filterScroll}>
+                <button
+                  className={`${styles.filterChip} ${activeCountry === "all" ? styles.filterChipActive : ""}`}
+                  onClick={() => setActiveCountry("all")}
+                >
+                  All stories
+                  <span className={styles.filterCount}>
+                    {userDB.stories.length}
+                  </span>
+                </button>
+
+                {countries.map(({ id, count }) => (
+                  <button
+                    key={id}
+                    className={`${styles.filterChip} ${activeCountry === id ? styles.filterChipActive : ""}`}
+                    onClick={() => setActiveCountry(id)}
+                  >
+                    {id}
+                    <span className={styles.filterCount}>{count}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Results count ── */}
+            <p className={styles.resultsInfo}>
+              {filteredStories.length === userDB.stories.length
+                ? `${filteredStories.length} stories in your collection`
+                : `${filteredStories.length} of ${userDB.stories.length} stories`}
+            </p>
+
+            {/* ── Grid ── */}
+            <div className={styles.grid}>
+              {filteredStories.map((story, index) => (
+                <div
+                  className={styles.card}
+                  key={story.id || index}
+                  style={{ animationDelay: `${index * 0.05}s` }}
+                >
+                  <Link
+                    href={`/story?region=${story.countryId}&id=${story.link}`}
+                    className={styles.cardLink}
+                  >
+                    {story.imageUrl && (
+                      <div className={styles.cardImageWrap}>
+                        <img
+                          src={story.imageUrl}
+                          alt={story.nameStory}
+                          className={styles.cardImage}
+                        />
+                      </div>
+                    )}
+                    <div className={styles.cardBody}>
+                      <p className={styles.cardCountry}>{story.countryId}</p>
+                      <h3 className={styles.cardTitle}>{story.nameStory}</h3>
+                    </div>
+                  </Link>
+
+                  <div className={styles.cardFooter}>
+                    {/*  <button
+                      className={`${styles.deleteBtn} ${deleteStoryMap[story.id] ? styles.deleteBtnLoading : ""}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteStory(
+                          story.id,
+                          user?.userId,
+                          story.countryId,
+                        );
+                      }}
+                      disabled={!!deleteStoryMap[story.id]}
+                      title="Delete story"
+                    >
+                      {deleteStoryMap[story.id] ? (
+                        <SpinnerIcon />
+                      ) : (
+                        <TrashIcon />
+                      )}
+                    </button> */}
+                  </div>
                 </div>
-              ) : <p>{userDB.countStoryOfDay} Stories today</p>}
-            <Grid
-              container
-              style={{marginTop: 20}}
-            >
-              {userDB.stories.length > 0 && (
-                userDB.stories.map((story, index) => {
-                  return (
-                    <Grid size={4} key={index}>
-                      <Card sx={{maxWidth: 245}} style={{marginBottom: 20}}>
-                        <Link href={`/story?region=${story.countryId}&id=${story.link}`} passHref>
-                          {story.imageUrl && (
-                            <CardMedia
-                              sx={{height: 275}}
-                              image={story.imageUrl}
-                              className="settings-image-banner"
-                            />
-                          )}
-                          <CardContent style={{padding: 10}}>
-                            <Typography gutterBottom variant="h3" component="div">
-                              {story.nameStory}
-                            </Typography>
-                          </CardContent>
-                        </Link>
-                        <CardActions style={{padding: 10, justifyContent: 'end'}}>
-                          <Button
-                            size="small"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteStory(story.id, user?.userId, story.countryId);
-                            }}
-                          >
-                            {deleteStoryMap[story.id] ? <AutoDeleteIcon style={{fontSize: 20, color: 'grey'}}/> :
-                              <DeleteIcon style={{fontSize: 20, color: 'grey'}}/>}
-                          </Button>
-                        </CardActions>
-                      </Card>
-                    </Grid>
-                  )
-                })
-              )}
-            </Grid>
-          </div>
+              ))}
+            </div>
+          </>
         )}
-        <ToastContainer/>
       </div>
+      <ToastContainer />
     </div>
   );
 }
