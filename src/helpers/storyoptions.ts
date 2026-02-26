@@ -1,0 +1,133 @@
+export const storyOptions = [
+  // ── Adventure & Nature ──────────────────────────
+  { value: "jungle", label: "🌿 Jungle Adventure" },
+  { value: "ocean", label: "🌊 Ocean & Sea" },
+  { value: "desert", label: "🏜️ Desert Quest" },
+  { value: "mountain", label: "🏔️ Mountain Journey" },
+  { value: "forest", label: "🌲 Enchanted Forest" },
+  { value: "arctic", label: "❄️ Arctic Expedition" },
+  { value: "volcano", label: "🌋 Volcano Island" },
+  { value: "underwater", label: "🐠 Underwater World" },
+  { value: "savanna", label: "🦁 Savanna Safari" },
+  { value: "cave", label: "🦇 Mystery Cave" },
+
+  // ── Fantasy & Magic ──────────────────────────────
+  { value: "dragons", label: "🐉 Dragons" },
+  { value: "unicorns", label: "🦄 Unicorns & Magic" },
+  { value: "wizards", label: "🧙 Wizards & Spells" },
+  { value: "fairies", label: "🧚 Fairies & Pixies" },
+  { value: "mermaids", label: "🧜 Mermaids" },
+  { value: "giants", label: "🏰 Giants & Castles" },
+  { value: "elves", label: "🧝 Elves & Dwarves" },
+  { value: "witches", label: "🧹 Witches & Potions" },
+  { value: "genies", label: "🪔 Genies & Wishes" },
+  { value: "phoenixes", label: "🔥 Phoenix & Fire Birds" },
+  { value: "talking_animals", label: "🦊 Talking Animals" },
+  { value: "enchanted_objects", label: "✨ Enchanted Objects" },
+
+  // ── Heroes & Superheroes ─────────────────────────
+  { value: "superheroes", label: "🦸 Superheroes" },
+  { value: "supervillains", label: "🦹 Supervillains" },
+  { value: "knights", label: "⚔️ Knights & Warriors" },
+  { value: "ninja", label: "🥷 Ninja & Samurai" },
+  { value: "pirates", label: "🏴‍☠️ Pirates" },
+  { value: "gladiators", label: "🛡️ Gladiators" },
+  { value: "rangers", label: "🌈 Power Rangers" },
+  { value: "spy_kids", label: "🕵️ Junior Spies" },
+
+  // ── Space & Sci-Fi ───────────────────────────────
+  { value: "space", label: "🚀 Space Adventure" },
+  { value: "aliens", label: "👽 Friendly Aliens" },
+  { value: "robots", label: "🤖 Robots & AI" },
+  { value: "time_travel", label: "⏳ Time Travel" },
+  { value: "planets", label: "🪐 Other Planets" },
+  { value: "astronauts", label: "👨‍🚀 Astronauts" },
+  { value: "future_city", label: "🏙️ City of the Future" },
+
+  // ── Animals ─────────────────────────────────────
+  { value: "dinosaurs", label: "🦕 Dinosaurs" },
+  { value: "horses", label: "🐴 Horses & Ponies" },
+  { value: "cats", label: "🐱 Cats & Kittens" },
+  { value: "dogs", label: "🐶 Dogs & Puppies" },
+  { value: "wolves", label: "🐺 Wolf Pack" },
+  { value: "birds", label: "🦅 Birds of Prey" },
+  { value: "penguins", label: "🐧 Penguins" },
+  { value: "bears", label: "🐻 Bears & Cubs" },
+  { value: "foxes", label: "🦊 Fox Family" },
+  { value: "elephants", label: "🐘 Elephant Herd" },
+  { value: "sea_creatures", label: "🐋 Sea Creatures" },
+  { value: "insects", label: "🦋 Insects & Bugs" },
+
+  // ── Cartoons & Pop Culture ───────────────────────
+  { value: "cartoons", label: "📺 Cartoon World" },
+  { value: "anime", label: "⛩️ Anime Style" },
+  { value: "video_games", label: "🎮 Video Game Quest" },
+  { value: "comic_book", label: "💥 Comic Book" },
+  { value: "fairy_tale_mix", label: "📖 Classic Fairy Tale Mix" },
+  { value: "toy_story", label: "🧸 Toys Come Alive" },
+  { value: "lego", label: "🧱 Building Block World" },
+
+  // ── For Girls ────────────────────────────────────
+  { value: "princess", label: "👸 Princess Adventure" },
+  { value: "fashion", label: "👗 Fashion & Style" },
+  { value: "ballet", label: "🩰 Ballet & Dance" },
+  { value: "garden", label: "🌸 Secret Garden" },
+  { value: "tea_party", label: "🫖 Magical Tea Party" },
+  { value: "jewelry", label: "💎 Treasure & Jewels" },
+  { value: "bakery", label: "🧁 Magical Bakery" },
+  { value: "dolls", label: "🪆 Doll Kingdom" },
+  { value: "flowers", label: "🌺 Flower Spirits" },
+  { value: "music_girl", label: "🎵 Musical Journey" },
+
+  // ── For Boys ─────────────────────────────────────
+  { value: "cars", label: "🏎️ Racing Cars" },
+  { value: "trucks", label: "🚛 Monster Trucks" },
+  { value: "trains", label: "🚂 Train Adventure" },
+  { value: "construction", label: "🏗️ Construction Site" },
+  { value: "football", label: "⚽ Football Champions" },
+  { value: "basketball", label: "🏀 Basketball Stars" },
+  { value: "martial_arts", label: "🥊 Martial Arts" },
+  { value: "treasure_hunt", label: "🗺️ Treasure Hunt" },
+  { value: "submarines", label: "🤿 Submarine Crew" },
+  { value: "fire_rescue", label: "🚒 Fire & Rescue" },
+
+  // ── Travel & Cultures ────────────────────────────
+  { value: "travel", label: "✈️ World Travel" },
+  { value: "ancient_egypt", label: "🏛️ Ancient Egypt" },
+  { value: "ancient_greece", label: "⚡ Ancient Greece" },
+  { value: "vikings", label: "🪓 Vikings" },
+  { value: "samurai_japan", label: "🗾 Feudal Japan" },
+  { value: "wild_west", label: "🤠 Wild West" },
+  { value: "amazon", label: "🌳 Amazon Tribes" },
+  { value: "silk_road", label: "🐪 Silk Road" },
+  { value: "maya", label: "🌞 Maya Civilization" },
+  { value: "africa", label: "🌍 African Kingdoms" },
+
+  // ── Seasons & Nature Spirits ─────────────────────
+  { value: "winter_magic", label: "☃️ Winter Magic" },
+  { value: "spring_bloom", label: "🌱 Spring Awakening" },
+  { value: "summer_quest", label: "☀️ Summer Quest" },
+  { value: "autumn_mystery", label: "🍂 Autumn Mystery" },
+  { value: "rain_spirits", label: "🌧️ Rain Spirits" },
+  { value: "thunder", label: "⛈️ Thunder & Lightning" },
+  { value: "northern_lights", label: "🌌 Northern Lights" },
+
+  // ── Food & Magic Worlds ──────────────────────────
+  { value: "candy_land", label: "🍭 Candy Land" },
+  { value: "pizza_kingdom", label: "🍕 Pizza Kingdom" },
+  { value: "chocolate", label: "🍫 Chocolate Factory" },
+  { value: "fruit_forest", label: "🍓 Fruit Forest" },
+  { value: "cooking", label: "👨‍🍳 Magic Cooking" },
+
+  // ── Emotions & Values ────────────────────────────
+  { value: "friendship", label: "🤝 Power of Friendship" },
+  { value: "courage", label: "💪 Courage & Bravery" },
+  { value: "kindness", label: "💛 Kindness Wins" },
+  { value: "teamwork", label: "🤜 Teamwork" },
+  { value: "honesty", label: "🕊️ Honesty" },
+  { value: "environment", label: "🌍 Save the Planet" },
+  { value: "family", label: "👨‍👩‍👧 Family Bond" },
+  { value: "dreams", label: "💭 Chasing Dreams" },
+  { value: "forgiveness", label: "🌈 Forgiveness" },
+  { value: "identity", label: "🪞 Finding Yourself" },
+];
