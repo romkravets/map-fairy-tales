@@ -7,6 +7,7 @@ import Login from "@/components/Auth/Login/Login";
 import { showNotification } from "@/helpers/showNotification";
 import { ToastContainer } from "react-toastify";
 import { v4 as uuid } from "uuid";
+import { storyOptions } from "@/helpers/storyoptions";
 import {
   CountryInfo,
   CountryStoryItem,
@@ -28,6 +29,7 @@ import BtnBack from "@/components/BtnBack/BtnBack";
 import TextField from "@mui/material/TextField";
 import Image from "next/image";
 import styles from "./CountryStories.module.css";
+import CountryInfoBlock from "./CountryInfoBlock";
 
 interface CustomValueForStory {
   team: string;
@@ -43,34 +45,81 @@ const userInitialData = {
 };
 
 const selectStyles = {
-  control: (base: object) => ({
+  control: (base: any, state: any) => ({
     ...base,
     background: "rgba(10, 25, 60, 0.5)",
-    borderColor: "rgba(80, 140, 210, 0.3)",
-    borderRadius: 8,
-    boxShadow: "none",
-    fontFamily: "'Crimson Pro', serif",
-    fontSize: 15,
-    color: "#c8dff5",
-    "&:hover": { borderColor: "rgba(100, 170, 255, 0.5)" },
-  }),
-  menu: (base: object) => ({
-    ...base,
-    background: "#0a1830",
-    border: "1px solid rgba(80,140,210,0.25)",
-    borderRadius: 8,
-  }),
-  option: (base: object, state: { isFocused: boolean }) => ({
-    ...base,
-    background: state.isFocused ? "rgba(30,70,140,0.5)" : "transparent",
-    color: "#b8d4f0",
-    fontFamily: "'Crimson Pro', serif",
-    fontSize: 15,
+    border: `1px solid ${state.isFocused ? "rgba(100,180,255,0.7)" : "rgba(80,140,210,0.3)"}`,
+    borderRadius: "8px",
+    boxShadow: state.isFocused ? "0 0 0 3px rgba(80,150,255,0.1)" : "none",
+    minHeight: "40px",
+    padding: "16px!important",
     cursor: "pointer",
+    "&:hover": { borderColor: "rgba(100,170,255,0.5)" },
   }),
-  singleValue: (base: object) => ({ ...base, color: "#c8dff5" }),
-  placeholder: (base: object) => ({ ...base, color: "rgba(100,150,200,0.5)" }),
-  input: (base: object) => ({ ...base, color: "#c8dff5" }),
+  valueContainer: (base: any) => ({
+    ...base,
+    padding: "2px 14px", // ← горизонтальний падінг як у інпуті
+  }),
+  input: (base: any) => ({
+    ...base,
+    color: "#c8dff5",
+    fontFamily: "'Crimson Pro', serif",
+    fontSize: "15px",
+    margin: 0,
+    padding: 0,
+  }),
+  placeholder: (base: any) => ({
+    ...base,
+    color: "rgba(100,150,200,0.45)",
+    fontFamily: "'Crimson Pro', serif",
+    fontSize: "15px",
+  }),
+  singleValue: (base: any) => ({
+    ...base,
+    color: "#c8dff5",
+    fontFamily: "'Crimson Pro', serif",
+    fontSize: "15px",
+  }),
+  menu: (base: any) => ({
+    ...base,
+    background: "rgba(8, 20, 50, 0.97)",
+    border: "1px solid rgba(80,140,210,0.25)",
+    borderRadius: "8px",
+    backdropFilter: "blur(16px)",
+    boxShadow: "0 8px 32px rgba(0,10,40,0.6)",
+    zIndex: 100,
+  }),
+  menuList: (base: any) => ({
+    ...base,
+    padding: "4px!important",
+  }),
+  option: (base: any, state: any) => ({
+    ...base,
+    borderRadius: "6px",
+    fontFamily: "'Crimson Pro', serif",
+    fontSize: "15px",
+    padding: "16px!important",
+    color: state.isSelected ? "#e8f4ff" : "rgba(160,205,245,0.85)",
+    background: state.isSelected
+      ? "rgba(40, 90, 180, 0.55)"
+      : state.isFocused
+        ? "rgba(30, 65, 140, 0.45)"
+        : "transparent",
+    cursor: "pointer",
+    "&:active": { background: "rgba(50,100,200,0.5)" },
+  }),
+  indicatorSeparator: () => ({ display: "none" }),
+  dropdownIndicator: (base: any) => ({
+    ...base,
+    color: "rgba(100,160,220,0.5)",
+    padding: "0 10px 0 0",
+    "&:hover": { color: "rgba(140,190,255,0.8)" },
+  }),
+  clearIndicator: (base: any) => ({
+    ...base,
+    color: "rgba(100,150,200,0.4)",
+    "&:hover": { color: "rgba(200,100,100,0.7)" },
+  }),
 };
 
 export default function CountryStories() {
@@ -92,12 +141,6 @@ export default function CountryStories() {
   const [customValueForStory, setCustomValueForStory] =
     useState<CustomValueForStory>({ team: "", heroes: "", events: "" });
   const [userData, setUserData] = useState<UserData>(userInitialData);
-
-  const options = [
-    { value: "jungle", label: "Jungle" },
-    { value: "travel", label: "Travel" },
-    { value: "superheroes", label: "Superheroes" },
-  ];
 
   const getUserData = async () => {
     try {
@@ -225,7 +268,7 @@ export default function CountryStories() {
       <h1 className={styles.pageTitle}>{region}</h1>
 
       {/* ── Country info ── */}
-      {!loadingCountryMap ? (
+      {/*     {!loadingCountryMap ? (
         countryMap.info ? (
           <div className={styles.infoCard}>
             {[
@@ -263,7 +306,8 @@ export default function CountryStories() {
         )
       ) : (
         <Preloader />
-      )}
+      )} */}
+      <CountryInfoBlock region={region} />
 
       {/* ── Stories grid ── */}
       {countryMap.stories?.length > 0 && (
@@ -346,11 +390,12 @@ export default function CountryStories() {
                 <Select
                   name="team"
                   styles={selectStyles}
-                  options={options}
+                  options={storyOptions}
                   placeholder="Theme..."
                   value={
-                    options.find((o) => o.value === customValueForStory.team) ||
-                    null
+                    storyOptions.find(
+                      (o) => o.value === customValueForStory.team,
+                    ) || null
                   }
                   onChange={(e) =>
                     setCustomValueForStory({
@@ -375,7 +420,8 @@ export default function CountryStories() {
                       background: "rgba(10,25,60,0.5)",
                       borderRadius: "8px",
                       fontFamily: "'Crimson Pro', serif",
-                      fontSize: "15px",
+                      fontSize: "16px",
+                      padding: "16px!important",
                       color: "#c8dff5",
                       "& fieldset": { borderColor: "rgba(80,140,210,0.3)" },
                       "&:hover fieldset": {
@@ -404,7 +450,8 @@ export default function CountryStories() {
                       background: "rgba(10,25,60,0.5)",
                       borderRadius: "8px",
                       fontFamily: "'Crimson Pro', serif",
-                      fontSize: "15px",
+                      fontSize: "16px",
+                      padding: "16px!important",
                       color: "#c8dff5",
                       "& fieldset": { borderColor: "rgba(80,140,210,0.3)" },
                       "&:hover fieldset": {

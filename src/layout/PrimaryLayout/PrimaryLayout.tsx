@@ -89,7 +89,7 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
                     height={16}
                     className={styles.navIcon}
                   />
-                  Account
+                  My stories
                 </Link>
 
                 <div className={styles.navDivider} />
