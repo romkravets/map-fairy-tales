@@ -738,6 +738,405 @@
       "videos": [{ "url": "", "title": "Vatican — world's tiniest country" }]
     }
   },
+  "Canada": {
+    "capitalCity": "Ottawa — a calm capital with a river that freezes into a skating road in winter! ⛸️",
+    "locationAndSize": "A giant country in North America with more lakes than any other country on Earth",
+    "language": "English and French — two official languages, like having two storybooks at once!",
+    "cultureAndTraditions": "Canada loves maple syrup — sweet tree juice you can pour on pancakes! 🍁 They also have big winter festivals with ice castles and snow sculptures",
+    "natureAndWildlife": "Moose taller than a person, beavers that build dams like tiny engineers, polar bears in the far north, and whales along the coasts",
+    "friendlyPeople": "Canadians are famous for being polite — they even say sorry when YOU bump into THEM!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Maple leaves in autumn" },
+        { "url": "", "caption": "Northern Lights dancing over snowy forests" }
+      ],
+      "videos": [
+        { "url": "", "title": "Canada — maple, moose, and Northern Lights" }
+      ]
+    }
+  },
+  "United States": {
+    "capitalCity": "Washington, D.C. — a city of big white buildings and museums full of treasures 🏛️",
+    "locationAndSize": "A huge country in North America with deserts, mountains, forests, and beaches — like many worlds in one!",
+    "language": "English — plus hundreds of other languages spoken by families from all over the world",
+    "cultureAndTraditions": "The USA is home to Hollywood movies, jazz music, and giant parades. Many kids celebrate Thanksgiving with a big family meal and gratitude stories 🦃",
+    "natureAndWildlife": "Bison on wide plains, alligators in swamps, bald eagles soaring, and geysers and hot springs in Yellowstone",
+    "friendlyPeople": "People love road trips — packing snacks, singing songs in the car, and traveling across big open spaces together 🚗",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Grand Canyon — a giant colorful canyon" },
+        { "url": "", "caption": "Statue of Liberty welcoming visitors" }
+      ],
+      "videos": [{ "url": "", "title": "USA — from canyons to big cities" }]
+    }
+  },
+  "Mexico": {
+    "capitalCity": "Mexico City — a huge high-altitude city with ancient pyramids nearby! 🌋",
+    "locationAndSize": "A colorful country in North America between the Pacific Ocean and the Caribbean Sea",
+    "language": "Spanish — plus many indigenous languages like Nahuatl and Maya",
+    "cultureAndTraditions": "Day of the Dead is a joyful festival with candles, flowers, and sugar skulls — a way to remember loved ones with smiles and stories 💀🌼",
+    "natureAndWildlife": "Monarch butterflies arrive in millions like flying orange leaves, jaguars prowl in jungles, and whales visit warm seas",
+    "friendlyPeople": "Mexican families love sharing food — warm tortillas, tacos, and sweet churros that taste like cinnamon dreams!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Chichén Itzá pyramid — ancient wonder" },
+        { "url": "", "caption": "Monarch butterflies in the forest" }
+      ],
+      "videos": [
+        { "url": "", "title": "Mexico — pyramids, butterflies, and fiestas" }
+      ]
+    }
+  },
+  "Guatemala": {
+    "capitalCity": "Guatemala City — a busy city surrounded by volcanoes 🌋",
+    "locationAndSize": "A Central American country with jungles, lakes, and ancient Maya cities",
+    "language": "Spanish plus many Maya languages — like K'iche' and Q'eqchi'",
+    "cultureAndTraditions": "Colorful woven clothes and markets sparkle with patterns. At Easter, streets in Antigua are covered in beautiful flower carpets called alfombras 🌸",
+    "natureAndWildlife": "Quetzals — bright green birds with long tail feathers — live in misty cloud forests, and monkeys swing in the jungle",
+    "friendlyPeople": "People love telling Maya legends about stars, animals, and brave heroes around warm meals and sweet cocoa",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Lake Atitlán with volcanoes" },
+        { "url": "", "caption": "Maya ruins rising from the jungle" }
+      ],
+      "videos": [
+        { "url": "", "title": "Guatemala — volcanoes, markets, and Maya magic" }
+      ]
+    }
+  },
+  "Belize": {
+    "capitalCity": "Belmopan — a small capital near the rainforest 🌴",
+    "locationAndSize": "A tiny Central American country with the second-largest coral reef in the world",
+    "language": "English — plus Creole, Spanish, and Maya languages",
+    "cultureAndTraditions": "Belize is a mix of cultures — Garifuna drums, Maya stories, and Caribbean rhythms all in one happy place 🥁",
+    "natureAndWildlife": "Jaguars, toucans, howler monkeys, and sea turtles near bright coral gardens",
+    "friendlyPeople": "Belizeans greet you with a smile and 'Good morning!' even if they just met you",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Belize Barrier Reef turquoise water" },
+        { "url": "", "caption": "Toucan with a rainbow beak" }
+      ],
+      "videos": [
+        { "url": "", "title": "Belize — reefs, rainforests, and drums" }
+      ]
+    }
+  },
+  "Honduras": {
+    "capitalCity": "Tegucigalpa — a city in green mountains ⛰️",
+    "locationAndSize": "A Central American country with tropical forests and Caribbean islands",
+    "language": "Spanish — plus indigenous languages like Garifuna and Miskito",
+    "cultureAndTraditions": "The ancient Maya city of Copán has stone carvings that look like a giant history comic book 📜",
+    "natureAndWildlife": "Scarlet macaws fly like red-and-blue fireworks, and coral reefs sparkle near the Bay Islands",
+    "friendlyPeople": "Families love music and dancing — celebrations often include drums and joyful singing",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Copán Maya ruins stone carvings" },
+        { "url": "", "caption": "Scarlet macaw bright feathers" }
+      ],
+      "videos": [
+        { "url": "", "title": "Honduras — Maya ruins and colorful birds" }
+      ]
+    }
+  },
+  "El Salvador": {
+    "capitalCity": "San Salvador — a city with volcanoes on the horizon 🌋",
+    "locationAndSize": "The smallest country in Central America — but packed with beaches and volcanoes!",
+    "language": "Spanish",
+    "cultureAndTraditions": "Pupusas — warm stuffed corn cakes — are the national favorite snack, often eaten with crunchy cabbage salad 🫓",
+    "natureAndWildlife": "Sea turtles nest on sandy beaches, and green forests grow on volcanic slopes",
+    "friendlyPeople": "People love welcoming visitors with food and stories — sharing is a superpower here!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Volcano lake with green hills" },
+        { "url": "", "caption": "Ocean sunset on a Pacific beach" }
+      ],
+      "videos": [
+        { "url": "", "title": "El Salvador — volcanoes, beaches, and pupusas" }
+      ]
+    }
+  },
+  "Nicaragua": {
+    "capitalCity": "Managua — a lakeside capital with volcanoes nearby 🌋",
+    "locationAndSize": "A Central American country with two big lakes and many volcanoes",
+    "language": "Spanish",
+    "cultureAndTraditions": "There are colorful festivals with giant puppets and parades. In some places people even 'volcano-surf' down black volcanic sand! 🏄",
+    "natureAndWildlife": "Howler monkeys, sloths, and bright tropical birds live in forests; sea turtles visit the coasts",
+    "friendlyPeople": "Nicaraguan people are warm and calm — they love relaxed evenings with music and family",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Volcano cone above a blue lake" },
+        { "url": "", "caption": "Colorful colonial street in Granada" }
+      ],
+      "videos": [
+        { "url": "", "title": "Nicaragua — lakes, volcanoes, and parades" }
+      ]
+    }
+  },
+  "Costa Rica": {
+    "capitalCity": "San José — a friendly city in the green highlands 🌿",
+    "locationAndSize": "A Central American country between two oceans — the Pacific and the Caribbean",
+    "language": "Spanish",
+    "cultureAndTraditions": "Costa Rica protects nature like a superhero — many forests are national parks, and people say 'Pura Vida' meaning 'pure life!' 🌱",
+    "natureAndWildlife": "Sloths hang upside down in trees, colorful frogs glow like jewels, and hummingbirds buzz like tiny helicopters",
+    "friendlyPeople": "Kids learn to love animals and forests — taking care of nature is part of everyday life",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Sloth smiling in a tree" },
+        { "url": "", "caption": "Rainforest waterfall and mist" }
+      ],
+      "videos": [
+        { "url": "", "title": "Costa Rica — pura vida and rainforest friends" }
+      ]
+    }
+  },
+  "Panama": {
+    "capitalCity": "Panama City — skyscrapers on one side, jungle on the other! 🌆🌴",
+    "locationAndSize": "A narrow bridge of land connecting North and South America",
+    "language": "Spanish",
+    "cultureAndTraditions": "The Panama Canal is a giant water elevator for ships — boats travel between two oceans like magic! 🚢",
+    "natureAndWildlife": "Colorful poison dart frogs, sloths, and tropical birds live in the rainforest; dolphins swim near the coasts",
+    "friendlyPeople": "Panamanians love bright festivals with traditional hats and swirling pollera dresses",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Panama Canal locks lifting a ship" },
+        { "url": "", "caption": "Tropical rainforest canopy" }
+      ],
+      "videos": [
+        { "url": "", "title": "Panama — the canal between two oceans" }
+      ]
+    }
+  },
+  "Bahamas": {
+    "capitalCity": "Nassau — a sunny island capital with turquoise seas 🏝️",
+    "locationAndSize": "A chain of over 700 islands in the Atlantic Ocean near Florida",
+    "language": "English",
+    "cultureAndTraditions": "Junkanoo parades fill the streets with drums, colorful costumes, and dancing like a carnival storm 🥁",
+    "natureAndWildlife": "Pink flamingos, dolphins, and coral reefs that look like underwater gardens",
+    "friendlyPeople": "Island life is relaxed — people greet you like a neighbor and love sharing beach stories",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Turquoise water and white sand beach" },
+        { "url": "", "caption": "Pink flamingos walking in shallow water" }
+      ],
+      "videos": [
+        { "url": "", "title": "Bahamas — islands, reefs, and parades" }
+      ]
+    }
+  },
+  "Cuba": {
+    "capitalCity": "Havana — a city of colorful old buildings and lively music 🎺",
+    "locationAndSize": "A big Caribbean island surrounded by warm blue water",
+    "language": "Spanish",
+    "cultureAndTraditions": "Cuban music is everywhere — salsa rhythms, guitars, and dancing in the streets. Bright classic cars roll by like toys from the past 🚗",
+    "natureAndWildlife": "Tiny hummingbirds, coral reefs, and beautiful beaches with palm trees",
+    "friendlyPeople": "People love music and smiles — sometimes a street becomes a dance floor in seconds!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Colorful streets of Old Havana" },
+        { "url": "", "caption": "Caribbean beach with palm trees" }
+      ],
+      "videos": [{ "url": "", "title": "Cuba — music, colors, and warm seas" }]
+    }
+  },
+  "Haiti": {
+    "capitalCity": "Port-au-Prince — a capital full of art and strong spirit 🎨",
+    "locationAndSize": "A Caribbean country sharing the island of Hispaniola",
+    "language": "Haitian Creole and French",
+    "cultureAndTraditions": "Haiti is famous for vibrant paintings and beautiful handmade crafts. Music and drums are a heartbeat at celebrations 🥁",
+    "natureAndWildlife": "Mountains, tropical forests, and coastal bays with bright fish in warm waters",
+    "friendlyPeople": "Haitian people are creative and resilient — they love making beauty from simple things",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Colorful Haitian art market" },
+        { "url": "", "caption": "Green mountains meeting the sea" }
+      ],
+      "videos": [
+        { "url": "", "title": "Haiti — art, drums, and Caribbean mountains" }
+      ]
+    }
+  },
+  "Dominican Republic": {
+    "capitalCity": "Santo Domingo — the oldest European-style city in the Americas! 🏰",
+    "locationAndSize": "A Caribbean country sharing the island of Hispaniola with Haiti",
+    "language": "Spanish",
+    "cultureAndTraditions": "Merengue and bachata music make everyone want to dance. Festivals bring bright costumes and happy street parties 💃",
+    "natureAndWildlife": "Humpback whales visit nearby waters, and the island has mountains, caves, and palm beaches",
+    "friendlyPeople": "People love laughter, music, and welcoming visitors like cousins",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Old city streets of Santo Domingo" },
+        { "url": "", "caption": "Palm beach with clear Caribbean water" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Dominican Republic — dance, whales, and beaches"
+        }
+      ]
+    }
+  },
+  "Jamaica": {
+    "capitalCity": "Kingston — a lively capital where music is in the air 🎶",
+    "locationAndSize": "A Caribbean island with mountains and bright beaches",
+    "language": "English — plus Jamaican Patois, a fun local way of speaking",
+    "cultureAndTraditions": "Jamaica is famous for reggae music and cheerful celebrations. Drums and songs can turn any day into a party 🥁",
+    "natureAndWildlife": "Hummingbirds, blue mountains, waterfalls, and coral reefs near the shore",
+    "friendlyPeople": "Jamaicans love friendly greetings and making visitors feel at home — 'ya mon' means everything is okay!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Waterfall in a tropical forest" },
+        { "url": "", "caption": "Blue Mountains misty and green" }
+      ],
+      "videos": [
+        { "url": "", "title": "Jamaica — reggae, waterfalls, and sunshine" }
+      ]
+    }
+  },
+  "Trinidad and Tobago": {
+    "capitalCity": "Port of Spain — a colorful capital with a huge Carnival 🎭",
+    "locationAndSize": "Two islands at the southern edge of the Caribbean, close to South America",
+    "language": "English",
+    "cultureAndTraditions": "Carnival is a glittering explosion of costumes, steel drums, and dancing in the streets — like a rainbow parade that lasts for days! 🌈",
+    "natureAndWildlife": "Scarlet ibis birds fly in red flocks, leatherback turtles nest on beaches, and rainforests hide curious animals",
+    "friendlyPeople": "People love music — especially steelpan drums that sound like magic bells",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Carnival costumes bright and sparkling" },
+        { "url": "", "caption": "Scarlet ibis birds in the wetlands" }
+      ],
+      "videos": [
+        { "url": "", "title": "Trinidad and Tobago — Carnival and steel drums" }
+      ]
+    }
+  },
+  "Barbados": {
+    "capitalCity": "Bridgetown — a seaside capital with gentle waves 🌊",
+    "locationAndSize": "A small Caribbean island made of coral and sunshine",
+    "language": "English",
+    "cultureAndTraditions": "Crop Over is a big festival with music, dancing, and colorful costumes celebrating the end of the sugarcane harvest 🎉",
+    "natureAndWildlife": "Sea turtles swim near coral reefs, and flying fish sparkle above the water like tiny silver rockets",
+    "friendlyPeople": "Barbadians (Bajans) are known for warm smiles and friendly chats — even strangers feel like friends",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Crystal-clear beach and coral sea" },
+        { "url": "", "caption": "Sea turtle gliding underwater" }
+      ],
+      "videos": [
+        { "url": "", "title": "Barbados — turtles, reefs, and festivals" }
+      ]
+    }
+  },
+  "Saint Lucia": {
+    "capitalCity": "Castries — a cozy harbor capital 🛥️",
+    "locationAndSize": "A green volcanic island in the Caribbean",
+    "language": "English — and Saint Lucian Creole French (Kwéyòl)",
+    "cultureAndTraditions": "The island has festivals with drums and dancing, and everyone loves stories about the clever spider Anansi 🕷️",
+    "natureAndWildlife": "The Pitons are twin mountains that rise like sleeping giants. Parrots, frogs, and tropical fish live in forests and reefs",
+    "friendlyPeople": "Island life is kind and welcoming — neighbors help each other like one big family",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "The Pitons twin mountains by the sea" },
+        { "url": "", "caption": "Tropical rainforest and waterfall" }
+      ],
+      "videos": [
+        { "url": "", "title": "Saint Lucia — Pitons, parrots, and warm smiles" }
+      ]
+    }
+  },
+  "Grenada": {
+    "capitalCity": "St. George's — a postcard-perfect harbor town ⛵",
+    "locationAndSize": "A small Caribbean island known as the 'Spice Isle'",
+    "language": "English",
+    "cultureAndTraditions": "Grenada grows nutmeg, cinnamon, and cocoa — the air can smell like cookies! 🍪",
+    "natureAndWildlife": "Rainforests, waterfalls, and colorful fish around coral reefs",
+    "friendlyPeople": "People are gentle and welcoming — they love sharing fruit, stories, and island music",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "St. George's harbor bright boats" },
+        { "url": "", "caption": "Nutmeg and spices at a market" }
+      ],
+      "videos": [
+        { "url": "", "title": "Grenada — spices, waterfalls, and reefs" }
+      ]
+    }
+  },
+  "Antigua and Barbuda": {
+    "capitalCity": "St. John's — a sunny capital with a bright harbor 🏝️",
+    "locationAndSize": "Two Caribbean islands famous for beaches — people say there is a beach for every day of the year!",
+    "language": "English",
+    "cultureAndTraditions": "Sailing is a big deal — colorful boats race on the sea like flying birds ⛵",
+    "natureAndWildlife": "Sea turtles, coral reefs, and tropical birds in mangroves",
+    "friendlyPeople": "Islanders love welcoming guests with music and cheerful greetings",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Sailing boats on turquoise sea" },
+        { "url": "", "caption": "White sand beach and palms" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Antigua and Barbuda — sailing and sunny beaches"
+        }
+      ]
+    }
+  },
+  "Dominica": {
+    "capitalCity": "Roseau — a small capital near wild green mountains 🌿",
+    "locationAndSize": "A Caribbean island covered in rainforest — called the 'Nature Island'",
+    "language": "English",
+    "cultureAndTraditions": "People celebrate with drums and dances, and the island has a famous boiling lake that looks like a wizard's cauldron! 🫧",
+    "natureAndWildlife": "Parrots, waterfalls, hot springs, and whales off the coast",
+    "friendlyPeople": "Dominicans love nature — hikes, rivers, and picnics are part of island life",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Waterfall in deep rainforest" },
+        { "url": "", "caption": "Hot spring steam in the forest" }
+      ],
+      "videos": [
+        { "url": "", "title": "Dominica — rainforest, hot springs, and whales" }
+      ]
+    }
+  },
+  "Saint Kitts and Nevis": {
+    "capitalCity": "Basseterre — a small capital by the sea 🌊",
+    "locationAndSize": "Two little Caribbean islands with a big green volcano mountain",
+    "language": "English",
+    "cultureAndTraditions": "A tiny train once carried sugarcane — today it takes visitors on a fun island journey like a storybook ride 🚂",
+    "natureAndWildlife": "Monkeys in the forest, bright fish in reefs, and sea turtles in warm bays",
+    "friendlyPeople": "Life is slow and friendly — people wave and smile like you are already their friend",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Green mountain rising above the island" },
+        { "url": "", "caption": "Caribbean bay with clear water" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Saint Kitts and Nevis — tiny islands, big nature"
+        }
+      ]
+    }
+  },
+  "Saint Vincent and the Grenadines": {
+    "capitalCity": "Kingstown — a harbor city with boats and palm trees ⛵",
+    "locationAndSize": "A Caribbean country made of many small islands sprinkled in the sea",
+    "language": "English",
+    "cultureAndTraditions": "Some islands look like pirate treasure maps — hidden coves, sails, and songs in the wind 🏴‍☠️",
+    "natureAndWildlife": "Coral reefs, sea turtles, and green hills with volcanic peaks",
+    "friendlyPeople": "Islanders love sharing fresh fruit and telling sea stories at sunset",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Small islands dotted in turquoise sea" },
+        { "url": "", "caption": "Sailboat near a quiet bay" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Saint Vincent — islands, reefs, and sea adventures"
+        }
+      ]
+    }
+  },
   "Argentina": {
     "capitalCity": "Buenos Aires — a city that never sleeps, full of tango dancers and amazing beef! 💃🥩",
     "locationAndSize": "A huge country at the very bottom of South America — the 8th largest in the whole world!",
@@ -1047,6 +1446,1646 @@
           "url": "",
           "title": "Venezuela — Angel Falls and lost worlds"
         }
+      ]
+    }
+  },
+  "Afghanistan": {
+    "capitalCity": "Kabul — a mountain city where snowy peaks circle the houses like a stone crown 🏔️",
+    "locationAndSize": "A landlocked country in the heart of Asia, full of high mountains and ancient trade routes",
+    "language": "Dari and Pashto — two poetic languages used to tell old legends and poems",
+    "cultureAndTraditions": "Afghanistan lies on the Silk Road — for thousands of years traders brought spices, silk, and stories through its valleys 🐪. Colorful kites dance in the sky during festivals!",
+    "natureAndWildlife": "Snow leopards stalk the high mountains, Marco Polo sheep climb steep cliffs, and pomegranate orchards glow red in the sun",
+    "friendlyPeople": "Afghan families always offer guests tea and bread, even when they have very little — sharing is a sacred rule ☕",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Snowy Hindu Kush mountains" },
+        { "url": "", "caption": "Colorful kites flying above Kabul" }
+      ],
+      "videos": [
+        { "url": "", "title": "Afghanistan — mountains, caravans, and kites" }
+      ]
+    }
+  },
+  "Armenia": {
+    "capitalCity": "Yerevan — a pink stone city with a snowy volcano-shaped mountain watching from afar 🗻",
+    "locationAndSize": "A small, very ancient country in the mountains between Europe and Asia",
+    "language": "Armenian — with its own special alphabet that looks like curly magic symbols",
+    "cultureAndTraditions": "Armenia was one of the first Christian countries in the world — tiny stone churches sit on hilltops like storybook houses ⛪. Apricots and pomegranates are beloved fruits and symbols of joy",
+    "natureAndWildlife": "Mount Ararat rises like a giant from the clouds, eagles circle mountain valleys, and high lakes shine like pieces of sky",
+    "friendlyPeople": "Armenian grandmothers never let you leave hungry — they fill the table with bread, cheese, herbs, and sweets for every guest!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Monastery on a cliff below Mount Ararat" },
+        { "url": "", "caption": "Pink tuff stone buildings in Yerevan" }
+      ],
+      "videos": [{ "url": "", "title": "Armenia — apricot land of mountains" }]
+    }
+  },
+  "Azerbaijan": {
+    "capitalCity": "Baku — a city on the Caspian Sea where flame-shaped towers glow at night 🔥",
+    "locationAndSize": "A country between the Caucasus Mountains and the Caspian Sea, sometimes called the Land of Fire",
+    "language": "Azerbaijani — a Turkic language with singing sounds",
+    "cultureAndTraditions": "Natural gas escapes from the ground and creates 'eternal flames' that have burned for thousands of years! People celebrate Novruz, the spring festival, by jumping over bonfires to leave worries behind 🔥",
+    "natureAndWildlife": "High mountain meadows, mud volcanoes that bubble like cauldrons, and rare leopards and bears in deep forests",
+    "friendlyPeople": "Azerbaijani hospitality means endless tea, sweets, and stories — leaving a guest hungry would be a great shame!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Flame Towers shining over Baku" },
+        { "url": "", "caption": "Mud volcanoes on the Caspian coast" }
+      ],
+      "videos": [{ "url": "", "title": "Azerbaijan — land of fire and tea" }]
+    }
+  },
+  "Georgia": {
+    "capitalCity": "Tbilisi — a city of hot springs and colorful balconies hanging over a river 🏘️",
+    "locationAndSize": "A small mountainous country between Europe and Asia on the Black Sea",
+    "language": "Georgian — with a round, swirly alphabet that looks like little clouds writing",
+    "cultureAndTraditions": "Georgia claims to be the birthplace of wine — people have been making wine in clay pots buried underground for 8,000 years! 🍇 Traditional feasts called supra last for hours with songs and toasts",
+    "natureAndWildlife": "Snowy Caucasus peaks, green valleys full of vineyards, and brown bears and wolves in the forests",
+    "friendlyPeople": "Georgians love guests so much there is a saying: 'A guest is a gift from God' — expect too much food and too many songs!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Tbilisi old town with wooden balconies" },
+        { "url": "", "caption": "Caucasus mountains and hilltop churches" }
+      ],
+      "videos": [{ "url": "", "title": "Georgia — mountains, wine, and songs" }]
+    }
+  },
+  "Bahrain": {
+    "capitalCity": "Manama — a shiny modern city on islands in the warm Gulf 🏙️",
+    "locationAndSize": "A tiny island country in the Persian Gulf connected to Saudi Arabia by a long bridge",
+    "language": "Arabic — the language of beautiful calligraphy",
+    "cultureAndTraditions": "Before oil, people here were famous pearl divers — they searched the sea for glowing white pearls inside oysters 🐚. Today there are big festivals and even Formula 1 races!",
+    "natureAndWildlife": "Palm trees, desert dunes, and the 'Tree of Life' — a lonely tree that somehow lives in the middle of the desert",
+    "friendlyPeople": "Bahrainis love family gatherings with dates, coffee, and long conversations late into the night",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Bahrain skyline and causeway bridge" },
+        { "url": "", "caption": "Traditional dhow boats at sunset" }
+      ],
+      "videos": [
+        { "url": "", "title": "Bahrain — pearls, palms, and skyscrapers" }
+      ]
+    }
+  },
+  "Bangladesh": {
+    "capitalCity": "Dhaka — a super busy city full of colorful rickshaws and boats 🛶",
+    "locationAndSize": "A green, low-lying country in South Asia where many rivers meet the sea",
+    "language": "Bangla (Bengali) — a poetic language loved by famous writers and singers",
+    "cultureAndTraditions": "The Bengali New Year fills streets with music, masks, and giant colorful animal figures! The country is famous for its beautiful hand-woven cotton clothes and saris",
+    "natureAndWildlife": "The Sundarbans is the largest mangrove forest on Earth and home to swimming Bengal tigers, crocodiles, and dolphins 🐅",
+    "friendlyPeople": "Bangladeshi people love offering guests sweet tea and snacks — even strangers are welcomed like old friends",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Colorful rickshaws in Dhaka" },
+        { "url": "", "caption": "Sundarbans mangrove forest and boats" }
+      ],
+      "videos": [
+        { "url": "", "title": "Bangladesh — rivers, tigers, and festivals" }
+      ]
+    }
+  },
+  "Bhutan": {
+    "capitalCity": "Thimphu — a mountain capital with no traffic lights, only friendly policemen 👮",
+    "locationAndSize": "A tiny Himalayan kingdom high in the mountains between India and China",
+    "language": "Dzongkha — the language of monasteries and mountain villages",
+    "cultureAndTraditions": "Bhutan measures success in Gross National Happiness instead of money — they officially care most about people being happy! Monks in orange robes live in cliff-hanging monasteries 🧘",
+    "natureAndWildlife": "Snow leopards, red pandas, and takins (a funny goat-cow animal) roam forests on the sides of steep valleys",
+    "friendlyPeople": "Bhutanese people believe in kindness to all living beings — even stray dogs are gently cared for in the streets",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Tiger's Nest monastery on a cliff" },
+        { "url": "", "caption": "Himalayan valley with prayer flags" }
+      ],
+      "videos": [{ "url": "", "title": "Bhutan — kingdom of happiness" }]
+    }
+  },
+  "Brunei": {
+    "capitalCity": "Bandar Seri Begawan — a city with a golden-domed mosque and houses on stilts over the river 🕌",
+    "locationAndSize": "A very small, very rich country on the island of Borneo in Southeast Asia",
+    "language": "Malay — and many people also speak English",
+    "cultureAndTraditions": "Many families live in Kampong Ayer, a 'water village' where wooden walkways connect houses above the river. Boats are like cars here! 🚤",
+    "natureAndWildlife": "Dense rainforest full of proboscis monkeys with funny big noses, hornbills, and glowing fireflies at night",
+    "friendlyPeople": "Bruneians enjoy calm, family-centered lives and love sharing sweet tea and snacks with visitors",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Golden mosque reflected in the water" },
+        { "url": "", "caption": "Stilt houses of Kampong Ayer" }
+      ],
+      "videos": [
+        { "url": "", "title": "Brunei — rainforest and water villages" }
+      ]
+    }
+  },
+  "Cambodia": {
+    "capitalCity": "Phnom Penh — a riverside city with golden temple roofs shining in the sun 🛕",
+    "locationAndSize": "A Southeast Asian country with ancient temples and rice fields",
+    "language": "Khmer — written with curly letters that look like loops and waves",
+    "cultureAndTraditions": "Angkor Wat is the largest religious temple complex in the world — carved stone towers rise from the jungle like something from a lost kingdom 🏰",
+    "natureAndWildlife": "The Mekong River flows through, full of giant catfish and rare dolphins. Rice paddies glow green, and tropical forests hide elephants and gibbons",
+    "friendlyPeople": "Cambodians greet each other with a smile and palms pressed together — a gesture of respect and warmth",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Sunrise over Angkor Wat" },
+        { "url": "", "caption": "Cambodian rice fields and palm trees" }
+      ],
+      "videos": [
+        { "url": "", "title": "Cambodia — temples, rivers, and smiles" }
+      ]
+    }
+  },
+  "China": {
+    "capitalCity": "Beijing — a huge city with a Forbidden City palace that used to be home to emperors 🏯",
+    "locationAndSize": "One of the largest countries in the world, stretching from deserts to tropical seas",
+    "language": "Chinese (Mandarin) — the most spoken language on Earth",
+    "cultureAndTraditions": "The Great Wall of China is so long it could wrap around the moon if unrolled! 🧱 People celebrate Lunar New Year with red lanterns, dragon dances, and fireworks",
+    "natureAndWildlife": "Pandas munch bamboo in misty mountains, snow leopards hunt in the west, and karst mountains rise like dragon teeth from green rivers 🐼",
+    "friendlyPeople": "Sharing food is very important — families gather around round tables full of dumplings, noodles, and tea and talk for hours",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Panda eating bamboo in Sichuan" },
+        { "url": "", "caption": "Great Wall winding over the hills" }
+      ],
+      "videos": [{ "url": "", "title": "China — dragons, walls, and pandas" }]
+    }
+  },
+  "India": {
+    "capitalCity": "New Delhi — a bustling city of ancient forts and busy markets full of colors 🎨",
+    "locationAndSize": "A huge South Asian country almost as big as all of Western Europe combined",
+    "language": "India has 22 official languages — Hindi and English are widely used, but hundreds of others are spoken too!",
+    "cultureAndTraditions": "Holi, the festival of colors, turns streets into rainbows as people throw bright powders at each other 🌈. Diwali, the festival of lights, fills homes with candles, lamps, and fireworks",
+    "natureAndWildlife": "From snowy Himalayas to tiger-filled jungles and palm-fringed beaches, India is a treasure chest of animals: tigers, elephants, peacocks, and monkeys 🐅",
+    "friendlyPeople": "Indian families love feeding guests — you might be given spicy curry, naan bread, and sweet gulab jamun balls until you can’t eat another bite!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Taj Mahal glowing at sunrise" },
+        { "url": "", "caption": "Holi festival colors in the air" }
+      ],
+      "videos": [
+        { "url": "", "title": "India — colors, festivals, and tigers" }
+      ]
+    }
+  },
+  "Indonesia": {
+    "capitalCity": "Jakarta — a mega-city on the island of Java full of scooters and skyscrapers 🏙️",
+    "locationAndSize": "The world's largest island country with over 17,000 islands between the Indian and Pacific Oceans",
+    "language": "Indonesian (Bahasa Indonesia) — unites hundreds of different ethnic groups and languages",
+    "cultureAndTraditions": "On Bali, colorful offerings of flowers and rice are placed everywhere for the gods. Traditional dances tell stories of demons, heroes, and monkeys in golden masks 🐒",
+    "natureAndWildlife": "Komodo dragons — the largest lizards on Earth — prowl dry islands. Orangutans swing in the rainforests of Borneo and Sumatra, and volcanoes smoke above emerald rice terraces",
+    "friendlyPeople": "Indonesians often greet with a warm smile and the word 'Selamat' — wishing you safety and happiness",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Rice terraces and temples in Bali" },
+        { "url": "", "caption": "Orangutan in the lush rainforest" }
+      ],
+      "videos": [
+        { "url": "", "title": "Indonesia — islands, dragons, and jungles" }
+      ]
+    }
+  },
+  "Iran": {
+    "capitalCity": "Tehran — a big city under snow-capped mountains filled with bazaars and museums 🏔️",
+    "locationAndSize": "A large country in Western Asia, once part of the mighty Persian Empire",
+    "language": "Persian (Farsi) — a language of poetry and fairy tales about heroes and flying carpets",
+    "cultureAndTraditions": "Persian carpets are hand-woven works of art that can take years to finish 🧶. During Nowruz, the Persian New Year, families set special tables with seven symbolic items for good luck",
+    "natureAndWildlife": "From hot deserts with salt lakes that look like mirrors to green forests and snowy ski slopes, Iran has many faces. Asiatic cheetahs and Persian leopards still live in the wild",
+    "friendlyPeople": "Iranian hospitality is legendary — guests are showered with tea, sweets, and invitations to stay longer than planned!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Colorful tiles inside a Persian mosque" },
+        { "url": "", "caption": "Ancient columns of Persepolis ruins" }
+      ],
+      "videos": [
+        { "url": "", "title": "Iran — carpets, poetry, and ancient cities" }
+      ]
+    }
+  },
+  "Iraq": {
+    "capitalCity": "Baghdad — once the center of the ancient world of science and stories 📚",
+    "locationAndSize": "A country in Western Asia where the Tigris and Euphrates rivers flow through desert and fields",
+    "language": "Arabic and Kurdish — two main languages with many local dialects",
+    "cultureAndTraditions": "The tales of 'One Thousand and One Nights' with Aladdin and flying carpets grew from this region. Long ago, Baghdad’s House of Wisdom gathered the smartest scholars of the world",
+    "natureAndWildlife": "Date palm groves stretch along rivers, and marshlands in the south are like a watery maze full of reeds and birds",
+    "friendlyPeople": "Iraqi hospitality means endless tiny cups of strong, sweet tea and coffee, and always one more plate of food",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Boats on the Tigris River" },
+        { "url": "", "caption": "Golden domes and old streets" }
+      ],
+      "videos": [
+        { "url": "", "title": "Iraq — rivers, stories, and date palms" }
+      ]
+    }
+  },
+  "Israel": {
+    "capitalCity": "Jerusalem — a holy city for three major religions with ancient stone streets and golden domes ✨",
+    "locationAndSize": "A small country on the eastern shore of the Mediterranean Sea",
+    "language": "Hebrew and Arabic — and many people speak English and Russian too",
+    "cultureAndTraditions": "People float like corks in the Dead Sea because the water is so salty 🧂. Jewish families light candles for Shabbat on Friday evenings and share special bread called challah",
+    "natureAndWildlife": "From snowy Mount Hermon to desert craters and coral reefs in the Red Sea, Israel is very varied. Ibex climb cliffs like acrobats",
+    "friendlyPeople": "Markets called shuk are full of shouting, bargaining, and laughter — and stall owners love giving children little tastes of sweets and fruit",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Old City of Jerusalem with golden dome" },
+        { "url": "", "caption": "Floating on the Dead Sea" }
+      ],
+      "videos": [
+        { "url": "", "title": "Israel — deserts, seas, and holy stories" }
+      ]
+    }
+  },
+  "Japan": {
+    "capitalCity": "Tokyo — a super modern city of neon lights, bullet trains, and tiny ramen shops 🍜",
+    "locationAndSize": "An island nation in East Asia made of four main islands and thousands of smaller ones",
+    "language": "Japanese — written with three different alphabets, like three sets of magical symbols",
+    "cultureAndTraditions": "In spring, people picnic under cherry blossoms and celebrate hanami — 'flower viewing' 🌸. Samurai, ninja, geisha, anime, and video games all grew from Japanese culture!",
+    "natureAndWildlife": "Volcanoes like Mount Fuji, hot springs where snow monkeys take baths, bamboo forests, and coral reefs full of tropical fish",
+    "friendlyPeople": "Japanese politeness is famous — people bow, say 'arigatou', and even trains apologize if they are one minute late",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Mount Fuji with cherry blossoms" },
+        { "url": "", "caption": "Tokyo night lights and crosswalks" }
+      ],
+      "videos": [
+        { "url": "", "title": "Japan — cherry blossoms, robots, and ramen" }
+      ]
+    }
+  },
+  "Jordan": {
+    "capitalCity": "Amman — a city of white houses climbing many hills 🏙️",
+    "locationAndSize": "A small desert country in the Middle East with incredible ancient ruins",
+    "language": "Arabic",
+    "cultureAndTraditions": "Petra, the 'rose-red city', was carved directly into the rock — you enter through a narrow canyon and suddenly see a giant temple glowing pink 🐫",
+    "natureAndWildlife": "The red desert of Wadi Rum looks like Mars with its sandstone towers. Camels, desert foxes, and eagles live in the wild areas",
+    "friendlyPeople": "Bedouin people serve tea and bread in goat-hair tents and tell stories by the campfire under a sky full of stars",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Petra Treasury carved into rock" },
+        { "url": "", "caption": "Desert landscape of Wadi Rum" }
+      ],
+      "videos": [{ "url": "", "title": "Jordan — rock cities and red deserts" }]
+    }
+  },
+  "Kazakhstan": {
+    "capitalCity": "Astana (Nur-Sultan) — a futuristic city with space-age buildings in the steppe 🏙️",
+    "locationAndSize": "A huge landlocked country in Central Asia with endless grasslands called steppe",
+    "language": "Kazakh and Russian",
+    "cultureAndTraditions": "For centuries, Kazakh nomads lived in yurts — round felt tents — and rode horses across open plains 🐎. Eagle hunters still train golden eagles to help them hunt",
+    "natureAndWildlife": "Wild horses, saiga antelopes with funny noses, and eagles soar over wide skies. In the east, high mountains sparkle with snow",
+    "friendlyPeople": "Even today, being a guest in a Kazakh home means being treated like royalty with tea, bread, and many meat dishes",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Yurt on the open Kazakh steppe" },
+        { "url": "", "caption": "Golden eagle on a hunter's arm" }
+      ],
+      "videos": [
+        { "url": "", "title": "Kazakhstan — steppe, horses, and eagles" }
+      ]
+    }
+  },
+  "Kyrgyzstan": {
+    "capitalCity": "Bishkek — a leafy city at the foot of tall snowy mountains 🏔️",
+    "locationAndSize": "A mountainous country in Central Asia covered by the Tien Shan 'Celestial Mountains'",
+    "language": "Kyrgyz and Russian",
+    "cultureAndTraditions": "Kyrgyz people have long been nomads, moving with their herds and living in white felt yurts. Horse games and long epic poems are important parts of culture 🐎",
+    "natureAndWildlife": "Crystal mountain lakes like Issyk-Kul, glaciers, edelweiss flowers, and snow leopards in high rocky areas",
+    "friendlyPeople": "Travelers staying in yurts are given hot tea, fresh bread, and a warm bed — even in the middle of nowhere in the mountains",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Yurts by a mountain lake" },
+        { "url": "", "caption": "Horses grazing on green alpine pastures" }
+      ],
+      "videos": [
+        { "url": "", "title": "Kyrgyzstan — yurts, horses, and high mountains" }
+      ]
+    }
+  },
+  "Laos": {
+    "capitalCity": "Vientiane — a quiet riverside capital with golden temples and sleepy streets 🌅",
+    "locationAndSize": "A landlocked country in Southeast Asia covered in forests and crossed by the Mekong River",
+    "language": "Lao",
+    "cultureAndTraditions": "In the morning, long lines of monks in orange robes walk quietly through the streets while people give them food in a ceremony called alms giving 🧡",
+    "natureAndWildlife": "Karst mountains and caves, waterfalls that look like steps, and forests with gibbons and elephants",
+    "friendlyPeople": "Life in Laos is famously relaxed — people smile slowly, speak softly, and believe there is always time for another cup of tea",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Golden stupa temple in Vientiane" },
+        { "url": "", "caption": "Turquoise waterfall pools in the forest" }
+      ],
+      "videos": [
+        { "url": "", "title": "Laos — temples, waterfalls, and quiet smiles" }
+      ]
+    }
+  },
+  "Lebanon": {
+    "capitalCity": "Beirut — a lively coastal city with cafes, music, and the blue Mediterranean Sea 🌊",
+    "locationAndSize": "A tiny country on the eastern Mediterranean coast with high mountains",
+    "language": "Arabic — and many people also speak French and English",
+    "cultureAndTraditions": "Lebanon is famous for delicious mezze — many small plates full of hummus, tabbouleh, and warm bread 🫓. The ancient city of Byblos is one of the oldest continuously inhabited cities in the world",
+    "natureAndWildlife": "Cedar trees, the symbol of the country, grow high in the mountains and can live for thousands of years 🌲",
+    "friendlyPeople": "Lebanese people love gathering friends and family for long meals filled with laughter and music late into the night",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Cedar trees in the Lebanese mountains" },
+        { "url": "", "caption": "Beirut seaside promenade at sunset" }
+      ],
+      "videos": [{ "url": "", "title": "Lebanon — cedars, coast, and cuisine" }]
+    }
+  },
+  "Malaysia": {
+    "capitalCity": "Kuala Lumpur — a city of skyscrapers, sky-bridges, and rainforests just outside the door 🌧️",
+    "locationAndSize": "A Southeast Asian country split between the Malay Peninsula and the island of Borneo",
+    "language": "Malay — and many people speak Chinese, Tamil, and English too",
+    "cultureAndTraditions": "Malaysia is a mix of Malay, Chinese, Indian, and many other cultures, so festivals and foods from different traditions all live side by side 🎉",
+    "natureAndWildlife": "Rainforests with orangutans, hornbills, and tiny mouse deer. On Borneo, Rafflesia flowers bloom as giant red 'monster flowers'",
+    "friendlyPeople": "Malaysians love street food — night markets fill with families eating satay, noodles, and desserts together",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Petronas Twin Towers in Kuala Lumpur" },
+        { "url": "", "caption": "Orangutan in Borneo rainforest" }
+      ],
+      "videos": [
+        { "url": "", "title": "Malaysia — towers, jungles, and food stalls" }
+      ]
+    }
+  },
+  "Maldives": {
+    "capitalCity": "Malé — a tiny, colorful capital city that almost fills its own island 🏝️",
+    "locationAndSize": "A chain of over 1,000 coral islands in the Indian Ocean, just barely above sea level",
+    "language": "Dhivehi",
+    "cultureAndTraditions": "Life turns around the sea — fishing boats, coral reefs, and fruit from palm trees. Drums and dances happen on the beach under the stars 🌟",
+    "natureAndWildlife": "Crystal-clear water, mantas and whale sharks gliding through the sea, coral gardens, and coconut palms",
+    "friendlyPeople": "Maldivian island communities are tight-knit — everyone knows each other, and children grow up between sea and sand",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Overwater houses above turquoise lagoon" },
+        { "url": "", "caption": "Manta ray swimming in clear water" }
+      ],
+      "videos": [
+        { "url": "", "title": "Maldives — sea, sand, and coral dreams" }
+      ]
+    }
+  },
+  "Mongolia": {
+    "capitalCity": "Ulaanbaatar — a city where modern buildings stand beside round nomad tents called gers 🏕️",
+    "locationAndSize": "A vast landlocked country in East Asia with endless grasslands and deserts",
+    "language": "Mongolian — written in a tall, vertical script in traditional form",
+    "cultureAndTraditions": "The Naadam festival celebrates 'the three manly games': wrestling, horse racing, and archery. Children as young as five ride racehorses across the steppe! 🐎",
+    "natureAndWildlife": "The Gobi Desert has singing dunes and rare two-humped camels. Wild horses called Przewalski's horses live here too",
+    "friendlyPeople": "Mongolian nomads welcome travelers into their gers with salty milk tea and dried cheese snacks, even in the middle of nowhere",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Ger tent on the Mongolian steppe" },
+        { "url": "", "caption": "Horses racing across open grasslands" }
+      ],
+      "videos": [
+        { "url": "", "title": "Mongolia — steppe, horses, and big skies" }
+      ]
+    }
+  },
+  "Myanmar": {
+    "capitalCity": "Naypyidaw (official) and Yangon — cities with golden pagodas that shine in the sun 🛕",
+    "locationAndSize": "A Southeast Asian country between India, China, and Thailand with long rivers and many temples",
+    "language": "Burmese",
+    "cultureAndTraditions": "In Bagan, thousands of brick temples rise from a misty plain like a stone forest. People wear thanaka paste on their faces to protect from the sun and for beauty 🌞",
+    "natureAndWildlife": "Elephants, tigers, and rare snub-nosed monkeys live in the forests, while long narrow boats glide across mountain lakes",
+    "friendlyPeople": "People greet with warm smiles and often invite strangers to share tea made with milk and sweet condensed milk",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Sunrise over temples of Bagan" },
+        { "url": "", "caption": "Fisherman on Inle Lake balancing on one leg" }
+      ],
+      "videos": [
+        { "url": "", "title": "Myanmar — temples, lakes, and golden pagodas" }
+      ]
+    }
+  },
+  "Nepal": {
+    "capitalCity": "Kathmandu — a valley city full of temples, prayer flags, and narrow alleys 🏯",
+    "locationAndSize": "A small country tucked into the Himalayas, home of Mount Everest — the highest mountain on Earth",
+    "language": "Nepali",
+    "cultureAndTraditions": "Colorful prayer flags flutter above mountain trails carrying good wishes on the wind. Many Sherpa people help climbers reach the highest peaks 🏔️",
+    "natureAndWildlife": "Snow leopards, yaks, red pandas, and rhinos in the lowland jungles of Chitwan National Park",
+    "friendlyPeople": "Nepalese people greet with palms together and say 'Namaste' — meaning 'I see the light in you' 🙏",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Himalayan peaks and prayer flags" },
+        { "url": "", "caption": "Durbar Square temples in Kathmandu" }
+      ],
+      "videos": [{ "url": "", "title": "Nepal — Himalayas, temples, and yaks" }]
+    }
+  },
+  "North Korea": {
+    "capitalCity": "Pyongyang — a city of wide avenues, tall monuments, and carefully organized parades 🎏",
+    "locationAndSize": "A mountainous country in East Asia on the northern half of the Korean Peninsula",
+    "language": "Korean",
+    "cultureAndTraditions": "Traditional Korean music and dance survive alongside strict modern rules. Colorful hanbok clothes and fan dances are still performed",
+    "natureAndWildlife": "Mountain ranges, forests, and coastal wetlands with many birds",
+    "friendlyPeople": "Ordinary Korean families, like everywhere, love their children, stories, and shared meals of rice and kimchi",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Mountains of the Korean Peninsula" },
+        { "url": "", "caption": "Traditional Korean hanbok dress" }
+      ],
+      "videos": [
+        { "url": "", "title": "Korean Peninsula — mountains and traditions" }
+      ]
+    }
+  },
+  "South Korea": {
+    "capitalCity": "Seoul — a high-tech city where ancient palaces stand next to neon skyscrapers 🌆",
+    "locationAndSize": "A small, very modern country in East Asia on the southern half of the Korean Peninsula",
+    "language": "Korean — written with Hangul, an alphabet specially designed to be easy to learn",
+    "cultureAndTraditions": "K‑pop, K‑dramas, and video games from Korea are loved by kids all over the world 🎮. At the same time, people still wear traditional hanbok on holidays and visit old palaces",
+    "natureAndWildlife": "Green mountains, islands, and forests; cranes and deer live in quiet valleys",
+    "friendlyPeople": "Koreans share food from the middle of the table — dishes of kimchi, rice, and noodles that everyone eats together",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Seoul skyline with ancient palace" },
+        { "url": "", "caption": "Hanbok clothes in bright colors" }
+      ],
+      "videos": [
+        { "url": "", "title": "South Korea — palaces, pop music, and kimchi" }
+      ]
+    }
+  },
+  "Oman": {
+    "capitalCity": "Muscat — a calm white city between the sea and brown rocky mountains 🌊",
+    "locationAndSize": "A peaceful country on the southeastern tip of the Arabian Peninsula",
+    "language": "Arabic",
+    "cultureAndTraditions": "Frankincense, a tree resin that smells wonderful when burned, once made Oman very rich — caravans carried it across deserts like a sweet-smelling river of trade 🌳",
+    "natureAndWildlife": "Golden sand dunes, green wadis with palm trees and pools, and sea turtles that nest on quiet beaches",
+    "friendlyPeople": "Omanis are known for gentle manners and strong coffee with dates offered to guests as a sign of respect",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Fort and mosque by the sea in Muscat" },
+        { "url": "", "caption": "Palm-filled wadi oasis in the desert" }
+      ],
+      "videos": [
+        { "url": "", "title": "Oman — deserts, forts, and frankincense" }
+      ]
+    }
+  },
+  "Pakistan": {
+    "capitalCity": "Islamabad — a green, carefully planned city with a huge modern mosque 🕌",
+    "locationAndSize": "A South Asian country with some of the highest mountains in the world in the north",
+    "language": "Urdu and English as official languages, and many regional languages like Punjabi and Pashto",
+    "cultureAndTraditions": "Truck art in Pakistan turns simple trucks into moving rainbows covered with flowers, birds, and mirrors 🚚. Cricket is a national obsession — street games are everywhere",
+    "natureAndWildlife": "Karakoram and Himalayan peaks including K2, deserts, forests, and river plains home to snow leopards, markhor goats, and river dolphins",
+    "friendlyPeople": "Guests are treated with big plates of biryani rice, sweet mangoes, and strong chai — refusing more food is very difficult!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Colorfully painted Pakistani truck" },
+        { "url": "", "caption": "Snowy peaks of northern Pakistan" }
+      ],
+      "videos": [
+        { "url": "", "title": "Pakistan — peaks, patterns, and cricket" }
+      ]
+    }
+  },
+  "Philippines": {
+    "capitalCity": "Manila — a buzzing city on a big bay, full of jeepneys painted like comic books 🚍",
+    "locationAndSize": "An island country in Southeast Asia made of more than 7,600 islands",
+    "language": "Filipino and English — and many local languages on different islands",
+    "cultureAndTraditions": "Christmas season here is one of the longest in the world — starting as early as September with lanterns called parols glowing everywhere 🎄",
+    "natureAndWildlife": "Tarsiers, some of the smallest primates in the world, cling to trees with huge eyes. Volcanoes, chocolate hills, coral reefs, and white sand beaches fill the islands",
+    "friendlyPeople": "Filipinos are known for karaoke — families and friends love singing together loudly and joyfully!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Tarsier with huge eyes on Bohol" },
+        { "url": "", "caption": "White sand beach and palm trees" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Philippines — islands, songs, and tiny tarsiers"
+        }
+      ]
+    }
+  },
+  "Qatar": {
+    "capitalCity": "Doha — a futuristic skyline rising out of the desert next to traditional wooden boats 🛥️",
+    "locationAndSize": "A small, rich peninsula country sticking into the Persian Gulf",
+    "language": "Arabic",
+    "cultureAndTraditions": "Camel racing and falconry are still practiced sports — there are even tiny robots that ride the camels in races 🐪",
+    "natureAndWildlife": "Beaches, sand dunes, and mangroves where flamingos sometimes visit",
+    "friendlyPeople": "Qataris drink Arabic coffee flavored with cardamom from tiny cups and welcome guests with dates and sweets",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Doha skyline reflected in the bay" },
+        { "url": "", "caption": "Traditional dhow boats at sunset" }
+      ],
+      "videos": [{ "url": "", "title": "Qatar — desert, towers, and dhows" }]
+    }
+  },
+  "Russia": {
+    "capitalCity": "Moscow — a grand city of colorful onion domes and wide boulevards ❄️",
+    "locationAndSize": "The largest country in the world, stretching across Europe and deep into Asia",
+    "language": "Russian",
+    "cultureAndTraditions": "Fairy tales here speak of Baba Yaga, a witch who flies in a mortar and lives in a hut on chicken legs 🐔. Children drink tea from samovars and eat pancakes called blini with jam or sour cream",
+    "natureAndWildlife": "From Arctic tundra to endless forests called taiga and high mountains, Russia is full of moose, brown bears, wolves, and Siberian tigers",
+    "friendlyPeople": "Russians often seem serious at first, but once you are invited into a home you will be fed warm soup, dumplings, and stories for hours",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Colorful domes of Saint Basil's Cathedral" },
+        { "url": "", "caption": "Snowy forest with tall pine trees" }
+      ],
+      "videos": [
+        { "url": "", "title": "Russia — forests, fairy tales, and snow" }
+      ]
+    }
+  },
+  "Saudi Arabia": {
+    "capitalCity": "Riyadh — a desert city of tall glass towers rising from sandy plains 🏙️",
+    "locationAndSize": "The largest country on the Arabian Peninsula, mostly covered by desert",
+    "language": "Arabic",
+    "cultureAndTraditions": "Islam's two holiest cities, Mecca and Medina, are in Saudi Arabia — millions of pilgrims visit every year. Traditional Bedouin poetry, music, and coffee ceremonies are still honored",
+    "natureAndWildlife": "Sand dunes as tall as buildings, rocky canyons, and oases with date palms and camels",
+    "friendlyPeople": "Serving guests coffee and dates is a very important custom, and hospitality is considered a sacred duty",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Desert dunes and a caravan of camels" },
+        { "url": "", "caption": "Old mud-brick fort and palm trees" }
+      ],
+      "videos": [
+        { "url": "", "title": "Saudi Arabia — deserts, dates, and holy cities" }
+      ]
+    }
+  },
+  "Singapore": {
+    "capitalCity": "Singapore — a tiny city-state that is both a country and a city at once 🌆",
+    "locationAndSize": "A very small island nation at the tip of the Malay Peninsula in Southeast Asia",
+    "language": "English, Malay, Mandarin Chinese, and Tamil — four official languages in one tiny place!",
+    "cultureAndTraditions": "Hawker centers are giant food courts where you can eat Chinese noodles, Indian curry, Malay satay, and more all in one meal 🍜",
+    "natureAndWildlife": "Skyscrapers, gardens on rooftops, and parks where otters swim in canals and monitor lizards stroll along paths",
+    "friendlyPeople": "Singapore is super clean and safe — children ride the subway and visit libraries and parks after school with friends",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Marina Bay Sands and Supertree Grove" },
+        { "url": "", "caption": "Colorful shophouses in old quarters" }
+      ],
+      "videos": [
+        { "url": "", "title": "Singapore — tiny island of many cultures" }
+      ]
+    }
+  },
+  "Sri Lanka": {
+    "capitalCity": "Sri Jayawardenepura Kotte (official) and Colombo — cities by the sea with palm trees and markets 🐘",
+    "locationAndSize": "A teardrop-shaped island nation off the southern tip of India",
+    "language": "Sinhala and Tamil",
+    "cultureAndTraditions": "Ancient rock fortresses rise out of the jungle, and Buddhist temples glow with candles and golden statues. Tea from Sri Lanka is drunk all over the world ☕",
+    "natureAndWildlife": "Leopards, elephants, monkeys, and sea turtles all live here — you can even see wild elephants crossing roads in some national parks!",
+    "friendlyPeople": "Sri Lankan families love making guests try spicy curries, coconut sambal, and sweet desserts made with jaggery sugar",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Lion Rock fortress of Sigiriya" },
+        { "url": "", "caption": "Elephants in a lush green park" }
+      ],
+      "videos": [
+        { "url": "", "title": "Sri Lanka — tea, temples, and elephants" }
+      ]
+    }
+  },
+  "Syria": {
+    "capitalCity": "Damascus — one of the oldest continuously inhabited cities in the world 🏛️",
+    "locationAndSize": "A country in Western Asia between deserts and the Mediterranean Sea",
+    "language": "Arabic",
+    "cultureAndTraditions": "Old souks (markets) are mazes of tiny shops full of spices, soaps, and sweets. Traditional stories of Sinbad and other heroes were told here for centuries",
+    "natureAndWildlife": "Olive groves, mountains, desert, and coastline with migrating birds",
+    "friendlyPeople": "Syrian hospitality means strong coffee, sweet pastries called baklava, and endless invitations to sit and talk",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Ancient streets and arches in an old city" },
+        { "url": "", "caption": "Olive trees and rolling hills" }
+      ],
+      "videos": [{ "url": "", "title": "Syria — ancient cities and stories" }]
+    }
+  },
+  "Taiwan": {
+    "capitalCity": "Taipei — a modern city with night markets and a skyscraper shaped like a tall bamboo stalk 🏙️",
+    "locationAndSize": "A mountainous island off the coast of China in East Asia",
+    "language": "Mandarin Chinese — plus Taiwanese and other local languages",
+    "cultureAndTraditions": "Night markets glow with lanterns and sell bubble tea, dumplings, and every snack you can imagine 🌙. Lantern festivals send glowing wishes into the sky",
+    "natureAndWildlife": "Steep marble gorges, hot springs, jungle-covered mountains, and coasts with coral reefs",
+    "friendlyPeople": "Taiwanese people love cute things — mascots and cartoon characters decorate everything from trains to snacks",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Taipei skyline with Taipei 101 tower" },
+        { "url": "", "caption": "Lantern-lit night market stalls" }
+      ],
+      "videos": [
+        { "url": "", "title": "Taiwan — mountains, markets, and lanterns" }
+      ]
+    }
+  },
+  "Tajikistan": {
+    "capitalCity": "Dushanbe — a city with wide avenues and views of high mountains 🏔️",
+    "locationAndSize": "A mountainous Central Asian country where most of the land is above 3,000 meters",
+    "language": "Tajik — closely related to Persian",
+    "cultureAndTraditions": "Colorful embroidered cloths hang in homes, and people recite long poems at gatherings. Traditional music uses long-necked lutes and drums",
+    "natureAndWildlife": "The Pamir Mountains are called the 'Roof of the World' — with glaciers, high lakes, and rare Marco Polo sheep",
+    "friendlyPeople": "Travelers are often invited in for tea, bread, and homemade jam, even in the smallest mountain villages",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "High mountain lake in the Pamirs" },
+        { "url": "", "caption": "Village houses in a green valley" }
+      ],
+      "videos": [{ "url": "", "title": "Tajikistan — roof of the world" }]
+    }
+  },
+  "Thailand": {
+    "capitalCity": "Bangkok — a busy city of floating markets, glittering temples, and tuk-tuk taxis 🚤",
+    "locationAndSize": "A Southeast Asian country shaped a bit like an elephant's head",
+    "language": "Thai",
+    "cultureAndTraditions": "The Songkran festival celebrates Thai New Year with giant water fights in the streets 💦. Golden temples sparkle in the sun and giant reclining Buddhas fill whole halls",
+    "natureAndWildlife": "Elephants, gibbons, and hornbills live in jungles; islands have white beaches and turquoise water",
+    "friendlyPeople": "Thailand is called the 'Land of Smiles' — people greet each other with a wai (palms together) and a warm grin",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Temple spires beside the Chao Phraya River" },
+        { "url": "", "caption": "Longtail boat near tropical islands" }
+      ],
+      "videos": [
+        { "url": "", "title": "Thailand — temples, elephants, and smiles" }
+      ]
+    }
+  },
+  "Turkmenistan": {
+    "capitalCity": "Ashgabat — a city of white marble buildings and grand fountains in the desert 🏛️",
+    "locationAndSize": "A mostly desert country in Central Asia along the ancient Silk Road",
+    "language": "Turkmen",
+    "cultureAndTraditions": "Beautiful patterned carpets are a point of national pride — each tribe has its own special design. There is even a huge wedding hall shaped like a giant white cube with golden decorations",
+    "natureAndWildlife": "Karakum Desert dunes, wild horses, and the famous 'Door to Hell' — a gas crater that has been on fire for decades 🔥",
+    "friendlyPeople": "Turkmen families welcome guests with tea, bread, and stories of their ancestors’ nomad life",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "White marble buildings in Ashgabat" },
+        { "url": "", "caption": "Glowing Darvaza gas crater at night" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Turkmenistan — carpets, deserts, and fire crater"
+        }
+      ]
+    }
+  },
+  "United Arab Emirates": {
+    "capitalCity": "Abu Dhabi — a modern city of shining skyscrapers and white mosques by the sea 🕌",
+    "locationAndSize": "A small country on the Arabian Peninsula made of seven emirates, including Dubai and Abu Dhabi",
+    "language": "Arabic — but many people speak English, Hindi, and other languages too",
+    "cultureAndTraditions": "Dubai has some of the tallest and most futuristic buildings in the world, indoor ski slopes in the desert, and giant shopping malls. Yet camel races and falconry still happen in the sands 🐪",
+    "natureAndWildlife": "Desert dunes, mangroves with flamingos, and coastal waters where dolphins and turtles play",
+    "friendlyPeople": "Emirati hospitality often includes dates, coffee, and inviting guests to sit and chat in cool, shaded rooms away from the desert heat",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Dubai skyline with Burj Khalifa" },
+        { "url": "", "caption": "Camels walking across desert dunes" }
+      ],
+      "videos": [{ "url": "", "title": "UAE — skyscrapers, sand, and sea" }]
+    }
+  },
+  "Uzbekistan": {
+    "capitalCity": "Tashkent — a city where Soviet-era buildings meet blue-tiled mosques and bazaars 🕌",
+    "locationAndSize": "A landlocked country in Central Asia crossed by ancient Silk Road caravan routes",
+    "language": "Uzbek",
+    "cultureAndTraditions": "Cities like Samarkand and Bukhara are full of blue-tiled madrasas and domes that look like slices of the sky. Traditional bread is baked on the walls of clay ovens 🥯",
+    "natureAndWildlife": "Dry deserts, oases, and mountains where eagles fly and sheep graze",
+    "friendlyPeople": "Uzbek hospitality means tea poured again and again, sweet melon in summer, and plov — rice cooked with carrots and meat — piled high on giant plates",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Blue-tiled Registan square in Samarkand" },
+        { "url": "", "caption": "Clay bread ovens and fresh flatbread" }
+      ],
+      "videos": [
+        { "url": "", "title": "Uzbekistan — Silk Road cities and blue tiles" }
+      ]
+    }
+  },
+  "Vietnam": {
+    "capitalCity": "Hanoi — a city of lakes, scooters, and old streets with lanterns and noodle shops 🍜",
+    "locationAndSize": "A long, slim country in Southeast Asia hugging the coast of the South China Sea",
+    "language": "Vietnamese — uses the Latin alphabet with lots of fun accent marks",
+    "cultureAndTraditions": "Tet, the Vietnamese New Year, is the most important holiday — families decorate with peach blossoms and red envelopes appear with lucky money 🎊",
+    "natureAndWildlife": "Ha Long Bay has thousands of limestone islands rising from the sea like dragon backs. Rice terraces climb mountain slopes, and jungles hide pangolins and langurs",
+    "friendlyPeople": "Street vendors smile as they serve bowls of pho soup, and children play in narrow alleys with kites and simple toys",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Ha Long Bay emerald water and islands" },
+        { "url": "", "caption": "Rice terraces in the northern highlands" }
+      ],
+      "videos": [
+        { "url": "", "title": "Vietnam — bays, rice fields, and noodle soups" }
+      ]
+    }
+  },
+  "Yemen": {
+    "capitalCity": "Sana'a — an ancient city of gingerbread-looking houses with white patterns on brown walls 🏘️",
+    "locationAndSize": "A mountainous country at the southern tip of the Arabian Peninsula",
+    "language": "Arabic",
+    "cultureAndTraditions": "Yemen is one of the birthplaces of coffee — long ago, beans were shipped from the port of Mocha giving mocha coffee its name ☕",
+    "natureAndWildlife": "High mountains, deserts, and the island of Socotra, where strange dragon blood trees grow like giant green umbrellas",
+    "friendlyPeople": "Yemeni families are famous for generosity — big platters of rice and lamb and sweet honey pastries greet any guest",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Tower houses of old Sana'a" },
+        { "url": "", "caption": "Dragon blood trees on Socotra island" }
+      ],
+      "videos": [
+        { "url": "", "title": "Yemen — mountain cities and coffee stories" }
+      ]
+    }
+  },
+  "Australia": {
+    "capitalCity": "Canberra — a leafy capital between two much more famous cities, Sydney and Melbourne 🌿",
+    "locationAndSize": "The only country that covers a whole continent in the Southern Hemisphere, surrounded by the Indian and Pacific Oceans",
+    "language": "English — with a special Aussie accent and lots of fun slang words",
+    "cultureAndTraditions": "Children grow up close to nature and the beach — surfing, barbecues, and outdoor adventures are part of life 🏄. Aboriginal Australians have some of the oldest stories on Earth, told through songlines and rock art",
+    "natureAndWildlife": "Kangaroos hop across fields, koalas nap in eucalyptus trees, platypuses look like animals built from spare parts, and the Great Barrier Reef shines with coral and rainbow fish 🐨",
+    "friendlyPeople": "Australians call everyone 'mate' and love joking around — a friendly 'G'day!' can start a conversation with anyone",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Red Uluru rock glowing at sunset" },
+        { "url": "", "caption": "Great Barrier Reef seen from above" }
+      ],
+      "videos": [
+        { "url": "", "title": "Australia — kangaroos, reef, and red deserts" }
+      ]
+    }
+  },
+  "New Zealand": {
+    "capitalCity": "Wellington — a windy little capital by the sea with steep hills and cable cars 🌬️",
+    "locationAndSize": "A small island country in the South Pacific made of two main islands and many smaller ones",
+    "language": "English and Māori — the language of the indigenous Māori people",
+    "cultureAndTraditions": "Māori haka dances stomp the ground and shout with incredible energy — even the national rugby team performs them before games 🏉. Many places have magical names and stories from Māori legends",
+    "natureAndWildlife": "Snowy mountains, glowworm caves that look like starry skies underground, geysers, and fjords. Kiwi birds cannot fly and only come out at night 🥝",
+    "friendlyPeople": "New Zealanders call themselves Kiwis and love outdoor adventures — hiking, sailing, and exploring wild landscapes with friends and family",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Snowy peaks reflected in a South Island lake"
+        },
+        { "url": "", "caption": "Green hills and sheep near the sea" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "New Zealand — kiwis, mountains, and glowworm caves"
+        }
+      ]
+    }
+  },
+  "Algeria": {
+    "capitalCity": "Algiers — a white city climbing a hill above the blue Mediterranean Sea 🌊",
+    "locationAndSize": "The largest country in Africa, stretching from the coast deep into the Sahara Desert",
+    "language": "Arabic and Tamazight (Berber), plus a lot of French",
+    "cultureAndTraditions": "Old kasbah neighborhoods are like stone mazes full of narrow stairways and little courtyards. In desert oases, people rest in the shade of date palms and drink mint tea 🍵",
+    "natureAndWildlife": "Golden sand dunes roll like waves, mountains rise in the north, and fennec foxes with huge ears prowl the desert at night 🦊",
+    "friendlyPeople": "Algerian families love to gather around big plates of couscous and share stories long into the evening",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Sahara dunes glowing in the sunset" },
+        { "url": "", "caption": "White houses of Algiers above the sea" }
+      ],
+      "videos": [{ "url": "", "title": "Algeria — sea, mountains, and Sahara dunes" }]
+    }
+  },
+  "Angola": {
+    "capitalCity": "Luanda — a busy coastal city with tall buildings and a long bay 🏙️",
+    "locationAndSize": "A large country on Africa's southwest coast with high plateaus and Atlantic beaches",
+    "language": "Portuguese — mixed with many local African languages",
+    "cultureAndTraditions": "Traditional semba music and dance helped inspire Brazilian samba — rhythms crossed the ocean and came back again as new songs 🎶",
+    "natureAndWildlife": "Savannas with elephants and antelopes, misty waterfalls, and one of the wildest coastlines in the world",
+    "friendlyPeople": "Angolan children play football everywhere — on streets, sandy fields, and even beaches, with big smiles and bare feet",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Waterfall crashing into a green gorge" },
+        { "url": "", "caption": "Fishing boats and sunset over Luanda Bay" }
+      ],
+      "videos": [{ "url": "", "title": "Angola — rhythms, waterfalls, and wide savannas" }]
+    }
+  },
+  "Benin": {
+    "capitalCity": "Porto-Novo (official) and Cotonou — cities by the warm Gulf of Guinea 🌴",
+    "locationAndSize": "A small West African country squeezed between Togo and Nigeria",
+    "language": "French — plus many local languages like Fon and Yoruba",
+    "cultureAndTraditions": "Benin is one of the birthplaces of voodoo — a religion full of drums, dances, and respect for spirits and ancestors 🥁",
+    "natureAndWildlife": "Lagoons with stilt villages, national parks with elephants and lions, and coastal wetlands full of birds",
+    "friendlyPeople": "Markets in Benin are full of colors and smiles — vendors love to chat and joke with curious children",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Stilt houses above a Benin lagoon" },
+        { "url": "", "caption": "Colorful fabrics in a busy market" }
+      ],
+      "videos": [{ "url": "", "title": "Benin — lagoons, lions, and drum rhythms" }]
+    }
+  },
+  "Botswana": {
+    "capitalCity": "Gaborone — a calm city surrounded by wide open landscapes 🐘",
+    "locationAndSize": "A landlocked country in southern Africa, home to parts of the Kalahari Desert and huge wetlands",
+    "language": "English and Setswana",
+    "cultureAndTraditions": "Cattle are very important in traditional life, and storytelling around the fire under clear starry skies is still loved",
+    "natureAndWildlife": "The Okavango Delta is a magical inland river that disappears into the desert and becomes a paradise for elephants, hippos, lions, and birds",
+    "friendlyPeople": "Batswana are proud of protecting their wildlife — children learn early that the animals are their neighbors, not just in books",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Elephants crossing the Okavango Delta" },
+        { "url": "", "caption": "Canoe gliding through reeds at sunset" }
+      ],
+      "videos": [{ "url": "", "title": "Botswana — delta of elephants and stars" }]
+    }
+  },
+  "Burkina Faso": {
+    "capitalCity": "Ouagadougou — a lively Sahel city with motorbikes, music, and red dust in the air 🎵",
+    "locationAndSize": "A landlocked country in West Africa covered in savanna and dry Sahel",
+    "language": "French plus many local languages like Moore and Dioula",
+    "cultureAndTraditions": "Burkina Faso is famous for its film and art festivals — whole cities turn into outdoor cinemas and galleries 🎬",
+    "natureAndWildlife": "Baobab trees, elephants, antelopes, and birds survive in the savanna even through long dry seasons",
+    "friendlyPeople": "People are known for warmth, humor, and community — neighbors help each other like extended family",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Baobab tree under a huge sky" },
+        { "url": "", "caption": "Colorful masks used in traditional dances" }
+      ],
+      "videos": [{ "url": "", "title": "Burkina Faso — savanna, stories, and cinema" }]
+    }
+  },
+  "Burundi": {
+    "capitalCity": "Gitega — a small green capital in the heart of Africa 🌿",
+    "locationAndSize": "One of Africa's smallest countries, by the northern shores of Lake Tanganyika",
+    "language": "Kirundi and French",
+    "cultureAndTraditions": "Burundi is famous for its royal drummers — dozens of huge drums are beaten together in powerful rhythms that shake the ground 🥁",
+    "natureAndWildlife": "Rolling hills, tea plantations, and the deep waters of Lake Tanganyika full of colorful fish",
+    "friendlyPeople": "Even in tiny villages, children love welcoming visitors and showing them their favorite places to play",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Royal drummers of Burundi performing" },
+        { "url": "", "caption": "Green hills sloping down to Lake Tanganyika" }
+      ],
+      "videos": [{ "url": "", "title": "Burundi — drums, hills, and lake adventures" }]
+    }
+  },
+  "Cameroon": {
+    "capitalCity": "Yaoundé — a hilly city with green trees and red earth 🏞️",
+    "locationAndSize": "A West/Central African country that has almost every African landscape in one place",
+    "language": "French and English — plus many local languages",
+    "cultureAndTraditions": "Cameroon is called 'Africa in miniatura' because it has rainforests, savannas, mountains, and beaches all in one country. Football is a national passion ⚽",
+    "natureAndWildlife": "Gorillas and chimpanzees in the forests, elephants and antelopes on the plains, and Mount Cameroon, an active volcano, by the sea",
+    "friendlyPeople": "Cameroonians love music and dancing — from makossa to bikutsi, rhythms make even shy kids want to move",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Rainforest canopy and winding rivers" },
+        { "url": "", "caption": "Mount Cameroon rising above the coast" }
+      ],
+      "videos": [{ "url": "", "title": "Cameroon — mini Africa of forests and mountains" }]
+    }
+  },
+  "Cape Verde": {
+    "capitalCity": "Praia — a breezy capital on a plateau above the Atlantic Ocean 🌊",
+    "locationAndSize": "A group of volcanic islands off the west coast of Africa",
+    "language": "Portuguese and Cape Verdean Creole",
+    "cultureAndTraditions": "Cape Verde is famous for morna music — sad and beautiful songs about the sea and missing loved ones 🎵",
+    "natureAndWildlife": "Beaches, volcanic mountains, and valleys where goats climb steep rocky paths",
+    "friendlyPeople": "Islanders love slow evenings with guitar music, laughter, and watching the sunset over the ocean",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Colorful houses above an Atlantic bay" },
+        { "url": "", "caption": "Volcanic peak on a Cape Verde island" }
+      ],
+      "videos": [{ "url": "", "title": "Cape Verde — islands of wind and song" }]
+    }
+  },
+  "Central African Republic": {
+    "capitalCity": "Bangui — a city on a wide, slow river with red earth streets 🌅",
+    "locationAndSize": "A landlocked country in the very center of Africa, covered in forests and savannas",
+    "language": "French and Sango",
+    "cultureAndTraditions": "Traditional music uses drums, harps, and thumb pianos — instruments that sound like rain on a roof",
+    "natureAndWildlife": "Elephants, gorillas, and forest antelopes called bongos walk under tall trees in national parks",
+    "friendlyPeople": "Despite many difficulties, people are known for resilience, kindness, and sharing what they have with neighbors",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Green forest and red river banks" },
+        { "url": "", "caption": "Path through dense Central African jungle" }
+      ],
+      "videos": [{ "url": "", "title": "Central African Republic — forests, rivers, and hidden wildlife" }]
+    }
+  },
+  "Chad": {
+    "capitalCity": "N'Djamena — a desert-edge city where the Sahara meets the Sahel 🏜️",
+    "locationAndSize": "A very large landlocked country in central-northern Africa",
+    "language": "French and Arabic, plus more than 100 local languages",
+    "cultureAndTraditions": "Nomadic herders move with their camels and goats across dry lands, following the rains and green grass",
+    "natureAndWildlife": "Lake Chad is a huge shallow lake that changes size with the seasons. In the north, strange rock formations rise from the desert like castles",
+    "friendlyPeople": "In hot weather, sharing cool water and sweet tea with guests is a sign of great respect",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Camels walking across Sahara sand" },
+        { "url": "", "caption": "Rock arches and cliffs in the desert" }
+      ],
+      "videos": [{ "url": "", "title": "Chad — deserts, lakes, and nomad paths" }]
+    }
+  },
+  "Comoros": {
+    "capitalCity": "Moroni — a small city between a volcano and the sea on a tiny island 🌋",
+    "locationAndSize": "A group of islands between Madagascar and mainland Africa in the Indian Ocean",
+    "language": "Comorian, Arabic, and French",
+    "cultureAndTraditions": "The air is full of the smell of ylang-ylang flowers, used to make perfume. Weddings last for days with music and dancing 🌺",
+    "natureAndWildlife": "Turquoise waters, coral reefs, and steep volcano slopes covered in banana and coconut trees",
+    "friendlyPeople": "Island life is slow and social — people chat in doorways and children play football by the beach",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Volcano island rising from the blue sea" },
+        { "url": "", "caption": "Fishing boats and coral lagoon" }
+      ],
+      "videos": [{ "url": "", "title": "Comoros — perfume islands in the Indian Ocean" }]
+    }
+  },
+  "Congo": {
+    "capitalCity": "Brazzaville — a city on a giant river facing another capital just across the water 🌊",
+    "locationAndSize": "A Central African country covered in rainforest, across the river from the Democratic Republic of Congo",
+    "language": "French and many local Bantu languages",
+    "cultureAndTraditions": "Music and fashion are very important — some people dress in extremely stylish, colorful suits and are called sapeurs 👔",
+    "natureAndWildlife": "Rainforests full of gorillas, forest elephants, and chimpanzees, plus the mighty Congo River",
+    "friendlyPeople": "Congolese people love rhythm — drums and dancing can turn any gathering into a party",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Congo River flowing through rainforest" },
+        { "url": "", "caption": "Green jungle canopy from above" }
+      ],
+      "videos": [{ "url": "", "title": "Congo — river, rainforest, and rhythm" }]
+    }
+  },
+  "Democratic Republic of Congo": {
+    "capitalCity": "Kinshasa — a huge, bustling city on the Congo River full of music and noise 🎶",
+    "locationAndSize": "One of the largest countries in Africa, covered mostly by dense tropical rainforest",
+    "language": "French as official, plus four national languages and many more",
+    "cultureAndTraditions": "Soukous and rumba music fill dance halls and streets with fast guitar and drums. People love storytelling, dance, and colorful clothing",
+    "natureAndWildlife": "Okapi (a shy forest relative of the giraffe), gorillas, bonobos, and countless other animals live in its vast jungles",
+    "friendlyPeople": "Despite many challenges, Congolese communities are full of energy, creativity, and joy — especially when the music starts",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Mighty Congo River current" },
+        { "url": "", "caption": "Thick rainforest stretching to the horizon" }
+      ],
+      "videos": [{ "url": "", "title": "DR Congo — giant forests and dancing cities" }]
+    }
+  },
+  "Djibouti": {
+    "capitalCity": "Djibouti City — a port city on the Red Sea with colorful boats and markets 🚢",
+    "locationAndSize": "A very small country in the Horn of Africa where Africa almost touches Arabia",
+    "language": "French and Arabic, plus Afar and Somali",
+    "cultureAndTraditions": "Coffee ceremonies and strong spiced tea are important parts of hospitality. The mix of African and Arab cultures makes for rich music and food",
+    "natureAndWildlife": "Lake Assal is one of the saltiest lakes in the world, shining bright white. Whale sharks visit offshore waters",
+    "friendlyPeople": "Even in the heat, people sit together in the shade and share stories, drinks, and jokes",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Shimmering salt shores of Lake Assal" },
+        { "url": "", "caption": "Colorful boats in Djibouti harbor" }
+      ],
+      "videos": [{ "url": "", "title": "Djibouti — salt lakes, seas, and sunshine" }]
+    }
+  },
+  "Equatorial Guinea": {
+    "capitalCity": "Malabo — a tropical island capital with Spanish-style buildings and palm trees 🌴",
+    "locationAndSize": "A small Central African country with both mainland forests and volcanic islands",
+    "language": "Spanish, French, and Portuguese — very rare in Africa!",
+    "cultureAndTraditions": "Traditional dances use colorful masks and drums, while Spanish holidays and foods have mixed with local customs",
+    "natureAndWildlife": "Thick rainforests full of monkeys and birds, plus sea turtles and dolphins in coastal waters",
+    "friendlyPeople": "Island and mainland communities alike value family, music, and easy conversations in several languages",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Volcanic island covered in rainforest" },
+        { "url": "", "caption": "Colorful houses by the tropical sea" }
+      ],
+      "videos": [{ "url": "", "title": "Equatorial Guinea — forests and island waves" }]
+    }
+  },
+  "Eritrea": {
+    "capitalCity": "Asmara — a highland city full of 1930s Italian-style buildings and art deco cinemas 🎞️",
+    "locationAndSize": "A Red Sea country in the Horn of Africa with high plateaus and hot coasts",
+    "language": "Tigrinya, Arabic, and English are widely used",
+    "cultureAndTraditions": "Asmara is sometimes called 'Little Rome' because of its old Italian architecture and coffee bars ☕",
+    "natureAndWildlife": "Mountain plateaus, deserts, and coral reefs along the Red Sea full of colorful fish",
+    "friendlyPeople": "Eritrean coffee ceremonies can last for hours as friends roast beans, brew coffee, and talk together",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Art deco cinema building in Asmara" },
+        { "url": "", "caption": "Red Sea coastline and coral water" }
+      ],
+      "videos": [{ "url": "", "title": "Eritrea — highland cafes and Red Sea reefs" }]
+    }
+  },
+  "Gabon": {
+    "capitalCity": "Libreville — a city on the Atlantic coast lined with palm trees 🌴",
+    "locationAndSize": "A small but very forested country on the west coast of Central Africa",
+    "language": "French and many local languages",
+    "cultureAndTraditions": "Traditional ceremonies use masks and music to connect with ancestors and forest spirits",
+    "natureAndWildlife": "Gabon has some of the most untouched rainforests in Africa — with gorillas, forest elephants, and even hippos that surf ocean waves!",
+    "friendlyPeople": "Gabonese people are proud that their country is mostly forest and want to protect it for future generations",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Gorilla walking through thick jungle" },
+        { "url": "", "caption": "Beach where elephants sometimes appear" }
+      ],
+      "videos": [{ "url": "", "title": "Gabon — green jungles and ocean hippos" }]
+    }
+  },
+  "Gambia": {
+    "capitalCity": "Banjul — a tiny capital at the mouth of a long river 🛶",
+    "locationAndSize": "The smallest country in mainland Africa, wrapped almost completely inside Senegal",
+    "language": "English officially, but most people speak local languages like Wolof and Mandinka",
+    "cultureAndTraditions": "Kora players perform beautiful music on a 21-string gourd harp that sounds like raindrops on glass",
+    "natureAndWildlife": "The Gambia River is full of birds, hippos, and crocodiles, with mangroves along its banks",
+    "friendlyPeople": "The Gambia is nicknamed 'The Smiling Coast of Africa' because of how often people smile and greet visitors",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Boat on the calm Gambia River" },
+        { "url": "", "caption": "Mangroves and birds along the riverbank" }
+      ],
+      "videos": [{ "url": "", "title": "Gambia — tiny smiling river country" }]
+    }
+  },
+  "Guinea": {
+    "capitalCity": "Conakry — a peninsula city reaching into the Atlantic Ocean 🌊",
+    "locationAndSize": "A West African country with mountains, forests, and coastline",
+    "language": "French and many local languages like Susu and Fulani",
+    "cultureAndTraditions": "Drumming and dancing are powerful and fast — Guinean drummers are famous all over the world 🥁",
+    "natureAndWildlife": "Mount Nimba and the Fouta Djallon highlands are full of waterfalls and rare plants",
+    "friendlyPeople": "People often gather in courtyards in the evening to talk, drink tea, and listen to music together",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Waterfall in the Guinean highlands" },
+        { "url": "", "caption": "Drummers and dancers in bright clothes" }
+      ],
+      "videos": [{ "url": "", "title": "Guinea — mountains, music, and waterfalls" }]
+    }
+  },
+  "Guinea-Bissau": {
+    "capitalCity": "Bissau — a small, relaxed port city with colorful houses and mango trees 🌳",
+    "locationAndSize": "A tiny West African country with mangrove-lined coasts and islands",
+    "language": "Portuguese and Creole, plus many local African languages",
+    "cultureAndTraditions": "The Bijagós Islands are home to unique traditions and masked ceremonies that honor nature and ancestors",
+    "natureAndWildlife": "Mangroves, islands, manatees, dolphins, and many birds find shelter in the wetlands",
+    "friendlyPeople": "Life moves slowly; neighbors share fruit, stories, and laughter in the shade",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Fishing boat near green mangrove islands" },
+        { "url": "", "caption": "Village houses shaded by mango trees" }
+      ],
+      "videos": [{ "url": "", "title": "Guinea-Bissau — islands, mangroves, and masks" }]
+    }
+  },
+  "Lesotho": {
+    "capitalCity": "Maseru — a mountain-edge city in a country made almost entirely of highlands ⛰️",
+    "locationAndSize": "A tiny kingdom completely surrounded by South Africa; almost the whole country is above 1,000 meters",
+    "language": "Sesotho and English",
+    "cultureAndTraditions": "People wear warm woven blankets and ride sturdy Basotho ponies along cliff paths",
+    "natureAndWildlife": "Snow sometimes falls in winter, and waterfalls tumble off high plateaus",
+    "friendlyPeople": "Basotho villagers welcome guests with hot food and a place by the fire after long mountain journeys",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Rider on a Basotho pony in the mountains" },
+        { "url": "", "caption": "Waterfall dropping from a high cliff" }
+      ],
+      "videos": [{ "url": "", "title": "Lesotho — mountain kingdom in the clouds" }]
+    }
+  },
+  "Liberia": {
+    "capitalCity": "Monrovia — a seaside city with long beaches and big Atlantic waves 🌊",
+    "locationAndSize": "A small West African country with rainforest and coastline",
+    "language": "English officially, plus many local languages",
+    "cultureAndTraditions": "Liberia was founded by formerly enslaved people returning from America; its flag even looks a bit like the US flag 🇱🇷",
+    "natureAndWildlife": "Rainforests full of chimpanzees, rare pygmy hippos, and many colorful birds",
+    "friendlyPeople": "Liberians love football and music — you can hear songs coming from shops, houses, and streets",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Palm trees along a sandy beach" },
+        { "url": "", "caption": "Green rainforest with a muddy river" }
+      ],
+      "videos": [{ "url": "", "title": "Liberia — beaches, forests, and football" }]
+    }
+  },
+  "Libya": {
+    "capitalCity": "Tripoli — a coastal city with old white arches and modern buildings by the sea 🌊",
+    "locationAndSize": "A large North African country mostly covered by the Sahara Desert",
+    "language": "Arabic",
+    "cultureAndTraditions": "Ancient Roman ruins like Leptis Magna lie half-buried in the sand, showing that this was once part of a mighty empire",
+    "natureAndWildlife": "Sandy seas of dunes, rocky deserts, and oases with date palms",
+    "friendlyPeople": "In desert culture, sharing water and shelter with travelers is a sacred duty — you never leave a stranger outside in a sandstorm",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Roman arches near the Libyan coast" },
+        { "url": "", "caption": "Endless Sahara dunes under a blue sky" }
+      ],
+      "videos": [{ "url": "", "title": "Libya — ruins, oases, and desert seas" }]
+    }
+  },
+  "Malawi": {
+    "capitalCity": "Lilongwe — a green, spread-out city with trees and quiet neighborhoods 🌳",
+    "locationAndSize": "A long, narrow country in southeast Africa hugging Lake Malawi",
+    "language": "English and Chichewa",
+    "cultureAndTraditions": "Fishing villages along the lake use dugout canoes and traditional nets; colorful fabrics brighten markets",
+    "natureAndWildlife": "Lake Malawi is like a giant aquarium full of hundreds of kinds of cichlid fish found nowhere else 🐟",
+    "friendlyPeople": "Malawi is nicknamed 'The Warm Heart of Africa' because of how friendly and peaceful its people are",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Canoes on the clear waters of Lake Malawi" },
+        { "url": "", "caption": "Village children playing by the lakeshore" }
+      ],
+      "videos": [{ "url": "", "title": "Malawi — lake of fishes and warm hearts" }]
+    }
+  },
+  "Mali": {
+    "capitalCity": "Bamako — a city on the Niger River full of music and market life 🎵",
+    "locationAndSize": "A large landlocked country in West Africa stretching deep into the Sahara",
+    "language": "French officially, with Bambara and many other local languages",
+    "cultureAndTraditions": "Ancient cities like Timbuktu were once centers of learning where thousands of old books and manuscripts were stored 📚",
+    "natureAndWildlife": "The Niger River brings life to villages and fields; in the north, camel caravans cross rolling dunes",
+    "friendlyPeople": "Malian music — especially desert blues guitar — is loved around the world and often comes from simple village gatherings",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Mud-brick mosque in the Sahel" },
+        { "url": "", "caption": "Boats along the Niger River at sunset" }
+      ],
+      "videos": [{ "url": "", "title": "Mali — desert caravans and ancient libraries" }]
+    }
+  },
+  "Mauritania": {
+    "capitalCity": "Nouakchott — a city between the desert and the ocean, with camels and fishing boats side by side 🐪",
+    "locationAndSize": "A large, mostly desert country in northwest Africa",
+    "language": "Arabic and several local languages",
+    "cultureAndTraditions": "Many people are still nomadic or semi-nomadic, living in tents that can be easily moved across the sand",
+    "natureAndWildlife": "Massive dunes, rock plateaus, and the Banc d'Arguin National Park where millions of birds come to rest",
+    "friendlyPeople": "Tea is poured from high above the glasses to make foam — serving three rounds of tea to guests is a beloved tradition",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Camel train crossing golden dunes" },
+        { "url": "", "caption": "Colorful fishing boats on the Atlantic shore" }
+      ],
+      "videos": [{ "url": "", "title": "Mauritania — tents, tea, and ocean birds" }]
+    }
+  },
+  "Mauritius": {
+    "capitalCity": "Port Louis — a harbor city with markets full of spices and fruit 🍍",
+    "locationAndSize": "A small island nation in the Indian Ocean east of Madagascar",
+    "language": "English and French officially, plus Creole and several Indian languages",
+    "cultureAndTraditions": "Mauritius is a rainbow mix of African, Indian, Chinese, and European cultures — so there are many festivals and foods from around the world on one tiny island 🎉",
+    "natureAndWildlife": "The extinct dodo bird once lived here. Today, coral reefs, waterfalls, and sugarcane fields cover the landscape",
+    "friendlyPeople": "Mauritians are used to visitors from everywhere and are quick to welcome them with a smile and something tasty to eat",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Lagoon with coral reef and white sand" },
+        { "url": "", "caption": "Green mountains rising above sugarcane fields" }
+      ],
+      "videos": [{ "url": "", "title": "Mauritius — coral lagoons and island festivals" }]
+    }
+  },
+  "Mozambique": {
+    "capitalCity": "Maputo — a seaside city with wide avenues, art deco buildings, and ocean views 🌴",
+    "locationAndSize": "A long country on Africa's southeast coast with thousands of kilometers of beaches",
+    "language": "Portuguese and many local languages",
+    "cultureAndTraditions": "Dance and drumming are full of energy, and seafood dishes like peri-peri prawns are famous",
+    "natureAndWildlife": "Whale sharks and manta rays glide offshore, while inland there are forests, rivers, and islands with coral reefs",
+    "friendlyPeople": "Mozambican kids grow up swimming in the warm Indian Ocean and playing football on sandy beaches",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Dhows sailing along a tropical coast" },
+        { "url": "", "caption": "Coral reef glowing under clear water" }
+      ],
+      "videos": [{ "url": "", "title": "Mozambique — ocean, islands, and music" }]
+    }
+  },
+  "Namibia": {
+    "capitalCity": "Windhoek — a sunny city surrounded by hills and wide-open spaces ☀️",
+    "locationAndSize": "A large, sparsely populated country in southwest Africa",
+    "language": "English officially, with many local languages like Oshiwambo and Nama",
+    "cultureAndTraditions": "Rock paintings made thousands of years ago by hunter-gatherers still decorate caves and cliffs",
+    "natureAndWildlife": "The Namib Desert has some of the tallest sand dunes on Earth, red and orange like Mars. Etosha National Park has salt pans and many animals 🐘",
+    "friendlyPeople": "Namibians love the open sky and the feeling of endless space — camping under the Milky Way is a favorite adventure",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Giant red dunes of Sossusvlei" },
+        { "url": "", "caption": "Elephants and zebras at a waterhole" }
+      ],
+      "videos": [{ "url": "", "title": "Namibia — red deserts and starry nights" }]
+    }
+  },
+  "Niger": {
+    "capitalCity": "Niamey — a Sahel city on the Niger River with sandy streets and riverboats 🛶",
+    "locationAndSize": "A large, mostly desert country in West Africa",
+    "language": "French plus many local languages like Hausa and Zarma",
+    "cultureAndTraditions": "In the Cure Salée festival, nomads gather with decorated camels and brightly dressed people for music and shows",
+    "natureAndWildlife": "Desert dunes, rocky plateaus, and the Niger River with hippos and birds",
+    "friendlyPeople": "Sharing food and water with travelers in the hot Sahel sun is a deeply respected tradition",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Camel caravan crossing desert sand" },
+        { "url": "", "caption": "Boats on the wide Niger River" }
+      ],
+      "videos": [{ "url": "", "title": "Niger — dunes, rivers, and desert festivals" }]
+    }
+  },
+  "Rwanda": {
+    "capitalCity": "Kigali — a clean, hilly city often called one of Africa's greenest capitals 🌱",
+    "locationAndSize": "A small, landlocked country in East Africa known as the 'Land of a Thousand Hills'",
+    "language": "Kinyarwanda, French, and English",
+    "cultureAndTraditions": "Traditional dance has dancers leaping like antelopes with graceful arm movements",
+    "natureAndWildlife": "Mountain gorillas live in misty volcano forests — families of these gentle giants are carefully protected 🦍",
+    "friendlyPeople": "Rwandans have worked hard to rebuild their country with a spirit of unity and care for the environment",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Mountain gorilla family in the forest" },
+        { "url": "", "caption": "Terraced hills and villages in Rwanda" }
+      ],
+      "videos": [{ "url": "", "title": "Rwanda — gorillas, green hills, and new beginnings" }]
+    }
+  },
+  "Sao Tome and Principe": {
+    "capitalCity": "São Tomé — a tiny, colorful capital on a tropical island 🏝️",
+    "locationAndSize": "Africa's second-smallest country, made of two islands in the Gulf of Guinea",
+    "language": "Portuguese",
+    "cultureAndTraditions": "Old cocoa and coffee plantations still dot the islands, and music mixes African and Portuguese sounds",
+    "natureAndWildlife": "Rainforests climb steep volcanic mountains, and beaches are quiet and full of seashells",
+    "friendlyPeople": "Life is slow; people say 'Leve-leve' — 'Take it easy' — and truly mean it",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Palm trees leaning over a quiet beach" },
+        { "url": "", "caption": "Rainforest-covered volcanic peak" }
+      ],
+      "videos": [{ "url": "", "title": "São Tomé and Principe — tiny islands, big green forests" }]
+    }
+  },
+  "Seychelles": {
+    "capitalCity": "Victoria — one of the smallest capitals in the world on a green island 🌺",
+    "locationAndSize": "A group of over 100 tropical islands in the Indian Ocean northeast of Madagascar",
+    "language": "Seychellois Creole, English, and French",
+    "cultureAndTraditions": "Creole music and dance mix African, European, and Asian influences in joyful celebrations",
+    "natureAndWildlife": "Granite boulders on beaches, giant Aldabra tortoises, coral reefs, and palm forests",
+    "friendlyPeople": "Islanders are used to living with tourists and are quick to share directions, smiles, and stories about the sea",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Granite boulders and turquoise sea on a Seychelles beach"
+        },
+        {
+          "url": "",
+          "caption": "Giant tortoise walking slowly on an island"
+        }
+      ],
+      "videos": [{ "url": "", "title": "Seychelles — islands of turquoise and turtles" }]
+    }
+  },
+  "Sierra Leone": {
+    "capitalCity": "Freetown — a hilly port city with a huge cotton tree in its heart 🌳",
+    "locationAndSize": "A small West African country with mountains, forests, and sandy beaches",
+    "language": "English officially, and Krio as a widely spoken Creole language",
+    "cultureAndTraditions": "Storytelling, drumming, and masked dances bring villages together for ceremonies and celebrations",
+    "natureAndWildlife": "Rainforests with chimpanzees and colorful birds, plus palm-fringed beaches along the coast",
+    "friendlyPeople": "After hard times, Sierra Leoneans are rebuilding with optimism, friendliness, and music",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Palm-lined beach near Freetown" },
+        { "url": "", "caption": "Green hills and villages in the interior" }
+      ],
+      "videos": [{ "url": "", "title": "Sierra Leone — beaches, forests, and hope" }]
+    }
+  },
+  "Somalia": {
+    "capitalCity": "Mogadishu — a coastal city with white beaches and old stone arches 🌊",
+    "locationAndSize": "A long, horn-shaped country in East Africa along the Indian Ocean",
+    "language": "Somali and Arabic",
+    "cultureAndTraditions": "Somalis are known as great poets — many people can recite long poems from memory, and poetry is a treasured art",
+    "natureAndWildlife": "Dry grasslands, occasional rivers, and a very long coastline where turtles and fish live",
+    "friendlyPeople": "Somali hospitality means big plates of rice and meat, sweet tea, and offering the best a family has to guests",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Indian Ocean waves on a white Somali beach" },
+        { "url": "", "caption": "Old seaside buildings and arches" }
+      ],
+      "videos": [{ "url": "", "title": "Somalia — poetry, camels, and ocean wind" }]
+    }
+  },
+  "South Sudan": {
+    "capitalCity": "Juba — a young capital on the banks of the White Nile River 🛶",
+    "locationAndSize": "The world's newest country, in East-Central Africa, full of swamps, savannas, and rivers",
+    "language": "English officially, plus many local languages",
+    "cultureAndTraditions": "Many different peoples live here with colorful beadwork, dances, and cattle traditions",
+    "natureAndWildlife": "Huge migrations of antelopes cross its plains, and the Sudd wetlands are one of the largest swamps on Earth",
+    "friendlyPeople": "Even after many struggles, South Sudanese families show great warmth and hope for a peaceful future",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "White Nile flowing past Juba" },
+        { "url": "", "caption": "Herds of antelope on grassy plains" }
+      ],
+      "videos": [{ "url": "", "title": "South Sudan — new country, ancient rivers" }]
+    }
+  },
+  "Sudan": {
+    "capitalCity": "Khartoum — a city where the Blue Nile and White Nile join to form the great Nile River 🌊",
+    "locationAndSize": "A large country in northeast Africa with deserts, mountains, and river valleys",
+    "language": "Arabic and English widely used, plus many local languages",
+    "cultureAndTraditions": "Sudan has more pyramids than Egypt — many small pyramids stand in the sand in the ancient region of Nubia",
+    "natureAndWildlife": "Deserts and savannas with birds, antelopes, and crocodiles living along the Nile",
+    "friendlyPeople": "Sudanese people are known for generosity and calm speech — guests are always offered tea and a place to rest",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Nubian pyramids rising from the desert sand" },
+        { "url": "", "caption": "Blue and White Nile meeting at Khartoum" }
+      ],
+      "videos": [{ "url": "", "title": "Sudan — meeting of rivers and forgotten pyramids" }]
+    }
+  },
+  "Eswatini": {
+    "capitalCity": "Mbabane — a small capital high in the green hills 🌄",
+    "locationAndSize": "One of Africa's smallest countries, squeezed between South Africa and Mozambique",
+    "language": "siSwati and English",
+    "cultureAndTraditions": "Colorful ceremonies, dances, and royal festivals bring thousands of people together in traditional dress",
+    "natureAndWildlife": "Rolling hills, forests, and reserves with rhinos, zebras, and many birds",
+    "friendlyPeople": "Eswatini people value respect and community — visitors quickly feel part of village life",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Dancers in traditional dress at a festival" },
+        { "url": "", "caption": "Green hills and valleys of Eswatini" }
+      ],
+      "videos": [{ "url": "", "title": "Eswatini — tiny kingdom of hills and dances" }]
+    }
+  },
+  "Tanzania": {
+    "capitalCity": "Dodoma (official) and Dar es Salaam — one calm inland capital and one big coastal city 🏙️",
+    "locationAndSize": "A large East African country with safaris, mountains, and tropical islands",
+    "language": "Swahili and English",
+    "cultureAndTraditions": "The name 'safari' comes from Swahili — meaning 'journey'. Traditional music and dance vary from coastal drums to inland Maasai songs",
+    "natureAndWildlife": "Serengeti National Park has giant herds of wildebeest, zebras, and predators. Mount Kilimanjaro, Africa's highest peak, stands snowy above the plains 🐘",
+    "friendlyPeople": "The phrase 'Hakuna matata' in Swahili means 'no worries' — and many people try to live by this relaxed philosophy",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Mount Kilimanjaro above the savanna" },
+        { "url": "", "caption": "Zebras and wildebeest on the Serengeti plains" }
+      ],
+      "videos": [{ "url": "", "title": "Tanzania — safaris, Kilimanjaro, and islands" }]
+    }
+  },
+  "Togo": {
+    "capitalCity": "Lomé — a narrow coastal city with markets and palm-lined beaches 🌴",
+    "locationAndSize": "A very thin West African country stretching from the sea up into the hills",
+    "language": "French officially, with Ewe and many other local languages",
+    "cultureAndTraditions": "Colorful patterned fabrics and lively markets are everywhere; some markets sell traditional medicines and charms",
+    "natureAndWildlife": "Coastline, rolling hills, and small forests with monkeys and many birds",
+    "friendlyPeople": "Togolese people are generally relaxed and cheerful, happy to chat with visitors in markets and on the beach",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Palm trees along Lomé beach" },
+        { "url": "", "caption": "Stalls full of bright patterned cloth" }
+      ],
+      "videos": [{ "url": "", "title": "Togo — narrow land of cloth and coast" }]
+    }
+  },
+  "Tunisia": {
+    "capitalCity": "Tunis — a Mediterranean city with white houses and blue doors 🌊",
+    "locationAndSize": "A small North African country between Algeria and Libya on the Mediterranean Sea",
+    "language": "Arabic and French",
+    "cultureAndTraditions": "The ruins of ancient Carthage lie just outside Tunis, where famous battles once took place with elephants and Roman legions 🐘",
+    "natureAndWildlife": "Olive groves, sandy beaches, and the northern edge of the Sahara Desert",
+    "friendlyPeople": "Cafes and markets are full of people sipping mint tea, playing cards, and talking for hours",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Blue-and-white village of Sidi Bou Said" },
+        { "url": "", "caption": "Columns and ruins of ancient Carthage" }
+      ],
+      "videos": [{ "url": "", "title": "Tunisia — blue doors, ruins, and desert edge" }]
+    }
+  },
+  "Uganda": {
+    "capitalCity": "Kampala — a hilly city by Lake Victoria full of markets and busy streets 🌋",
+    "locationAndSize": "A landlocked country in East Africa, often called the 'Pearl of Africa'",
+    "language": "English and Swahili officially, plus many local languages like Luganda",
+    "cultureAndTraditions": "Music and dance vary across dozens of ethnic groups; traditional xylophones and drums are common instruments",
+    "natureAndWildlife": "Mountain gorillas in the southwest, lions that sometimes climb trees, and the source of the Nile River at Jinja",
+    "friendlyPeople": "Ugandans are known for openness and hospitality — many travelers fall in love with the country and stay longer than planned",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Gorilla trekking path through misty forest" },
+        { "url": "", "caption": "Nile River flowing out of Lake Victoria" }
+      ],
+      "videos": [{ "url": "", "title": "Uganda — gorillas, lakes, and green hills" }]
+    }
+  },
+  "Western Sahara": {
+    "capitalCity": "Laayoune (claimed) — a desert city with flat-roofed houses and wide sandy streets 🏜️",
+    "locationAndSize": "A disputed territory in northwest Africa mostly covered by the Sahara Desert",
+    "language": "Arabic and Berber languages are widely spoken",
+    "cultureAndTraditions": "Sahrawi nomads traditionally travel with camels and goats, living in tents and following the scarce water",
+    "natureAndWildlife": "Rolling dunes, stony plains, and hardy desert plants and animals that survive with almost no rain",
+    "friendlyPeople": "Tea is poured high into glasses and shared slowly while people talk and watch the stars",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Sand dunes under a wide sky" },
+        { "url": "", "caption": "Tent camp in the desert at sunset" }
+      ],
+      "videos": [{ "url": "", "title": "Western Sahara — wind, sand, and stars" }]
+    }
+  },
+  "Zambia": {
+    "capitalCity": "Lusaka — a growing city in the middle of a high plateau 🌄",
+    "locationAndSize": "A landlocked country in southern Africa crossed by many rivers",
+    "language": "English officially, plus over 70 local languages",
+    "cultureAndTraditions": "Traditional ceremonies like Kuomboka celebrate the change of seasons with royal boats and music",
+    "natureAndWildlife": "Victoria Falls, one of the largest waterfalls in the world, thunders on the border with Zimbabwe 🌈",
+    "friendlyPeople": "Zambians are proud of their peaceful country and love to share stories of wildlife and village life with visitors",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Victoria Falls mist and rainbow" },
+        { "url": "", "caption": "Elephants crossing a river at sunset" }
+      ],
+      "videos": [{ "url": "", "title": "Zambia — waterfalls, rivers, and wild parks" }]
+    }
+  },
+  "Zimbabwe": {
+    "capitalCity": "Harare — a city of jacaranda trees that turn streets purple when they bloom 💜",
+    "locationAndSize": "A landlocked country in southern Africa with highlands and savannas",
+    "language": "English, Shona, Ndebele, and several other official languages",
+    "cultureAndTraditions": "The stone ruins of Great Zimbabwe show that a powerful kingdom thrived here long ago, trading gold and ivory",
+    "natureAndWildlife": "National parks are home to lions, elephants, rhinos, and hippos, and to the mist of Victoria Falls nearby",
+    "friendlyPeople": "Zimbabweans are known for resilience, humor, and music — marimba xylophones and mbira thumb pianos ring out in villages and cities",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Stone walls of Great Zimbabwe ruins" },
+        { "url": "", "caption": "Elephants walking through golden grass" }
+      ],
+      "videos": [{ "url": "", "title": "Zimbabwe — stone kingdoms and wild rivers" }]
+    }
+  },
+  "Egypt": {
+    "capitalCity": "Cairo — a huge city on the Nile where ancient pyramids stand next to highways and houses 🏜️",
+    "locationAndSize": "A country in northeast Africa (and a little in Asia) along the life-giving Nile River and the Sahara Desert",
+    "language": "Arabic",
+    "cultureAndTraditions": "The pyramids of Giza and the Sphinx are thousands of years old — built for pharaohs who were treated like living gods. Ancient temples are full of pictures of gods with animal heads 🐈‍⬛",
+    "natureAndWildlife": "Most of Egypt is desert, but along the Nile there are green fields, palm trees, and many birds. Crocodiles and hippos once ruled the river",
+    "friendlyPeople": "Egyptians are proud of their history and love telling stories about mummies, treasures, and clever ancient builders",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Pyramids of Giza and the Sphinx" },
+        { "url": "", "caption": "Sailboats on the Nile at sunset" }
+      ],
+      "videos": [{ "url": "", "title": "Egypt — Nile, pyramids, and pharaohs" }]
+    }
+  },
+  "Morocco": {
+    "capitalCity": "Rabat — a calm coastal capital with blue ocean and ancient walls 🌊",
+    "locationAndSize": "A North African country with both Atlantic and Mediterranean coasts and the Atlas Mountains",
+    "language": "Arabic and Tamazight (Berber), plus French",
+    "cultureAndTraditions": "Old medinas are mazes of narrow streets, spice markets, and colorful tiled fountains. Mint tea with sugar is poured from high above the glass 🍵",
+    "natureAndWildlife": "From snowy mountain peaks to sandy dunes and palm-filled oases, Morocco has many worlds in one country",
+    "friendlyPeople": "Moroccan hosts love to serve tagines — slow-cooked stews in pointy clay pots — and lots of sweet pastries with tea",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Blue streets of Chefchaouen" },
+        { "url": "", "caption": "Camel caravan in the Sahara at sunset" }
+      ],
+      "videos": [
+        { "url": "", "title": "Morocco — markets, mountains, and mint tea" }
+      ]
+    }
+  },
+  "Nigeria": {
+    "capitalCity": "Abuja — a planned city with modern buildings and big rock hills around it 🏙️",
+    "locationAndSize": "Africa's most populous country, on the Gulf of Guinea in West Africa",
+    "language": "English officially, but over 500 languages are spoken — including Yoruba, Igbo, and Hausa",
+    "cultureAndTraditions": "Nigeria has a huge film industry called Nollywood and incredibly rich music scenes — Afrobeats from Nigeria is danced to all over the world 🎬🎶",
+    "natureAndWildlife": "Rainforests, savannas, rivers, and the Niger Delta wetlands full of fish and birds",
+    "friendlyPeople": "Nigerians are famous for humor, energy, and style — colorful clothes and big celebrations are part of life",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Colorfully dressed dancers at a festival" },
+        {
+          "url": "",
+          "caption": "Green hills and rock formations in central Nigeria"
+        }
+      ],
+      "videos": [
+        { "url": "", "title": "Nigeria — music, movies, and many peoples" }
+      ]
+    }
+  },
+  "Kenya": {
+    "capitalCity": "Nairobi — a city where giraffes and zebras live in a national park right next to skyscrapers! 🦒",
+    "locationAndSize": "An East African country that stretches from the Indian Ocean up into high mountains",
+    "language": "Swahili and English, plus many local languages",
+    "cultureAndTraditions": "Maasai warriors in red cloaks herd cattle across the savanna and can jump incredibly high in traditional dances 🐄",
+    "natureAndWildlife": "Lions, elephants, rhinos, zebras, and flamingos fill national parks and the Great Rift Valley — a real-life safari world",
+    "friendlyPeople": "Kenyans often say 'Karibu' — 'You are welcome' — and share strong chai tea and chapati bread with visitors",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Giraffes walking with Nairobi skyline behind"
+        },
+        {
+          "url": "",
+          "caption": "Safari scene with elephants and distant mountains"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Kenya — safaris, savannas, and smiling welcomes"
+        }
+      ]
+    }
+  },
+  "Ethiopia": {
+    "capitalCity": "Addis Ababa — a high mountain capital with busy streets and spicy coffee smells ☕",
+    "locationAndSize": "A big, mountainous country in the Horn of Africa, never colonized by Europe",
+    "language": "Amharic is the main language, but over 80 languages are spoken!",
+    "cultureAndTraditions": "Ethiopia has its own ancient script and calendar, and some churches are carved straight into solid rock underground ⛪",
+    "natureAndWildlife": "The Simien Mountains are home to gelada baboons with red 'heart' chests, Ethiopian wolves, and dramatic cliffs",
+    "friendlyPeople": "Families gather around a big plate of injera (spongy flatbread) and share tasty stews with their hands — eating together from one plate shows trust and love",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Rock-hewn church in Lalibela" },
+        { "url": "", "caption": "Gelada baboons in the Simien Mountains" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Ethiopia — ancient alphabets and mountain animals"
+        }
+      ]
+    }
+  },
+  "Ghana": {
+    "capitalCity": "Accra — a colorful coastal city with markets, beaches, and lively music 🎶",
+    "locationAndSize": "A West African country on the Gulf of Guinea with forests, savannas, and a long coast",
+    "language": "English officially, plus many languages like Twi, Ewe, and Ga",
+    "cultureAndTraditions": "Kente cloth from Ghana is woven in bright geometric patterns — each color and pattern has a special meaning 🧵",
+    "natureAndWildlife": "Rainforests with canopy walkways, savannas with elephants and antelopes, and beaches where sea turtles nest",
+    "friendlyPeople": "Ghanaians are famous for being welcoming and peaceful — visitors are quickly treated like part of the family",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Colorful Kente cloth on market stalls" },
+        { "url": "", "caption": "Canopy walkway high above the forest" }
+      ],
+      "videos": [
+        { "url": "", "title": "Ghana — gold, cloth, and friendly smiles" }
+      ]
+    }
+  },
+  "Senegal": {
+    "capitalCity": "Dakar — a bustling city on a peninsula pushing into the Atlantic Ocean 🌊",
+    "locationAndSize": "A West African country at the continent's westernmost tip",
+    "language": "French officially, but Wolof is widely spoken",
+    "cultureAndTraditions": "Senegal is famous for mbalax music and for wrestling matches where champions are treated like superheroes 🤼",
+    "natureAndWildlife": "Pink lakes, bird-filled deltas, and ocean waves that attract surfers and fishermen",
+    "friendlyPeople": "Senegalese hospitality is called 'teranga' — making guests feel honored and fully at home",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Pink Lake Retba sparkling in the sun" },
+        { "url": "", "caption": "Fishermen pulling in boats on a beach" }
+      ],
+      "videos": [
+        { "url": "", "title": "Senegal — music, wrestling, and teranga" }
+      ]
+    }
+  },
+  "Madagascar": {
+    "capitalCity": "Antananarivo — a hilltop city with rice paddies and colorful houses 🏘️",
+    "locationAndSize": "A huge island off Africa's east coast — so unique it is called the 'eighth continent'",
+    "language": "Malagasy and French",
+    "cultureAndTraditions": "Many Malagasy people still honor ancestors with special ceremonies and traditional music",
+    "natureAndWildlife": "Lemurs leap through trees, chameleons change colors, baobab trees look like they were planted upside down — most animals here live nowhere else on Earth! 🦎",
+    "friendlyPeople": "Villages often gather to dance and sing together; children grow up surrounded by incredible wildlife",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Baobab trees along the Avenue of the Baobabs"
+        },
+        { "url": "", "caption": "Ring-tailed lemurs sunbathing" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Madagascar — lemurs, baobabs, and secret species"
+        }
+      ]
+    }
+  },
+  "South Africa": {
+    "capitalCity": "Pretoria (administrative), Cape Town (legislative), and Bloemfontein (judicial) — three capitals for one country! 🇿🇦",
+    "locationAndSize": "The southernmost country on the African continent, with two oceans and many climates",
+    "language": "11 official languages, including Zulu, Xhosa, Afrikaans, and English",
+    "cultureAndTraditions": "South Africa is called the 'Rainbow Nation' because so many cultures live together. It is also the home of Nelson Mandela and the fight against apartheid 🌈",
+    "natureAndWildlife": "Big safaris with lions, elephants, rhinos, leopards, and buffalo, plus penguins walking on some beaches!",
+    "friendlyPeople": "Braai (barbecue) is almost a national holiday — families and friends gather around fires to grill food and talk for hours",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Table Mountain above Cape Town" },
+        { "url": "", "caption": "Safari scene with lions on the savanna" }
+      ],
+      "videos": [
+        { "url": "", "title": "South Africa — rainbow nation of wildlife" }
       ]
     }
   }
