@@ -1,0 +1,1053 @@
+{
+  "Albania": {
+    "capitalCity": "Tirana — a city painted in all the colors of the rainbow! 🌈",
+    "locationAndSize": "A small magical country by the sparkling blue sea in Europe",
+    "language": "Albanian — a very ancient and mysterious language",
+    "cultureAndTraditions": "People here sing together in big groups — their voices sound like a beautiful spell! They also make amazing colorful costumes",
+    "natureAndWildlife": "Home to mighty eagles, fluffy bears, and crystal-clear mountain lakes where fairies might be hiding",
+    "friendlyPeople": "Albanian people have a special rule called 'Besa' — once they promise to be your friend, they will protect you forever!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Colorful houses of Tirana" },
+        { "url": "", "caption": "Albanian mountains and sea" }
+      ],
+      "videos": [{ "url": "", "title": "Albania for kids" }]
+    }
+  },
+  "Andorra": {
+    "capitalCity": "Andorra la Vella — a tiny city sitting high up in the snowy mountains ⛄",
+    "locationAndSize": "A teeny-tiny country hidden between two big mountains — smaller than many cities!",
+    "language": "Catalan — a lovely sounding language full of musical words",
+    "cultureAndTraditions": "Every winter the mountains turn white and children go sledding and skiing all day long!",
+    "natureAndWildlife": "Cute little animals called chamois jump between the rocks, and huge eagles soar over snowy peaks",
+    "friendlyPeople": "Everyone in Andorra knows each other — it's like one big friendly village in the sky!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Snowy mountains of Andorra" },
+        { "url": "", "caption": "Children skiing in the Alps" }
+      ],
+      "videos": [{ "url": "", "title": "Andorra mountain adventure" }]
+    }
+  },
+  "Austria": {
+    "capitalCity": "Vienna — a grand city full of palaces, music, and the yummiest cakes! 🎂",
+    "locationAndSize": "A beautiful country in the heart of Europe surrounded by the magical Alps mountains",
+    "language": "German — the same language as in fairy tales by the Brothers Grimm!",
+    "cultureAndTraditions": "Mozart was born here and wrote music so beautiful it sounds like angels singing. There are also magical Christmas markets with twinkling lights!",
+    "natureAndWildlife": "White Lipizzaner horses that dance like ballerinas, chamois that leap on steep cliffs, and friendly deer in the forests",
+    "friendlyPeople": "Austrian people love to sit in cozy cafés and drink hot chocolate while snowflakes fall outside — just like in a fairy tale!",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Hallstatt — the most fairy tale village in the world"
+        },
+        { "url": "", "caption": "White Lipizzaner horses dancing" }
+      ],
+      "videos": [{ "url": "", "title": "Austria — fairy tale country" }]
+    }
+  },
+  "Belarus": {
+    "capitalCity": "Minsk — a big, clean city with wide streets and beautiful parks 🌳",
+    "locationAndSize": "A country of deep magical forests and hundreds of sparkling lakes in Eastern Europe",
+    "language": "Belarusian — soft and gentle, like a lullaby",
+    "cultureAndTraditions": "At midsummer people float flower wreaths on rivers and jump over bonfires to make their wishes come true!",
+    "natureAndWildlife": "The last magical ancient forest in Europe lives here — with real European bison, giant fluffy animals like walking mountains!",
+    "friendlyPeople": "Belarusian grandmothers make the most delicious dumplings called draniki — potato pancakes that disappear from the plate instantly!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "European bison in the ancient forest" },
+        { "url": "", "caption": "Fairy tale Mir Castle" }
+      ],
+      "videos": [{ "url": "", "title": "Belarus — land of bison and forests" }]
+    }
+  },
+  "Belgium": {
+    "capitalCity": "Brussels — where the Smurfs and Tintin were born! 🍄",
+    "locationAndSize": "A small but super delicious country in Western Europe",
+    "language": "People speak Dutch, French, AND German — they are amazing at languages!",
+    "cultureAndTraditions": "Belgium invented the Smurfs, Tintin, and the best chocolate in the whole world! Also amazing waffles with strawberries and cream 🧇",
+    "natureAndWildlife": "Wild boars roam the Ardennes forest, and you can spot kingfishers — tiny birds that shine like flying jewels by rivers",
+    "friendlyPeople": "Belgian children eat chocolate for breakfast, lunch, and dessert — and nobody thinks that is strange at all!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Beautiful Bruges canal city" },
+        { "url": "", "caption": "Belgian chocolate and waffles" }
+      ],
+      "videos": [{ "url": "", "title": "Belgium — chocolate and Smurfs!" }]
+    }
+  },
+  "Bosnia and Herzegovina": {
+    "capitalCity": "Sarajevo — a city where East and West meet like two best friends 🤝",
+    "locationAndSize": "A mountainous country in Southeast Europe with rushing rivers and waterfalls",
+    "language": "Bosnian — warm and musical, great for telling stories",
+    "cultureAndTraditions": "There is a famous old bridge called Stari Most that brave divers jump from into the sparkling river below!",
+    "natureAndWildlife": "Huge bears, wolves, and colorful fish swim in the crystal-clear emerald rivers between the mountains",
+    "friendlyPeople": "In Sarajevo three different religions live side by side in peace — mosque, church, and synagogue are all neighbors!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Stari Most bridge over the Neretva river" },
+        { "url": "", "caption": "Waterfalls of Una National Park" }
+      ],
+      "videos": [{ "url": "", "title": "Bosnia — bridges and waterfalls" }]
+    }
+  },
+  "Bulgaria": {
+    "capitalCity": "Sofia — a city where ancient history hides around every corner 🏛️",
+    "locationAndSize": "A wonderful country in Southeast Europe with mountains, beaches, and rose fields",
+    "language": "Bulgarian — written in the Cyrillic alphabet, invented right here!",
+    "cultureAndTraditions": "Every spring whole valleys turn pink and purple with millions of roses — people collect them to make magical rose perfume! Also scary Kukeri monsters dance to chase away bad spirits 👹",
+    "natureAndWildlife": "Bulgaria has big fluffy bears, howling wolves, and white pelicans that fly over the lakes like beautiful clouds",
+    "friendlyPeople": "Careful — Bulgarian people nod their head for NO and shake it for YES, the opposite of everyone else! Very confusing and very funny 😄",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Rose Valley in bloom" },
+        { "url": "", "caption": "Scary Kukeri monster costume" }
+      ],
+      "videos": [{ "url": "", "title": "Bulgaria — roses and monsters" }]
+    }
+  },
+  "Croatia": {
+    "capitalCity": "Zagreb — a cozy city with a Christmas market that won best in Europe! 🎄",
+    "locationAndSize": "A beautiful country with 1,246 islands in the sparkling blue Adriatic Sea",
+    "language": "Croatian — sounds like music when spoken by the sea",
+    "cultureAndTraditions": "Did you know the necktie was invented in Croatia? And there are magical waterfalls at Plitvice that glow in turquoise and green!",
+    "natureAndWildlife": "So many islands! Some have only goats, rabbits, or donkeys living on them. Lynx prowl the forests and dolphins play in the sea",
+    "friendlyPeople": "Croatian kids swim in the sea from April to October — the water is so clear you can count every pebble on the bottom!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Plitvice waterfalls turquoise magic" },
+        { "url": "", "caption": "Dubrovnik old city by the sea" }
+      ],
+      "videos": [{ "url": "", "title": "Croatia — islands and waterfalls" }]
+    }
+  },
+  "Cyprus": {
+    "capitalCity": "Nicosia — the last divided capital city in the world 🌍",
+    "locationAndSize": "A sunny island in the warm Mediterranean Sea — birthplace of Aphrodite, the goddess of love!",
+    "language": "Greek and Turkish — two languages on one little island",
+    "cultureAndTraditions": "According to legend, the goddess of love Aphrodite was born from sea foam right here! People also make delicious halloumi cheese that squeaks when you eat it 🧀",
+    "natureAndWildlife": "Adorable mouflon sheep with curly horns live in the mountains, and sea turtles lay their eggs on the beaches at night",
+    "friendlyPeople": "On Cyprus every stranger is treated like a long-lost friend — they will immediately offer you coffee and homemade sweets!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Aphrodite's Rock rising from the sea" },
+        { "url": "", "caption": "Baby sea turtles going to the sea" }
+      ],
+      "videos": [{ "url": "", "title": "Cyprus — island of the love goddess" }]
+    }
+  },
+  "Czech Republic": {
+    "capitalCity": "Prague — a fairy tale city with a real magical clock! ⚙️🕐",
+    "locationAndSize": "A magical country in the heart of Europe, surrounded by gentle mountains",
+    "language": "Czech — a Slavic language with lots of fun sounds",
+    "cultureAndTraditions": "Prague has an amazing clock from 1410 that puts on a little show every hour — skeletons, apostles, and a crowing rooster! Also Czech people drink more juice made from hops than anyone else in the world",
+    "natureAndWildlife": "Wolves and lynx have come back to the Czech forests, and there are amazing crystal-clear caves with underground rivers",
+    "friendlyPeople": "Czech people love fairy tales — their country looks just like the setting of a storybook with castles on every hill!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Prague magical astronomical clock" },
+        { "url": "", "caption": "Český Krumlov castle from above" }
+      ],
+      "videos": [
+        { "url": "", "title": "Prague — city of a thousand fairy tales" }
+      ]
+    }
+  },
+  "Denmark": {
+    "capitalCity": "Copenhagen — the happiest city in the world, home of LEGO! 🧱",
+    "locationAndSize": "A cozy kingdom in Northern Europe, plus Greenland and the Faroe Islands",
+    "language": "Danish — a funny language where some letters are almost silent",
+    "cultureAndTraditions": "Hans Christian Andersen wrote The Little Mermaid, Thumbelina, and The Ugly Duckling here! LEGO was also invented in Denmark — the name means 'play well'!",
+    "natureAndWildlife": "Thousands of starlings fly in giant shapes called 'Black Sun' — it looks like a living, breathing cloud in the sky!",
+    "friendlyPeople": "Danish people invented 'hygge' — cozy evenings with candles, hot cocoa, warm blankets, and your best friends 🕯️",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Little Mermaid statue in Copenhagen" },
+        { "url": "", "caption": "Colorful LEGO bricks" }
+      ],
+      "videos": [{ "url": "", "title": "Denmark — LEGO and fairy tales" }]
+    }
+  },
+  "Estonia": {
+    "capitalCity": "Tallinn — a medieval fairy tale city with towers and city walls 🏰",
+    "locationAndSize": "A small, smart country in Northern Europe next to the Baltic Sea",
+    "language": "Estonian — one of the oldest and most unique languages in Europe",
+    "cultureAndTraditions": "Every few years ALL Estonians — thousands and thousands of people — gather to sing together in a giant Song Festival. Imagine a choir of 25,000 voices! 🎵",
+    "natureAndWildlife": "Estonia has magical bogs — spongy mossy lands like walking on a trampoline! Bears, lynx, and flying squirrels live in the ancient forests",
+    "friendlyPeople": "Estonians invented Skype so children all over the world can video-call their grandparents — what a wonderful gift to the world!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Tallinn towers and medieval walls" },
+        { "url": "", "caption": "Estonian bog in morning mist" }
+      ],
+      "videos": [
+        { "url": "", "title": "Estonia — medieval towers and singing forests" }
+      ]
+    }
+  },
+  "Finland": {
+    "capitalCity": "Helsinki — a bright city on the sea where design and nature meet 🌊",
+    "locationAndSize": "A magical northern country with 188,000 lakes — that is more lakes than anywhere else in the world!",
+    "language": "Finnish — so different from other languages it sounds like an elf speaking!",
+    "cultureAndTraditions": "SANTA CLAUS LIVES IN FINLAND — in Lapland in the north! 🎅 Finnish people also love saunas — even babies go to sauna, and there are more saunas than cars!",
+    "natureAndWildlife": "Reindeer walk through the streets in Lapland! Also brown bears, wolverines, lynx, and the most amazing Northern Lights dancing in green and purple",
+    "friendlyPeople": "Finnish children go to school even when it is minus 20 degrees outside — they say there is no bad weather, only wrong clothes! 🧥",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Santa's village in Rovaniemi Lapland" },
+        { "url": "", "caption": "Reindeer in Finnish snow" }
+      ],
+      "videos": [{ "url": "", "title": "Finland — Santa's homeland" }]
+    }
+  },
+  "France": {
+    "capitalCity": "Paris — the city of the Eiffel Tower, croissants, and adventure! 🗼",
+    "locationAndSize": "A big beautiful country in Western Europe — the largest in the EU!",
+    "language": "French — the language of love and delicious food",
+    "cultureAndTraditions": "France has the most famous art museum in the world — the Louvre, where the Mona Lisa smiles mysteriously! Also croissants, macarons, and the most delicious cheese you can imagine 🥐",
+    "natureAndWildlife": "Wild white horses called Camargue horses run free through marshes, and chamois leap in the snowy Alps",
+    "friendlyPeople": "French people greet each other with two kisses on the cheek — even children do this when they meet friends!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Eiffel Tower sparkling at night" },
+        { "url": "", "caption": "Lavender fields purple as far as you can see" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "France — croissants, castles, and the Eiffel Tower"
+        }
+      ]
+    }
+  },
+  "Germany": {
+    "capitalCity": "Berlin — a big creative city full of art, music, and amazing playgrounds 🎨",
+    "locationAndSize": "A large country in the heart of Europe — home of fairy tales and cars!",
+    "language": "German — strong and powerful, like the language of storybook kings",
+    "cultureAndTraditions": "The Brothers Grimm collected fairy tales here — Cinderella, Snow White, Hansel and Gretel are all German! There are also magical Christmas markets with gingerbread and hot cocoa 🎄",
+    "natureAndWildlife": "The Black Forest is a real dark mysterious forest where fairy tales happen! Wolves have returned to roam, and lynx hide between the trees",
+    "friendlyPeople": "Germany has over 3,000 different kinds of bread — and Germans think bread is the most important food in the world!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Neuschwanstein — the real fairy tale castle" },
+        { "url": "", "caption": "German Christmas market with lights" }
+      ],
+      "videos": [
+        { "url": "", "title": "Germany — where fairy tales were born" }
+      ]
+    }
+  },
+  "Greece": {
+    "capitalCity": "Athens — the city where the Olympic Games were invented! 🏛️🏅",
+    "locationAndSize": "A sunny country with over 6,000 islands in the warm blue Mediterranean Sea",
+    "language": "Greek — one of the oldest languages in the world, 3,500 years old!",
+    "cultureAndTraditions": "Zeus, Athena, Poseidon, Hercules — all the greatest gods and heroes were Greek! The Olympics started here too. And Greek food is so good — pita bread, honey, feta cheese 🍯",
+    "natureAndWildlife": "Loggerhead sea turtles lay eggs on the beaches, fluffy monk seals swim in sea caves, and pelicans walk around like they own the place",
+    "friendlyPeople": "Greek people believe that every stranger might secretly be a god in disguise — so they welcome everyone with a feast!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Santorini blue domes above the sea" },
+        { "url": "", "caption": "Ancient Parthenon temple in Athens" }
+      ],
+      "videos": [{ "url": "", "title": "Greece — gods, heroes, and blue seas" }]
+    }
+  },
+  "Hungary": {
+    "capitalCity": "Budapest — a royal city split by the Danube River into two halves! 👑",
+    "locationAndSize": "A beautiful country in Central Europe surrounded by mountains on all sides",
+    "language": "Hungarian — so unique it is unlike any other language in Europe!",
+    "cultureAndTraditions": "Budapest has 118 hot water springs! Children and grown-ups swim in huge beautiful bath palaces — even in winter when it snows! 🏊 Also Hungarians invented the Rubik's Cube — the most famous puzzle toy ever!",
+    "natureAndWildlife": "On the great Hungarian plain (puszta) giant fluffy grey cattle and beautiful wild horses roam freely like they did a thousand years ago",
+    "friendlyPeople": "Hungarian grandmothers make a spicy red powder called paprika go into EVERYTHING — even the soup, the meat, and the vegetables!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Budapest castle and river at night" },
+        { "url": "", "caption": "Széchenyi thermal bath palace" }
+      ],
+      "videos": [
+        { "url": "", "title": "Hungary — hot baths and the Rubik's Cube!" }
+      ]
+    }
+  },
+  "Iceland": {
+    "capitalCity": "Reykjavik — the northernmost capital city in the whole world! ❄️",
+    "locationAndSize": "A magical island near the North Pole with volcanoes, geysers, and glaciers",
+    "language": "Icelandic — almost the same language Vikings spoke 1,000 years ago!",
+    "cultureAndTraditions": "Iceland has elves! More than half of all Icelandic people believe in hidden elves called Huldufólk who live in rocks — roads are even built around their magical stones! 🧝",
+    "natureAndWildlife": "Geysers shoot hot water 30 meters high! Cute puffin birds with rainbow beaks live on the cliffs, and Northern Lights dance like green fire in the sky",
+    "friendlyPeople": "Iceland has no army and barely any crime — it is one of the safest and most peaceful places on Earth for children!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Geyser shooting water into the sky" },
+        { "url": "", "caption": "Puffins on volcanic cliffs" }
+      ],
+      "videos": [
+        { "url": "", "title": "Iceland — elves geysers and Northern Lights" }
+      ]
+    }
+  },
+  "Ireland": {
+    "capitalCity": "Dublin — a lively city full of music, stories, and green parks ☘️",
+    "locationAndSize": "A beautiful green island in the Atlantic Ocean — so green it is called the Emerald Isle!",
+    "language": "English and Irish — Irish is one of the oldest languages in Europe",
+    "cultureAndTraditions": "Ireland is the homeland of leprechauns — tiny magical shoemakers who hide pots of gold at the end of rainbows! 🌈 St. Patrick's Day makes rivers and even beer green!",
+    "natureAndWildlife": "Huge dramatic cliffs called the Cliffs of Moher drop straight into the roaring Atlantic. Puffins, grey seals, and red deer live here",
+    "friendlyPeople": "Irish people are the best storytellers in the world — every evening becomes a magical adventure of songs and tales in a cozy pub!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Cliffs of Moher — tall as 8 houses!" },
+        { "url": "", "caption": "Green Irish countryside with sheep" }
+      ],
+      "videos": [
+        { "url": "", "title": "Ireland — leprechauns and green hills" }
+      ]
+    }
+  },
+  "Italy": {
+    "capitalCity": "Rome — the eternal city where gladiators once fought in the Colosseum! ⚔️",
+    "locationAndSize": "A boot-shaped country in Southern Europe sticking out into the warm Mediterranean Sea",
+    "language": "Italian — the most musical language, like singing every word!",
+    "cultureAndTraditions": "Pizza, pasta, gelato — Italy gave the world its best foods! 🍕🍦 Venice is a city with canals instead of streets where people travel by boat! Pinocchio is Italian too!",
+    "natureAndWildlife": "Real wolves roam the forests, brown bears live in the mountains, and in Sardinia flamingos turn the lakes pink",
+    "friendlyPeople": "Italian grandmothers (nonnas) cook the most delicious food in the world, and feeding people is how Italians say 'I love you'!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Venice canals with gondolas" },
+        { "url": "", "caption": "Colosseum in Rome" }
+      ],
+      "videos": [
+        { "url": "", "title": "Italy — pizza, gondolas, and ancient heroes" }
+      ]
+    }
+  },
+  "Kosovo": {
+    "capitalCity": "Pristina — Europe's youngest and most energetic capital city 🌟",
+    "locationAndSize": "A small young country in Southeast Europe — one of the newest countries in the world!",
+    "language": "Albanian and Serbian — two languages for one little nation",
+    "cultureAndTraditions": "Kosovo has the youngest population in Europe — lots of children, playgrounds, and energy everywhere! Amazing street art decorates the city like a giant outdoor museum",
+    "natureAndWildlife": "Deep canyons, rushing rivers, golden eagles soaring overhead, and brown bears in the mountain forests",
+    "friendlyPeople": "Kosovo people are the most welcoming in the Balkans — they are so happy when visitors come to see their beautiful country!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Rugova Canyon deep and majestic" },
+        { "url": "", "caption": "Colorful street art in Pristina" }
+      ],
+      "videos": [{ "url": "", "title": "Kosovo — young country big heart" }]
+    }
+  },
+  "Latvia": {
+    "capitalCity": "Riga — a beautiful city with amazing fairy tale buildings! 🏙️",
+    "locationAndSize": "A small foresty country by the Baltic Sea in Northern Europe",
+    "language": "Latvian — one of the oldest living languages in Europe",
+    "cultureAndTraditions": "At midsummer children make flower crowns and celebrate through the entire night when it barely gets dark! 🌸 Latvia is also the land of amber — golden orange ancient tree resin with insects frozen inside for millions of years!",
+    "natureAndWildlife": "Ancient oak forests, sandy dunes by the sea, fluffy grey seals, and white-tailed eagles with huge wingspans",
+    "friendlyPeople": "Latvians are very connected to nature — they know the names of all the forest berries and mushrooms and love picking them together!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Riga Art Nouveau magical buildings" },
+        { "url": "", "caption": "Amber — golden ancient treasure" }
+      ],
+      "videos": [
+        { "url": "", "title": "Latvia — amber forests and flower crowns" }
+      ]
+    }
+  },
+  "Liechtenstein": {
+    "capitalCity": "Vaduz — a tiny capital where the Prince's castle watches over everything 🏰",
+    "locationAndSize": "A teeny-tiny country between two mountains — so small you can walk across it in one day!",
+    "language": "German — same as Austria and Switzerland next door",
+    "cultureAndTraditions": "The Prince lives in a real castle on the hill above town! Every National Day he invites ALL the citizens to a garden party — imagine being invited to a prince's party! 🎉",
+    "natureAndWildlife": "Fluffy marmots whistle alarm signals in the mountain meadows, chamois leap across cliffs, and the Prince has beautiful vineyards",
+    "friendlyPeople": "With only 38,000 people, Liechtenstein is like one big family — everyone knows the prince, the baker, and the schoolteacher!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Vaduz castle on the green hill" },
+        { "url": "", "caption": "Alpine meadows with marmots" }
+      ],
+      "videos": [
+        { "url": "", "title": "Liechtenstein — the tiny fairy tale kingdom" }
+      ]
+    }
+  },
+  "Lithuania": {
+    "capitalCity": "Vilnius — a city full of baroque churches and magical hidden courtyards ✨",
+    "locationAndSize": "A green country by the Baltic Sea with ancient forests and amber beaches",
+    "language": "Lithuanian — the oldest living language in Europe, close to ancient Sanskrit!",
+    "cultureAndTraditions": "Lithuania was one of the last countries in Europe to have its own pagan gods and forest spirits! People still celebrate ancient nature festivals. And there is a magical hill covered in thousands and thousands of crosses 🕌",
+    "natureAndWildlife": "Golden sand dunes right next to the sea, storks nesting on every rooftop, grey wolves, and magnificent elk",
+    "friendlyPeople": "Lithuanian people love singing folk songs that tell stories of the forest, the sea, and love — music runs in their blood!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Curonian Spit sand dunes and sea" },
+        { "url": "", "caption": "Hill of Crosses — thousands of crosses" }
+      ],
+      "videos": [{ "url": "", "title": "Lithuania — ancient magic by the sea" }]
+    }
+  },
+  "Luxembourg": {
+    "capitalCity": "Luxembourg City — a city built on dramatic rocky cliffs with old fortresses! 🏔️",
+    "locationAndSize": "A small but very grand country in Western Europe — home of one of the most impressive castles",
+    "language": "People here speak THREE languages — Luxembourgish, French, and German!",
+    "cultureAndTraditions": "Every year there is a magical dancing procession where thousands of people hop through the streets together — even the elderly and children dance! 💃",
+    "natureAndWildlife": "Red kites — beautiful fork-tailed birds — soar over the valleys, otters play in clear rivers, and the Ardennes forest is full of deer",
+    "friendlyPeople": "Children in Luxembourg grow up speaking three languages before they are ten years old — that makes them super smart!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Luxembourg City fortress cliffs" },
+        { "url": "", "caption": "Luxembourg countryside castle" }
+      ],
+      "videos": [{ "url": "", "title": "Luxembourg — tiny grand duchy" }]
+    }
+  },
+  "Malta": {
+    "capitalCity": "Valletta — one of the smallest capital cities in the world, golden and magical! ✨",
+    "locationAndSize": "A tiny island in the warm blue Mediterranean Sea — just three small islands!",
+    "language": "Maltese — the only Semitic language written in Latin letters, and English too",
+    "cultureAndTraditions": "Every village has its own festival called a 'festa' with the most spectacular fireworks you have ever seen — whole families stay up until midnight for the show! 🎆 Also Malta has temples older than the pyramids of Egypt!",
+    "natureAndWildlife": "The sea around Malta is crystal clear and warm — you can see fish, octopus, and sea turtles while snorkeling",
+    "friendlyPeople": "Maltese people are so proud of their fireworks that every village tries to make bigger and better ones than their neighbors — a friendly competition!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Valletta golden honey-colored city" },
+        { "url": "", "caption": "Malta fireworks festival" }
+      ],
+      "videos": [
+        { "url": "", "title": "Malta — tiny island with ancient temples" }
+      ]
+    }
+  },
+  "Moldova": {
+    "capitalCity": "Chișinău — a green city with lots of parks and fruit trees 🍇",
+    "locationAndSize": "A small country in Eastern Europe surrounded by Ukraine and Romania",
+    "language": "Romanian (Moldovan) — a beautiful language that sounds like Italian",
+    "cultureAndTraditions": "Moldova has the most amazing wine caves in the world! Underground tunnels stretch for 120 kilometers — you can drive a car through them! 🍷 There is even a whole underground city with streets named after wines!",
+    "natureAndWildlife": "White storks build giant nests on every rooftop in the villages — families of storks are considered lucky charms!",
+    "friendlyPeople": "In Moldovan villages every family makes their own wine, jam, and pickles — visiting means going home with a bag full of homemade treasures!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Underground wine caves of Cricova" },
+        { "url": "", "caption": "Stork nest on a village roof" }
+      ],
+      "videos": [{ "url": "", "title": "Moldova — secret wine caves" }]
+    }
+  },
+  "Monaco": {
+    "capitalCity": "Monaco — the glittering city of racing cars and princes! 🏎️👑",
+    "locationAndSize": "The second tiniest country in the world — smaller than Central Park in New York!",
+    "language": "French — but with lots of international friends from all over the world",
+    "cultureAndTraditions": "Once a year Formula 1 racing cars zoom through the streets of Monaco at incredible speed — right past buildings, shops, and the harbor! 🏁 There is also a real Prince in a palace!",
+    "natureAndWildlife": "The Oceanographic Museum has an amazing aquarium with hundreds of sea creatures — Jacques Cousteau used to run it!",
+    "friendlyPeople": "Monaco is so tiny you can walk from one end to the other in 20 minutes — and maybe see the Prince along the way!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Formula 1 cars racing through Monaco" },
+        { "url": "", "caption": "Monaco harbor with yachts" }
+      ],
+      "videos": [{ "url": "", "title": "Monaco — tiny country of big races" }]
+    }
+  },
+  "Montenegro": {
+    "capitalCity": "Podgorica — surrounded by rivers and mountains on all sides 🏔️",
+    "locationAndSize": "A small wild country in Southeast Europe — the name means 'Black Mountain'!",
+    "language": "Montenegrin — warm and melodic, perfect for epic poetry",
+    "cultureAndTraditions": "Montenegro has the deepest canyon in Europe — the Tara Canyon is so deep that if you dropped a ball from the top it would take a long time to reach the river! 🏞️",
+    "natureAndWildlife": "Bears and wolves roam the mountains, Griffon vultures with giant wings soar overhead, and the canyon river is one of the cleanest in the world",
+    "friendlyPeople": "Montenegrins are famous for having the best sense of humor in the Balkans — they laugh about everything, especially themselves!",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Bay of Kotor — fjord surrounded by mountains"
+        },
+        { "url": "", "caption": "Tara Canyon — deepest in Europe" }
+      ],
+      "videos": [
+        { "url": "", "title": "Montenegro — black mountain adventures" }
+      ]
+    }
+  },
+  "Netherlands": {
+    "capitalCity": "Amsterdam — a city of canals, bicycles, and tulips! 🌷🚲",
+    "locationAndSize": "A flat country in Western Europe — so flat that a quarter of it is actually below the sea!",
+    "language": "Dutch — sounds a little bit like German and English mixed together",
+    "cultureAndTraditions": "The Dutch built giant windmills to pump water out of the sea! 🌬️ LEGO-like toy brick houses stand in a row by the canals. Every spring the whole country turns into a carpet of red, yellow, and pink tulips!",
+    "natureAndWildlife": "Wild horses roam freely in nature reserves, and every spring millions of birds stop here during their migration — like a bird airport!",
+    "friendlyPeople": "Dutch children have their own bicycle lane separate from cars — they learn to ride bikes before they can read!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Keukenhof gardens — million tulips" },
+        { "url": "", "caption": "Dutch windmills in the sunset" }
+      ],
+      "videos": [
+        { "url": "", "title": "Netherlands — windmills, tulips, and bikes" }
+      ]
+    }
+  },
+  "North Macedonia": {
+    "capitalCity": "Skopje — a city that rebuilt itself and added hundreds of statues everywhere! 🗿",
+    "locationAndSize": "A small landlocked country in Southeast Europe surrounded by beautiful mountains",
+    "language": "Macedonian — a melodious Slavic language",
+    "cultureAndTraditions": "Lake Ohrid is one of the oldest lakes in the world — 3 million years old! It has 200 kinds of animals that live NOWHERE ELSE on Earth — like a real-life Jurassic Park but with fish! 🐟",
+    "natureAndWildlife": "Brown bears, lynx, and Balkan chamois live in the mountains, while the ancient lake has glowing trout and endemic snails",
+    "friendlyPeople": "Every August there is a giant wedding festival in a mountain village where hundreds of couples get married at the same time — a huge joyful celebration!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Lake Ohrid — ancient and magical" },
+        { "url": "", "caption": "Skopje Stone Bridge and statues" }
+      ],
+      "videos": [
+        { "url": "", "title": "North Macedonia — ancient lake treasures" }
+      ]
+    }
+  },
+  "Norway": {
+    "capitalCity": "Oslo — a city where the forest begins right at the edge of town! 🌲",
+    "locationAndSize": "A long stretched country in Northern Europe with the most beautiful fjords in the world",
+    "language": "Norwegian — two versions of the language exist because the country has two official written forms!",
+    "cultureAndTraditions": "Vikings came from Norway and sailed to discover America long before Columbus! 🛶 In the far north the sun never sets in summer — children play outside at midnight!",
+    "natureAndWildlife": "Polar bears live in Svalbard islands in the Arctic! Reindeer pull sleds in the north, orca whales swim along the coast, and the Northern Lights paint the sky",
+    "friendlyPeople": "Norwegian children go to school even in minus 20 degrees weather — they love being outside in snow and go skiing from age 2!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Norwegian fjord with waterfalls" },
+        { "url": "", "caption": "Northern Lights and snowy cabins" }
+      ],
+      "videos": [{ "url": "", "title": "Norway — Vikings, fjords, and Aurora" }]
+    }
+  },
+  "Poland": {
+    "capitalCity": "Warsaw — a brave city that was destroyed and beautifully rebuilt! 🏙️",
+    "locationAndSize": "A large country in Central Europe — one of the biggest in Europe!",
+    "language": "Polish — has letters with special marks above them like ą, ę, ż, ó!",
+    "cultureAndTraditions": "Poland has a dragon legend! Long ago a terrible dragon lived under Wawel Castle in Kraków — until a clever shoemaker tricked it. The dragon statue still breathes real fire today! 🐉🔥",
+    "natureAndWildlife": "The ancient Białowieża forest is home to huge European bison — the biggest land animals in Europe, heavy as a car! Wolves and lynx hunt in the shadows",
+    "friendlyPeople": "Polish grandmothers make pierogies — delicious dumplings filled with potato, cheese, or berries — every Sunday for the whole family!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Wawel dragon breathing fire in Kraków" },
+        { "url": "", "caption": "European bison in Białowieża forest" }
+      ],
+      "videos": [
+        { "url": "", "title": "Poland — dragons, bison, and dumplings" }
+      ]
+    }
+  },
+  "Portugal": {
+    "capitalCity": "Lisbon — a hilly city with yellow trams and the smell of the sea! 🚋🌊",
+    "locationAndSize": "A country at the very western edge of Europe — after Portugal there is only the Atlantic Ocean!",
+    "language": "Portuguese — the same language spoken in Brazil, and by 250 million people worldwide!",
+    "cultureAndTraditions": "Portuguese explorers were the bravest sailors in the world — they discovered new continents and sailed around Africa! 🚢 Also custard tarts called pastéis de nata are so delicious the recipe is a secret!",
+    "natureAndWildlife": "The Iberian lynx — the rarest cat in the world — was almost extinct but is coming back in Portugal! And you can watch whales from the shore in the Azores islands!",
+    "friendlyPeople": "Portuguese people feel deep love for the sea — they even have a special word 'saudade' for the bittersweet feeling of missing something beautiful",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Lisbon yellow tram going uphill" },
+        { "url": "", "caption": "Sintra fairy tale palace" }
+      ],
+      "videos": [
+        { "url": "", "title": "Portugal — explorers and pastéis de nata" }
+      ]
+    }
+  },
+  "Romania": {
+    "capitalCity": "Bucharest — a grand city with a palace so big it is the heaviest building in the world! 🏛️",
+    "locationAndSize": "A large country in Southeast Europe with Dracula's mountains and the Danube Delta",
+    "language": "Romanian — a Latin language, descended from ancient Roman soldiers stationed here!",
+    "cultureAndTraditions": "Count Dracula is from Romania — Bran Castle sits on a cliff just like in the stories! 🧛 Also Romanian monasteries are painted with beautiful colorful pictures on the outside walls like giant storybooks",
+    "natureAndWildlife": "Romania has more brown bears than any other country in Europe — 6,000 bears roam the Carpathian mountains! Also wolves, lynx, and the biggest river delta in Europe full of pelicans",
+    "friendlyPeople": "Romanian children celebrate spring by giving each other red and white bracelets called mărțișor — a bracelet that brings good luck!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Bran Castle — Dracula's home!" },
+        { "url": "", "caption": "Painted monastery walls of Bucovina" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Romania — Dracula bears and painted monasteries"
+        }
+      ]
+    }
+  },
+  "San Marino": {
+    "capitalCity": "San Marino City — perched on top of a dramatic rocky mountain! ⛰️",
+    "locationAndSize": "The world's oldest republic — completely surrounded by Italy and smaller than many cities!",
+    "language": "Italian — same as their neighbor Italy all around them",
+    "cultureAndTraditions": "San Marino has three magnificent towers on top of a mountain that look exactly like something from a video game! 🏰 Every year crossbow archers compete in medieval costumes just like in the Middle Ages",
+    "natureAndWildlife": "Peregrine falcons — the fastest animals on Earth — nest in the fortress walls and dive at 320 km/h!",
+    "friendlyPeople": "San Marino has existed for 1,723 years and has NEVER been conquered — a tiny country that has always been free and proud!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Three towers on top of the mountain" },
+        { "url": "", "caption": "Medieval crossbow competition" }
+      ],
+      "videos": [
+        { "url": "", "title": "San Marino — ancient fortress republic" }
+      ]
+    }
+  },
+  "Serbia": {
+    "capitalCity": "Belgrade — one of the oldest continuously lived-in cities in the world! 🏰",
+    "locationAndSize": "A landlocked country in Southeast Europe where two great rivers meet",
+    "language": "Serbian — uses two alphabets, both Cyrillic and Latin!",
+    "cultureAndTraditions": "Nikola Tesla — the genius who invented alternating current electricity and wireless communication — was born in Serbia! ⚡ Also Serbia has the Guča trumpet festival where 300,000 people listen to brass bands for four days straight!",
+    "natureAndWildlife": "The Iron Gates gorge is so deep and dramatic that ancient Romans carved a road into the cliff face — you can still see it! Griffon vultures circle overhead",
+    "friendlyPeople": "Serbian people celebrate their family's patron saint day (Slava) with a big party every year — even better than a birthday!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Belgrade fortress where rivers meet" },
+        { "url": "", "caption": "Iron Gates gorge on the Danube" }
+      ],
+      "videos": [{ "url": "", "title": "Serbia — Tesla rivers and trumpets" }]
+    }
+  },
+  "Slovakia": {
+    "capitalCity": "Bratislava — a cozy capital with a castle looking over the Danube! 🏰",
+    "locationAndSize": "A small mountainous country in Central Europe — castle capital of Europe!",
+    "language": "Slovak — so similar to Czech that Slovaks and Czechs understand each other!",
+    "cultureAndTraditions": "Slovakia has more castles per person than any other country in Europe — over 180 castles! 🏰 There are also magical ice caves in the mountains and a shepherd flute called fujara that is as tall as a child!",
+    "natureAndWildlife": "Brown bears walk through the forests, lynx creep silently, and the High Tatras mountains are home to chamois and eagles",
+    "friendlyPeople": "Slovak shepherds have been making the most delicious sheep cheese called bryndza for centuries — it goes into a famous dish called bryndzové halušky (potato dumplings with cheese)!",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Spiš Castle — biggest castle ruin in Central Europe"
+        },
+        { "url": "", "caption": "High Tatras mountains in winter" }
+      ],
+      "videos": [{ "url": "", "title": "Slovakia — land of a hundred castles" }]
+    }
+  },
+  "Slovenia": {
+    "capitalCity": "Ljubljana — a city with a dragon as its symbol and a castle on a hill! 🐉",
+    "locationAndSize": "A tiny but incredibly beautiful country between the Alps and the Adriatic Sea",
+    "language": "Slovenian — has so many dialects that people from different valleys sometimes can barely understand each other!",
+    "cultureAndTraditions": "Lake Bled has a tiny island in the middle with a church — to get there you row a special boat called a pletna! 🚣 The bell on the island grants wishes! Also Slovenia has the most amazing cave — 27 kilometers of underground passages!",
+    "natureAndWildlife": "The Soča River is the most beautiful emerald-green color, like liquid jade. Brown bears, wolves, and lynx all live in the forests",
+    "friendlyPeople": "Slovenia is the greenest country in Europe — Slovenians love nature so much they have protected almost half their entire country as natural parks!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Lake Bled with island and castle" },
+        { "url": "", "caption": "Emerald green Soča River" }
+      ],
+      "videos": [
+        { "url": "", "title": "Slovenia — lake wishes and green rivers" }
+      ]
+    }
+  },
+  "Spain": {
+    "capitalCity": "Madrid — a sunny city that never sleeps, full of art and football! ⚽☀️",
+    "locationAndSize": "A large sunny country in Southwest Europe — second biggest in the EU",
+    "language": "Spanish — the second most spoken language in the world!",
+    "cultureAndTraditions": "In Spain there is a festival where people throw millions of tomatoes at each other — La Tomatina! 🍅 Also Gaudí built a church in Barcelona that looks like it grew from the ground like a giant sandcastle! Flamenco dancers stomp so loud the floor shakes!",
+    "natureAndWildlife": "The Iberian lynx was almost gone but is making a comeback! Spanish imperial eagles soar over cork oak forests, and Doñana park is a paradise for flamingos",
+    "friendlyPeople": "Spanish children eat dinner at 10 o'clock at night with the whole family — staying up late is completely normal and wonderful!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Sagrada Família — Gaudí's magical cathedral" },
+        { "url": "", "caption": "La Tomatina tomato festival" }
+      ],
+      "videos": [{ "url": "", "title": "Spain — flamenco tomatoes and Gaudí" }]
+    }
+  },
+  "Sweden": {
+    "capitalCity": "Stockholm — a city built on 14 islands connected by 57 bridges! 🌉",
+    "locationAndSize": "A long country in Northern Scandinavia — where ABBA, IKEA, and Minecraft were born!",
+    "language": "Swedish — melodic and flowing, like a gentle river",
+    "cultureAndTraditions": "Midsummer is the most magical celebration — people make flower crowns, dance around a maypole, and it stays light ALL NIGHT! 🌸 Also Sweden gave the world ABBA music, IKEA furniture, and Minecraft — three incredible gifts!",
+    "natureAndWildlife": "Sweden has over 300,000 moose — so many that some wander into cities! Also wolves, lynx, wolverines, and the most spectacular Northern Lights",
+    "friendlyPeople": "Swedish children have a wonderful tradition called 'fika' — a daily break for hot cocoa and a cinnamon bun with friends 🥐",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Midsummer flower crowns and dancing" },
+        { "url": "", "caption": "Stockholm old town on the island" }
+      ],
+      "videos": [
+        { "url": "", "title": "Sweden — ABBA, LEGO, and midnight sun" }
+      ]
+    }
+  },
+  "Switzerland": {
+    "capitalCity": "Bern — a city with a real bear pit and 6 kilometers of arcades to walk under! 🐻",
+    "locationAndSize": "A small mountain country in the heart of Europe that speaks FOUR languages!",
+    "language": "German, French, Italian, AND Romansh — four languages in one tiny country!",
+    "cultureAndTraditions": "Swiss chocolate is the most famous in the world! 🍫 Switzerland also makes the most accurate watches and has the most beautiful mountains — the Matterhorn looks like a pyramid made by giants! And there are real people who yodel and play enormous horns called alphorns!",
+    "natureAndWildlife": "Ibex — mountain goats that can climb nearly vertical walls — live in the Alps. Marmots whistle warnings, and the bearded vulture with a 3-meter wingspan soars above",
+    "friendlyPeople": "Switzerland has been peaceful for over 200 years — all four languages and cultures live happily together sharing fondue! 🧀",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Matterhorn — the perfect mountain" },
+        { "url": "", "caption": "Swiss village in winter snow" }
+      ],
+      "videos": [
+        { "url": "", "title": "Switzerland — chocolate mountains and yodeling" }
+      ]
+    }
+  },
+  "Ukraine": {
+    "capitalCity": "Kyiv — one of the oldest and most beautiful cities in Eastern Europe! 🌻",
+    "locationAndSize": "The largest country entirely in Europe — vast sunflower fields, deep forests, and the Carpathian Mountains",
+    "language": "Ukrainian — a melodic Slavic language that sounds like a song",
+    "cultureAndTraditions": "Ukrainian Easter eggs called pysanky are decorated with the most intricate magical patterns — every line and color has a special meaning! 🥚 Ukrainians also embroider beautiful patterns on shirts called vyshyvanka — like wearing art! The sunflower is their national flower 🌻",
+    "natureAndWildlife": "Przewalski's horses — the last truly wild horses on Earth — live in Ukraine. White storks nest on rooftops, and the Carpathians are home to bears, wolves, and lynx",
+    "friendlyPeople": "Ukrainian people are famous for their bravery and love of their homeland — and for making the most delicious borscht soup in the world!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Kyiv golden domes in spring" },
+        { "url": "", "caption": "Pysanky — magical Ukrainian Easter eggs" }
+      ],
+      "videos": [
+        { "url": "", "title": "Ukraine — sunflowers and brave hearts" }
+      ]
+    }
+  },
+  "United Kingdom": {
+    "capitalCity": "London — city of Big Ben, red buses, and the Queen's guards! 🏰🚌",
+    "locationAndSize": "An island nation in Northwest Europe — England, Scotland, Wales, and Northern Ireland together",
+    "language": "English — the most widely spoken language in the world, plus Welsh and Scottish Gaelic",
+    "cultureAndTraditions": "Harry Potter was born in Britain — and the real Hogwarts train departs from King's Cross Station in London! 🧙 Also Paddington Bear is from London, Winnie the Pooh is from England, and Peter Pan flies over London!",
+    "natureAndWildlife": "Fluffy red squirrels hide in Scottish forests, Loch Ness in Scotland might hide a friendly monster, puffins nest on sea cliffs, and Highland cattle have the longest hair!",
+    "friendlyPeople": "British people believe a cup of tea solves every problem — and have tea with milk at least three times per day! ☕",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Scottish Highlands — misty and magical" },
+        { "url": "", "caption": "London Tower Bridge" }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "United Kingdom — Harry Potter and Highland castles"
+        }
+      ]
+    }
+  },
+  "Vatican City": {
+    "capitalCity": "Vatican City — the whole country is just one city! 🌍✝️",
+    "locationAndSize": "The smallest country in the entire world — you can walk around the whole country in 20 minutes!",
+    "language": "Italian and Latin — the same language ancient Romans spoke 2,000 years ago!",
+    "cultureAndTraditions": "Michelangelo painted the entire ceiling of the Sistine Chapel lying on his back for 4 years — 500 years ago! The painting is still perfect today! 🎨 The Pope lives here and waves to thousands of children every Sunday from his window!",
+    "natureAndWildlife": "The Vatican Gardens have peacocks strutting around the paths, and ancient rose gardens fill the air with fragrance",
+    "friendlyPeople": "Vatican City has its own guards called Swiss Guards who wear the most colorful striped uniforms — designed by Michelangelo himself! They are serious but the costumes are very cheerful!",
+    "media": {
+      "photos": [
+        { "url": "", "caption": "Sistine Chapel ceiling by Michelangelo" },
+        { "url": "", "caption": "Swiss Guards in colorful uniforms" }
+      ],
+      "videos": [{ "url": "", "title": "Vatican — world's tiniest country" }]
+    }
+  },
+  "Argentina": {
+    "capitalCity": "Buenos Aires — a city that never sleeps, full of tango dancers and amazing beef! 💃🥩",
+    "locationAndSize": "A huge country at the very bottom of South America — the 8th largest in the whole world!",
+    "language": "Spanish — but with a special musical Italian-like accent unlike anywhere else!",
+    "cultureAndTraditions": "Argentinians invented the tango — the most passionate and dramatic dance in the world! 💃 Also Argentina has the most amazing football players — Lionel Messi is from here! And gauchos are Argentine cowboys who ride horses across endless grassy plains called pampas 🐎",
+    "natureAndWildlife": "Penguins waddle on the beaches in Patagonia! Condors soar over the Andes with wings wider than a car. Jaguars hide in the northern jungle and pink flamingos color the salt lakes",
+    "friendlyPeople": "Argentinians drink a special green tea called mate through a metal straw and always share it with friends — refusing to share is considered very rude! 🍵",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Perito Moreno glacier — a moving river of ice!"
+        },
+        {
+          "url": "",
+          "caption": "Penguins on Patagonia beach"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Argentina — tango penguins and Patagonia"
+        }
+      ]
+    }
+  },
+  "Bolivia": {
+    "capitalCity": "Sucre (official) and La Paz — one of the highest capital cities in the world, in the clouds! ☁️",
+    "locationAndSize": "A magical landlocked country in the heart of South America with the world's largest salt flat!",
+    "language": "Spanish plus 36 indigenous languages — more official languages than any other country!",
+    "cultureAndTraditions": "Bolivia has the most amazing market in the world — Witches' Market in La Paz where you can buy magical potions, dried frogs, and lucky charms! 🧙 Also Bolivian women wear beautiful bowler hats and colorful skirts with many layers!",
+    "natureAndWildlife": "Salar de Uyuni is the world's biggest mirror — a salt flat so flat and white that when it rains it reflects the sky perfectly like glass! 🌅 Pink flamingos, vicuñas (fluffy relatives of camels), and spectacled bears live here",
+    "friendlyPeople": "Bolivian children celebrate Carnival with water balloons and colored powder — the whole country turns into one giant water fight! 💦",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Salar de Uyuni — sky reflected in the salt!"
+        },
+        {
+          "url": "",
+          "caption": "Colorful Bolivian market"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Bolivia — salt mirrors and sky mountains"
+        }
+      ]
+    }
+  },
+  "Brazil": {
+    "capitalCity": "Brasília — a futuristic city shaped like an airplane from above! ✈️",
+    "locationAndSize": "The biggest country in South America — so big that almost all of Europe would fit inside it!",
+    "language": "Portuguese — the only country in South America that speaks Portuguese!",
+    "cultureAndTraditions": "Rio Carnival is the biggest party on Earth — millions of people dance in incredible colorful costumes for five whole days and nights! 🎉 Brazil also has the most football World Cup wins ever — football is practically the national religion! And capybaras — giant friendly rodents the size of a dog — wander through cities!",
+    "natureAndWildlife": "The Amazon Rainforest is home to more species than anywhere on Earth — jaguars, pink river dolphins, poison dart frogs, electric eels, toucans, and 40,000 types of plants!",
+    "friendlyPeople": "Brazilian people hug and kiss everyone they meet — personal space does not really exist in Brazil, only warmth and friendliness! 🤗",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Rio Carnival — the world's biggest party!"
+        },
+        {
+          "url": "",
+          "caption": "Amazon river from above"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Brazil — Amazon carnival and capybaras"
+        }
+      ]
+    }
+  },
+  "Chile": {
+    "capitalCity": "Santiago — a modern city with snowy Andes mountains right behind it! 🏔️",
+    "locationAndSize": "The longest and skinniest country in the world — 4,300 km long but only 177 km wide on average!",
+    "language": "Spanish — with a very fast and unique Chilean accent",
+    "cultureAndTraditions": "Chile is so long it has every climate on Earth — from the driest desert in the north to glaciers and penguins in the south! 🐧 Easter Island belongs to Chile — mysterious giant stone heads called Moai stand on the shore looking at the sea 🗿",
+    "natureAndWildlife": "Atacama Desert is so dry that some places have never had rain in recorded history. Humboldt penguins, pumas, flamingos in high altitude lakes, and blue whales in the sea",
+    "friendlyPeople": "Chilean people are very proud of their empanadas — little pastry pockets stuffed with meat and onion, eaten at every celebration!",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Easter Island mysterious Moai heads"
+        },
+        {
+          "url": "",
+          "caption": "Atacama Desert — driest place on Earth"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Chile — from desert to glaciers"
+        }
+      ]
+    }
+  },
+  "Colombia": {
+    "capitalCity": "Bogotá — a city in the clouds at 2,600 meters above sea level! ☁️🎨",
+    "locationAndSize": "A beautiful country in the northwest corner of South America touching both the Pacific Ocean and the Caribbean Sea!",
+    "language": "Spanish — spoken with one of the clearest and most beautiful accents in Latin America",
+    "cultureAndTraditions": "Colombia is the flower capital of the world — they export more flowers than almost anyone! 🌸 The Flower Festival in Medellín has a parade where people carry giant flower arrangements on their backs — some weigh 80 kilograms! Also the most delicious hot chocolate in the world is served here with cheese melted inside it 🍫",
+    "natureAndWildlife": "Colombia has more species of birds than any other country — over 1,900 types! Poison dart frogs glow in neon colors, pink river dolphins swim in the Amazon, and spectacled bears climb the Andes",
+    "friendlyPeople": "Colombians call everyone 'parcero' which means friend — even strangers are treated like old friends from the first moment!",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Medellín Flower Festival parade"
+        },
+        {
+          "url": "",
+          "caption": "Colorful Guatapé town on the lake"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Colombia — flowers birds and kind people"
+        }
+      ]
+    }
+  },
+  "Ecuador": {
+    "capitalCity": "Quito — one of the highest capital cities in the world, right on the equator! 🌍",
+    "locationAndSize": "A small country right in the middle of the world — the equator (0° latitude) runs through it, that is how it got its name!",
+    "language": "Spanish and Kichwa — an ancient indigenous language",
+    "cultureAndTraditions": "You can stand with one foot in the Northern Hemisphere and one foot in the Southern Hemisphere at the same time! 🌍 The Galápagos Islands belong to Ecuador — the most magical islands in the world where animals have never been afraid of humans!",
+    "natureAndWildlife": "Galápagos giant tortoises are 180 years old and as big as a coffee table! 🐢 Blue-footed boobies do a funny dance, marine iguanas swim in the sea, and sea lions sleep on park benches!",
+    "friendlyPeople": "Ecuadorian children eat the most colorful fruit in the world — dragon fruit, naranjilla, maracuyá, and tree tomatoes that grow nowhere else!",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Galápagos giant tortoise — 180 years old!"
+        },
+        {
+          "url": "",
+          "caption": "Blue-footed booby doing its funny dance"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Ecuador — Galápagos magical islands"
+        }
+      ]
+    }
+  },
+  "Guyana": {
+    "capitalCity": "Georgetown — a city with wooden Victorian houses painted in bright colors! 🏠",
+    "locationAndSize": "A small country on the northern coast of South America — the only English-speaking country on the continent!",
+    "language": "English — surrounded by Spanish and Portuguese speaking neighbors!",
+    "cultureAndTraditions": "Guyana has one of the most spectacular waterfalls in the world — Kaieteur Falls is four times higher than Niagara Falls and falls into a deep gorge surrounded by pristine jungle! 💦",
+    "natureAndWildlife": "Giant anteaters shuffle through the savanna, giant river otters wrestle in rivers, harpy eagles (the most powerful eagle in the world!) nest in ancient trees, and scarlet macaws fly in flocks",
+    "friendlyPeople": "Guyanese people mix African, Indian, Chinese, European, and indigenous cultures together — their food, music, and festivals are a wonderful colorful blend of everything!",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Kaieteur Falls — four times higher than Niagara"
+        },
+        {
+          "url": "",
+          "caption": "Giant river otter in the Amazon"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Guyana — hidden waterfalls and wild jungle"
+        }
+      ]
+    }
+  },
+  "Paraguay": {
+    "capitalCity": "Asunción — one of the oldest cities in South America, full of history! 🏛️",
+    "locationAndSize": "A landlocked country in the heart of South America between Brazil, Argentina, and Bolivia",
+    "language": "Spanish AND Guaraní — one of the few countries where an indigenous language is spoken by almost everyone!",
+    "cultureAndTraditions": "Paraguay has the world's largest water reservoir hidden underground — the Guaraní Aquifer! 💧 Also Paraguayan women make beautiful lace called ñandutí — they weave it in circular patterns like spider webs in every color of the rainbow 🕸️",
+    "natureAndWildlife": "Giant armadillos dig enormous burrows, maned wolves with very long legs trot through the grasslands, and capybaras — the world's largest rodents — swim in every river",
+    "friendlyPeople": "Paraguay is the only country in the world where a spider web inspired the national handicraft — ñandutí means 'spider web' in Guaraní!",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Ñandutí colorful spider web lace"
+        },
+        {
+          "url": "",
+          "caption": "Capybara family by the river"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Paraguay — spiderweb lace and giant creatures"
+        }
+      ]
+    }
+  },
+  "Peru": {
+    "capitalCity": "Lima — a foggy city by the Pacific Ocean that almost never rains! 🌫️",
+    "locationAndSize": "A large country on the west coast of South America — home of the ancient Inca Empire!",
+    "language": "Spanish, Quechua, and Aymara — the Inca language Quechua is still spoken by millions!",
+    "cultureAndTraditions": "Machu Picchu is a magical ancient Inca city built on top of a cloud-covered mountain — nobody knows exactly how they carried the giant stones up there! 🏔️ Also llamas and alpacas walk through the streets — alpaca wool makes the softest sweaters in the world! 🦙",
+    "natureAndWildlife": "The Amazon starts in Peru from a tiny stream in the Andes! Pink river dolphins swim in jungle rivers, giant condors soar over mountains, and spectacled bears climb misty cloud forests",
+    "friendlyPeople": "Peruvian children celebrate Inti Raymi — the Festival of the Sun — with costumes, dancing, and offerings to thank the sun for its warmth and light! ☀️",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Machu Picchu in the clouds"
+        },
+        {
+          "url": "",
+          "caption": "Fluffy alpacas on the Inca trail"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Peru — Inca magic and alpacas"
+        }
+      ]
+    }
+  },
+  "Suriname": {
+    "capitalCity": "Paramaribo — a wooden city so well preserved it is a UNESCO World Heritage Site! 🏘️",
+    "locationAndSize": "The smallest country in South America — but with 90% of it covered in pristine tropical rainforest!",
+    "language": "Dutch — the only Dutch-speaking country in South America, a surprise to everyone!",
+    "cultureAndTraditions": "Suriname is the most diverse country in South America — people from Africa, India, Java, China, and Europe all live together and celebrate each other's festivals! 🌍 The result is the most amazing mix of foods, music, and traditions!",
+    "natureAndWildlife": "90% of Suriname is untouched rainforest! Jaguars prowl, giant river otters play, harpy eagles hunt, and leatherback sea turtles — the biggest turtles in the world — lay eggs on the beaches at night 🐢",
+    "friendlyPeople": "In Suriname you can eat Indonesian nasi goreng for breakfast, Indian roti for lunch, and Creole pepper pot for dinner — every day is a world food festival!",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Paramaribo wooden colonial buildings"
+        },
+        {
+          "url": "",
+          "caption": "Suriname pristine rainforest"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Suriname — world in one tiny country"
+        }
+      ]
+    }
+  },
+  "Uruguay": {
+    "capitalCity": "Montevideo — a sunny friendly city right on the Rio de la Plata river! ☀️",
+    "locationAndSize": "The second smallest country in South America — but one of the happiest and most peaceful!",
+    "language": "Spanish — with a lovely lilting River Plate accent",
+    "cultureAndTraditions": "Uruguay has the longest Carnival celebration in the world — it lasts 40 days! 🎉 The candombe drums are so powerful you can feel them in your chest. Also Uruguay was one of the first countries to give rights to animals and to protect nature — they truly love all living creatures 🐾",
+    "natureAndWildlife": "South American sea lions sunbathe on Montevideo's waterfront! Capybaras graze in city parks, rheas (South American ostriches) run across grasslands, and nesting penguins visit in winter 🐧",
+    "friendlyPeople": "Uruguayans are the most relaxed and happy people in South America — they spend evenings walking by the sea, drinking mate, and watching sunsets together 🌅",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Sea lions sunbathing in Montevideo"
+        },
+        {
+          "url": "",
+          "caption": "Uruguay Carnival candombe drums"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Uruguay — carnival sea lions and sunsets"
+        }
+      ]
+    }
+  },
+  "Venezuela": {
+    "capitalCity": "Caracas — a city surrounded by mountains and green national parks! 🌿",
+    "locationAndSize": "A country on the northern coast of South America touching the warm Caribbean Sea",
+    "language": "Spanish — spoken with an energetic Caribbean rhythm",
+    "cultureAndTraditions": "Venezuela has the highest waterfall in the world — Angel Falls drops 979 meters, which is 15 times higher than Niagara Falls! 🌊 The water falls so far it turns into mist before reaching the bottom! Also Venezuela's table-top mountains called tepuis are so isolated that unique animals and plants evolved there found nowhere else on Earth",
+    "natureAndWildlife": "Angel Falls, giant anteaters, giant otters, scarlet macaws, capybaras, and the mysterious tepui mountains where carnivorous plants eat insects!",
+    "friendlyPeople": "Venezuelan people are warm, musical, and love to dance — salsa, merengue, and joropo music fill every street and plaza with joy! 💃",
+    "media": {
+      "photos": [
+        {
+          "url": "",
+          "caption": "Angel Falls — world's highest waterfall!"
+        },
+        {
+          "url": "",
+          "caption": "Tepui flat-top mountains in the clouds"
+        }
+      ],
+      "videos": [
+        {
+          "url": "",
+          "title": "Venezuela — Angel Falls and lost worlds"
+        }
+      ]
+    }
+  }
+}
