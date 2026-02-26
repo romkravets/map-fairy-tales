@@ -8,7 +8,7 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import { useRouter } from "next/navigation";
-import styles from "./MapWorld.module.css";
+import styles from "./Mapworld.module.css";
 
 const geoUrl = "/features.json";
 
