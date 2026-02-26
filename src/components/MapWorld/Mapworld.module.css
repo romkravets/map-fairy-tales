@@ -304,6 +304,12 @@
   text-transform: uppercase;
 }
 
+.tooltipEmoji {
+  margin-top: 4px;
+  font-size: 14px;
+  text-align: center;
+}
+
 .tooltipCta {
   font-family: "Crimson Pro", serif;
   font-size: 11px;
