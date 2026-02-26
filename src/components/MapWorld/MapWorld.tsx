@@ -9,6 +9,7 @@ import {
 } from "react-simple-maps";
 import { useRouter } from "next/navigation";
 import styles from "./Mapworld.module.css";
+import { COUNTRY_EMOJIS } from "@/helpers/countryEmojis";
 
 const geoUrl = "/features.json";
 
@@ -177,6 +178,11 @@ const MapWorld = () => {
         >
           <div className={styles.tooltipInner}>
             <div className={styles.tooltipCountry}>{tooltip.name}</div>
+            {COUNTRY_EMOJIS[tooltip.name] && (
+              <div className={styles.tooltipEmoji}>
+                {COUNTRY_EMOJIS[tooltip.name]}
+              </div>
+            )}
             <div className={styles.tooltipCta}>click to explore tales</div>
           </div>
           <div className={styles.tooltipArrow} />
