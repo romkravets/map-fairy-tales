@@ -1,10 +1,14 @@
-"use client"
-import "./globals.css"
-import {UserAuthBuilderProvider} from '../../context/context';
+"use client";
+import "./globals.css";
+import { UserAuthBuilderProvider } from "../../context/context";
 import AuthStateWrapper from "@/components/Auth/AuthStateWrapper";
 import PrimaryLayout from "@/layout/PrimaryLayout/PrimaryLayout";
-import {createTheme, StyledEngineProvider, ThemeProvider} from "@mui/material/styles"
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import {
+  createTheme,
+  StyledEngineProvider,
+  ThemeProvider,
+} from "@mui/material/styles";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
 import {
   primaryColor,
@@ -13,8 +17,8 @@ import {
   helperTextColor,
   primaryFont,
   textColor,
-  lightGrayColor
-} from "@/helpers/variables/variables"
+  lightGrayColor,
+} from "@/helpers/variables/variables";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -31,27 +35,27 @@ const theme = createTheme({
     },
     info: {
       main: secondaryColor,
-      contrastText: primaryColor
+      contrastText: primaryColor,
     },
     success: {
       main: textColor,
-    }
+    },
   },
   typography: {
     fontFamily: primaryFont,
     allVariants: {
-      textTransform: "capitalize"
+      textTransform: "capitalize",
     },
     h2: {
       fontSize: "1.5rem",
       fontWeight: 600,
-      lineHeight: "2rem"
+      lineHeight: "2rem",
     },
     h3: {
-      fontSize: "1.125rem"
+      fontSize: "1.125rem",
     },
     body2: {
-      color: helperTextColor
+      color: helperTextColor,
     },
   },
   components: {
@@ -130,112 +134,101 @@ const theme = createTheme({
     MuiSelect: {
       styleOverrides: {
         select: {
-          padding: '0.75rem 0.9rem'
-        }
-      }
+          padding: "0.75rem 0.9rem",
+        },
+      },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          padding: '15px 20px',
+          padding: "15px 20px",
           borderRadius: 16,
-          boxShadow: "none"
+          boxShadow: "none",
         },
         containedInfo: {
-          '&:hover': {
+          "&:hover": {
             backgroundColor: secondaryColor,
             color: primaryColor,
-          }
-        }
-      }
+          },
+        },
+      },
     },
     MuiSwitch: {
       styleOverrides: {
         root: {
           width: 42,
           height: 26,
-          padding: 0
+          padding: 0,
         },
         switchBase: {
           padding: 0,
           margin: 2,
-          transitionDuration: '300ms',
-          '&.Mui-checked': {
-            transform: 'translateX(16px)',
-            color: '#fff',
-            '& + .MuiSwitch-track': {
+          transitionDuration: "300ms",
+          "&.Mui-checked": {
+            transform: "translateX(16px)",
+            color: "#fff",
+            "& + .MuiSwitch-track": {
               backgroundColor: primaryColor,
               opacity: 1,
               border: 0,
             },
-            '&.Mui-disabled + .MuiSwitch-track': {
+            "&.Mui-disabled + .MuiSwitch-track": {
               opacity: 0.5,
-            }
+            },
           },
-          '&.Mui-focusVisible .MuiSwitch-thumb': {
+          "&.Mui-focusVisible .MuiSwitch-thumb": {
             color: primaryColor,
-            border: '6px solid #fff'
+            border: "6px solid #fff",
           },
-          '&.Mui-disabled .MuiSwitch-thumb': {
-            color: primaryColor
+          "&.Mui-disabled .MuiSwitch-thumb": {
+            color: primaryColor,
           },
-          '&.Mui-disabled + .MuiSwitch-track': {
-            opacity: 0.7
+          "&.Mui-disabled + .MuiSwitch-track": {
+            opacity: 0.7,
           },
         },
         thumb: {
-          boxSizing: 'border-box',
+          boxSizing: "border-box",
           width: 22,
-          height: 22
+          height: 22,
         },
         track: {
           borderRadius: 26 / 2,
-          backgroundColor: '#B3B9BD',
+          backgroundColor: "#B3B9BD",
           opacity: 1,
-          transition: 'background-color 500ms'
-        }
-      }
+          transition: "background-color 500ms",
+        },
+      },
     },
     MuiDivider: {
       styleOverrides: {
         root: {
-          borderColor: lightGrayColor
-        }
-      }
+          borderColor: lightGrayColor,
+        },
+      },
     },
-  }
-})
+  },
+});
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
-    <head>
-      <link rel="preconnect" href="https://fonts.googleapis.com"/>
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-      />
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      />
-    </head>
-    <body>
-    <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-      <ThemeProvider theme={theme}>
-        <UserAuthBuilderProvider>
-          <AuthStateWrapper>
-            <PrimaryLayout>
-              {props.children}
-            </PrimaryLayout>
-          </AuthStateWrapper>
-        </UserAuthBuilderProvider>
-      </ThemeProvider>
-    </AppRouterCacheProvider>
-    </body>
+      <head>
+        <title>Map Fairy Tales</title>
+        <meta name="description" content="A world atlas of fairy tales" />
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <body>
+        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+          <ThemeProvider theme={theme}>
+            <UserAuthBuilderProvider>
+              <AuthStateWrapper>
+                <PrimaryLayout>{props.children}</PrimaryLayout>
+              </AuthStateWrapper>
+            </UserAuthBuilderProvider>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
+      </body>
     </html>
   );
 }
-
-
