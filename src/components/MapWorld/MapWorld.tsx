@@ -6,6 +6,7 @@ import {
   Geographies,
   Geography,
   ZoomableGroup,
+  Marker,
 } from "react-simple-maps";
 import { useRouter } from "next/navigation";
 import styles from "./Mapworld.module.css";
@@ -30,9 +31,8 @@ const PALETTE = [
 
 const getCountryColor = (name: string) => {
   let hash = 0;
-  for (let i = 0; i < name.length; i++) {
+  for (let i = 0; i < name.length; i++)
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
   return PALETTE[Math.abs(hash) % PALETTE.length];
 };
 
@@ -43,6 +43,255 @@ const COMPASS_DIRS = [
   { label: "W", angle: 270 },
 ];
 
+// ── Маркери прив'язані до географічних координат ─────
+// [longitude, latitude]
+const GEO_MARKERS = [
+  // Країни
+  { id: "ru", coords: [95, 62] as [number, number], emoji: "🏔️", label: "" },
+  { id: "ca", coords: [-96, 62] as [number, number], emoji: "🍁", label: "" },
+  { id: "us", coords: [-98, 38] as [number, number], emoji: "🗽", label: "" },
+  { id: "br", coords: [-53, -12] as [number, number], emoji: "🌴", label: "" },
+  { id: "au", coords: [134, -25] as [number, number], emoji: "🦘", label: "" },
+  { id: "cn", coords: [103, 36] as [number, number], emoji: "🐉", label: "" },
+  { id: "in", coords: [79, 22] as [number, number], emoji: "🐘", label: "" },
+  { id: "cd", coords: [24, -4] as [number, number], emoji: "🦁", label: "" }, // Конго/Африка
+  { id: "eg", coords: [30, 27] as [number, number], emoji: "🐫", label: "" },
+  { id: "mx", coords: [-102, 24] as [number, number], emoji: "🌵", label: "" },
+  { id: "ar", coords: [-64, -34] as [number, number], emoji: "🐧", label: "" },
+  { id: "no", coords: [15, 68] as [number, number], emoji: "🌌", label: "" },
+  { id: "jp", coords: [138, 37] as [number, number], emoji: "⛩️", label: "" },
+  { id: "sa", coords: [45, 24] as [number, number], emoji: "🕌", label: "" },
+  { id: "pe", coords: [-75, -9] as [number, number], emoji: "🦜", label: "" },
+  { id: "mn", coords: [103, 46] as [number, number], emoji: "🏕️", label: "" },
+  { id: "is", coords: [-19, 65] as [number, number], emoji: "🌋", label: "" },
+  { id: "ua", coords: [32, 49] as [number, number], emoji: "🌻", label: "" },
+  { id: "fr", coords: [2, 46] as [number, number], emoji: "🗼", label: "" },
+  { id: "de", coords: [10, 51] as [number, number], emoji: "🏰", label: "" },
+  { id: "gr", coords: [22, 39] as [number, number], emoji: "⚡", label: "" },
+  { id: "nz", coords: [172, -41] as [number, number], emoji: "🧙", label: "" }, // Нова Зеландія
+  { id: "ke", coords: [37, 0] as [number, number], emoji: "🦒", label: "" }, // Кенія
+  { id: "th", coords: [101, 15] as [number, number], emoji: "🐯", label: "" }, // Таїланд
+
+  // Океанські об'єкти
+  {
+    id: "ship_atlantic1",
+    coords: [-35, 35] as [number, number],
+    emoji: "⛵",
+    label: "",
+  },
+  {
+    id: "ship_atlantic2",
+    coords: [-45, 15] as [number, number],
+    emoji: "🚢",
+    label: "",
+  },
+  {
+    id: "whale_atlantic",
+    coords: [-30, 48] as [number, number],
+    emoji: "🐋",
+    label: "",
+  },
+  {
+    id: "dolphin_atlantic",
+    coords: [-25, 22] as [number, number],
+    emoji: "🐬",
+    label: "",
+  },
+
+  {
+    id: "ship_pacific1",
+    coords: [-150, 30] as [number, number],
+    emoji: "⛵",
+    label: "",
+  },
+  {
+    id: "ship_pacific2",
+    coords: [-170, -5] as [number, number],
+    emoji: "🚢",
+    label: "",
+  },
+  {
+    id: "whale_pacific",
+    coords: [-160, 45] as [number, number],
+    emoji: "🐳",
+    label: "",
+  },
+  {
+    id: "fish_pacific",
+    coords: [-140, -15] as [number, number],
+    emoji: "🐠",
+    label: "",
+  },
+
+  {
+    id: "ship_indian1",
+    coords: [72, -15] as [number, number],
+    emoji: "⛵",
+    label: "",
+  },
+  {
+    id: "turtle_indian",
+    coords: [80, -25] as [number, number],
+    emoji: "🐢",
+    label: "",
+  },
+  {
+    id: "dolphin_indian",
+    coords: [65, -5] as [number, number],
+    emoji: "🐬",
+    label: "",
+  },
+
+  // Арктика
+  {
+    id: "polar_bear",
+    coords: [0, 82] as [number, number],
+    emoji: "🐻‍❄️",
+    label: "",
+  },
+  { id: "ice1", coords: [60, 78] as [number, number], emoji: "🧊", label: "" },
+
+  // Антарктика
+  {
+    id: "penguin1",
+    coords: [0, -80] as [number, number],
+    emoji: "🐧",
+    label: "",
+  },
+  {
+    id: "penguin2",
+    coords: [90, -75] as [number, number],
+    emoji: "🐧",
+    label: "",
+  },
+];
+
+// ── Хмари і літаки (% від контейнера, не рухаються з картою) ──
+const SKY_ITEMS = [
+  {
+    id: "cloud1",
+    emoji: "☁️",
+    x: "8%",
+    y: "10%",
+    size: 28,
+    anim: "cloudDrift1",
+    dur: "18s",
+    delay: "0s",
+    opacity: 0.3,
+  },
+  {
+    id: "cloud2",
+    emoji: "⛅",
+    x: "38%",
+    y: "6%",
+    size: 24,
+    anim: "cloudDrift2",
+    dur: "22s",
+    delay: "4s",
+    opacity: 0.28,
+  },
+  {
+    id: "cloud3",
+    emoji: "☁️",
+    x: "68%",
+    y: "9%",
+    size: 30,
+    anim: "cloudDrift1",
+    dur: "20s",
+    delay: "8s",
+    opacity: 0.28,
+  },
+  {
+    id: "cloud4",
+    emoji: "☁️",
+    x: "88%",
+    y: "13%",
+    size: 22,
+    anim: "cloudDrift2",
+    dur: "25s",
+    delay: "2s",
+    opacity: 0.25,
+  },
+  {
+    id: "plane1",
+    emoji: "✈️",
+    x: "-5%",
+    y: "14%",
+    size: 20,
+    anim: "flyRight",
+    dur: "14s",
+    delay: "0s",
+    opacity: 0.55,
+  },
+  {
+    id: "plane2",
+    emoji: "✈️",
+    x: "105%",
+    y: "22%",
+    size: 18,
+    anim: "flyLeft",
+    dur: "18s",
+    delay: "6s",
+    opacity: 0.45,
+  },
+  {
+    id: "balloon1",
+    emoji: "🎈",
+    x: "91%",
+    y: "28%",
+    size: 20,
+    anim: "balloonRise",
+    dur: "6s",
+    delay: "1s",
+    opacity: 0.5,
+  },
+  {
+    id: "moon1",
+    emoji: "🌙",
+    x: "94%",
+    y: "4%",
+    size: 24,
+    anim: "bob",
+    dur: "8s",
+    delay: "0s",
+    opacity: 0.55,
+  },
+  {
+    id: "star1",
+    emoji: "⭐",
+    x: "4%",
+    y: "4%",
+    size: 14,
+    anim: "twinkle",
+    dur: "3s",
+    delay: "0.5s",
+    opacity: 0.4,
+  },
+  {
+    id: "star2",
+    emoji: "🌟",
+    x: "93%",
+    y: "88%",
+    size: 16,
+    anim: "twinkle",
+    dur: "4s",
+    delay: "1.5s",
+    opacity: 0.35,
+  },
+];
+
+const OVERLAY_CSS = `
+  @keyframes cloudDrift1 { 0%,100%{transform:translateX(0)} 50%{transform:translateX(24px)} }
+  @keyframes cloudDrift2 { 0%,100%{transform:translateX(0)} 50%{transform:translateX(-20px)} }
+  @keyframes flyRight  { 0%{transform:translateX(0);opacity:0} 8%{opacity:0.55} 92%{opacity:0.55} 100%{transform:translateX(110vw);opacity:0} }
+  @keyframes flyLeft   { 0%{transform:translateX(0) scaleX(-1);opacity:0} 8%{opacity:0.45} 92%{opacity:0.45} 100%{transform:translateX(-110vw) scaleX(-1);opacity:0} }
+  @keyframes balloonRise { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-22px) rotate(3deg)} }
+  @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+  @keyframes twinkle { 0%,100%{opacity:0.15;transform:scale(0.8)} 50%{opacity:0.75;transform:scale(1.2)} }
+  @keyframes markerBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+`;
+
+// ── Компонент ────────────────────────────────────────
 const MapWorld = () => {
   const router = useRouter();
   const [tooltip, setTooltip] = useState<{
@@ -60,16 +309,14 @@ const MapWorld = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 100);
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setLoaded(true), 100);
+    return () => clearTimeout(t);
   }, []);
 
   const handleClick = useCallback(
     (region: string, id: string) => () => {
       setClickedCountry(region);
-      setTimeout(() => {
-        router.push(`/stories?region=${region}&id=${id}`);
-      }, 600);
+      setTimeout(() => router.push(`/stories?region=${region}&id=${id}`), 600);
     },
     [router],
   );
@@ -77,9 +324,8 @@ const MapWorld = () => {
   const handleMouseMove = useCallback(
     (name: string) => (e: React.MouseEvent) => {
       const rect = containerRef.current?.getBoundingClientRect();
-      if (rect) {
+      if (rect)
         setTooltip({ name, x: e.clientX - rect.left, y: e.clientY - rect.top });
-      }
       setHoveredCountry(name);
     },
     [],
@@ -90,18 +336,47 @@ const MapWorld = () => {
     setHoveredCountry(null);
   }, []);
 
-  const handleMoveEnd = useCallback(
-    (pos: { coordinates: [number, number]; zoom: number }) => {
-      setPosition(pos);
-    },
-    [],
-  );
+  // Розмір маркерів зменшується при зумі щоб не перекривати карту
+  const markerSize = Math.max(12, 22 - position.zoom * 2);
 
   return (
     <div className={styles.mapUniverse} ref={containerRef}>
+      <style>{OVERLAY_CSS}</style>
+
       <div className={styles.starsLayer} />
       <div className={styles.oceanGlow} />
       <div className={styles.vignette} />
+
+      {/* ── Хмари і літаки (фіксовані, не залежать від зуму) ── */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 2,
+          pointerEvents: "none",
+          overflow: "hidden",
+        }}
+      >
+        {SKY_ITEMS.map((item) => (
+          <div
+            key={item.id}
+            style={{
+              position: "absolute",
+              left: item.x,
+              top: item.y,
+              fontSize: item.size,
+              opacity: item.opacity,
+              lineHeight: 1,
+              userSelect: "none",
+              pointerEvents: "none",
+              animation: `${item.anim} ${item.dur} ease-in-out ${item.delay} infinite`,
+              filter: "drop-shadow(0 1px 4px rgba(0,10,40,0.4))",
+            }}
+          >
+            {item.emoji}
+          </div>
+        ))}
+      </div>
 
       <header className={styles.mapHeader}>
         <div className={styles.mapTitleBlock}>
@@ -127,16 +402,16 @@ const MapWorld = () => {
           <ZoomableGroup
             zoom={position.zoom}
             center={position.coordinates}
-            onMoveEnd={handleMoveEnd}
+            onMoveEnd={(pos) => setPosition(pos)}
             maxZoom={8}
           >
+            {/* ── Країни ── */}
             <Geographies geography={geoUrl}>
               {({ geographies }) =>
                 geographies.map((geo) => {
                   const name = geo.properties.name;
                   const isHovered = hoveredCountry === name;
                   const isClicked = clickedCountry === name;
-
                   return (
                     <Geography
                       key={geo.rsmKey}
@@ -167,10 +442,32 @@ const MapWorld = () => {
                 })
               }
             </Geographies>
+
+            {/* ── Geo-прив'язані маркери ── */}
+            {GEO_MARKERS.map((m) => (
+              <Marker key={m.id} coordinates={m.coords}>
+                <text
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontSize={markerSize}
+                  style={{
+                    userSelect: "none",
+                    pointerEvents: "none",
+                    filter: "drop-shadow(0 1px 3px rgba(0,10,40,0.6))",
+                    animation: "markerBob 4s ease-in-out infinite",
+                    // унікальна затримка щоб не боббали синхронно
+                    animationDelay: `${(m.id.charCodeAt(0) % 8) * 0.5}s`,
+                  }}
+                >
+                  {m.emoji}
+                </text>
+              </Marker>
+            ))}
           </ZoomableGroup>
         </ComposableMap>
       </div>
 
+      {/* ── Тултіп ── */}
       {tooltip && (
         <div
           className={styles.mapTooltip}
@@ -189,6 +486,7 @@ const MapWorld = () => {
         </div>
       )}
 
+      {/* ── Zoom controls ── */}
       <div className={styles.zoomControls}>
         <button
           className={styles.zoomBtn}
@@ -218,13 +516,9 @@ const MapWorld = () => {
         </button>
       </div>
 
+      {/* ── Компас ── */}
       <div className={styles.compass}>
-        <svg
-          className={styles.compassSvg}
-          viewBox="0 0 100 100"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg className={styles.compassSvg} viewBox="0 0 100 100" fill="none">
           <circle
             cx="50"
             cy="50"
