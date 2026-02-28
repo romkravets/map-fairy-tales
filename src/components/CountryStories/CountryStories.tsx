@@ -30,6 +30,7 @@ import TextField from "@mui/material/TextField";
 import Image from "next/image";
 import styles from "./CountryStories.module.css";
 import CountryInfoBlock from "./CountryInfoBlock";
+import StoryPreview from "../Story/StoryPreview";
 
 interface CustomValueForStory {
   team: string;
@@ -486,33 +487,20 @@ export default function CountryStories() {
             )}
 
             {/* Story preview */}
-            {storyCreated && (
-              <div className={styles.storyPreview}>
-                {storyCreated.imageUrl && (
-                  <img
-                    src={storyCreated.imageUrl}
-                    alt={storyCreated.title}
-                    className={styles.storyPreviewImage}
-                  />
-                )}
-                <h3 className={styles.storyPreviewTitle}>
-                  {storyCreated.title}
-                </h3>
-                {storyCreated.paragraphs?.map((text, i) => (
-                  <p key={i} className={styles.storyParagraph}>
-                    {text.paragraph}
-                  </p>
-                ))}
-
-                <button
-                  className={styles.btnSave}
-                  onClick={setStoryToDB}
-                  disabled={isLoadingSaveToDB}
-                >
-                  {isLoadingSaveToDB ? "✦ Saving…" : "✦ Save Story"}
-                </button>
-              </div>
-            )}
+            <div className={styles.storyPreviewContainer}>
+              {storyCreated && <StoryPreview storyData={storyCreated} />}
+              {storyCreated && (
+                <div className={styles.storyPreview}>
+                  <button
+                    className={styles.btnSave}
+                    onClick={setStoryToDB}
+                    disabled={isLoadingSaveToDB}
+                  >
+                    {isLoadingSaveToDB ? "✦ Saving…" : "✦ Save Story"}
+                  </button>
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>
