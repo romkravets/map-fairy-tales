@@ -507,3 +507,8 @@
   font-size: 16px;
   padding: 12px 0;
 }
+
+.storyPreviewContainer {
+  margin-top: 32px;
+  animation: fadeSlideIn 0.4s ease;
+}
