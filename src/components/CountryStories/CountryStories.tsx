@@ -251,7 +251,7 @@ export default function CountryStories() {
 
   const { hours, minutes, seconds } = useCountdown(
     userData.expiryTime,
-    userData.stories,
+    getUserData,
   );
 
   useEffect(() => {

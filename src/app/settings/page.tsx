@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState, useMemo } from "react";
+import { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { UserAuthBuilder } from "../../../context/context";
 import { child, get, ref as dbRef, update } from "firebase/database";
@@ -15,7 +15,7 @@ import Preloader from "@/components/Preloader/Preloader";
 import BtnBack from "../../components/BtnBack/BtnBack";
 import styles from "./pages.module.css";
 
-// ── Icons (inline SVG, no MUI dependency) ──────────
+// ── Icons ───────────────────────────────────────────
 const MapIcon = () => (
   <svg
     width="14"
@@ -95,8 +95,8 @@ export default function Page() {
   );
   const [activeCountry, setActiveCountry] = useState<string>("all");
 
-  // ── Fetch user data ─────────────────────────────
-  const getUserData = async () => {
+  // ── useCallback — стабільна референція, не перестворюється при кожному рендері
+  const getUserData = useCallback(async () => {
     if (!user) {
       router.push("/auth");
       return;
@@ -118,11 +118,12 @@ export default function Page() {
     } finally {
       setLoadingUser(false);
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.userId]);
 
   useEffect(() => {
     if (typeof window !== "undefined") getUserData().catch(console.error);
-  }, [user]);
+  }, [getUserData]);
 
   // ── Delete story ────────────────────────────────
   const handleDeleteStory = async (
@@ -180,9 +181,9 @@ export default function Page() {
     return userDB.stories.filter((s) => s.countryId === activeCountry);
   }, [userDB.stories, activeCountry]);
 
+  // ← Тепер передаємо лише 2 аргументи (без stories)
   const { hours, minutes, seconds } = useCountdown(
     userDB.expiryTime,
-    userDB.stories,
     getUserData,
   );
 
@@ -314,25 +315,7 @@ export default function Page() {
                   </Link>
 
                   <div className={styles.cardFooter}>
-                    {/*  <button
-                      className={`${styles.deleteBtn} ${deleteStoryMap[story.id] ? styles.deleteBtnLoading : ""}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteStory(
-                          story.id,
-                          user?.userId,
-                          story.countryId,
-                        );
-                      }}
-                      disabled={!!deleteStoryMap[story.id]}
-                      title="Delete story"
-                    >
-                      {deleteStoryMap[story.id] ? (
-                        <SpinnerIcon />
-                      ) : (
-                        <TrashIcon />
-                      )}
-                    </button> */}
+                    {/* Delete button (commented out) */}
                   </div>
                 </div>
               ))}
