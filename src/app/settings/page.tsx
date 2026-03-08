@@ -1,16 +1,17 @@
 "use client";
 
-import { useContext, useEffect, useState, useMemo, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useContext, useEffect, useState, useMemo, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { UserAuthBuilder } from "../../../context/context";
 import { child, get, ref as dbRef, update } from "firebase/database";
-import { db } from "@/db/firebase";
+import { db } from "../../db/firebase";
 import { UserData } from "@/helpers/types";
 import Link from "next/link";
 import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 import { ToastContainer } from "react-toastify";
 import { showNotification } from "@/helpers/showNotification";
-import { useCountdown } from "@/helpers/useCountdown";
+import { useCredits } from "../../../hooks/useCredits";
+import CreditsPanel from "@/components/CreditsPanel/CreditsPanel";
 import Preloader from "@/components/Preloader/Preloader";
 import BtnBack from "../../components/BtnBack/BtnBack";
 import styles from "./pages.module.css";
@@ -76,11 +77,28 @@ const SpinnerIcon = () => (
   </svg>
 );
 
+const CreditIcon = () => (
+  <svg
+    width="13"
+    height="13"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 6v6l4 2" />
+  </svg>
+);
+
 // ── Component ───────────────────────────────────────
-export default function Page() {
+function SettingsPageContent() {
   const tasksRef = dbRef(db);
   const { user } = useContext(UserAuthBuilder);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [userDB, setUserDB] = useState<UserData>({
     userName: "",
@@ -94,8 +112,31 @@ export default function Page() {
     {},
   );
   const [activeCountry, setActiveCountry] = useState<string>("all");
+  const [showCreditsPanel, setShowCreditsPanel] = useState(false);
 
-  // ── useCallback — стабільна референція, не перестворюється при кожному рендері
+  // ── Кредити через новий hook ────────────────────────
+  const { credits, loading: creditsLoading } = useCredits();
+
+  // ── Показати повідомлення після повернення зі Stripe ─
+  useEffect(() => {
+    const payment = searchParams?.get("payment");
+    const addedCredits = searchParams?.get("credits");
+
+    if (payment === "success" && addedCredits) {
+      showNotification(
+        `✅ ${addedCredits} credits added to your account!`,
+        "success",
+      );
+      // Прибираємо query params з URL без перезавантаження
+      window.history.replaceState({}, "", "/settings");
+    }
+    if (payment === "cancelled") {
+      showNotification("Payment cancelled", "error");
+      window.history.replaceState({}, "", "/settings");
+    }
+  }, [searchParams]);
+
+  // ── Fetch user stories ──────────────────────────────
   const getUserData = useCallback(async () => {
     if (!user) {
       router.push("/auth");
@@ -106,26 +147,26 @@ export default function Page() {
       const snapshot = await get(child(tasksRef, `users/${user.userId}`));
       if (snapshot.exists()) {
         const data = snapshot.val();
-        setUserDB(data);
-        if (data.countStoryOfDay <= 2 && !data.expiryTime) {
-          await update(dbRef(db, `users/${user.userId}`), {
-            countStoryOfDay: 3,
-          });
-        }
+        // Беремо тільки те що нам потрібно — додаємо дефолтні значення для лічильника
+        setUserDB({
+          userName: data.userName ?? "",
+          countStoryOfDay: data.countStoryOfDay ?? 0,
+          expiryTime: data.expiryTime ?? 0,
+          stories: data.stories ?? [],
+        });
       }
     } catch (error) {
       console.error(error);
     } finally {
       setLoadingUser(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.userId]);
 
   useEffect(() => {
     if (typeof window !== "undefined") getUserData().catch(console.error);
   }, [getUserData]);
 
-  // ── Delete story ────────────────────────────────
+  // ── Delete story ────────────────────────────────────
   const handleDeleteStory = async (
     storyId: string | undefined,
     userId: string | undefined,
@@ -157,7 +198,7 @@ export default function Page() {
       ]);
 
       await getUserData();
-      showNotification("Delete", "success");
+      showNotification("Deleted", "success");
     } catch (error) {
       console.error("Error deleting story:", error);
     } finally {
@@ -165,7 +206,7 @@ export default function Page() {
     }
   };
 
-  // ── Filter logic ────────────────────────────────
+  // ── Filter logic ────────────────────────────────────
   const countries = useMemo(() => {
     if (!userDB.stories?.length) return [];
     const map: Record<string, number> = {};
@@ -181,13 +222,7 @@ export default function Page() {
     return userDB.stories.filter((s) => s.countryId === activeCountry);
   }, [userDB.stories, activeCountry]);
 
-  // ← Тепер передаємо лише 2 аргументи (без stories)
-  const { hours, minutes, seconds } = useCountdown(
-    userDB.expiryTime,
-    getUserData,
-  );
-
-  // ── Render ──────────────────────────────────────
+  // ── Render ──────────────────────────────────────────
   if (loadingUser) return <Preloader />;
 
   if (!user || !user.isAuthenticated) {
@@ -216,18 +251,32 @@ export default function Page() {
           </div>
 
           <div className={styles.statsRow}>
-            {userDB.countStoryOfDay === 0 ? (
-              <div className={`${styles.statPill} ${styles.statPillWarning}`}>
+            {/* ── Credits badge — замінює старий таймер ── */}
+            {creditsLoading ? (
+              <div className={styles.statPill}>
+                <span className={styles.statDot} />
+                Loading...
+              </div>
+            ) : credits === 0 ? (
+              // Немає кредитів — показуємо кнопку купити
+              <button
+                className={`${styles.statPill} ${styles.statPillWarning}`}
+                onClick={() => setShowCreditsPanel(true)}
+              >
                 <span
                   className={`${styles.statDot} ${styles.statDotWarning}`}
                 />
-                Next stories in {hours}h {minutes}m {seconds}s
-              </div>
+                No credits · Buy more
+              </button>
             ) : (
-              <div className={styles.statPill}>
-                <span className={styles.statDot} />
-                {userDB.countStoryOfDay} stories available today
-              </div>
+              // Є кредити — показуємо кількість, клік відкриває панель покупки
+              <button
+                className={styles.statPill}
+                onClick={() => setShowCreditsPanel((v) => !v)}
+              >
+                <CreditIcon />
+                {credits} {credits === 1 ? "credit" : "credits"} available
+              </button>
             )}
 
             <Link href="/" className={styles.goMapBtn}>
@@ -236,6 +285,13 @@ export default function Page() {
             </Link>
           </div>
         </div>
+
+        {/* ── Credits panel (розгортається при кліку) ── */}
+        {showCreditsPanel && (
+          <div className={styles.creditsPanelWrap}>
+            <CreditsPanel />
+          </div>
+        )}
 
         <div className={styles.divider} />
 
@@ -315,7 +371,25 @@ export default function Page() {
                   </Link>
 
                   <div className={styles.cardFooter}>
-                    {/* Delete button (commented out) */}
+                    <button
+                      className={`${styles.deleteBtn} ${deleteStoryMap[story.id] ? styles.deleteBtnLoading : ""}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteStory(
+                          story.id,
+                          user?.userId,
+                          story.countryId,
+                        );
+                      }}
+                      disabled={!!deleteStoryMap[story.id]}
+                      title="Delete story"
+                    >
+                      {deleteStoryMap[story.id] ? (
+                        <SpinnerIcon />
+                      ) : (
+                        <TrashIcon />
+                      )}
+                    </button>
                   </div>
                 </div>
               ))}
@@ -325,5 +399,13 @@ export default function Page() {
       </div>
       <ToastContainer />
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Preloader />}>
+      <SettingsPageContent />
+    </Suspense>
   );
 }

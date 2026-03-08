@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ref, get, update } from "firebase/database";
 import { useSearchParams } from "next/navigation";
-import { db } from "@/db/firebase";
+import { db } from "../../db/firebase";
 import Preloader from "@/components/Preloader/Preloader";
 import BtnBack from "@/components/BtnBack/BtnBack";
 import { UserAuthBuilder } from "../../../context/context";
