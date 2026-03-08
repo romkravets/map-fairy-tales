@@ -6,8 +6,13 @@
   box-sizing: border-box;
 }
 
+html,
 body {
-  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
   margin: 0 auto;
   background: #051f52;
   color: #e0aaff;

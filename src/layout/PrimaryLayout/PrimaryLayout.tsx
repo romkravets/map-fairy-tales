@@ -2,7 +2,7 @@
 import { FC, ReactNode, useContext, useState } from "react";
 import Link from "next/link";
 import { UserAuthBuilder } from "../../../context/context";
-import { auth } from "@/db/firebase";
+import { auth } from "../../db/firebase";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "../../../public/assets/map-icon/logo.svg";
