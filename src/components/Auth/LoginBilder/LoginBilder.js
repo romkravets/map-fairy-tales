@@ -1,5 +1,6 @@
 "use client";
-import { auth, GoogleProvider } from "@/db/firebase";
+import { auth, GoogleProvider } from "../../../db/firebase";
+import { signInWithPopup } from "firebase/auth";
 import { useContext, useState } from "react";
 import { UserAuthBuilder } from "../../../../context/context";
 import { useRouter } from "next/navigation";
@@ -39,7 +40,7 @@ const LoginBuilder = () => {
   const handleGoogleLogin = async () => {
     setLoading(true);
     try {
-      const response = await auth.signInWithPopup(GoogleProvider);
+      const response = await signInWithPopup(auth, GoogleProvider);
       const { user } = response;
 
       setUser((prev) => ({

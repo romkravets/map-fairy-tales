@@ -1,4 +1,5 @@
-import { auth, GoogleProvider } from "@/db/firebase";
+import { auth, GoogleProvider } from "../../../db/firebase";
+import { signInWithPopup } from "firebase/auth";
 import { useState, useContext } from "react";
 import { UserAuthBuilder } from "../../../../context/context";
 import styles from "./Login.module.css";
@@ -36,7 +37,7 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     setLoading(true);
     try {
-      const response = await auth.signInWithPopup(GoogleProvider);
+      const response = await signInWithPopup(auth, GoogleProvider);
       const { user } = response;
 
       setUser((prev) => ({
