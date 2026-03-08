@@ -2,7 +2,8 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useContext, ChangeEvent } from "react";
 import { child, get, ref, set, ref as dbRef } from "firebase/database";
-import { db } from "@/db/firebase";
+import { db } from "../../db/firebase";
+import { getAuth } from "firebase/auth";
 import Login from "@/components/Auth/Login/Login";
 import { showNotification } from "@/helpers/showNotification";
 import { ToastContainer } from "react-toastify";
@@ -22,12 +23,11 @@ import {
 } from "firebase/storage";
 import Select from "react-select";
 import { UserAuthBuilder } from "../../../context/context";
-import { useCountdown } from "@/helpers/useCountdown";
+import { useCredits } from "@/hooks/useCredits";
 import Preloader from "@/components/Preloader/Preloader";
 import Link from "next/link";
 import BtnBack from "@/components/BtnBack/BtnBack";
 import TextField from "@mui/material/TextField";
-import Image from "next/image";
 import styles from "./CountryStories.module.css";
 import CountryInfoBlock from "./CountryInfoBlock";
 import StoryPreview from "../Story/StoryPreview";
@@ -37,13 +37,6 @@ interface CustomValueForStory {
   heroes: string;
   events: string;
 }
-
-const userInitialData = {
-  userName: "",
-  countStoryOfDay: 3,
-  expiryTime: 0,
-  stories: [],
-};
 
 const selectStyles = {
   control: (base: any, state: any) => ({
@@ -57,10 +50,7 @@ const selectStyles = {
     cursor: "pointer",
     "&:hover": { borderColor: "rgba(100,170,255,0.5)" },
   }),
-  valueContainer: (base: any) => ({
-    ...base,
-    padding: "2px 14px", // ← горизонтальний падінг як у інпуті
-  }),
+  valueContainer: (base: any) => ({ ...base, padding: "2px 14px" }),
   input: (base: any) => ({
     ...base,
     color: "#c8dff5",
@@ -90,10 +80,7 @@ const selectStyles = {
     boxShadow: "0 8px 32px rgba(0,10,40,0.6)",
     zIndex: 100,
   }),
-  menuList: (base: any) => ({
-    ...base,
-    padding: "4px!important",
-  }),
+  menuList: (base: any) => ({ ...base, padding: "4px!important" }),
   option: (base: any, state: any) => ({
     ...base,
     borderRadius: "6px",
@@ -123,12 +110,37 @@ const selectStyles = {
   }),
 };
 
+const textFieldSx = {
+  "& .MuiOutlinedInput-root": {
+    background: "rgba(10,25,60,0.5)",
+    borderRadius: "8px",
+    fontFamily: "'Crimson Pro', serif",
+    fontSize: "16px",
+    padding: "16px!important",
+    color: "#c8dff5",
+    "& fieldset": { borderColor: "rgba(80,140,210,0.3)" },
+    "&:hover fieldset": { borderColor: "rgba(100,170,255,0.5)" },
+    "&.Mui-focused fieldset": { borderColor: "rgba(100,180,255,0.7)" },
+  },
+  "& input::placeholder": { color: "rgba(100,150,200,0.5)" },
+};
+
 export default function CountryStories() {
   const searchParams = useSearchParams();
   const region = searchParams?.get("region") ?? "";
   const id = searchParams?.get("id") ?? "";
   const tasksRef = ref(db);
   const { user } = useContext(UserAuthBuilder);
+
+  // ── Кредити (замість countStoryOfDay) ──────────────
+  const {
+    credits,
+    loading: creditsLoading,
+    packages,
+    buyPackage,
+  } = useCredits();
+  const [buyingPackageId, setBuyingPackageId] = useState<string | null>(null);
+  const [showBuyPanel, setShowBuyPanel] = useState(false);
 
   const [storyCreated, setCreatedStory] = useState<StoryData | null>(null);
   const [isLoadingStory, setIsLoadingStory] = useState(false);
@@ -141,14 +153,24 @@ export default function CountryStories() {
   const [selectedValue, setSelectedValue] = useState("random");
   const [customValueForStory, setCustomValueForStory] =
     useState<CustomValueForStory>({ team: "", heroes: "", events: "" });
-  const [userData, setUserData] = useState<UserData>(userInitialData);
+  // Зберігаємо лише stories для збереження в БД
+  const [userStories, setUserStories] = useState<any[]>([]);
 
-  const getUserData = async () => {
+  // Кастомна = хоча б одне поле заповнене
+  const isCustom = !!(
+    customValueForStory.team ||
+    customValueForStory.heroes ||
+    customValueForStory.events
+  );
+  const creditCost = isCustom ? 2 : 1;
+
+  const getUserStories = async () => {
+    if (!user?.userId) return;
     try {
-      const snapshot = await get(child(tasksRef, `users/${user.userId}`));
-      if (snapshot.exists()) setUserData(snapshot.val());
-    } catch (error) {
-      console.error(error);
+      const snap = await get(child(tasksRef, `users/${user.userId}/stories`));
+      if (snap.exists()) setUserStories(snap.val() ?? []);
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -163,19 +185,40 @@ export default function CountryStories() {
     }
   };
 
+  // ── Генерація — тепер з токеном авторизації ────────
   const createAIStory = async () => {
+    if (!region || credits < creditCost) return;
     setIsLoadingStory(true);
-    if (!region) return;
     try {
+      const token = await getAuth().currentUser?.getIdToken();
       const response = await fetch("/api/openai", {
-        body: JSON.stringify({ region, customValueForStory }),
-        headers: { "Content-Type": "application/json" },
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ region, customValueForStory }),
       });
-      if (!response.ok) return;
-      setCreatedStory(await response.json());
+
+      const data = await response.json();
+
+      if (response.status === 402) {
+        // Недостатньо кредитів — показати панель покупки
+        showNotification(data.message || "Not enough credits", "error");
+        setShowBuyPanel(true);
+        return;
+      }
+
+      if (!response.ok) {
+        showNotification(data.error || "Generation failed", "error");
+        return;
+      }
+
+      setCreatedStory(data);
+      // credits оновляться автоматично через onValue в useCredits
     } catch (error) {
       console.error(error);
+      showNotification("Generation error", "error");
     } finally {
       setIsLoadingStory(false);
       setCustomValueForStory({ team: "", heroes: "", events: "" });
@@ -209,38 +252,29 @@ export default function CountryStories() {
         status: false,
         viewCount: 0,
       };
-      const updatedStories = [...(countryMap.stories || []), newStory];
 
-      if (newStory.id && newStory.story.title) {
-        const updatedUserStories = [
-          ...(userData.stories || []),
-          {
-            id: newStoryId,
-            nameStory: storyCreated.title,
-            link: newStoryId,
-            imageUrl: imageDownloadUrl,
-            countryId: id,
-          },
-        ];
-        const newCount =
-          userData.countStoryOfDay > 0 ? userData.countStoryOfDay - 1 : 0;
-        await set(dbRef(db, `users/${user.userId}`), {
-          userName: user.userName,
-          countStoryOfDay: newCount,
-          expiryTime:
-            newCount === 0
-              ? new Date(Date.now() + 24 * 60 * 60 * 1000).getTime()
-              : null,
-          stories: updatedUserStories,
-        });
-      }
+      const updatedUserStories = [
+        ...(userStories || []),
+        {
+          id: newStoryId,
+          nameStory: storyCreated.title,
+          link: newStoryId,
+          imageUrl: imageDownloadUrl,
+          countryId: id,
+        },
+      ];
+
+      // Зберігаємо тільки stories юзера — credits керує сервер
+      await set(dbRef(db, `users/${user.userId}/stories`), updatedUserStories);
       await set(dbRef(db, `maps/${id}`), {
         ...countryMap,
-        stories: updatedStories,
+        stories: [...(countryMap.stories || []), newStory],
       });
+
       showNotification("Saved in DB", "success");
       setCreatedStory(null);
       await getCountryStories();
+      await getUserStories();
     } catch (error) {
       console.error(error);
       showNotification("Error saving story", "error");
@@ -249,65 +283,28 @@ export default function CountryStories() {
     }
   };
 
-  const { hours, minutes, seconds } = useCountdown(
-    userData.expiryTime,
-    getUserData,
-  );
+  // ── Купити пакет прямо зі сторінки ─────────────────
+  const handleBuyPackage = async (packageId: string) => {
+    setBuyingPackageId(packageId);
+    try {
+      await buyPackage(packageId);
+    } catch (err: any) {
+      showNotification(err.message || "Payment error", "error");
+      setBuyingPackageId(null);
+    }
+  };
 
   useEffect(() => {
     if (id && typeof window !== "undefined") {
       getCountryStories().catch(console.error);
-      if (user?.userId) getUserData().catch(console.error);
+      if (user?.userId) getUserStories().catch(console.error);
     }
   }, [id, user]);
 
   return (
     <div className={styles.page}>
       <BtnBack linkUrl="/" />
-
-      {/* ── Country title ── */}
       <h1 className={styles.pageTitle}>{region}</h1>
-
-      {/* ── Country info ── */}
-      {/*     {!loadingCountryMap ? (
-        countryMap.info ? (
-          <div className={styles.infoCard}>
-            {[
-              { label: "Capital City", value: countryMap.info.capitalCity },
-              {
-                label: "Location & Size",
-                value: countryMap.info.locationAndSize,
-              },
-              { label: "Language", value: countryMap.info.language },
-              {
-                label: "Culture & Traditions",
-                value: countryMap.info.cultureAndTraditions,
-              },
-              {
-                label: "Nature & Wildlife",
-                value: countryMap.info.natureAndWildlife,
-              },
-              {
-                label: "Friendly People",
-                value: countryMap.info.friendlyPeople,
-              },
-            ].map(({ label, value }) => (
-              <div key={label} className={styles.infoRow}>
-                <span className={styles.infoLabel}>{label}</span>
-                <span className={styles.infoValue}>
-                  {value || "Information not available"}
-                </span>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className={styles.emptyState}>
-            No information found for this country.
-          </p>
-        )
-      ) : (
-        <Preloader />
-      )} */}
       <CountryInfoBlock region={region} />
 
       {/* ── Stories grid ── */}
@@ -363,6 +360,64 @@ export default function CountryStories() {
 
         {user?.userId && user?.isAuthenticated && (
           <>
+            {/* ── Credits badge ── */}
+            <div className={styles.creditsRow}>
+              {creditsLoading ? (
+                <span className={styles.creditsBadge}>Loading...</span>
+              ) : (
+                <span
+                  className={`${styles.creditsBadge} ${credits === 0 ? styles.creditsBadgeEmpty : ""}`}
+                >
+                  ✦ {credits} {credits === 1 ? "credit" : "credits"} available
+                  {credits > 0 && (
+                    <span className={styles.creditsCost}>
+                      · This story costs {creditCost} credit
+                      {creditCost > 1 ? "s" : ""}
+                    </span>
+                  )}
+                </span>
+              )}
+              <button
+                className={styles.buyCreditsLink}
+                onClick={() => setShowBuyPanel((v) => !v)}
+              >
+                {showBuyPanel ? "Hide" : "Buy credits"}
+              </button>
+            </div>
+
+            {/* ── Buy panel (inline) ── */}
+            {showBuyPanel && (
+              <div className={styles.buyPanel}>
+                <p className={styles.buyPanelTitle}>Choose a package</p>
+                <p className={styles.buyPanelSub}>
+                  Payment via WayForPay · Visa / Mastercard / Privat24
+                </p>
+                <div className={styles.buyPackages}>
+                  {packages.map((pack) => (
+                    <button
+                      key={pack.id}
+                      className={`${styles.buyPackageBtn} ${pack.id === "pack_30" ? styles.buyPackageBtnFeatured : ""}`}
+                      onClick={() => handleBuyPackage(pack.id)}
+                      disabled={buyingPackageId !== null}
+                    >
+                      {buyingPackageId === pack.id ? (
+                        "Redirecting..."
+                      ) : (
+                        <>
+                          <span className={styles.buyPackageCredits}>
+                            {pack.credits} credits
+                          </span>
+                          <span className={styles.buyPackagePrice}>
+                            {pack.priceUAH} ₴
+                          </span>
+                        </>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Radio: Random / Custom */}
             <fieldset className={styles.fieldset}>
               <legend className={styles.fieldsetLegend}>Story type</legend>
@@ -377,6 +432,9 @@ export default function CountryStories() {
                       onChange={() => setSelectedValue(val)}
                     />
                     {val.charAt(0).toUpperCase() + val.slice(1)}
+                    {val === "custom" && (
+                      <span className={styles.customBadge}>2 credits</span>
+                    )}
                   </label>
                 ))}
               </div>
@@ -416,24 +474,7 @@ export default function CountryStories() {
                       heroes: e.target.value,
                     })
                   }
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      background: "rgba(10,25,60,0.5)",
-                      borderRadius: "8px",
-                      fontFamily: "'Crimson Pro', serif",
-                      fontSize: "16px",
-                      padding: "16px!important",
-                      color: "#c8dff5",
-                      "& fieldset": { borderColor: "rgba(80,140,210,0.3)" },
-                      "&:hover fieldset": {
-                        borderColor: "rgba(100,170,255,0.5)",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "rgba(100,180,255,0.7)",
-                      },
-                    },
-                    "& input::placeholder": { color: "rgba(100,150,200,0.5)" },
-                  }}
+                  sx={textFieldSx}
                 />
                 <TextField
                   size="small"
@@ -446,43 +487,32 @@ export default function CountryStories() {
                       events: e.target.value,
                     })
                   }
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      background: "rgba(10,25,60,0.5)",
-                      borderRadius: "8px",
-                      fontFamily: "'Crimson Pro', serif",
-                      fontSize: "16px",
-                      padding: "16px!important",
-                      color: "#c8dff5",
-                      "& fieldset": { borderColor: "rgba(80,140,210,0.3)" },
-                      "&:hover fieldset": {
-                        borderColor: "rgba(100,170,255,0.5)",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "rgba(100,180,255,0.7)",
-                      },
-                    },
-                    "& input::placeholder": { color: "rgba(100,150,200,0.5)" },
-                  }}
+                  sx={textFieldSx}
                 />
               </div>
             )}
 
-            {/* Generate / Limit */}
-            {userData.countStoryOfDay > 0 ? (
+            {/* Generate / No credits */}
+            {credits > 0 ? (
               <button
                 className={styles.btnPrimary}
                 onClick={createAIStory}
-                disabled={isLoadingStory}
+                disabled={isLoadingStory || credits < creditCost}
               >
-                {isLoadingStory ? "✦ Generating…" : "✦ Generate Story"}
+                {isLoadingStory
+                  ? "✦ Generating…"
+                  : `✦ Generate Story · ${creditCost} credit${creditCost > 1 ? "s" : ""}`}
               </button>
             ) : (
+              // Немає кредитів — показуємо CTA замість таймера
               <div className={styles.limitBox}>
-                <span className={styles.limitText}>Daily limit reached</span>
-                <span className={styles.countdown}>
-                  {hours}h {minutes}m {seconds}s
-                </span>
+                <span className={styles.limitText}>No credits left</span>
+                <button
+                  className={styles.limitBuyBtn}
+                  onClick={() => setShowBuyPanel(true)}
+                >
+                  Buy credits to continue →
+                </button>
               </div>
             )}
 

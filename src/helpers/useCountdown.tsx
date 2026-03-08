@@ -3,7 +3,7 @@
 import { update, ref as dbRef } from "firebase/database";
 import { useState, useEffect, useContext, useRef } from "react";
 import { UserAuthBuilder } from "../../context/context";
-import { db } from "@/db/firebase";
+import { db } from "../db/firebase";
 
 const useCountdown = (
   expiryTime: number,

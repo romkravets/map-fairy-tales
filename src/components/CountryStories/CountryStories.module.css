@@ -512,3 +512,195 @@
   margin-top: 32px;
   animation: fadeSlideIn 0.4s ease;
 }
+
+/* ── Додай ці класи в CountryStories.module.css ── */
+
+/* Credits row */
+.creditsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.creditsBadge {
+  font-family: "Cinzel", serif;
+  font-size: 13px;
+  color: rgba(100, 210, 160, 0.9);
+  background: rgba(0, 60, 40, 0.4);
+  border: 1px solid rgba(0, 180, 100, 0.25);
+  border-radius: 20px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.creditsBadgeEmpty {
+  color: rgba(255, 160, 80, 0.9);
+  background: rgba(60, 20, 0, 0.4);
+  border-color: rgba(255, 120, 40, 0.25);
+}
+
+.creditsCost {
+  color: rgba(140, 180, 220, 0.6);
+  font-size: 12px;
+}
+
+.buyCreditsLink {
+  background: none;
+  border: none;
+  color: rgba(100, 160, 255, 0.7);
+  font-family: "Crimson Pro", serif;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.buyCreditsLink:hover {
+  color: rgba(140, 190, 255, 1);
+}
+
+/* Buy panel */
+.buyPanel {
+  background: rgba(5, 15, 45, 0.7);
+  border: 1px solid rgba(80, 140, 210, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  animation: fadeSlideIn 0.2s ease;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.buyPanelTitle {
+  font-family: "Cinzel", serif;
+  font-size: 14px;
+  color: #c8dff5;
+  margin: 0 0 4px;
+}
+
+.buyPanelSub {
+  font-family: "Crimson Pro", serif;
+  font-size: 13px;
+  color: rgba(100, 150, 200, 0.6);
+  margin: 0 0 16px;
+}
+
+.buyPackages {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.buyPackageBtn {
+  flex: 1;
+  min-width: 100px;
+  background: rgba(10, 25, 60, 0.6);
+  border: 1px solid rgba(80, 140, 210, 0.3);
+  border-radius: 10px;
+  padding: 14px 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+  color: #c8dff5;
+}
+
+.buyPackageBtn:hover:not(:disabled) {
+  border-color: rgba(100, 170, 255, 0.6);
+  background: rgba(20, 45, 100, 0.5);
+}
+
+.buyPackageBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.buyPackageBtnFeatured {
+  border-color: rgba(100, 180, 255, 0.5);
+  background: rgba(20, 50, 120, 0.4);
+}
+
+.buyPackageCredits {
+  font-family: "Cinzel", serif;
+  font-size: 13px;
+  color: #c8dff5;
+}
+
+.buyPackagePrice {
+  font-family: "Crimson Pro", serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(100, 210, 160, 0.9);
+}
+
+/* Custom badge on radio */
+.customBadge {
+  margin-left: 8px;
+  font-size: 11px;
+  font-family: "Cinzel", serif;
+  background: rgba(100, 60, 200, 0.25);
+  border: 1px solid rgba(140, 100, 255, 0.3);
+  color: rgba(180, 150, 255, 0.8);
+  border-radius: 10px;
+  padding: 1px 8px;
+}
+
+/* No credits CTA */
+.limitBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(40, 15, 5, 0.5);
+  border: 1px solid rgba(255, 120, 40, 0.2);
+  border-radius: 10px;
+  padding: 14px 18px;
+  flex-wrap: wrap;
+}
+
+.limitText {
+  font-family: "Cinzel", serif;
+  font-size: 13px;
+  color: rgba(255, 160, 80, 0.8);
+}
+
+.limitBuyBtn {
+  background: rgba(255, 120, 40, 0.15);
+  border: 1px solid rgba(255, 120, 40, 0.35);
+  color: rgba(255, 180, 100, 0.9);
+  font-family: "Crimson Pro", serif;
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.limitBuyBtn:hover {
+  background: rgba(255, 120, 40, 0.25);
+  border-color: rgba(255, 140, 60, 0.5);
+}

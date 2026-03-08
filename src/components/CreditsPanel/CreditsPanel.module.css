@@ -1,0 +1,227 @@
+/* components/CreditsPanel/CreditsPanel.module.css */
+
+.panel {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+}
+
+/* ── Balance ── */
+.balance {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.balanceIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f0fdf4;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.balanceLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0 0 2px;
+}
+
+.balanceCount {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.balancePlan {
+  font-size: 13px;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+/* ── Cost info ── */
+.costInfo {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.costRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.costLabel {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.costValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+}
+
+.divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 20px 0;
+}
+
+/* ── Packages ── */
+.packagesTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 14px;
+}
+
+.error {
+  font-size: 13px;
+  color: #dc2626;
+  background: #fef2f2;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+}
+
+.packages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.packageCard {
+  position: relative;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 18px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.packageCard:hover {
+  border-color: #a5b4fc;
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.08);
+}
+
+.packageCardFeatured {
+  border-color: #6366f1;
+  background: #fafafe;
+}
+
+.badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #6366f1;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.packageCredits {
+  font-size: 32px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+  line-height: 1;
+}
+
+.packageCreditsLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 2px 0 8px;
+}
+
+.packagePrice {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.packagePerCredit {
+  font-size: 11px;
+  color: #9ca3af;
+  margin: 2px 0 12px;
+}
+
+.packageFeatures {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  text-align: left;
+}
+
+.packageFeatures li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.packageFeatures li svg {
+  color: #16a34a;
+  flex-shrink: 0;
+}
+
+.buyBtn {
+  width: 100%;
+  padding: 9px 12px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    opacity 0.15s;
+  margin-top: auto;
+}
+
+.buyBtn:hover:not(:disabled) {
+  background: #374151;
+}
+
+.buyBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading {
+  padding: 20px;
+  color: #6b7280;
+  font-size: 14px;
+  text-align: center;
+}
