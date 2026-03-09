@@ -11,7 +11,8 @@ export const runtime = "nodejs";
 
 export async function GET(req: NextRequest) {
   const token = req.headers.get("authorization")?.split("Bearer ")[1];
-  if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!token)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   let uid: string;
   try {
@@ -27,7 +28,11 @@ export async function GET(req: NextRequest) {
   const user = await User.findOne({ firebaseUid: uid }).lean();
   if (!user) {
     // First visit — create user with free credits
-    const newUser = await User.create({ firebaseUid: uid, credits: 3, plan: "free" });
+    const newUser = await User.create({
+      firebaseUid: uid,
+      credits: 2,
+      plan: "free",
+    });
     return NextResponse.json({ credits: newUser.credits, plan: newUser.plan });
   }
 

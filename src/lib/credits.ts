@@ -29,7 +29,11 @@ export async function getUserCredits(userId: string): Promise<UserCredits> {
 
   if (!user) {
     // Перший вхід — створюємо юзера з безкоштовними кредитами
-    await User.create({ firebaseUid: userId, credits: FREE_CREDITS_ON_SIGNUP, plan: "free" });
+    await User.create({
+      firebaseUid: userId,
+      credits: FREE_CREDITS_ON_SIGNUP,
+      plan: "free",
+    });
     return { credits: FREE_CREDITS_ON_SIGNUP, plan: "free" };
   }
 
