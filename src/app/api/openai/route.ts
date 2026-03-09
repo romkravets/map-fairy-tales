@@ -1,17 +1,19 @@
-// pages/api/openai.ts  (або app/api/openai/route.ts якщо App Router)
-// Захищений endpoint: перевіряє токен → перевіряє кредити → генерує → списує
+// src/app/api/openai/route.ts
+// App Router version — замінює pages/api/openai.tsx
 
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import { getAdmin } from "@/db/firebaseAdmin";
 import { deductCredit, getUserCredits } from "@/lib/credits";
 
+export const runtime = "nodejs";
+
+// ── Types ─────────────────────────────────────────────────────
 type StoryParagraph = { paragraph: string };
 type StoryLocale = {
   title: string;
   paragraphs: StoryParagraph[];
   language?: string;
 };
-
 type StoryPayload = {
   title: string;
   paragraphs: StoryParagraph[];
@@ -23,24 +25,22 @@ type StoryPayload = {
   bilingualWarning?: string;
 };
 
+// ── Helpers ───────────────────────────────────────────────────
 function extractJsonCandidate(raw: string): string {
   const withoutFences = raw
     .replace(/^```(?:json)?\s*/i, "")
     .replace(/\s*```\s*$/i, "")
     .trim();
-
   const firstBrace = withoutFences.indexOf("{");
   const lastBrace = withoutFences.lastIndexOf("}");
   if (firstBrace >= 0 && lastBrace > firstBrace) {
     return withoutFences.slice(firstBrace, lastBrace + 1);
   }
-
   return withoutFences;
 }
 
 function toParagraphs(value: unknown): StoryParagraph[] {
   if (!Array.isArray(value)) return [];
-
   return value
     .map((item) => {
       if (typeof item === "string") return { paragraph: item.trim() };
@@ -49,9 +49,7 @@ function toParagraphs(value: unknown): StoryParagraph[] {
         typeof item === "object" &&
         typeof (item as { paragraph?: unknown }).paragraph === "string"
       ) {
-        return {
-          paragraph: (item as { paragraph: string }).paragraph.trim(),
-        };
+        return { paragraph: (item as { paragraph: string }).paragraph.trim() };
       }
       return null;
     })
@@ -72,7 +70,6 @@ function uniqueParagraphs(paragraphs: StoryParagraph[]): StoryParagraph[] {
 
 function collectLooseParagraphs(value: unknown): StoryParagraph[] {
   if (!value || typeof value !== "object") return [];
-
   return Object.entries(value as Record<string, unknown>)
     .filter(([key, item]) => {
       if (typeof item !== "string") return false;
@@ -124,11 +121,7 @@ function localeFromBlock(
     fallbackLanguage ||
     undefined;
 
-  return {
-    title,
-    paragraphs,
-    ...(language ? { language } : {}),
-  };
+  return { title, paragraphs, ...(language ? { language } : {}) };
 }
 
 function findNativeBlock(parsed: Record<string, unknown>): unknown {
@@ -142,30 +135,21 @@ function findNativeBlock(parsed: Record<string, unknown>): unknown {
     "language",
     "imageurl",
   ]);
-
   for (const [key, value] of Object.entries(parsed)) {
     if (skip.has(key.toLowerCase())) continue;
     if (!value || typeof value !== "object") continue;
-
     const hasParagraphs = Array.isArray(
       (value as { paragraphs?: unknown }).paragraphs,
     );
     const hasStringFields = Object.values(
       value as Record<string, unknown>,
     ).some((item) => typeof item === "string" && item.trim().length > 0);
-
-    if (hasParagraphs || hasStringFields) {
-      return value;
-    }
+    if (hasParagraphs || hasStringFields) return value;
   }
-
   return null;
 }
 
-function normalizeStoryShape(
-  parsed: any,
-  region?: string,
-): StoryPayload | null {
+function normalizeStoryShape(parsed: any, region?: string): StoryPayload | null {
   if (!parsed || typeof parsed !== "object") return null;
 
   const englishBlock =
@@ -183,7 +167,8 @@ function normalizeStoryShape(
       : null) ||
     findNativeBlock(parsed as Record<string, unknown>);
 
-  const rootTitle = typeof parsed.title === "string" ? parsed.title.trim() : "";
+  const rootTitle =
+    typeof parsed.title === "string" ? parsed.title.trim() : "";
   const rootParagraphs = toParagraphs(parsed.paragraphs);
 
   const english = localeFromBlock(englishBlock, {
@@ -195,7 +180,6 @@ function normalizeStoryShape(
   if (!english) return null;
 
   let bilingualWarning: string | undefined;
-
   const native =
     localeFromBlock(nativeBlock, {
       fallbackLanguage:
@@ -260,23 +244,18 @@ function buildFallbackImage(title: string, region: string): string {
   <text x="512" y="520" text-anchor="middle" font-size="30" font-family="Arial, sans-serif" fill="#5b4f63">${safeRegion}</text>
   <text x="512" y="580" text-anchor="middle" font-size="22" font-family="Arial, sans-serif" fill="#7d7186">AI illustration unavailable</text>
 </svg>`;
-
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
+// ── Main Handler ──────────────────────────────────────────────
+export async function POST(req: NextRequest) {
   // ── 1. Перевірка Firebase ID Token ──────────────────
-  // Клієнт має передавати токен в Authorization header
-  const authHeader = req.headers.authorization;
+  const authHeader = req.headers.get("authorization");
   if (!authHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Missing authorization token" });
+    return NextResponse.json(
+      { error: "Missing authorization token" },
+      { status: 401 },
+    );
   }
 
   let userId: string;
@@ -286,17 +265,29 @@ export default async function handler(
     const decoded = await adminAuth.verifyIdToken(token);
     userId = decoded.uid;
   } catch {
-    return res.status(401).json({ error: "Invalid or expired token" });
+    return NextResponse.json(
+      { error: "Invalid or expired token" },
+      { status: 401 },
+    );
   }
 
   // ── 2. Отримати дані запиту ─────────────────────────
-  const { region: rawRegion, customValueForStory } = req.body;
-
-  if (!rawRegion || typeof rawRegion !== "string") {
-    return res.status(400).json({ error: "Region is required" });
+  let body: { region?: unknown; customValueForStory?: any };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  // Кастомна генерація = хоча б одне поле заповнене
+  const { region: rawRegion, customValueForStory } = body;
+
+  if (!rawRegion || typeof rawRegion !== "string") {
+    return NextResponse.json(
+      { error: "Region is required" },
+      { status: 400 },
+    );
+  }
+
   const isCustom = !!(
     customValueForStory?.team ||
     customValueForStory?.heroes ||
@@ -307,7 +298,6 @@ export default async function handler(
   const MAX_FIELD_LEN = 200;
   const sanitize = (v: unknown): string | undefined => {
     if (typeof v !== "string") return undefined;
-    // Видаляємо символи що можуть зламати структуру промпту
     return v
       .replace(/[\x00-\x1F"\\]/g, " ")
       .trim()
@@ -322,18 +312,18 @@ export default async function handler(
       }
     : undefined;
 
-  // Sanitize region — лише літери, цифри, дефіс, без спецсимволів
   const region = rawRegion
     .replace(/[^a-zA-Z0-9\u0400-\u04FF\s\-_]/g, "")
     .trim()
     .slice(0, 100);
   if (!region) {
-    return res.status(400).json({ error: "Invalid region value" });
+    return NextResponse.json(
+      { error: "Invalid region value" },
+      { status: 400 },
+    );
   }
 
-  // ── 4a. Атомарно списати кредити ДО генерації ─────────
-  // Це запобігає race condition: якщо 2 запити йдуть паралельно,
-  // обидва не зможуть пройти — Firebase транзакція атомарна.
+  // ── 4. Атомарно списати кредити ДО генерації ─────────
   const cost = isCustom ? 2 : 1;
   const deductResult = await deductCredit(userId, isCustom);
 
@@ -341,17 +331,20 @@ export default async function handler(
     const { credits } = await getUserCredits(userId).catch(() => ({
       credits: 0,
     }));
-    return res.status(402).json({
-      error: "insufficient_credits",
-      message: isCustom
-        ? `Custom story requires 2 credits. You have ${credits}.`
-        : `You have no credits left.`,
-      creditsAvailable: credits,
-      creditsRequired: cost,
-    });
+    return NextResponse.json(
+      {
+        error: "insufficient_credits",
+        message: isCustom
+          ? `Custom story requires 2 credits. You have ${credits}.`
+          : `You have no credits left.`,
+        creditsAvailable: credits,
+        creditsRequired: cost,
+      },
+      { status: 402 },
+    );
   }
 
-  // ── 4. Будуємо промпт ───────────────────────────────
+  // ── 5. Будуємо промпт ───────────────────────────────
   let storyContent = `You are a master storyteller specializing in folk tales and fairy tales from around the world.
 
 Your task: Write an immersive, emotionally rich fairy tale deeply rooted in the cultural traditions of the region identified by the code "${region}".
@@ -416,9 +409,9 @@ OUTPUT FORMAT — respond ONLY with valid JSON, no markdown, no extra text:
 }
 Both sections are mandatory. Do NOT include any text outside the JSON.`;
 
-  // ── 5. Генерація через Groq ─────────────────────────
+  // ── 6. Генерація через Groq ─────────────────────────
   const callGroq = async (strictJson: boolean) => {
-    const body: Record<string, unknown> = {
+    const groqBody: Record<string, unknown> = {
       model: "llama-3.1-8b-instant",
       messages: [
         {
@@ -431,11 +424,9 @@ Both sections are mandatory. Do NOT include any text outside the JSON.`;
       temperature: 0.6,
       max_tokens: 4096,
     };
-
     if (strictJson) {
-      body.response_format = { type: "json_object" };
+      groqBody.response_format = { type: "json_object" };
     }
-
     const response = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
       {
@@ -444,10 +435,9 @@ Both sections are mandatory. Do NOT include any text outside the JSON.`;
           Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(groqBody),
       },
     );
-
     const data = await response.json().catch(() => ({}));
     return { response, data };
   };
@@ -456,7 +446,6 @@ Both sections are mandatory. Do NOT include any text outside the JSON.`;
   let rawForDebug = "";
 
   const strictAttempt = await callGroq(true);
-
   if (strictAttempt.response.ok) {
     rawForDebug = strictAttempt.data?.choices?.[0]?.message?.content ?? "";
     story = parseStoryFromRaw(rawForDebug, region);
@@ -471,24 +460,23 @@ Both sections are mandatory. Do NOT include any text outside the JSON.`;
   if (!story) {
     const relaxedAttempt = await callGroq(false);
     if (!relaxedAttempt.response.ok) {
-      return res.status(500).json({
-        error: "Groq API failed",
-        details: relaxedAttempt.data,
-      });
+      return NextResponse.json(
+        { error: "Groq API failed", details: relaxedAttempt.data },
+        { status: 500 },
+      );
     }
-
     rawForDebug = relaxedAttempt.data?.choices?.[0]?.message?.content ?? "";
     story = parseStoryFromRaw(rawForDebug, region);
   }
 
   if (!story) {
-    return res.status(500).json({
-      error: "Failed to parse story JSON",
-      raw: rawForDebug.slice(0, 1200),
-    });
+    return NextResponse.json(
+      { error: "Failed to parse story JSON", raw: rawForDebug.slice(0, 1200) },
+      { status: 500 },
+    );
   }
 
-  // ── 6. Генерація зображення ─────────────────────────
+  // ── 7. Генерація зображення ─────────────────────────
   const imagePrompt =
     `Children's fairy tale book illustration, full color, painterly style inspired by the folk art of the ${region} region. ` +
     `Scene from the story titled "${story.title}". ` +
@@ -510,11 +498,7 @@ Both sections are mandatory. Do NOT include any text outside the JSON.`;
           "Content-Type": "application/json",
           api_token: briaApiKey,
         },
-        body: JSON.stringify({
-          prompt: imagePrompt,
-          num_results: 1,
-          sync: true,
-        }),
+        body: JSON.stringify({ prompt: imagePrompt, num_results: 1, sync: true }),
       },
     );
 
@@ -533,8 +517,6 @@ Both sections are mandatory. Do NOT include any text outside the JSON.`;
     }
   }
 
-  // Кредити вже списані перед генерацією (крок 4a)
   story.creditsRemaining = deductResult.remainingCredits;
-
-  return res.status(200).json(story);
+  return NextResponse.json(story);
 }
