@@ -3,8 +3,7 @@
 import { Suspense, useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { UserAuthBuilder } from "../../../context/context";
-import { child, get, ref as dbRef, update } from "firebase/database";
-import { db } from "../../db/firebase";
+import { getAuth } from "firebase/auth";
 import { UserData } from "@/helpers/types";
 import Link from "next/link";
 import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
@@ -95,7 +94,6 @@ const CreditIcon = () => (
 
 // ── Component ───────────────────────────────────────
 function SettingsPageContent() {
-  const tasksRef = dbRef(db);
   const { user } = useContext(UserAuthBuilder);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -144,14 +142,16 @@ function SettingsPageContent() {
     }
     setLoadingUser(true);
     try {
-      const snapshot = await get(child(tasksRef, `users/${user.userId}`));
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        // Беремо тільки те що нам потрібно — додаємо дефолтні значення для лічильника
+      const token = await getAuth().currentUser?.getIdToken();
+      const res = await fetch("/api/user/data", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
         setUserDB({
           userName: data.userName ?? "",
-          countStoryOfDay: data.countStoryOfDay ?? 0,
-          expiryTime: data.expiryTime ?? 0,
+          countStoryOfDay: 0,
+          expiryTime: 0,
           stories: data.stories ?? [],
         });
       }
@@ -177,24 +177,36 @@ function SettingsPageContent() {
 
     const storage = getStorage();
     try {
-      const [storySnap, userSnap] = await Promise.all([
-        get(dbRef(db, `maps/${countryId}/stories`)),
-        get(dbRef(db, `users/${userId}/stories`)),
-      ]);
-      if (!storySnap.exists() || !userSnap.exists()) return;
+      const token = await getAuth().currentUser?.getIdToken();
 
-      const updatedMap = storySnap.val().filter((s: any) => s.id !== storyId);
-      const updatedUser = userSnap.val().filter((s: any) => s.id !== storyId);
+      // Remove from maps and user stories in MongoDB
+      const [mapRes, userRes] = await Promise.all([
+        fetch(`/api/maps/${countryId}`),
+        fetch("/api/user/data", { headers: { Authorization: `Bearer ${token}` } }),
+      ]);
+      const mapData = mapRes.ok ? await mapRes.json() : { stories: [] };
+      const userData = userRes.ok ? await userRes.json() : { stories: [] };
+
+      const updatedMap = (mapData.stories ?? []).filter((s: any) => s.id !== storyId);
+      const updatedUser = (userData.stories ?? []).filter((s: any) => s.id !== storyId);
 
       await Promise.all([
-        update(dbRef(db, `maps/${countryId}`), { stories: updatedMap }),
-        update(dbRef(db, `users/${userId}`), { stories: updatedUser }),
+        fetch(`/api/maps/${countryId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ stories: updatedMap }),
+        }),
+        fetch("/api/user/data", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ stories: updatedUser }),
+        }),
         deleteObject(
           storageRef(
             storage,
             `stories/${userId}/${countryId}/${storyId}/${storyId}.jpg`,
           ),
-        ),
+        ).catch(() => {}), // ignore if image not in Storage
       ]);
 
       await getUserData();

@@ -19,26 +19,21 @@ export const CREDIT_PACKAGES = [
   { id: "pack_100", credits: 100, priceUAH: 3, label: "Pro" },
 ] as const;
 
-import { getAdmin } from "@/db/firebaseAdmin";
+import { connectDB } from "@/db/mongodb";
+import User from "@/models/User";
 
 // ── Отримати кредити юзера ──────────────────────────
 export async function getUserCredits(userId: string): Promise<UserCredits> {
-  const { adminDb } = getAdmin();
-  const snap = await adminDb.ref(`users/${userId}`).once("value");
-  if (!snap.exists()) throw new Error("User not found");
+  await connectDB();
+  const user = await User.findOne({ firebaseUid: userId }).lean();
 
-  const data = snap.val();
-
-  // Старий юзер без credits — даємо 3 безкоштовних
-  if (data.credits === undefined || data.credits === null) {
-    await adminDb.ref(`users/${userId}`).update({
-      credits: FREE_CREDITS_ON_SIGNUP,
-      plan: "free",
-    });
+  if (!user) {
+    // Перший вхід — створюємо юзера з безкоштовними кредитами
+    await User.create({ firebaseUid: userId, credits: FREE_CREDITS_ON_SIGNUP, plan: "free" });
     return { credits: FREE_CREDITS_ON_SIGNUP, plan: "free" };
   }
 
-  return { credits: data.credits ?? 0, plan: data.plan ?? "free" };
+  return { credits: user.credits ?? 0, plan: user.plan ?? "free" };
 }
 
 // ── Перевірити і списати кредити (атомарна операція) ─
@@ -47,30 +42,26 @@ export async function deductCredit(
   isCustom: boolean,
 ): Promise<{ success: boolean; remainingCredits: number; error?: string }> {
   const cost = isCustom ? CREDIT_COST.custom : CREDIT_COST.basic;
-  const { adminDb } = getAdmin();
-  const userRef = adminDb.ref(`users/${userId}`);
+  await connectDB();
 
-  const result = await userRef.transaction((userData: any) => {
-    if (!userData) return userData;
-    if ((userData.credits ?? 0) < cost) return null;
-    userData.credits = (userData.credits ?? 0) - cost;
-    return userData;
-  });
+  // findOneAndUpdate з $inc atomically reads and writes — safe against races
+  const updated = await User.findOneAndUpdate(
+    { firebaseUid: userId, credits: { $gte: cost } },
+    { $inc: { credits: -cost } },
+    { new: true },
+  ).lean();
 
-  if (!result.committed) {
-    const snap = await userRef.once("value");
-    const current = snap.val()?.credits ?? 0;
+  if (!updated) {
+    const current = await User.findOne({ firebaseUid: userId }).lean();
+    const currentCredits = current?.credits ?? 0;
     return {
       success: false,
-      remainingCredits: current,
-      error: `Not enough credits. Need ${cost}, have ${current}.`,
+      remainingCredits: currentCredits,
+      error: `Not enough credits. Need ${cost}, have ${currentCredits}.`,
     };
   }
 
-  return {
-    success: true,
-    remainingCredits: result.snapshot.val()?.credits ?? 0,
-  };
+  return { success: true, remainingCredits: updated.credits };
 }
 
 // ── Додати кредити (після успішної оплати через webhook) ─
@@ -78,10 +69,10 @@ export async function addCredits(
   userId: string,
   amount: number,
 ): Promise<void> {
-  const { adminDb } = getAdmin();
-  await adminDb.ref(`users/${userId}`).transaction((userData: any) => {
-    if (!userData) return userData;
-    userData.credits = (userData.credits ?? 0) + amount;
-    return userData;
-  });
+  await connectDB();
+  await User.findOneAndUpdate(
+    { firebaseUid: userId },
+    { $inc: { credits: amount } },
+    { upsert: true },
+  );
 }
