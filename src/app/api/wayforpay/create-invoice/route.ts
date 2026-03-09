@@ -81,7 +81,9 @@ export async function POST(req: NextRequest) {
       productName: `${pack.credits} credits — Story Map`,
       clientEmail: userEmail,
       serviceUrl: `${appUrl}/api/wayforpay/webhook`,
-      returnUrl: `${appUrl}/settings?payment=success&credits=${pack.credits}`,
+      // returnUrl must be an API route — WayForPay POSTs to it, not a browser GET.
+      // /api/wayforpay/return accepts POST and redirects to /settings.
+      returnUrl: `${appUrl}/api/wayforpay/return`,
     });
 
     if (result.error || !result.invoiceUrl) {

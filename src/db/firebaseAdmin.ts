@@ -29,8 +29,9 @@ function getFirebaseAdmin() {
           "\n",
         ),
       }),
-      databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL
-        ?? process.env.NEXT_PUBLIC_DATABASE_URL,
+      databaseURL:
+        process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL ??
+        process.env.NEXT_PUBLIC_DATABASE_URL,
     });
   }
 
