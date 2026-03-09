@@ -55,7 +55,9 @@ function toParagraphs(value: unknown): StoryParagraph[] {
       }
       return null;
     })
-    .filter((item): item is StoryParagraph => !!item && item.paragraph.length > 0);
+    .filter(
+      (item): item is StoryParagraph => !!item && item.paragraph.length > 0,
+    );
 }
 
 function uniqueParagraphs(paragraphs: StoryParagraph[]): StoryParagraph[] {
@@ -75,7 +77,9 @@ function collectLooseParagraphs(value: unknown): StoryParagraph[] {
     .filter(([key, item]) => {
       if (typeof item !== "string") return false;
       const normalizedKey = key.toLowerCase();
-      return !["title", "language", "languagelabel", "locale"].includes(normalizedKey);
+      return !["title", "language", "languagelabel", "locale"].includes(
+        normalizedKey,
+      );
     })
     .map(([, item]) => ({ paragraph: String(item).trim() }))
     .filter((item) => item.paragraph.length > 0);
@@ -103,7 +107,8 @@ function localeFromBlock(
   }
 
   const title =
-    (typeof block.title === "string" ? block.title.trim() : "") || fallbackTitle;
+    (typeof block.title === "string" ? block.title.trim() : "") ||
+    fallbackTitle;
   const paragraphs = uniqueParagraphs([
     ...collectLooseParagraphs(block),
     ...toParagraphs(block.paragraphs),
@@ -142,10 +147,12 @@ function findNativeBlock(parsed: Record<string, unknown>): unknown {
     if (skip.has(key.toLowerCase())) continue;
     if (!value || typeof value !== "object") continue;
 
-    const hasParagraphs = Array.isArray((value as { paragraphs?: unknown }).paragraphs);
-    const hasStringFields = Object.values(value as Record<string, unknown>).some(
-      (item) => typeof item === "string" && item.trim().length > 0,
+    const hasParagraphs = Array.isArray(
+      (value as { paragraphs?: unknown }).paragraphs,
     );
+    const hasStringFields = Object.values(
+      value as Record<string, unknown>,
+    ).some((item) => typeof item === "string" && item.trim().length > 0);
 
     if (hasParagraphs || hasStringFields) {
       return value;
@@ -155,16 +162,25 @@ function findNativeBlock(parsed: Record<string, unknown>): unknown {
   return null;
 }
 
-function normalizeStoryShape(parsed: any, region?: string): StoryPayload | null {
+function normalizeStoryShape(
+  parsed: any,
+  region?: string,
+): StoryPayload | null {
   if (!parsed || typeof parsed !== "object") return null;
 
   const englishBlock =
-    (parsed.english && typeof parsed.english === "object" ? parsed.english : null) ||
+    (parsed.english && typeof parsed.english === "object"
+      ? parsed.english
+      : null) ||
     (parsed.en && typeof parsed.en === "object" ? parsed.en : null);
 
   const nativeBlock =
-    (parsed.native && typeof parsed.native === "object" ? parsed.native : null) ||
-    (parsed.translation && typeof parsed.translation === "object" ? parsed.translation : null) ||
+    (parsed.native && typeof parsed.native === "object"
+      ? parsed.native
+      : null) ||
+    (parsed.translation && typeof parsed.translation === "object"
+      ? parsed.translation
+      : null) ||
     findNativeBlock(parsed as Record<string, unknown>);
 
   const rootTitle = typeof parsed.title === "string" ? parsed.title.trim() : "";
@@ -274,9 +290,9 @@ export default async function handler(
   }
 
   // ── 2. Отримати дані запиту ─────────────────────────
-  const { region, customValueForStory } = req.body;
+  const { region: rawRegion, customValueForStory } = req.body;
 
-  if (!region) {
+  if (!rawRegion || typeof rawRegion !== "string") {
     return res.status(400).json({ error: "Region is required" });
   }
 
@@ -287,11 +303,44 @@ export default async function handler(
     customValueForStory?.events
   );
 
-  // ── 3. Перевірити кредити ───────────────────────────
-  const { credits } = await getUserCredits(userId);
-  const cost = isCustom ? 2 : 1;
+  // ── 3. Санітизація вводу (запобігання prompt injection) ──
+  const MAX_FIELD_LEN = 200;
+  const sanitize = (v: unknown): string | undefined => {
+    if (typeof v !== "string") return undefined;
+    // Видаляємо символи що можуть зламати структуру промпту
+    return v
+      .replace(/[\x00-\x1F"\\]/g, " ")
+      .trim()
+      .slice(0, MAX_FIELD_LEN);
+  };
 
-  if (credits < cost) {
+  const safeCustom = customValueForStory
+    ? {
+        team: sanitize(customValueForStory.team),
+        heroes: sanitize(customValueForStory.heroes),
+        events: sanitize(customValueForStory.events),
+      }
+    : undefined;
+
+  // Sanitize region — лише літери, цифри, дефіс, без спецсимволів
+  const region = rawRegion
+    .replace(/[^a-zA-Z0-9\u0400-\u04FF\s\-_]/g, "")
+    .trim()
+    .slice(0, 100);
+  if (!region) {
+    return res.status(400).json({ error: "Invalid region value" });
+  }
+
+  // ── 4a. Атомарно списати кредити ДО генерації ─────────
+  // Це запобігає race condition: якщо 2 запити йдуть паралельно,
+  // обидва не зможуть пройти — Firebase транзакція атомарна.
+  const cost = isCustom ? 2 : 1;
+  const deductResult = await deductCredit(userId, isCustom);
+
+  if (!deductResult.success) {
+    const { credits } = await getUserCredits(userId).catch(() => ({
+      credits: 0,
+    }));
     return res.status(402).json({
       error: "insufficient_credits",
       message: isCustom
@@ -329,15 +378,15 @@ LENGTH: At least 8–12 substantial paragraphs (4–6 sentences each).
 
 `;
 
-  if (isCustom) {
-    if (customValueForStory?.team) {
-      storyContent += `THEME: The central theme must be "${customValueForStory.team}". Weave it throughout organically.\n`;
+  if (isCustom && safeCustom) {
+    if (safeCustom.team) {
+      storyContent += `THEME: The central theme must be "${safeCustom.team}". Weave it throughout organically.\n`;
     }
-    if (customValueForStory?.heroes) {
-      storyContent += `HERO NAME: The main protagonist must be named "${customValueForStory.heroes}".\n`;
+    if (safeCustom.heroes) {
+      storyContent += `HERO NAME: The main protagonist must be named "${safeCustom.heroes}".\n`;
     }
-    if (customValueForStory?.events) {
-      storyContent += `KEY EVENT: "${customValueForStory.events}" must serve as the central conflict or turning point.\n`;
+    if (safeCustom.events) {
+      storyContent += `KEY EVENT: "${safeCustom.events}" must serve as the central conflict or turning point.\n`;
     }
   }
 
@@ -484,15 +533,7 @@ Both sections are mandatory. Do NOT include any text outside the JSON.`;
     }
   }
 
-  // ── 7. Списати кредит ПІСЛЯ успішної генерації ───────
-  // Списуємо тільки якщо все пройшло успішно
-  const deductResult = await deductCredit(userId, isCustom);
-
-  if (!deductResult.success) {
-    // Малоймовірно (race condition), але обробляємо
-    console.error("Credit deduction failed after generation for user:", userId);
-  }
-
+  // Кредити вже списані перед генерацією (крок 4a)
   story.creditsRemaining = deductResult.remainingCredits;
 
   return res.status(200).json(story);
