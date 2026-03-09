@@ -36,17 +36,20 @@ export default async function handler(
 
   // ── 2. Обробляємо тільки успішні платежі ────────────
   if (body.transactionStatus === "Approved") {
-    // orderReference формат: userId_packageId_timestamp
+    // orderReference формат: userId_pack_N_timestamp
+    // Наприклад: "abc123_pack_30_1700000000"
+    // Timestamp = останній елемент, packageId = "pack_N" (2 частини), userId = решта
     const parts = (body.orderReference as string).split("_");
 
-    if (parts.length < 3) {
+    // Мінімум: userId(1) + "pack"(1) + number(1) + timestamp(1) = 4 частини
+    if (parts.length < 4) {
       console.error("Invalid orderReference format:", body.orderReference);
       return respondToWayForPay(res, body.orderReference, "accept");
     }
 
-    // userId може містити "_", тому беремо все крім останніх двох частин
-    const packageId = parts[parts.length - 2]; // напр. "pack_30"
-    const userId = parts.slice(0, parts.length - 2).join("_");
+    // packageId = "pack_N" — два останніх елементи перед timestamp
+    const packageId = `${parts[parts.length - 3]}_${parts[parts.length - 2]}`; // напр. "pack_30"
+    const userId = parts.slice(0, parts.length - 3).join("_");
 
     // Знайти кількість кредитів за packageId
     const { CREDIT_PACKAGES } = await import("@/lib/credits");
@@ -58,12 +61,35 @@ export default async function handler(
     }
 
     try {
+      // ── Idempotency: атомарно позначаємо orderReference як оброблений ──
+      // Якщо WayForPay вже надсилав цей webhook — пропускаємо (не дублюємо кредити)
+      const { getAdmin } = await import("@/db/firebaseAdmin");
+      const { adminDb } = getAdmin();
+      const processedRef = adminDb.ref(
+        `processedPayments/${body.orderReference.replace(/[.$#[\]/]/g, "_")}`,
+      );
+
+      let alreadyProcessed = false;
+      await processedRef.transaction((current: any) => {
+        if (current !== null) {
+          alreadyProcessed = true;
+          return current; // вже є — не змінюємо
+        }
+        return { processedAt: Date.now(), userId, packageId };
+      });
+
+      if (alreadyProcessed) {
+        console.warn(
+          `Duplicate webhook for orderReference: ${body.orderReference} — skipping`,
+        );
+        return respondToWayForPay(res, body.orderReference, "accept");
+      }
+
       await addCredits(userId, pack.credits);
       console.log(`✅ Added ${pack.credits} credits to user ${userId}`);
     } catch (err) {
       console.error("Failed to add credits:", err);
-      // Повертаємо "accept" щоб WayForPay не повторював —
-      // краще вручну розібрати лог ніж отримати дублі кредитів
+      // Не позначаємо як оброблений — WayForPay повторить, і наступна спроба спрацює
     }
   }
 
