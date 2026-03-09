@@ -80,7 +80,9 @@ export async function POST(req: NextRequest) {
         });
       } catch (dupErr: any) {
         if (dupErr?.code === 11000) {
-          console.warn(`Duplicate webhook for orderReference: ${body.orderReference} — skipping`);
+          console.warn(
+            `Duplicate webhook for orderReference: ${body.orderReference} — skipping`,
+          );
           return buildResponse(body.orderReference, "accept");
         }
         throw dupErr;

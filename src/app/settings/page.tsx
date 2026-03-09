@@ -1,6 +1,13 @@
 "use client";
 
-import { Suspense, useContext, useEffect, useState, useMemo, useCallback } from "react";
+import {
+  Suspense,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { UserAuthBuilder } from "../../../context/context";
 import { getAuth } from "firebase/auth";
@@ -182,13 +189,19 @@ function SettingsPageContent() {
       // Remove from maps and user stories in MongoDB
       const [mapRes, userRes] = await Promise.all([
         fetch(`/api/maps/${countryId}`),
-        fetch("/api/user/data", { headers: { Authorization: `Bearer ${token}` } }),
+        fetch("/api/user/data", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
       ]);
       const mapData = mapRes.ok ? await mapRes.json() : { stories: [] };
       const userData = userRes.ok ? await userRes.json() : { stories: [] };
 
-      const updatedMap = (mapData.stories ?? []).filter((s: any) => s.id !== storyId);
-      const updatedUser = (userData.stories ?? []).filter((s: any) => s.id !== storyId);
+      const updatedMap = (mapData.stories ?? []).filter(
+        (s: any) => s.id !== storyId,
+      );
+      const updatedUser = (userData.stories ?? []).filter(
+        (s: any) => s.id !== storyId,
+      );
 
       await Promise.all([
         fetch(`/api/maps/${countryId}`, {
@@ -198,7 +211,10 @@ function SettingsPageContent() {
         }),
         fetch("/api/user/data", {
           method: "PUT",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify({ stories: updatedUser }),
         }),
         deleteObject(
