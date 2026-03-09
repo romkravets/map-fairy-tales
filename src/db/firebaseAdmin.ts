@@ -41,6 +41,11 @@ export function getAdmin() {
   return {
     admin,
     adminAuth: admin.auth(),
-    adminDb: admin.database(),
+    // Lazy getter — only initializes database connection when accessed.
+    // Prevents "Can't determine Firebase Database URL" from crashing auth calls
+    // when NEXT_PUBLIC_FIREBASE_DATABASE_URL is missing.
+    get adminDb() {
+      return admin.database();
+    },
   };
 }
