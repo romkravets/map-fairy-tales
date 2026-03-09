@@ -2,7 +2,7 @@
 // App Router version — замінює pages/api/wayforpay/create-invoice.ts
 
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth } from "@/db/firebaseAdmin";
+import { getAdmin } from "@/db/firebaseAdmin";
 import { CREDIT_PACKAGES } from "@/lib/credits";
 import { createInvoice } from "@/lib/wayforpay";
 
@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
   let userEmail: string | undefined;
 
   try {
+    const { adminAuth } = getAdmin();
     const decoded = await adminAuth.verifyIdToken(token);
     userId = decoded.uid;
     userEmail = decoded.email;
