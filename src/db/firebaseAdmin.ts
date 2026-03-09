@@ -1,6 +1,6 @@
 // src/db/firebaseAdmin.ts
-// ТІЛЬКИ серверний Firebase Admin SDK
-// Використовується виключно в api routes — ніколи в компонентах або hooks
+// Firebase Admin SDK — тільки для верифікації токенів (Auth).
+// Дані зберігаються в MongoDB, тому adminDb більше не потрібен.
 
 if (typeof window !== "undefined") {
   throw new Error(
@@ -9,14 +9,12 @@ if (typeof window !== "undefined") {
   );
 }
 
-// Lazy initialization — Firebase Admin ініціалізується лише при першому запиті,
-// а не під час build (запобігає помилці build коли env vars відсутні).
+// Lazy initialization — ініціалізується лише при першому запиті (не під час build).
 let _admin: any = null;
 
 function getFirebaseAdmin() {
   if (_admin) return _admin;
 
-  // require замість import — не потрапляє в клієнтський бандл при статичному аналізі
   const admin = require("firebase-admin");
 
   if (!admin.apps.length) {
@@ -24,14 +22,8 @@ function getFirebaseAdmin() {
       credential: admin.credential.cert({
         projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
         clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-        privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(
-          /\\n/g,
-          "\n",
-        ),
+        privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"),
       }),
-      databaseURL:
-        process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL ??
-        process.env.NEXT_PUBLIC_DATABASE_URL,
     });
   }
 
@@ -46,11 +38,6 @@ export function getAdmin() {
   return {
     admin,
     adminAuth: admin.auth(),
-    // Lazy getter — only initializes database connection when accessed.
-    // Prevents "Can't determine Firebase Database URL" from crashing auth calls
-    // when NEXT_PUBLIC_FIREBASE_DATABASE_URL is missing.
-    get adminDb() {
-      return admin.database();
-    },
   };
 }
+

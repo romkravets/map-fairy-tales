@@ -4,7 +4,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signWebhook, signWebhookResponse } from "@/lib/wayforpay";
 import { addCredits, CREDIT_PACKAGES } from "@/lib/credits";
-import { getAdmin } from "@/db/firebaseAdmin";
+import { connectDB } from "@/db/mongodb";
+import ProcessedPayment from "@/models/ProcessedPayment";
 
 export const runtime = "nodejs";
 
@@ -68,26 +69,21 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      // ── Idempotency: атомарно позначаємо як оброблений ──
-      const { adminDb } = getAdmin();
-      const processedRef = adminDb.ref(
-        `processedPayments/${body.orderReference.replace(/[.$#[\]/]/g, "_")}`,
-      );
-
-      let alreadyProcessed = false;
-      await processedRef.transaction((current: any) => {
-        if (current !== null) {
-          alreadyProcessed = true;
-          return current;
+      // ── Idempotency: MongoDB unique index on orderReference ──
+      await connectDB();
+      try {
+        await ProcessedPayment.create({
+          orderReference: body.orderReference,
+          processedAt: Date.now(),
+          userId,
+          packageId,
+        });
+      } catch (dupErr: any) {
+        if (dupErr?.code === 11000) {
+          console.warn(`Duplicate webhook for orderReference: ${body.orderReference} — skipping`);
+          return buildResponse(body.orderReference, "accept");
         }
-        return { processedAt: Date.now(), userId, packageId };
-      });
-
-      if (alreadyProcessed) {
-        console.warn(
-          `Duplicate webhook for orderReference: ${body.orderReference} — skipping`,
-        );
-        return buildResponse(body.orderReference, "accept");
+        throw dupErr;
       }
 
       await addCredits(userId, pack.credits);

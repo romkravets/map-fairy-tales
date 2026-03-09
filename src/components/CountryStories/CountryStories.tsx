@@ -1,8 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useContext, ChangeEvent } from "react";
-import { child, get, ref, set, ref as dbRef } from "firebase/database";
-import { db } from "../../db/firebase";
 import { getAuth } from "firebase/auth";
 import Login from "@/components/Auth/Login/Login";
 import { showNotification } from "@/helpers/showNotification";
@@ -129,7 +127,6 @@ export default function CountryStories() {
   const searchParams = useSearchParams();
   const region = searchParams?.get("region") ?? "";
   const id = searchParams?.get("id") ?? "";
-  const tasksRef = ref(db);
   const { user } = useContext(UserAuthBuilder);
 
   // ── Кредити (замість countStoryOfDay) ──────────────
@@ -167,8 +164,14 @@ export default function CountryStories() {
   const getUserStories = async () => {
     if (!user?.userId) return;
     try {
-      const snap = await get(child(tasksRef, `users/${user.userId}/stories`));
-      if (snap.exists()) setUserStories(snap.val() ?? []);
+      const token = await getAuth().currentUser?.getIdToken();
+      const res = await fetch("/api/user/data", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setUserStories(data.stories ?? []);
+      }
     } catch (e) {
       console.error(e);
     }
@@ -176,8 +179,11 @@ export default function CountryStories() {
 
   const getCountryStories = async () => {
     try {
-      const snapshot = await get(child(tasksRef, `maps/${id}`));
-      if (snapshot.exists()) setCountryMap(snapshot.val());
+      const res = await fetch(`/api/maps/${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setCountryMap(data);
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -215,7 +221,7 @@ export default function CountryStories() {
       }
 
       setCreatedStory(data);
-      // credits оновляться автоматично через onValue в useCredits
+      // credits will refresh on next poll cycle in useCredits
     } catch (error) {
       console.error(error);
       showNotification("Generation error", "error");
@@ -264,11 +270,21 @@ export default function CountryStories() {
         },
       ];
 
-      // Зберігаємо тільки stories юзера — credits керує сервер
-      await set(dbRef(db, `users/${user.userId}/stories`), updatedUserStories);
-      await set(dbRef(db, `maps/${id}`), {
-        ...countryMap,
-        stories: [...(countryMap.stories || []), newStory],
+      const token = await getAuth().currentUser?.getIdToken();
+      // Save user's story list to MongoDB
+      await fetch("/api/user/data", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ stories: updatedUserStories }),
+      });
+      // Save map stories to MongoDB
+      await fetch(`/api/maps/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...countryMap,
+          stories: [...(countryMap.stories || []), newStory],
+        }),
       });
 
       showNotification("Saved in DB", "success");

@@ -1,8 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
-import { ref, get, update } from "firebase/database";
 import { useSearchParams } from "next/navigation";
-import { db } from "../../db/firebase";
 import Preloader from "@/components/Preloader/Preloader";
 import BtnBack from "@/components/BtnBack/BtnBack";
 import { UserAuthBuilder } from "../../../context/context";
@@ -74,13 +72,12 @@ export default function StoryPage() {
     const fetchAndUpdateStory = async () => {
       if (!region || !id) return;
       try {
-        const snapshot = await get(ref(db, `maps/${region}/stories`));
-        if (!snapshot.exists()) return;
-
-        const stories = snapshot.val();
+        const res = await fetch(`/api/maps/${region}`);
+        if (!res.ok) return;
+        const { stories } = await res.json();
         if (!Array.isArray(stories)) return;
 
-        const idx = stories.findIndex((s) => s.id === id);
+        const idx = stories.findIndex((s: any) => s.id === id);
         if (idx === -1) return;
 
         const updated = {
@@ -91,8 +88,11 @@ export default function StoryPage() {
         setLikeCount(Object.keys(updated.likes || {}).length);
         setLiked(!!updated.likes?.[user.userId]);
 
-        stories[idx] = updated;
-        await update(ref(db, `maps/${region}`), { stories });
+        await fetch(`/api/maps/${region}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ storyId: id, viewCount: updated.viewCount }),
+        });
       } catch (err) {
         console.error("Error fetching story:", err);
       }
@@ -109,32 +109,31 @@ export default function StoryPage() {
     if (!story || !region || !id) return;
 
     try {
-      const snapshot = await get(ref(db, `maps/${region}/stories`));
-      if (!snapshot.exists()) return;
-
-      const stories = snapshot.val();
+      const res = await fetch(`/api/maps/${region}`);
+      if (!res.ok) return;
+      const { stories } = await res.json();
       if (!Array.isArray(stories)) return;
 
-      const idx = stories.findIndex((s) => s.id === id);
+      const idx = stories.findIndex((s: any) => s.id === id);
       if (idx === -1) return;
 
-      let updatedStory;
+      let updatedLikes: Record<string, boolean>;
       if (liked) {
         const { [user.userId]: _, ...rest } = stories[idx].likes || {};
-        updatedStory = { ...stories[idx], likes: rest };
+        updatedLikes = rest;
         setLiked(false);
         setLikeCount(Object.keys(rest).length);
       } else {
-        updatedStory = {
-          ...stories[idx],
-          likes: { ...(stories[idx].likes || {}), [user.userId]: true },
-        };
+        updatedLikes = { ...(stories[idx].likes || {}), [user.userId]: true };
         setLiked(true);
-        setLikeCount(Object.keys(updatedStory.likes).length);
+        setLikeCount(Object.keys(updatedLikes).length);
       }
 
-      stories[idx] = updatedStory;
-      await update(ref(db, `maps/${region}`), { stories });
+      await fetch(`/api/maps/${region}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ storyId: id, likes: updatedLikes }),
+      });
     } catch (err) {
       console.error("Error liking story:", err);
     }

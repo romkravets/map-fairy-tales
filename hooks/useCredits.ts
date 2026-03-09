@@ -3,8 +3,6 @@
 
 import { useState, useEffect, useContext } from "react";
 import { getAuth } from "firebase/auth";
-import { ref as dbRef, onValue } from "firebase/database";
-import { db } from "@/db/firebase";
 import { UserAuthBuilder } from "@/context/context";
 
 export interface CreditsState {
@@ -28,32 +26,35 @@ export function useCredits() {
   });
   const [buying, setBuying] = useState(false);
 
-  // Підписка в реальному часі — оновиться автоматично після webhook
-  useEffect(() => {
-    if (!user?.userId) return;
-
-    const userRef = dbRef(db, `users/${user.userId}`);
-    const unsubscribe = onValue(userRef, (snap) => {
-      if (snap.exists()) {
-        const data = snap.val();
-        setState({
-          credits: data.credits ?? 0,
-          plan: data.plan ?? "free",
-          loading: false,
-        });
-      } else {
-        setState((s) => ({ ...s, loading: false }));
-      }
-    });
-
-    return () => unsubscribe();
-  }, [user?.userId]);
-
   const getAuthToken = async (): Promise<string> => {
     const currentUser = getAuth().currentUser;
     if (!currentUser) throw new Error("Not authenticated");
     return currentUser.getIdToken();
   };
+
+  // Fetch credits from MongoDB API (replaces Firebase onValue subscription)
+  const fetchCredits = async () => {
+    if (!user?.userId) return;
+    try {
+      const token = await getAuthToken();
+      const res = await fetch("/api/user/credits", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      setState({ credits: data.credits ?? 0, plan: data.plan ?? "free", loading: false });
+    } catch {
+      setState((s) => ({ ...s, loading: false }));
+    }
+  };
+
+  useEffect(() => {
+    if (!user?.userId) return;
+    fetchCredits();
+    // Poll every 8 seconds to pick up webhook-added credits
+    const interval = setInterval(fetchCredits, 8000);
+    return () => clearInterval(interval);
+  }, [user?.userId]);
 
   // Отримати URL інвойсу і зробити редірект на WayForPay
   const buyPackage = async (packageId: string) => {
@@ -73,7 +74,6 @@ export function useCredits() {
       if (!response.ok)
         throw new Error(data.error || "Failed to create invoice");
 
-      // Редірект на сторінку оплати WayForPay
       window.location.href = data.invoiceUrl;
     } catch (err) {
       setBuying(false);
@@ -87,5 +87,7 @@ export function useCredits() {
     packages: CREDIT_PACKAGES,
     getAuthToken,
     buyPackage,
+    refetchCredits: fetchCredits,
   };
 }
+
