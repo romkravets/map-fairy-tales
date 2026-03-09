@@ -25,8 +25,10 @@ export async function POST(req: NextRequest) {
     const decoded = await adminAuth.verifyIdToken(token);
     userId = decoded.uid;
     userEmail = decoded.email;
-  } catch {
-    return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+  } catch (err: unknown) {
+    console.error("[create-invoice] verifyIdToken failed:", err);
+    const msg = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ error: "Invalid token", detail: msg }, { status: 401 });
   }
 
   // ── 2. Знайти пакет ─────────────────────────────────
