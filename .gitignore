@@ -34,3 +34,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.env.example
+__tests__
+__mocks__
+__stories__
+__fixtures__
+__docs__
+__examples__
+__types__
+__utils__
+__helpers__
+__config__
+__scripts__
+__assets__
