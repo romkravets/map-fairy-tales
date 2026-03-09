@@ -28,7 +28,10 @@ export async function POST(req: NextRequest) {
   } catch (err: unknown) {
     console.error("[create-invoice] verifyIdToken failed:", err);
     const msg = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: "Invalid token", detail: msg }, { status: 401 });
+    return NextResponse.json(
+      { error: "Invalid token", detail: msg },
+      { status: 401 },
+    );
   }
 
   // ── 2. Знайти пакет ─────────────────────────────────
@@ -57,8 +60,9 @@ export async function POST(req: NextRequest) {
   let appUrl = envAppUrl;
   if (!appUrl) {
     const host = req.headers.get("host");
-    const proto =
-      (req.headers.get("x-forwarded-proto") ?? "https").split(",")[0];
+    const proto = (req.headers.get("x-forwarded-proto") ?? "https").split(
+      ",",
+    )[0];
     if (host) appUrl = `${proto}://${host}`;
   }
 
