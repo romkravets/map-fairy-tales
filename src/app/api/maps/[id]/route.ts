@@ -43,22 +43,26 @@ export async function PUT(req: NextRequest, { params }: Params) {
 
 // PATCH: update a single story inside the map (viewCount, likes)
 export async function PATCH(req: NextRequest, { params }: Params) {
-  let body: { storyId?: string; viewCount?: number; likes?: Record<string, boolean> };
+  let body: {
+    storyId?: string;
+    viewCount?: number;
+    likes?: Record<string, boolean>;
+  };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  if (!body.storyId) return NextResponse.json({ error: "Missing storyId" }, { status: 400 });
+  if (!body.storyId)
+    return NextResponse.json({ error: "Missing storyId" }, { status: 400 });
 
   await connectDB();
 
   const setFields: Record<string, unknown> = {};
   if (body.viewCount !== undefined)
     setFields["stories.$[elem].viewCount"] = body.viewCount;
-  if (body.likes !== undefined)
-    setFields["stories.$[elem].likes"] = body.likes;
+  if (body.likes !== undefined) setFields["stories.$[elem].likes"] = body.likes;
 
   await MapEntry.findOneAndUpdate(
     { mapId: params.id },

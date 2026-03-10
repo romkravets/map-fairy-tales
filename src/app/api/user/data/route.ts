@@ -23,7 +23,8 @@ async function verifyUser(req: NextRequest): Promise<string | null> {
 
 export async function GET(req: NextRequest) {
   const uid = await verifyUser(req);
-  if (!uid) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!uid)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   await connectDB();
 
@@ -32,7 +33,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       userName: "",
       stories: [],
-      credits: 3,
+      credits: 2,
       plan: "free",
     });
   }
@@ -47,7 +48,8 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   const uid = await verifyUser(req);
-  if (!uid) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!uid)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   let body: { stories?: unknown[]; userName?: string };
   try {
@@ -74,10 +76,12 @@ export async function PUT(req: NextRequest) {
 // DELETE a single story by id
 export async function DELETE(req: NextRequest) {
   const uid = await verifyUser(req);
-  if (!uid) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!uid)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { storyId } = await req.json().catch(() => ({}));
-  if (!storyId) return NextResponse.json({ error: "Missing storyId" }, { status: 400 });
+  if (!storyId)
+    return NextResponse.json({ error: "Missing storyId" }, { status: 400 });
 
   await connectDB();
 

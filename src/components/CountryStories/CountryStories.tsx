@@ -274,7 +274,10 @@ export default function CountryStories() {
       // Save user's story list to MongoDB
       await fetch("/api/user/data", {
         method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ stories: updatedUserStories }),
       });
       // Save map stories to MongoDB

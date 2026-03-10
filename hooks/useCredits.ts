@@ -42,7 +42,11 @@ export function useCredits() {
       });
       if (!res.ok) return;
       const data = await res.json();
-      setState({ credits: data.credits ?? 0, plan: data.plan ?? "free", loading: false });
+      setState({
+        credits: data.credits ?? 0,
+        plan: data.plan ?? "free",
+        loading: false,
+      });
     } catch {
       setState((s) => ({ ...s, loading: false }));
     }
@@ -90,4 +94,3 @@ export function useCredits() {
     refetchCredits: fetchCredits,
   };
 }
-

@@ -36,7 +36,7 @@ const UserSchema = new Schema<IUser>(
     firebaseUid: { type: String, required: true, unique: true, index: true },
     userName: { type: String, default: "" },
     email: { type: String, default: "" },
-    credits: { type: Number, default: 3 },
+    credits: { type: Number, default: 2 },
     plan: { type: String, enum: ["free", "premium"], default: "free" },
     stories: { type: [UserStorySchema], default: [] },
   },
