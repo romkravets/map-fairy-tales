@@ -1,7 +1,7 @@
 // hooks/useCredits.ts
 "use client";
 
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { getAuth } from "firebase/auth";
 import { UserAuthBuilder } from "@/context/context";
 
@@ -33,15 +33,44 @@ export function useCredits() {
   };
 
   // Fetch credits from MongoDB API (replaces Firebase onValue subscription)
+  const unauthorizedRef = useRef(0);
+  const intervalRef = useRef<number | undefined>(undefined);
+
   const fetchCredits = async () => {
     if (!user?.userId) return;
     try {
       const token = await getAuthToken();
-      const res = await fetch("/api/user/credits", {
+      let res = await fetch("/api/user/credits", {
         headers: { Authorization: `Bearer ${token}` },
+        cache: "no-store",
       });
+
+      // If token expired / invalid, try to refresh once and retry
+      if (res.status === 401) {
+        const currentUser = getAuth().currentUser;
+        if (currentUser) {
+          await currentUser.getIdToken(true);
+          const newToken = await getAuthToken();
+          res = await fetch("/api/user/credits", {
+            headers: { Authorization: `Bearer ${newToken}` },
+            cache: "no-store",
+          });
+        }
+      }
+
+      if (res.status === 401) {
+        // count repeated 401s and stop polling after a few attempts
+        unauthorizedRef.current += 1;
+        if (unauthorizedRef.current >= 3 && intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = undefined;
+        }
+        return;
+      }
+
       if (!res.ok) return;
       const data = await res.json();
+      unauthorizedRef.current = 0;
       setState({
         credits: data.credits ?? 0,
         plan: data.plan ?? "free",
@@ -54,10 +83,40 @@ export function useCredits() {
 
   useEffect(() => {
     if (!user?.userId) return;
-    fetchCredits();
-    // Poll every 8 seconds to pick up webhook-added credits
-    const interval = setInterval(fetchCredits, 8000);
-    return () => clearInterval(interval);
+
+    const auth = getAuth();
+
+    const startPolling = () => {
+      // immediate fetch then start interval
+      fetchCredits();
+      if (!intervalRef.current) {
+        intervalRef.current = window.setInterval(
+          fetchCredits,
+          8000,
+        ) as unknown as number;
+      }
+    };
+
+    const stopPolling = () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = undefined;
+      }
+    };
+
+    // Start polling only when Firebase has a current user / token
+    const unsubscribe = auth.onIdTokenChanged((currentUser) => {
+      if (currentUser) startPolling();
+      else stopPolling();
+    });
+
+    // If auth already has a user, start polling immediately
+    if (auth.currentUser) startPolling();
+
+    return () => {
+      unsubscribe();
+      stopPolling();
+    };
   }, [user?.userId]);
 
   // Отримати URL інвойсу і зробити редірект на WayForPay

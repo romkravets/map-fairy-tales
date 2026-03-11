@@ -22,11 +22,21 @@ let cached = global._mongooseConn ?? null;
 export async function connectDB(): Promise<typeof mongoose> {
   if (cached && mongoose.connection.readyState === 1) return cached;
 
-  const conn = await mongoose.connect(MONGODB_URI!, {
-    bufferCommands: false,
-  });
+  try {
+    const conn = await mongoose.connect(MONGODB_URI!, {
+      bufferCommands: false,
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 5000,
+    });
 
-  cached = conn;
-  global._mongooseConn = conn;
-  return conn;
+    cached = conn;
+    global._mongooseConn = conn;
+    return conn;
+  } catch (err) {
+    // Fail fast and surface the error to the caller so the route
+    // can return a 5xx instead of causing upstream timeouts (504).
+    // eslint-disable-next-line no-console
+    console.error("MongoDB connection error:", err);
+    throw err;
+  }
 }
