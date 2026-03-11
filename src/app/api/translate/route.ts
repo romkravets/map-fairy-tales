@@ -7,7 +7,12 @@ const MAX_PARAGRAPHS = 30;
 const MAX_PARAGRAPH_LEN = 3000;
 
 export async function POST(req: NextRequest) {
-  let body: { paragraphs?: unknown; title?: unknown; targetLanguage?: unknown; region?: unknown };
+  let body: {
+    paragraphs?: unknown;
+    title?: unknown;
+    targetLanguage?: unknown;
+    region?: unknown;
+  };
   try {
     body = await req.json();
   } catch {
@@ -17,7 +22,10 @@ export async function POST(req: NextRequest) {
   const { paragraphs, title, targetLanguage, region } = body;
 
   if (!Array.isArray(paragraphs) || !paragraphs.length) {
-    return NextResponse.json({ error: "paragraphs[] is required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "paragraphs[] is required" },
+      { status: 400 },
+    );
   }
   if (paragraphs.length > MAX_PARAGRAPHS) {
     return NextResponse.json({ error: "Too many paragraphs" }, { status: 400 });
@@ -28,13 +36,18 @@ export async function POST(req: NextRequest) {
     (typeof region === "string" && region.trim()) ||
     "";
   if (!lang) {
-    return NextResponse.json({ error: "targetLanguage or region is required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "targetLanguage or region is required" },
+      { status: 400 },
+    );
   }
 
   const safeParagraphs: string[] = paragraphs
     .map((p: any) => {
       const text = typeof p === "string" ? p : p?.paragraph;
-      return typeof text === "string" ? text.trim().slice(0, MAX_PARAGRAPH_LEN) : "";
+      return typeof text === "string"
+        ? text.trim().slice(0, MAX_PARAGRAPH_LEN)
+        : "";
     })
     .filter((t: string) => t.length > 0);
 
@@ -66,7 +79,8 @@ OUTPUT FORMAT — respond ONLY with valid JSON, no markdown:
     messages: [
       {
         role: "system",
-        content: "You are a professional literary translator. Return JSON only.",
+        content:
+          "You are a professional literary translator. Return JSON only.",
       },
       { role: "user", content: prompt },
     ],
@@ -75,14 +89,17 @@ OUTPUT FORMAT — respond ONLY with valid JSON, no markdown:
     response_format: { type: "json_object" },
   };
 
-  const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
-      "Content-Type": "application/json",
+  const groqRes = await fetch(
+    "https://api.groq.com/openai/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(groqBody),
     },
-    body: JSON.stringify(groqBody),
-  });
+  );
 
   const groqData = await groqRes.json().catch(() => ({}));
   const raw = groqData?.choices?.[0]?.message?.content ?? "";
@@ -98,6 +115,9 @@ OUTPUT FORMAT — respond ONLY with valid JSON, no markdown:
     const parsed = JSON.parse(raw);
     return NextResponse.json(parsed);
   } catch {
-    return NextResponse.json({ error: "Failed to parse translation JSON", raw: raw.slice(0, 800) }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to parse translation JSON", raw: raw.slice(0, 800) },
+      { status: 500 },
+    );
   }
 }

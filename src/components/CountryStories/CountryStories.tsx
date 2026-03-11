@@ -555,13 +555,17 @@ export default function CountryStories() {
       </div>
 
       <ToastContainer
+        position="bottom-right"
         toastStyle={{
-          background: "#0a1830",
-          border: "1px solid rgba(80,140,210,0.25)",
-          color: "#c8dff5",
-          fontFamily: "'Cinzel', serif",
-          fontSize: 12,
-          letterSpacing: "0.05em",
+          background: "rgba(4, 13, 26, 0.85)",
+          backdropFilter: "blur(12px)",
+          border: "1px solid rgba(80,150,220,0.15)",
+          borderRadius: "12px",
+          color: "#e8f4ff",
+          fontFamily: "'Inter', system-ui, sans-serif",
+          fontSize: 14,
+          lineHeight: 1.5,
+          boxShadow: "0 8px 32px rgba(0,10,40,0.5)",
         }}
       />
     </div>
