@@ -46,14 +46,23 @@ interface Story {
   userId: string;
   regionId: string;
   story: {
-    title: string;
-    imageUrl: string;
-    paragraphs: Array<{ paragraph: string }>;
+    title?: string;
+    imageUrl?: string;
+    paragraphs?: Array<{ paragraph: string }>;
+    // legacy fields (old stories may still have them)
+    english?: { title?: string; paragraphs?: Array<{ paragraph: string }>; language?: string };
+    native?: { title?: string; paragraphs?: Array<{ paragraph: string }>; language?: string };
   };
   region: string;
   likes?: { [key: string]: boolean };
   status: boolean;
   viewCount: number;
+}
+
+interface TranslationCache {
+  title: string;
+  paragraphs: Array<{ paragraph: string }>;
+  language: string;
 }
 
 // ── Component ───────────────────────────────────────
@@ -66,6 +75,9 @@ export default function StoryPage() {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [story, setStory] = useState<Story | null>(null);
+  const [lang, setLang] = useState<"english" | "native">("english");
+  const [translation, setTranslation] = useState<TranslationCache | null>(null);
+  const [translating, setTranslating] = useState(false);
 
   // ── Fetch + increment view ──────────────────────
   useEffect(() => {
@@ -99,6 +111,50 @@ export default function StoryPage() {
     };
     fetchAndUpdateStory().catch(console.error);
   }, [region, id, user.userId]);
+
+  // Translate on demand when user switches to native tab
+  const handleNativeTab = async () => {
+    setLang("native");
+    if (translation) return; // already cached
+
+    // Check legacy pre-translated data first
+    if (story?.story?.native?.paragraphs?.length) {
+      setTranslation({
+        title: story.story.native.title || story.story.title || "",
+        paragraphs: story.story.native.paragraphs,
+        language: story.story.native.language || story.region,
+      });
+      return;
+    }
+
+    const paragraphs = story?.story?.paragraphs || story?.story?.english?.paragraphs || [];
+    const title = story?.story?.title || story?.story?.english?.title || "";
+    if (!paragraphs.length) return;
+
+    setTranslating(true);
+    try {
+      const res = await fetch("/api/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paragraphs,
+          title,
+          region: story?.region || region,
+        }),
+      });
+      if (!res.ok) throw new Error("Translation failed");
+      const data = await res.json();
+      setTranslation({
+        title: data.title || title,
+        paragraphs: data.paragraphs || [],
+        language: data.language || story?.region || "Native",
+      });
+    } catch (err) {
+      console.error("Translation error:", err);
+    } finally {
+      setTranslating(false);
+    }
+  };
 
   // ── Like handler ────────────────────────────────
   const handleLike = async () => {
@@ -141,6 +197,14 @@ export default function StoryPage() {
 
   if (!story) return <Preloader />;
 
+  // Resolve title & paragraphs from legacy or new shape
+  const englishTitle = story.story.english?.title || story.story.title || "";
+  const englishParagraphs = story.story.english?.paragraphs || story.story.paragraphs || [];
+
+  const activeTitle = lang === "native" && translation ? translation.title : englishTitle;
+  const activeParagraphs = lang === "native" && translation ? translation.paragraphs : englishParagraphs;
+  const nativeLabel = translation?.language || story.story.native?.language || story.region || "Native";
+
   return (
     <div className={styles.page}>
       {/* ── Hero image ── */}
@@ -148,7 +212,7 @@ export default function StoryPage() {
         {story.story.imageUrl && (
           <img
             src={story.story.imageUrl}
-            alt={story.story.title}
+            alt={activeTitle}
             className={styles.heroImg}
           />
         )}
@@ -180,7 +244,7 @@ export default function StoryPage() {
       <div className={styles.content}>
         {/* Title */}
         <div className={styles.titleBlock}>
-          <h1 className={styles.storyTitle}>{story.story.title}</h1>
+          <h1 className={styles.storyTitle}>{activeTitle}</h1>
           <div className={styles.titleDivider}>
             <div className={styles.titleDividerLine} />
             <div className={styles.titleDividerDot} />
@@ -199,20 +263,32 @@ export default function StoryPage() {
           <span className={styles.statItem}>{story.region}</span>
         </div>
 
+        {/* Language tabs */}
+        <div className={styles.langTabs}>
+          <button
+            className={`${styles.langTab} ${lang === "english" ? styles.langTabActive : ""}`}
+            onClick={() => setLang("english")}
+          >
+            English
+          </button>
+          <button
+            className={`${styles.langTab} ${lang === "native" ? styles.langTabActive : ""}`}
+            onClick={handleNativeTab}
+            disabled={translating}
+          >
+            {translating ? "Перекладаю…" : nativeLabel}
+          </button>
+        </div>
+
         {/* Story body */}
         <div className={styles.storyBody}>
-          {story.story.paragraphs.map((p, i) => (
-            <>
-              <p key={i} className={styles.paragraph}>
-                {p.paragraph}
-              </p>
-              {/* decorative separator every 5 paragraphs */}
-              {(i + 1) % 5 === 0 && i !== story.story.paragraphs.length - 1 && (
-                <div key={`sep-${i}`} className={styles.paragraphSep}>
-                  ✦ ✦ ✦
-                </div>
+          {activeParagraphs.map((p, i) => (
+            <div key={i}>
+              <p className={styles.paragraph}>{p.paragraph}</p>
+              {(i + 1) % 5 === 0 && i !== activeParagraphs.length - 1 && (
+                <div className={styles.paragraphSep}>✦ ✦ ✦</div>
               )}
-            </>
+            </div>
           ))}
         </div>
 
