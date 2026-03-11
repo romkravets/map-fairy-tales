@@ -126,7 +126,7 @@
 
 .infoValue {
   font-family: "Crimson Pro", serif;
-  font-size: 16px;
+  font-size: 18px;
   color: #b8d4f0;
   line-height: 1.5;
 }
@@ -494,7 +494,7 @@
 
 .authGateText {
   font-family: "Crimson Pro", serif;
-  font-size: 16px;
+  font-size: 18px;
   color: rgba(140, 185, 230, 0.7);
   font-style: italic;
 }
@@ -504,7 +504,7 @@
   font-family: "Crimson Pro", serif;
   font-style: italic;
   color: rgba(100, 150, 200, 0.5);
-  font-size: 16px;
+  font-size: 18px;
   padding: 12px 0;
 }
 
@@ -650,7 +650,7 @@
 
 .buyPackagePrice {
   font-family: "Crimson Pro", serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: rgba(100, 210, 160, 0.9);
 }

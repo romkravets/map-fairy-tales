@@ -9,20 +9,12 @@ export const runtime = "nodejs";
 
 // ── Types ─────────────────────────────────────────────────────
 type StoryParagraph = { paragraph: string };
-type StoryLocale = {
-  title: string;
-  paragraphs: StoryParagraph[];
-  language?: string;
-};
 type StoryPayload = {
   title: string;
   paragraphs: StoryParagraph[];
-  english: StoryLocale;
-  native: StoryLocale;
   imageUrl?: string;
   creditsRemaining?: number;
   imageWarning?: string;
-  bilingualWarning?: string;
 };
 
 // ── Helpers ───────────────────────────────────────────────────
@@ -82,136 +74,35 @@ function collectLooseParagraphs(value: unknown): StoryParagraph[] {
     .filter((item) => item.paragraph.length > 0);
 }
 
-function localeFromBlock(
-  block: any,
-  options?: {
-    fallbackTitle?: string;
-    fallbackParagraphs?: StoryParagraph[];
-    fallbackLanguage?: string;
-  },
-): StoryLocale | null {
-  const fallbackTitle = options?.fallbackTitle?.trim() || "";
-  const fallbackParagraphs = options?.fallbackParagraphs || [];
-  const fallbackLanguage = options?.fallbackLanguage;
+function normalizeStoryShape(parsed: any): StoryPayload | null {
+  if (!parsed || typeof parsed !== "object") return null;
 
-  if (!block || typeof block !== "object") {
-    if (!fallbackTitle || !fallbackParagraphs.length) return null;
-    return {
-      title: fallbackTitle,
-      paragraphs: uniqueParagraphs(fallbackParagraphs),
-      ...(fallbackLanguage ? { language: fallbackLanguage } : {}),
-    };
-  }
+  // Try to extract from nested "english" or "en" block (backward compat)
+  const nested =
+    (parsed.english && typeof parsed.english === "object" ? parsed.english : null) ||
+    (parsed.en && typeof parsed.en === "object" ? parsed.en : null);
 
-  const title =
-    (typeof block.title === "string" ? block.title.trim() : "") ||
-    fallbackTitle;
+  const source = nested || parsed;
+
+  const title = (typeof source.title === "string" ? source.title.trim() : "") ||
+    (typeof parsed.title === "string" ? parsed.title.trim() : "");
+
   const paragraphs = uniqueParagraphs([
-    ...collectLooseParagraphs(block),
-    ...toParagraphs(block.paragraphs),
-    ...fallbackParagraphs,
+    ...collectLooseParagraphs(source),
+    ...toParagraphs(source.paragraphs),
+    ...(source !== parsed ? toParagraphs(parsed.paragraphs) : []),
   ]);
 
   if (!title || !paragraphs.length) return null;
 
-  const language =
-    (typeof block.language === "string" && block.language.trim()) ||
-    (typeof block.languageLabel === "string" && block.languageLabel.trim()) ||
-    (typeof block.locale === "string" && block.locale.trim()) ||
-    fallbackLanguage ||
-    undefined;
-
-  return { title, paragraphs, ...(language ? { language } : {}) };
+  return { title, paragraphs };
 }
 
-function findNativeBlock(parsed: Record<string, unknown>): unknown {
-  const skip = new Set([
-    "title",
-    "paragraphs",
-    "english",
-    "en",
-    "native",
-    "translation",
-    "language",
-    "imageurl",
-  ]);
-  for (const [key, value] of Object.entries(parsed)) {
-    if (skip.has(key.toLowerCase())) continue;
-    if (!value || typeof value !== "object") continue;
-    const hasParagraphs = Array.isArray(
-      (value as { paragraphs?: unknown }).paragraphs,
-    );
-    const hasStringFields = Object.values(
-      value as Record<string, unknown>,
-    ).some((item) => typeof item === "string" && item.trim().length > 0);
-    if (hasParagraphs || hasStringFields) return value;
-  }
-  return null;
-}
-
-function normalizeStoryShape(parsed: any, region?: string): StoryPayload | null {
-  if (!parsed || typeof parsed !== "object") return null;
-
-  const englishBlock =
-    (parsed.english && typeof parsed.english === "object"
-      ? parsed.english
-      : null) ||
-    (parsed.en && typeof parsed.en === "object" ? parsed.en : null);
-
-  const nativeBlock =
-    (parsed.native && typeof parsed.native === "object"
-      ? parsed.native
-      : null) ||
-    (parsed.translation && typeof parsed.translation === "object"
-      ? parsed.translation
-      : null) ||
-    findNativeBlock(parsed as Record<string, unknown>);
-
-  const rootTitle =
-    typeof parsed.title === "string" ? parsed.title.trim() : "";
-  const rootParagraphs = toParagraphs(parsed.paragraphs);
-
-  const english = localeFromBlock(englishBlock, {
-    fallbackTitle: rootTitle,
-    fallbackParagraphs: rootParagraphs,
-    fallbackLanguage: "English",
-  });
-
-  if (!english) return null;
-
-  let bilingualWarning: string | undefined;
-  const native =
-    localeFromBlock(nativeBlock, {
-      fallbackLanguage:
-        (typeof parsed.language === "string" && parsed.language.trim()) ||
-        (region ? `${region} language` : "Native"),
-    }) ||
-    (() => {
-      bilingualWarning =
-        "Native translation was not provided by the model; English content was reused.";
-      return {
-        title: english.title,
-        paragraphs: english.paragraphs,
-        language:
-          (typeof parsed.language === "string" && parsed.language.trim()) ||
-          (region ? `${region} language` : "Native"),
-      };
-    })();
-
-  return {
-    title: english.title,
-    paragraphs: english.paragraphs,
-    english,
-    native,
-    ...(bilingualWarning ? { bilingualWarning } : {}),
-  };
-}
-
-function parseStoryFromRaw(raw: string, region?: string): StoryPayload | null {
+function parseStoryFromRaw(raw: string): StoryPayload | null {
   const candidate = extractJsonCandidate(raw);
   try {
     const parsed = JSON.parse(candidate);
-    return normalizeStoryShape(parsed, region);
+    return normalizeStoryShape(parsed);
   } catch {
     return null;
   }
@@ -384,30 +275,15 @@ LENGTH: At least 8–12 substantial paragraphs (4–6 sentences each).
   }
 
   storyContent += `
-LANGUAGE:
-- Generate the full story in English.
-- Then provide a full translation in the native language of the selected region.
-
 OUTPUT FORMAT — respond ONLY with valid JSON, no markdown, no extra text:
 {
-  "english": {
-    "language": "English",
-    "title": "Story Title in English",
-    "paragraphs": [
-      {"paragraph": "English paragraph 1..."},
-      {"paragraph": "English paragraph 2..."}
-    ]
-  },
-  "native": {
-    "language": "Native language name",
-    "title": "Localized title",
-    "paragraphs": [
-      {"paragraph": "Native paragraph 1..."},
-      {"paragraph": "Native paragraph 2..."}
-    ]
-  }
+  "title": "Story Title in English",
+  "paragraphs": [
+    {"paragraph": "English paragraph 1..."},
+    {"paragraph": "English paragraph 2..."}
+  ]
 }
-Both sections are mandatory. Do NOT include any text outside the JSON.`;
+Do NOT include any text outside the JSON.`;
 
   // ── 6. Генерація через Groq ─────────────────────────
   const callGroq = async (strictJson: boolean) => {
@@ -448,12 +324,12 @@ Both sections are mandatory. Do NOT include any text outside the JSON.`;
   const strictAttempt = await callGroq(true);
   if (strictAttempt.response.ok) {
     rawForDebug = strictAttempt.data?.choices?.[0]?.message?.content ?? "";
-    story = parseStoryFromRaw(rawForDebug, region);
+    story = parseStoryFromRaw(rawForDebug);
   } else {
     const failedGeneration = strictAttempt.data?.error?.failed_generation;
     if (typeof failedGeneration === "string") {
       rawForDebug = failedGeneration;
-      story = parseStoryFromRaw(failedGeneration, region);
+      story = parseStoryFromRaw(failedGeneration);
     }
   }
 
@@ -466,7 +342,7 @@ Both sections are mandatory. Do NOT include any text outside the JSON.`;
       );
     }
     rawForDebug = relaxedAttempt.data?.choices?.[0]?.message?.content ?? "";
-    story = parseStoryFromRaw(rawForDebug, region);
+    story = parseStoryFromRaw(rawForDebug);
   }
 
   if (!story) {
