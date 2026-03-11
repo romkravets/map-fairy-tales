@@ -1,6 +1,8 @@
 export default function Preloader() {
   return (
     <div
+      role="status"
+      aria-label="Loading content"
       style={{
         display: "flex",
         flexDirection: "column",

@@ -25,3 +25,141 @@ h1,h2,h3,h4,h5,h6 {
   font-family: 'Cinzel', serif;
   letter-spacing: 0.06em;
 }
+
+/* ── Accessibility: Focus-visible ────────────────── */
+:focus-visible {
+  outline: 3px solid rgba(100, 180, 255, 0.7);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── Accessibility: Skip link ────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 9999;
+  padding: 12px 24px;
+  background: #051f52;
+  color: #e8f4ff;
+  border: 2px solid rgba(100, 180, 255, 0.6);
+  border-radius: 8px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
+/* ── Accessibility: Screen-reader only ───────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Accessibility: Reduced motion ───────────────── */
+.a11y-reduced-motion *,
+.a11y-reduced-motion *::before,
+.a11y-reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Accessibility: High contrast ────────────────── */
+.a11y-high-contrast {
+  --a11y-bg: #000 !important;
+  --a11y-text: #fff !important;
+  --a11y-accent: #ffff00 !important;
+  --a11y-link: #00e5ff !important;
+}
+
+.a11y-high-contrast body {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+.a11y-high-contrast a {
+  color: #00e5ff !important;
+}
+
+.a11y-high-contrast button {
+  border: 2px solid #fff !important;
+}
+
+.a11y-high-contrast :focus-visible {
+  outline: 3px solid #ffff00 !important;
+  outline-offset: 2px;
+}
+
+@media (prefers-contrast: high) {
+  body {
+    background: #000 !important;
+    color: #fff !important;
+  }
+  a { color: #00e5ff !important; }
+  button { border: 2px solid #fff !important; }
+}
+
+/* ── Accessibility: Large text ───────────────────── */
+.a11y-large-text body {
+  font-size: 22px !important;
+}
+
+.a11y-large-text h1 { font-size: 2.4rem !important; }
+.a11y-large-text h2 { font-size: 1.9rem !important; }
+.a11y-large-text h3 { font-size: 1.5rem !important; }
+.a11y-large-text p,
+.a11y-large-text span,
+.a11y-large-text li,
+.a11y-large-text label,
+.a11y-large-text button {
+  font-size: 1.15em !important;
+}
+
+/* ── Accessibility: Dyslexia-friendly font ───────── */
+.a11y-dyslexia-font body,
+.a11y-dyslexia-font h1,
+.a11y-dyslexia-font h2,
+.a11y-dyslexia-font h3,
+.a11y-dyslexia-font h4,
+.a11y-dyslexia-font h5,
+.a11y-dyslexia-font h6,
+.a11y-dyslexia-font p,
+.a11y-dyslexia-font span,
+.a11y-dyslexia-font button,
+.a11y-dyslexia-font input,
+.a11y-dyslexia-font select,
+.a11y-dyslexia-font textarea,
+.a11y-dyslexia-font label {
+  font-family: 'Comic Sans MS', 'OpenDyslexic', cursive, sans-serif !important;
+  letter-spacing: 0.05em !important;
+  word-spacing: 0.12em !important;
+  line-height: 1.8 !important;
+}

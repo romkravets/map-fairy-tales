@@ -340,15 +340,16 @@ const MapWorld = () => {
   const markerSize = Math.max(12, 22 - position.zoom * 2);
 
   return (
-    <div className={styles.mapUniverse} ref={containerRef}>
+    <div className={styles.mapUniverse} ref={containerRef} role="region" aria-label="Interactive world map of fairy tales">
       <style>{OVERLAY_CSS}</style>
 
-      <div className={styles.starsLayer} />
-      <div className={styles.oceanGlow} />
-      <div className={styles.vignette} />
+      <div className={styles.starsLayer} aria-hidden="true" />
+      <div className={styles.oceanGlow} aria-hidden="true" />
+      <div className={styles.vignette} aria-hidden="true" />
 
       {/* ── Хмари і літаки (фіксовані, не залежать від зуму) ── */}
       <div
+        aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
@@ -450,6 +451,7 @@ const MapWorld = () => {
                   textAnchor="middle"
                   dominantBaseline="middle"
                   fontSize={markerSize}
+                  aria-hidden="true"
                   style={{
                     userSelect: "none",
                     pointerEvents: "none",
@@ -471,12 +473,14 @@ const MapWorld = () => {
       {tooltip && (
         <div
           className={styles.mapTooltip}
+          role="tooltip"
+          aria-live="polite"
           style={{ left: tooltip.x, top: tooltip.y - 8 }}
         >
           <div className={styles.tooltipInner}>
             <div className={styles.tooltipCountry}>{tooltip.name}</div>
             {COUNTRY_EMOJIS[tooltip.name] && (
-              <div className={styles.tooltipEmoji}>
+              <div className={styles.tooltipEmoji} aria-hidden="true">
                 {COUNTRY_EMOJIS[tooltip.name]}
               </div>
             )}
@@ -487,13 +491,14 @@ const MapWorld = () => {
       )}
 
       {/* ── Zoom controls ── */}
-      <div className={styles.zoomControls}>
+      <div className={styles.zoomControls} role="group" aria-label="Map zoom controls">
         <button
           className={styles.zoomBtn}
           onClick={() =>
             setPosition((p) => ({ ...p, zoom: Math.min(p.zoom * 1.5, 8) }))
           }
           title="Zoom in"
+          aria-label="Zoom in"
         >
           +
         </button>
@@ -503,6 +508,7 @@ const MapWorld = () => {
             setPosition((p) => ({ ...p, zoom: Math.max(p.zoom / 1.5, 1) }))
           }
           title="Zoom out"
+          aria-label="Zoom out"
         >
           −
         </button>
@@ -510,14 +516,15 @@ const MapWorld = () => {
           className={styles.zoomBtn}
           style={{ fontSize: 13 }}
           onClick={() => setPosition({ coordinates: [0, 0], zoom: 1 })}
-          title="Reset"
+          title="Reset zoom"
+          aria-label="Reset zoom"
         >
           ⊙
         </button>
       </div>
 
       {/* ── Компас ── */}
-      <div className={styles.compass}>
+      <div className={styles.compass} aria-hidden="true">
         <svg className={styles.compassSvg} viewBox="0 0 100 100" fill="none">
           <circle
             cx="50"

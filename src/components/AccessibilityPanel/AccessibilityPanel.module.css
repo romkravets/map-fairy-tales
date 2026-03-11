@@ -1,0 +1,148 @@
+/* ── Accessibility Panel ───────────────────────────── */
+
+.wrapper {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(80, 150, 220, 0.25);
+  background: rgba(10, 25, 60, 0.5);
+  color: rgba(160, 200, 240, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trigger:hover,
+.trigger:focus-visible {
+  background: rgba(20, 50, 100, 0.7);
+  border-color: rgba(100, 180, 255, 0.5);
+  color: #e8f4ff;
+}
+
+.triggerActive {
+  background: rgba(40, 80, 160, 0.5);
+  border-color: rgba(100, 180, 255, 0.6);
+  color: #e8f4ff;
+}
+
+.panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  width: 280px;
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(6, 16, 40, 0.96);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(80, 150, 220, 0.2);
+  box-shadow: 0 12px 48px rgba(0, 8, 30, 0.7);
+  z-index: 200;
+}
+
+.title {
+  font-family: "Cinzel", serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(180, 210, 245, 0.9);
+  margin: 0 0 16px;
+  text-transform: uppercase;
+}
+
+/* ── Toggle row ─────────────────────────────────── */
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(80, 140, 210, 0.08);
+}
+
+.toggle:last-of-type {
+  border-bottom: none;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 14px;
+  color: rgba(200, 225, 250, 0.85);
+}
+
+.toggleInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* ── Switch track ─────────────────────────────── */
+.toggleTrack {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  background: rgba(40, 60, 100, 0.5);
+  border: 1px solid rgba(80, 140, 210, 0.2);
+  transition: all 0.2s ease;
+}
+
+.toggleTrackOn {
+  background: rgba(60, 130, 220, 0.6);
+  border-color: rgba(100, 180, 255, 0.5);
+}
+
+.toggleThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(180, 210, 245, 0.8);
+  transition: transform 0.2s ease;
+}
+
+.toggleTrackOn .toggleThumb {
+  transform: translateX(18px);
+  background: #e8f4ff;
+}
+
+/* Focus on the hidden input → show on track */
+.toggleInput:focus-visible + .toggleTrack {
+  outline: 3px solid rgba(100, 180, 255, 0.6);
+  outline-offset: 2px;
+}
+
+/* ── Reset button ─────────────────────────────── */
+.resetBtn {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-top: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(200, 100, 100, 0.25);
+  background: rgba(200, 80, 80, 0.08);
+  color: rgba(255, 160, 160, 0.8);
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resetBtn:hover,
+.resetBtn:focus-visible {
+  background: rgba(200, 80, 80, 0.15);
+  border-color: rgba(200, 100, 100, 0.4);
+}

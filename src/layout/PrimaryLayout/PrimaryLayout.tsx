@@ -10,6 +10,7 @@ import sunIcon from "../../../public/assets/map-icon/san.svg";
 import saturnIcon from "../../../public/assets/map-icon/saturn.svg";
 import jupiterIcon from "../../../public/assets/map-icon/jupiter.svg";
 import logoutIcon from "../../../public/assets/map-icon/logout.svg";
+import AccessibilityPanel from "@/components/AccessibilityPanel/AccessibilityPanel";
 import styles from "./PrimaryLayout.module.css";
 
 interface PrimaryLayoutProps {
@@ -42,6 +43,7 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
 
   return (
     <>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <header>
         <div className={styles.header}>
           {/* ── Logo ── */}
@@ -59,10 +61,11 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
           </div>
 
           {/* ── Navigation ── */}
-          <nav className={styles.nav}>
+          <nav className={styles.nav} aria-label="Main navigation">
             <Link
               href="/"
               className={`${styles.navLink} ${isActive("/") ? styles.navLinkActive : ""}`}
+              {...(isActive("/") ? { "aria-current": "page" as const } : {})}
             >
               <Image
                 src={sunIcon}
@@ -76,11 +79,12 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
 
             {user.isAuthenticated && user.userId ? (
               <>
-                <div className={styles.navDivider} />
+                <div className={styles.navDivider} aria-hidden="true" />
 
                 <Link
                   href="/settings"
                   className={`${styles.navLink} ${isActive("/settings") ? styles.navLinkActive : ""}`}
+                  {...(isActive("/settings") ? { "aria-current": "page" as const } : {})}
                 >
                   <Image
                     src={jupiterIcon}
@@ -92,9 +96,9 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
                   My stories
                 </Link>
 
-                <div className={styles.navDivider} />
+                <div className={styles.navDivider} aria-hidden="true" />
 
-                <button className={styles.signOutBtn} onClick={handleSignOut}>
+                <button className={styles.signOutBtn} onClick={handleSignOut} aria-label="Sign out of account">
                   <Image
                     src={logoutIcon}
                     alt=""
@@ -107,10 +111,11 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
               </>
             ) : (
               <>
-                <div className={styles.navDivider} />
+                <div className={styles.navDivider} aria-hidden="true" />
                 <Link
                   href="/auth"
                   className={`${styles.navLink} ${isActive("/auth") ? styles.navLinkActive : ""}`}
+                  {...(isActive("/auth") ? { "aria-current": "page" as const } : {})}
                 >
                   <Image
                     src={saturnIcon}
@@ -123,11 +128,14 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
                 </Link>
               </>
             )}
+
+            <div className={styles.navDivider} aria-hidden="true" />
+            <AccessibilityPanel />
           </nav>
         </div>
       </header>
 
-      <main className={styles.main}>{children}</main>
+      <main id="main-content" className={styles.main}>{children}</main>
     </>
   );
 };
