@@ -9,8 +9,9 @@ export interface IMapStory {
     title: string;
     imageUrl: string;
     paragraphs: Array<{ paragraph: string }>;
-    english?: { title: string; paragraphs: Array<{ paragraph: string }> };
-    native?: { title: string; paragraphs: Array<{ paragraph: string }> };
+    // legacy — old stories may still have these
+    english?: { title?: string; paragraphs?: Array<{ paragraph: string }> };
+    native?: { title?: string; paragraphs?: Array<{ paragraph: string }> };
   };
   region: string;
   likes: Record<string, boolean>;
