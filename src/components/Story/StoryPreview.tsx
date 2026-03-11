@@ -9,6 +9,9 @@ interface StoryPreviewProps {
 
 const StoryPreview: React.FC<StoryPreviewProps> = ({ storyData }) => {
   if (!storyData) return null;
+
+  const paragraphs = storyData.paragraphs || [];
+
   return (
     <div className={styles.page}>
       <div className={styles.hero}>
@@ -25,12 +28,36 @@ const StoryPreview: React.FC<StoryPreviewProps> = ({ storyData }) => {
         )}
         <div className={styles.heroOverlay} />
       </div>
+
       <div className={styles.content}>
-        <h1 className={styles.storyTitle}>{storyData.title}</h1>
+        <div className={styles.titleBlock}>
+          <h1 className={styles.storyTitle}>{storyData.title}</h1>
+          <div className={styles.titleDivider}>
+            <div className={styles.titleDividerLine} />
+            <div className={styles.titleDividerDot} />
+            <div className={styles.titleDividerLine} />
+          </div>
+        </div>
+
+        <div className={styles.statsBar}>
+          <span className={styles.statItem}>Preview</span>
+        </div>
+
         <div className={styles.storyBody}>
-          {storyData.paragraphs?.map((p, i) => (
-            <p key={i}>{p.paragraph}</p>
+          {paragraphs.map((p, i) => (
+            <React.Fragment key={i}>
+              <p className={styles.paragraph}>{p.paragraph}</p>
+              {(i + 1) % 5 === 0 && i !== paragraphs.length - 1 && (
+                <div className={styles.paragraphSep}>✦ ✦ ✦</div>
+              )}
+            </React.Fragment>
           ))}
+        </div>
+
+        <div className={styles.bottomActions}>
+          <button className={styles.likeBtnLarge}>
+            Like this tale <span className={styles.likeCount}>0</span>
+          </button>
         </div>
       </div>
     </div>
