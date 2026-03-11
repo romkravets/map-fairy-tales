@@ -32,7 +32,7 @@ function CountryInfoBlock({ region }: { region: string }) {
   return (
     <>
       {/* Info grid */}
-      <div className={styles.infoCard}>
+      <div className={styles.infoCard} role="region" aria-label="Country information">
         {fields.map(({ label, value }) => (
           <div key={label} className={styles.infoRow}>
             <span className={styles.infoLabel}>{label}</span>
@@ -71,8 +71,9 @@ function CountryInfoBlock({ region }: { region: string }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.videoLink}
+                aria-label={`Watch video: ${video.title}`}
               >
-                ▶ {video.title}
+                <span aria-hidden="true">▶</span> {video.title}
               </a>
             ))}
         </div>

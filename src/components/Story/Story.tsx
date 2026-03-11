@@ -11,6 +11,7 @@ import styles from "./Story.module.css";
 // ── Icons ───────────────────────────────────────────
 const HeartIcon = ({ filled }: { filled: boolean }) => (
   <svg
+    aria-hidden="true"
     width="18"
     height="18"
     viewBox="0 0 24 24"
@@ -26,6 +27,7 @@ const HeartIcon = ({ filled }: { filled: boolean }) => (
 
 const EyeIcon = () => (
   <svg
+    aria-hidden="true"
     width="14"
     height="14"
     viewBox="0 0 24 24"
@@ -251,6 +253,7 @@ export default function StoryPage() {
           <button
             className={`${styles.likeBtn} ${liked ? styles.likeBtnActive : ""}`}
             onClick={handleLike}
+            aria-label={liked ? `Unlike this story. ${likeCount} likes` : `Like this story. ${likeCount} likes`}
           >
             <HeartIcon filled={liked} />
             {likeCount}
@@ -282,10 +285,12 @@ export default function StoryPage() {
         </div>
 
         {/* Language tabs */}
-        <div className={styles.langTabs}>
+        <div className={styles.langTabs} role="tablist" aria-label="Story language">
           <button
             className={`${styles.langTab} ${lang === "english" ? styles.langTabActive : ""}`}
             onClick={() => setLang("english")}
+            role="tab"
+            aria-selected={lang === "english"}
           >
             English
           </button>
@@ -293,18 +298,21 @@ export default function StoryPage() {
             className={`${styles.langTab} ${lang === "native" ? styles.langTabActive : ""}`}
             onClick={handleNativeTab}
             disabled={translating}
+            role="tab"
+            aria-selected={lang === "native"}
+            aria-busy={translating}
           >
             {translating ? "Перекладаю…" : nativeLabel}
           </button>
         </div>
 
         {/* Story body */}
-        <div className={styles.storyBody}>
+        <div className={styles.storyBody} role="tabpanel" aria-live="polite">
           {activeParagraphs.map((p, i) => (
             <div key={i}>
               <p className={styles.paragraph}>{p.paragraph}</p>
               {(i + 1) % 5 === 0 && i !== activeParagraphs.length - 1 && (
-                <div className={styles.paragraphSep}>✦ ✦ ✦</div>
+                <div className={styles.paragraphSep} aria-hidden="true">✦ ✦ ✦</div>
               )}
             </div>
           ))}
@@ -315,6 +323,7 @@ export default function StoryPage() {
           <button
             className={`${styles.likeBtnLarge} ${liked ? styles.likeBtnLargeActive : ""}`}
             onClick={handleLike}
+            aria-label={liked ? "Unlike this story" : "Like this story"}
           >
             <HeartIcon filled={liked} />
             {liked ? "You liked this tale" : "Like this tale"}

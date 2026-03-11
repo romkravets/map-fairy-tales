@@ -7,6 +7,7 @@ import styles from "./CreditsPanel.module.css";
 
 const CheckIcon = () => (
   <svg
+    aria-hidden="true"
     width="13"
     height="13"
     viewBox="0 0 24 24"
@@ -22,6 +23,7 @@ const CheckIcon = () => (
 
 const WayForPayIcon = () => (
   <svg
+    aria-hidden="true"
     width="14"
     height="14"
     viewBox="0 0 24 24"
@@ -92,7 +94,7 @@ export default function CreditsPanel() {
         / Google Pay
       </p>
 
-      {error && <p className={styles.error}>{error}</p>}
+      {error && <p className={styles.error} role="alert">{error}</p>}
 
       {/* ── Пакети ── */}
       <div className={styles.packages}>
@@ -137,6 +139,7 @@ export default function CreditsPanel() {
               className={`${styles.buyBtn} ${pack.id === "pack_30" ? styles.buyBtnFeatured : ""}`}
               onClick={() => handleBuy(pack.id)}
               disabled={buying || buyingId !== null}
+              aria-label={`Buy ${pack.credits} credits for ${pack.priceUAH} hryvnias`}
             >
               {buyingId === pack.id
                 ? "Переходимо до оплати..."

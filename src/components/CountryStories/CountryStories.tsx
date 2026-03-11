@@ -354,7 +354,7 @@ export default function CountryStories() {
                     </div>
                   )}
                   <div className={styles.storyCardMeta}>
-                    👁 {item.viewCount} views
+                    <span aria-hidden="true">👁</span> {item.viewCount} views
                   </div>
                 </div>
               </Link>
@@ -366,7 +366,9 @@ export default function CountryStories() {
       {/* ── Create story panel ── */}
       <div className={styles.createPanel}>
         <div className={styles.createPanelHeader}>
-          <h2 className={styles.createTitle}>✦ Create a Story</h2>
+          <h2 className={styles.createTitle}>
+            <span aria-hidden="true">✦</span> Create a Story
+          </h2>
           {!user?.userId && !user?.isAuthenticated && (
             <div className={styles.authGate}>
               <span className={styles.authGateText}>
@@ -380,14 +382,14 @@ export default function CountryStories() {
         {user?.userId && user?.isAuthenticated && (
           <>
             {/* ── Credits badge ── */}
-            <div className={styles.creditsRow}>
+            <div className={styles.creditsRow} aria-live="polite">
               {creditsLoading ? (
-                <span className={styles.creditsBadge}>Loading...</span>
+                <span className={styles.creditsBadge} role="status">Loading...</span>
               ) : (
                 <span
                   className={`${styles.creditsBadge} ${credits === 0 ? styles.creditsBadgeEmpty : ""}`}
                 >
-                  ✦ {credits} {credits === 1 ? "credit" : "credits"} available
+                  <span aria-hidden="true">✦</span> {credits} {credits === 1 ? "credit" : "credits"} available
                   {credits > 0 && (
                     <span className={styles.creditsCost}>
                       · This story costs {creditCost} credit
@@ -399,6 +401,7 @@ export default function CountryStories() {
               <button
                 className={styles.buyCreditsLink}
                 onClick={() => setShowBuyPanel((v) => !v)}
+                aria-expanded={showBuyPanel}
               >
                 {showBuyPanel ? "Hide" : "Buy credits"}
               </button>
@@ -470,6 +473,7 @@ export default function CountryStories() {
                   styles={selectStyles}
                   options={storyOptions}
                   placeholder="Theme..."
+                  aria-label="Choose story theme"
                   value={
                     storyOptions.find(
                       (o) => o.value === customValueForStory.team,
@@ -486,6 +490,7 @@ export default function CountryStories() {
                   size="small"
                   fullWidth
                   placeholder="Hero name"
+                  aria-label="Hero name"
                   value={customValueForStory.heroes}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setCustomValueForStory({
@@ -499,6 +504,7 @@ export default function CountryStories() {
                   size="small"
                   fullWidth
                   placeholder="Key event in the story"
+                  aria-label="Key event in the story"
                   value={customValueForStory.events}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setCustomValueForStory({

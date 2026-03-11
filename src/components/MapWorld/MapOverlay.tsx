@@ -170,6 +170,7 @@ const MapOverlay: React.FC = () => {
 
   return (
     <div
+      aria-hidden="true"
       style={{
         position: "absolute",
         inset: 0,

@@ -48,14 +48,14 @@ const StoryPreview: React.FC<StoryPreviewProps> = ({ storyData }) => {
             <React.Fragment key={i}>
               <p className={styles.paragraph}>{p.paragraph}</p>
               {(i + 1) % 5 === 0 && i !== paragraphs.length - 1 && (
-                <div className={styles.paragraphSep}>✦ ✦ ✦</div>
+                <div className={styles.paragraphSep} aria-hidden="true">✦ ✦ ✦</div>
               )}
             </React.Fragment>
           ))}
         </div>
 
         <div className={styles.bottomActions}>
-          <button className={styles.likeBtnLarge}>
+          <button className={styles.likeBtnLarge} aria-label="Like this tale" disabled>
             Like this tale <span className={styles.likeCount}>0</span>
           </button>
         </div>
