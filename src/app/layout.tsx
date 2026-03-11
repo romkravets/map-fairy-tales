@@ -3,6 +3,7 @@ import "./globals.css";
 import { UserAuthBuilderProvider } from "../../context/context";
 import AuthStateWrapper from "@/components/Auth/AuthStateWrapper";
 import PrimaryLayout from "@/layout/PrimaryLayout/PrimaryLayout";
+import { AccessibilityProvider } from "@/context/AccessibilityContext";
 import {
   createTheme,
   StyledEngineProvider,
@@ -219,6 +220,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
+        <AccessibilityProvider>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
             <UserAuthBuilderProvider>
@@ -228,6 +230,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             </UserAuthBuilderProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
+        </AccessibilityProvider>
       </body>
     </html>
   );

@@ -9,6 +9,8 @@ const AnonymouslyLogin = ({setAuthData}) => {
       <div className="auth-container">
         <button
           className="button-login"
+          aria-label="Sign in anonymously"
+          aria-busy={loading}
           onClick={async () => {
             setLoadingDb(true)
             await auth.signInAnonymously()
