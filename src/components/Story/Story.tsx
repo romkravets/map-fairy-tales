@@ -50,8 +50,16 @@ interface Story {
     imageUrl?: string;
     paragraphs?: Array<{ paragraph: string }>;
     // legacy fields (old stories may still have them)
-    english?: { title?: string; paragraphs?: Array<{ paragraph: string }>; language?: string };
-    native?: { title?: string; paragraphs?: Array<{ paragraph: string }>; language?: string };
+    english?: {
+      title?: string;
+      paragraphs?: Array<{ paragraph: string }>;
+      language?: string;
+    };
+    native?: {
+      title?: string;
+      paragraphs?: Array<{ paragraph: string }>;
+      language?: string;
+    };
   };
   region: string;
   likes?: { [key: string]: boolean };
@@ -127,7 +135,8 @@ export default function StoryPage() {
       return;
     }
 
-    const paragraphs = story?.story?.paragraphs || story?.story?.english?.paragraphs || [];
+    const paragraphs =
+      story?.story?.paragraphs || story?.story?.english?.paragraphs || [];
     const title = story?.story?.title || story?.story?.english?.title || "";
     if (!paragraphs.length) return;
 
@@ -199,11 +208,20 @@ export default function StoryPage() {
 
   // Resolve title & paragraphs from legacy or new shape
   const englishTitle = story.story.english?.title || story.story.title || "";
-  const englishParagraphs = story.story.english?.paragraphs || story.story.paragraphs || [];
+  const englishParagraphs =
+    story.story.english?.paragraphs || story.story.paragraphs || [];
 
-  const activeTitle = lang === "native" && translation ? translation.title : englishTitle;
-  const activeParagraphs = lang === "native" && translation ? translation.paragraphs : englishParagraphs;
-  const nativeLabel = translation?.language || story.story.native?.language || story.region || "Native";
+  const activeTitle =
+    lang === "native" && translation ? translation.title : englishTitle;
+  const activeParagraphs =
+    lang === "native" && translation
+      ? translation.paragraphs
+      : englishParagraphs;
+  const nativeLabel =
+    translation?.language ||
+    story.story.native?.language ||
+    story.region ||
+    "Native";
 
   return (
     <div className={styles.page}>
@@ -305,7 +323,20 @@ export default function StoryPage() {
         </div>
       </div>
 
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-right"
+        toastStyle={{
+          background: "rgba(4, 13, 26, 0.85)",
+          backdropFilter: "blur(12px)",
+          border: "1px solid rgba(80,150,220,0.15)",
+          borderRadius: "12px",
+          color: "#e8f4ff",
+          fontFamily: "'Inter', system-ui, sans-serif",
+          fontSize: 14,
+          lineHeight: 1.5,
+          boxShadow: "0 8px 32px rgba(0,10,40,0.5)",
+        }}
+      />
     </div>
   );
 }

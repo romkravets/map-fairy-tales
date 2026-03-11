@@ -79,12 +79,15 @@ function normalizeStoryShape(parsed: any): StoryPayload | null {
 
   // Try to extract from nested "english" or "en" block (backward compat)
   const nested =
-    (parsed.english && typeof parsed.english === "object" ? parsed.english : null) ||
+    (parsed.english && typeof parsed.english === "object"
+      ? parsed.english
+      : null) ||
     (parsed.en && typeof parsed.en === "object" ? parsed.en : null);
 
   const source = nested || parsed;
 
-  const title = (typeof source.title === "string" ? source.title.trim() : "") ||
+  const title =
+    (typeof source.title === "string" ? source.title.trim() : "") ||
     (typeof parsed.title === "string" ? parsed.title.trim() : "");
 
   const paragraphs = uniqueParagraphs([
@@ -173,10 +176,7 @@ export async function POST(req: NextRequest) {
   const { region: rawRegion, customValueForStory } = body;
 
   if (!rawRegion || typeof rawRegion !== "string") {
-    return NextResponse.json(
-      { error: "Region is required" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "Region is required" }, { status: 400 });
   }
 
   const isCustom = !!(
@@ -374,7 +374,11 @@ Do NOT include any text outside the JSON.`;
           "Content-Type": "application/json",
           api_token: briaApiKey,
         },
-        body: JSON.stringify({ prompt: imagePrompt, num_results: 1, sync: true }),
+        body: JSON.stringify({
+          prompt: imagePrompt,
+          num_results: 1,
+          sync: true,
+        }),
       },
     );
 
