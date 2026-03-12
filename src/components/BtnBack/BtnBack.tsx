@@ -14,13 +14,18 @@ const BtnBack = ({ linkUrl }: BtnBackProps) => {
   return (
     <div className="sub-header">
       {linkUrl === "back" ? (
-        <Button onClick={router.back} className={styles.btn} aria-label="Go back to previous page">
+        <Button
+          onClick={router.back}
+          className={styles.btn}
+          aria-label="Go back to previous page"
+        >
           <ArrowBackIosIcon style={{ fontSize: 10 }} aria-hidden="true" /> Back
         </Button>
       ) : (
         <Link href={linkUrl} passHref>
           <Button className={styles.btn} aria-label="Go back">
-            <ArrowBackIosIcon style={{ fontSize: 10 }} aria-hidden="true" /> Back
+            <ArrowBackIosIcon style={{ fontSize: 10 }} aria-hidden="true" />{" "}
+            Back
           </Button>
         </Link>
       )}

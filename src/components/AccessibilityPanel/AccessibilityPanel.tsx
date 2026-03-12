@@ -34,12 +34,13 @@ export default function AccessibilityPanel() {
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
-  const toggles: { key: keyof typeof settings; label: string; icon: string }[] = [
-    { key: "reducedMotion", label: "Reduce animations", icon: "🎬" },
-    { key: "highContrast", label: "High contrast", icon: "🔆" },
-    { key: "largeText", label: "Large text", icon: "🔤" },
-    { key: "dyslexiaFont", label: "Dyslexia-friendly font", icon: "📖" },
-  ];
+  const toggles: { key: keyof typeof settings; label: string; icon: string }[] =
+    [
+      { key: "reducedMotion", label: "Reduce animations", icon: "🎬" },
+      { key: "highContrast", label: "High contrast", icon: "🔆" },
+      { key: "largeText", label: "Large text", icon: "🔤" },
+      { key: "dyslexiaFont", label: "Dyslexia-friendly font", icon: "📖" },
+    ];
 
   const anyActive = Object.values(settings).some(Boolean);
 
@@ -94,7 +95,9 @@ export default function AccessibilityPanel() {
                 role="switch"
                 aria-checked={settings[key]}
               />
-              <span className={`${styles.toggleTrack} ${settings[key] ? styles.toggleTrackOn : ""}`}>
+              <span
+                className={`${styles.toggleTrack} ${settings[key] ? styles.toggleTrackOn : ""}`}
+              >
                 <span className={styles.toggleThumb} />
               </span>
             </label>

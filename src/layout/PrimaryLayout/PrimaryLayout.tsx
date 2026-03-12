@@ -43,7 +43,9 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
 
   return (
     <>
-      <a href="#main-content" className="skip-link">Skip to main content</a>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <header>
         <div className={styles.header}>
           {/* ── Logo ── */}
@@ -84,7 +86,9 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
                 <Link
                   href="/settings"
                   className={`${styles.navLink} ${isActive("/settings") ? styles.navLinkActive : ""}`}
-                  {...(isActive("/settings") ? { "aria-current": "page" as const } : {})}
+                  {...(isActive("/settings")
+                    ? { "aria-current": "page" as const }
+                    : {})}
                 >
                   <Image
                     src={jupiterIcon}
@@ -98,7 +102,11 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
 
                 <div className={styles.navDivider} aria-hidden="true" />
 
-                <button className={styles.signOutBtn} onClick={handleSignOut} aria-label="Sign out of account">
+                <button
+                  className={styles.signOutBtn}
+                  onClick={handleSignOut}
+                  aria-label="Sign out of account"
+                >
                   <Image
                     src={logoutIcon}
                     alt=""
@@ -115,7 +123,9 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
                 <Link
                   href="/auth"
                   className={`${styles.navLink} ${isActive("/auth") ? styles.navLinkActive : ""}`}
-                  {...(isActive("/auth") ? { "aria-current": "page" as const } : {})}
+                  {...(isActive("/auth")
+                    ? { "aria-current": "page" as const }
+                    : {})}
                 >
                   <Image
                     src={saturnIcon}
@@ -135,7 +145,9 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
         </div>
       </header>
 
-      <main id="main-content" className={styles.main}>{children}</main>
+      <main id="main-content" className={styles.main}>
+        {children}
+      </main>
     </>
   );
 };

@@ -340,7 +340,12 @@ const MapWorld = () => {
   const markerSize = Math.max(12, 22 - position.zoom * 2);
 
   return (
-    <div className={styles.mapUniverse} ref={containerRef} role="region" aria-label="Interactive world map of fairy tales">
+    <div
+      className={styles.mapUniverse}
+      ref={containerRef}
+      role="region"
+      aria-label="Interactive world map of fairy tales"
+    >
       <style>{OVERLAY_CSS}</style>
 
       <div className={styles.starsLayer} aria-hidden="true" />
@@ -491,7 +496,11 @@ const MapWorld = () => {
       )}
 
       {/* ── Zoom controls ── */}
-      <div className={styles.zoomControls} role="group" aria-label="Map zoom controls">
+      <div
+        className={styles.zoomControls}
+        role="group"
+        aria-label="Map zoom controls"
+      >
         <button
           className={styles.zoomBtn}
           onClick={() =>

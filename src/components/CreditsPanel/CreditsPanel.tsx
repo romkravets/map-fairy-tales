@@ -94,7 +94,11 @@ export default function CreditsPanel() {
         / Google Pay
       </p>
 
-      {error && <p className={styles.error} role="alert">{error}</p>}
+      {error && (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      )}
 
       {/* ── Пакети ── */}
       <div className={styles.packages}>

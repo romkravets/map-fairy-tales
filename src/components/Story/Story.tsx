@@ -253,7 +253,11 @@ export default function StoryPage() {
           <button
             className={`${styles.likeBtn} ${liked ? styles.likeBtnActive : ""}`}
             onClick={handleLike}
-            aria-label={liked ? `Unlike this story. ${likeCount} likes` : `Like this story. ${likeCount} likes`}
+            aria-label={
+              liked
+                ? `Unlike this story. ${likeCount} likes`
+                : `Like this story. ${likeCount} likes`
+            }
           >
             <HeartIcon filled={liked} />
             {likeCount}
@@ -285,7 +289,11 @@ export default function StoryPage() {
         </div>
 
         {/* Language tabs */}
-        <div className={styles.langTabs} role="tablist" aria-label="Story language">
+        <div
+          className={styles.langTabs}
+          role="tablist"
+          aria-label="Story language"
+        >
           <button
             className={`${styles.langTab} ${lang === "english" ? styles.langTabActive : ""}`}
             onClick={() => setLang("english")}
@@ -312,7 +320,9 @@ export default function StoryPage() {
             <div key={i}>
               <p className={styles.paragraph}>{p.paragraph}</p>
               {(i + 1) % 5 === 0 && i !== activeParagraphs.length - 1 && (
-                <div className={styles.paragraphSep} aria-hidden="true">✦ ✦ ✦</div>
+                <div className={styles.paragraphSep} aria-hidden="true">
+                  ✦ ✦ ✦
+                </div>
               )}
             </div>
           ))}

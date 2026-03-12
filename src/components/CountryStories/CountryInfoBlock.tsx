@@ -32,7 +32,11 @@ function CountryInfoBlock({ region }: { region: string }) {
   return (
     <>
       {/* Info grid */}
-      <div className={styles.infoCard} role="region" aria-label="Country information">
+      <div
+        className={styles.infoCard}
+        role="region"
+        aria-label="Country information"
+      >
         {fields.map(({ label, value }) => (
           <div key={label} className={styles.infoRow}>
             <span className={styles.infoLabel}>{label}</span>

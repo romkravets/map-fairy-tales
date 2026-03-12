@@ -384,12 +384,15 @@ export default function CountryStories() {
             {/* ── Credits badge ── */}
             <div className={styles.creditsRow} aria-live="polite">
               {creditsLoading ? (
-                <span className={styles.creditsBadge} role="status">Loading...</span>
+                <span className={styles.creditsBadge} role="status">
+                  Loading...
+                </span>
               ) : (
                 <span
                   className={`${styles.creditsBadge} ${credits === 0 ? styles.creditsBadgeEmpty : ""}`}
                 >
-                  <span aria-hidden="true">✦</span> {credits} {credits === 1 ? "credit" : "credits"} available
+                  <span aria-hidden="true">✦</span> {credits}{" "}
+                  {credits === 1 ? "credit" : "credits"} available
                   {credits > 0 && (
                     <span className={styles.creditsCost}>
                       · This story costs {creditCost} credit
