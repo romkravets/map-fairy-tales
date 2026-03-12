@@ -1,5 +1,11 @@
 "use client";
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 export interface AccessibilitySettings {
   reducedMotion: boolean;
@@ -30,7 +36,8 @@ const AccessibilityContext = createContext<AccessibilityContextValue>({
 });
 
 export function AccessibilityProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useState<AccessibilitySettings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] =
+    useState<AccessibilitySettings>(DEFAULT_SETTINGS);
 
   // Load from localStorage on mount
   useEffect(() => {
