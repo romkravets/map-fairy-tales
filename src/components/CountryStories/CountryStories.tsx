@@ -142,6 +142,7 @@ export default function CountryStories() {
   const [storyCreated, setCreatedStory] = useState<StoryData | null>(null);
   const [isLoadingStory, setIsLoadingStory] = useState(false);
   const [isLoadingSaveToDB, setIsLoadingSaveToDB] = useState(false);
+  const [isPublicEnabled, setIsPublicEnabled] = useState(true);
   const [countryMap, setCountryMap] = useState<{
     info: CountryInfo | null;
     stories: CountryStoryItem[];
@@ -152,6 +153,16 @@ export default function CountryStories() {
     useState<CustomValueForStory>({ team: "", heroes: "", events: "" });
   // Зберігаємо лише stories для збереження в БД
   const [userStories, setUserStories] = useState<any[]>([]);
+
+  // ── Classic tales (Wikipedia + Gutenberg) ───────────
+  const [classics, setClassics] = useState<Array<{
+    id: string;
+    title: string;
+    description: string;
+    imageUrl: string | null;
+    linkUrl: string;
+    source: "wikipedia" | "gutenberg";
+  }>>([]);
 
   // Кастомна = хоча б одне поле заповнене
   const isCustom = !!(
@@ -255,7 +266,7 @@ export default function CountryStories() {
         story: { ...storyCreated, imageUrl: imageDownloadUrl },
         region,
         like: 0,
-        status: false,
+        isPublic: isPublicEnabled,
         viewCount: 0,
       };
 
@@ -267,6 +278,7 @@ export default function CountryStories() {
           link: newStoryId,
           imageUrl: imageDownloadUrl,
           countryId: id,
+          isPublic: isPublicEnabled,
         },
       ];
 
@@ -283,7 +295,10 @@ export default function CountryStories() {
       // Save map stories to MongoDB
       await fetch(`/api/maps/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           ...countryMap,
           stories: [...(countryMap.stories || []), newStory],
@@ -316,7 +331,27 @@ export default function CountryStories() {
   useEffect(() => {
     if (id && typeof window !== "undefined") {
       getCountryStories().catch(console.error);
-      if (user?.userId) getUserStories().catch(console.error);
+      if (user?.userId) {
+        getUserStories().catch(console.error);
+        // Track country visit
+        getAuth()
+          .currentUser?.getIdToken()
+          .then((token) => {
+            fetch("/api/user/visited", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ countryId: id }),
+            }).catch(console.error);
+          });
+      }
+      // Fetch classic tales (Wikipedia + Gutenberg, no auth)
+      fetch(`/api/classic-tales?country=${encodeURIComponent(id)}`)
+        .then((r) => (r.ok ? r.json() : { classics: [] }))
+        .then((data) => setClassics(data.classics ?? []))
+        .catch(console.error);
     }
   }, [id, user]);
 
@@ -325,7 +360,6 @@ export default function CountryStories() {
       <BtnBack linkUrl="/" />
       <h1 className={styles.pageTitle}>{region}</h1>
       <CountryInfoBlock region={region} />
-
       {/* ── Stories grid ── */}
       {countryMap.stories?.length > 0 && (
         <>
@@ -362,8 +396,56 @@ export default function CountryStories() {
           </div>
         </>
       )}
-
-      {/* ── Create story panel ── */}
+      {/* ── Classic fairy tales from Wikipedia + Project Gutenberg ── */}
+      {classics.length > 0 && (
+        <>
+          <h2 className={styles.sectionTitle}>Classic Fairy Tales</h2>
+          <p className={styles.classicSubtitle}>
+            From Wikipedia &amp; Project Gutenberg
+          </p>
+          <div className={styles.storiesGrid}>
+            {classics.map((item) => (
+              <a
+                key={item.id}
+                href={item.linkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.storyCard}
+              >
+                {item.imageUrl ? (
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    className={styles.storyCardImage}
+                  />
+                ) : (
+                  <div className={styles.storyCardImagePlaceholder}>
+                    {item.source === "gutenberg" ? "📖" : "📜"}
+                  </div>
+                )}
+                <div className={styles.storyCardBody}>
+                  <div className={styles.storyCardTitle}>{item.title}</div>
+                  <div className={styles.storyCardExcerpt}>
+                    {item.description}
+                  </div>
+                  <div className={styles.storyCardMeta}>
+                    <span
+                      className={
+                        item.source === "gutenberg"
+                          ? styles.classicBadge
+                          : styles.classicBadgeWiki
+                      }
+                    >
+                      {item.source === "gutenberg" ? "Gutenberg" : "Wikipedia"}
+                    </span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+      {/* ── Create story panel ── */}{" "}
       <div className={styles.createPanel}>
         <div className={styles.createPanelHeader}>
           <h2 className={styles.createTitle}>
@@ -549,6 +631,19 @@ export default function CountryStories() {
               {storyCreated && <StoryPreview storyData={storyCreated} />}
               {storyCreated && (
                 <div className={styles.storyPreview}>
+                  <label className={styles.publicToggle}>
+                    <input
+                      type="checkbox"
+                      checked={isPublicEnabled}
+                      onChange={(e) => setIsPublicEnabled(e.target.checked)}
+                      className={styles.publicToggleInput}
+                    />
+                    <span className={styles.publicToggleLabel}>
+                      {isPublicEnabled
+                        ? "🌍 Public — visible to everyone"
+                        : "🔒 Private — only you can see it"}
+                    </span>
+                  </label>
                   <button
                     className={styles.btnSave}
                     onClick={setStoryToDB}
@@ -562,7 +657,6 @@ export default function CountryStories() {
           </>
         )}
       </div>
-
       <ToastContainer
         position="bottom-right"
         toastStyle={{

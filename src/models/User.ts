@@ -7,6 +7,14 @@ export interface IUserStory {
   link: string;
   imageUrl: string;
   countryId: string;
+  isPublic: boolean;
+}
+
+export interface ILikedStory {
+  storyId: string;
+  countryId: string;
+  title: string;
+  imageUrl: string;
 }
 
 export interface IUser extends Document {
@@ -16,6 +24,8 @@ export interface IUser extends Document {
   credits: number;
   plan: "free" | "premium";
   stories: IUserStory[];
+  visitedCountries: string[];
+  likedStories: ILikedStory[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,6 +37,17 @@ const UserStorySchema = new Schema<IUserStory>(
     link: { type: String, required: true },
     imageUrl: { type: String, default: "" },
     countryId: { type: String, default: "" },
+    isPublic: { type: Boolean, default: true },
+  },
+  { _id: false },
+);
+
+const LikedStorySchema = new Schema<ILikedStory>(
+  {
+    storyId: { type: String, required: true },
+    countryId: { type: String, required: true },
+    title: { type: String, default: "" },
+    imageUrl: { type: String, default: "" },
   },
   { _id: false },
 );
@@ -39,6 +60,8 @@ const UserSchema = new Schema<IUser>(
     credits: { type: Number, default: 2 },
     plan: { type: String, enum: ["free", "premium"], default: "free" },
     stories: { type: [UserStorySchema], default: [] },
+    visitedCountries: { type: [String], default: [] },
+    likedStories: { type: [LikedStorySchema], default: [] },
   },
   { timestamps: true },
 );
