@@ -8,6 +8,7 @@ import { UserAuthBuilder } from "../../../context/context";
 import { ToastContainer } from "react-toastify";
 import { showNotification } from "@/helpers/showNotification";
 import styles from "./Story.module.css";
+import CommentsSection from "@/components/CommentsSection/CommentsSection";
 
 // ── Icons ───────────────────────────────────────────
 const HeartIcon = ({ filled }: { filled: boolean }) => (
@@ -357,6 +358,13 @@ export default function StoryPage() {
           </button>
         </div>
       </div>
+
+      {/* Comments */}
+      <CommentsSection
+        storyId={id ?? ""}
+        regionId={region ?? ""}
+        storyAuthorUid={story.userId}
+      />
 
       <ToastContainer
         position="bottom-right"
