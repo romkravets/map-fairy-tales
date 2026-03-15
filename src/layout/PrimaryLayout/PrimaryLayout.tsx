@@ -79,6 +79,31 @@ const PrimaryLayout: FC<PrimaryLayoutProps> = ({ children }) => {
               World
             </Link>
 
+            <div className={styles.navDivider} aria-hidden="true" />
+
+            <Link
+              href="/explore"
+              className={`${styles.navLink} ${isActive("/explore") ? styles.navLinkActive : ""}`}
+              {...(isActive("/explore") ? { "aria-current": "page" as const } : {})}
+            >
+              <svg
+                aria-hidden="true"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={styles.navIcon}
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              Explore
+            </Link>
+
             {user.isAuthenticated && user.userId ? (
               <>
                 <div className={styles.navDivider} aria-hidden="true" />
