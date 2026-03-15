@@ -89,7 +89,9 @@ export default function CommentsSection({
   const [submitting, setSubmitting] = useState(false);
   const [replyOpen, setReplyOpen] = useState<Record<string, boolean>>({});
   const [replyText, setReplyText] = useState<Record<string, string>>({});
-  const [replySubmitting, setReplySubmitting] = useState<Record<string, boolean>>({});
+  const [replySubmitting, setReplySubmitting] = useState<
+    Record<string, boolean>
+  >({});
 
   // ── Fetch comments on mount ──────────────────────────────────────────
   useEffect(() => {
@@ -175,9 +177,7 @@ export default function CommentsSection({
       const { reply } = await res.json();
       setComments((prev) =>
         prev.map((c) =>
-          c._id === commentId
-            ? { ...c, replies: [...c.replies, reply] }
-            : c,
+          c._id === commentId ? { ...c, replies: [...c.replies, reply] } : c,
         ),
       );
       setReplyText((prev) => ({ ...prev, [commentId]: "" }));
@@ -232,7 +232,9 @@ export default function CommentsSection({
             aria-label="Write a comment"
           />
           <div className={styles.formFooter}>
-            <span className={styles.charCount}>{commentText.length} / 2000</span>
+            <span className={styles.charCount}>
+              {commentText.length} / 2000
+            </span>
             <button
               className={styles.submitBtn}
               onClick={handleSubmitComment}
@@ -392,7 +394,9 @@ export default function CommentsSection({
                               !(replyText[comment._id] ?? "").trim()
                             }
                           >
-                            {replySubmitting[comment._id] ? "Posting…" : "Reply"}
+                            {replySubmitting[comment._id]
+                              ? "Posting…"
+                              : "Reply"}
                           </button>
                         </div>
                       </div>

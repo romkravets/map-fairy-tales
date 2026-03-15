@@ -43,7 +43,6 @@ const CommentSchema = new Schema<IComment>(
 CommentSchema.index({ storyId: 1, createdAt: 1 });
 
 const Comment: Model<IComment> =
-  mongoose.models.Comment ??
-  mongoose.model<IComment>("Comment", CommentSchema);
+  mongoose.models.Comment ?? mongoose.model<IComment>("Comment", CommentSchema);
 
 export default Comment;

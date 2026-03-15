@@ -54,7 +54,10 @@ export async function POST(req: NextRequest) {
   const { storyId, regionId, text, authorName } = body;
 
   if (!storyId || !regionId || !text?.trim())
-    return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Missing required fields" },
+      { status: 400 },
+    );
 
   if (text.trim().length > 2000)
     return NextResponse.json({ error: "Comment too long" }, { status: 400 });
