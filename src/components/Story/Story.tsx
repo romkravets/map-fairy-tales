@@ -65,7 +65,7 @@ interface Story {
   };
   region: string;
   likes?: { [key: string]: boolean };
-  status: boolean;
+  isPublic: boolean;
   viewCount: number;
 }
 

@@ -704,3 +704,60 @@
   background: rgba(255, 120, 40, 0.25);
   border-color: rgba(255, 140, 60, 0.5);
 }
+
+/* ── Public/Private toggle ─────────────────────────── */
+.publicToggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+.publicToggleInput {
+  width: 16px;
+  height: 16px;
+  accent-color: #7c39ea;
+  cursor: pointer;
+}
+
+.publicToggleLabel {
+  font-family: "Crimson Pro", serif;
+  font-size: 14px;
+  color: rgba(160, 200, 240, 0.8);
+  user-select: none;
+}
+
+/* ── Classic tales ─────────────────────────────────── */
+.classicSubtitle {
+  font-family: "Crimson Pro", serif;
+  font-size: 13px;
+  font-style: italic;
+  color: rgba(100, 150, 200, 0.45);
+  margin: -8px 0 16px;
+}
+
+.storyCardImagePlaceholder {
+  width: 100%;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  background: rgba(20, 45, 100, 0.3);
+  border-radius: 8px 8px 0 0;
+}
+
+.classicBadge {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 10px;
+  font-family: "Cinzel", serif;
+  letter-spacing: 0.06em;
+  color: rgba(200, 170, 100, 0.8);
+  background: rgba(200, 150, 50, 0.1);
+  border: 1px solid rgba(200, 150, 50, 0.25);
+  border-radius: 4px;
+  padding: 1px 6px;
+  vertical-align: middle;
+}
