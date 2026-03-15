@@ -193,7 +193,8 @@ export default function CountryStories() {
 
   const getCountryStories = async () => {
     try {
-      const res = await fetch(`/api/maps/${id}`);
+      const token = user?.token || (await getAuth().currentUser?.getIdToken());
+      const res = await fetch(`/api/maps/${id}`, token ? { headers: { Authorization: `Bearer ${token}` } } : undefined);
       if (res.ok) {
         const data = await res.json();
         setCountryMap(data);

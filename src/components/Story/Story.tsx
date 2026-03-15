@@ -1,5 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
 import { useSearchParams } from "next/navigation";
 import Preloader from "@/components/Preloader/Preloader";
 import BtnBack from "@/components/BtnBack/BtnBack";
@@ -94,7 +95,8 @@ export default function StoryPage() {
     const fetchAndUpdateStory = async () => {
       if (!region || !id) return;
       try {
-        const res = await fetch(`/api/maps/${region}`);
+        const token = user?.token || (await getAuth().currentUser?.getIdToken());
+        const res = await fetch(`/api/maps/${region}`, token ? { headers: { Authorization: `Bearer ${token}` } } : undefined);
         if (!res.ok) return;
         const { stories } = await res.json();
         if (!Array.isArray(stories)) return;
@@ -112,7 +114,10 @@ export default function StoryPage() {
 
         await fetch(`/api/maps/${region}`, {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
           body: JSON.stringify({ storyId: id, viewCount: updated.viewCount }),
         });
       } catch (err) {
@@ -176,7 +181,8 @@ export default function StoryPage() {
     if (!story || !region || !id) return;
 
     try {
-      const res = await fetch(`/api/maps/${region}`);
+      const token = user.token || (await getAuth().currentUser?.getIdToken());
+      const res = await fetch(`/api/maps/${region}`, token ? { headers: { Authorization: `Bearer ${token}` } } : undefined);
       if (!res.ok) return;
       const { stories } = await res.json();
       if (!Array.isArray(stories)) return;
@@ -200,7 +206,7 @@ export default function StoryPage() {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({ storyId: id, likes: updatedLikes }),
       });
