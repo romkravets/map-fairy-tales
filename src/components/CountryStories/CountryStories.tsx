@@ -155,14 +155,16 @@ export default function CountryStories() {
   const [userStories, setUserStories] = useState<any[]>([]);
 
   // ── Classic tales (Wikipedia + Gutenberg) ───────────
-  const [classics, setClassics] = useState<Array<{
-    id: string;
-    title: string;
-    description: string;
-    imageUrl: string | null;
-    linkUrl: string;
-    source: "wikipedia" | "gutenberg";
-  }>>([]);
+  const [classics, setClassics] = useState<
+    Array<{
+      id: string;
+      title: string;
+      description: string;
+      imageUrl: string | null;
+      linkUrl: string;
+      source: "wikipedia" | "gutenberg";
+    }>
+  >([]);
 
   // Кастомна = хоча б одне поле заповнене
   const isCustom = !!(
@@ -175,7 +177,8 @@ export default function CountryStories() {
   const getUserStories = async () => {
     if (!user?.userId) return;
     try {
-      const token = await getAuth().currentUser?.getIdToken();
+      const token = user.token || (await getAuth().currentUser?.getIdToken());
+      if (!token) return;
       const res = await fetch("/api/user/data", {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -207,7 +210,11 @@ export default function CountryStories() {
     if (!region || credits < creditCost) return;
     setIsLoadingStory(true);
     try {
-      const token = await getAuth().currentUser?.getIdToken();
+      const token = user.token || (await getAuth().currentUser?.getIdToken());
+      if (!token) {
+        showNotification("Sign in to generate stories", "error");
+        return;
+      }
       const response = await fetch("/api/openai", {
         method: "POST",
         headers: {
@@ -282,7 +289,8 @@ export default function CountryStories() {
         },
       ];
 
-      const token = await getAuth().currentUser?.getIdToken();
+      const token = user.token || (await getAuth().currentUser?.getIdToken());
+      if (!token) return;
       // Save user's story list to MongoDB
       await fetch("/api/user/data", {
         method: "PUT",
@@ -334,18 +342,19 @@ export default function CountryStories() {
       if (user?.userId) {
         getUserStories().catch(console.error);
         // Track country visit
-        getAuth()
-          .currentUser?.getIdToken()
-          .then((token) => {
-            fetch("/api/user/visited", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({ countryId: id }),
-            }).catch(console.error);
-          });
+        (async () => {
+          const token =
+            user.token || (await getAuth().currentUser?.getIdToken());
+          if (!token) return;
+          fetch("/api/user/visited", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ countryId: id }),
+          }).catch(console.error);
+        })();
       }
       // Fetch classic tales (Wikipedia + Gutenberg, no auth)
       fetch(`/api/classic-tales?country=${encodeURIComponent(id)}`)

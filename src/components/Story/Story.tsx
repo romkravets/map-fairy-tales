@@ -198,7 +198,10 @@ export default function StoryPage() {
 
       await fetch(`/api/maps/${region}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
         body: JSON.stringify({ storyId: id, likes: updatedLikes }),
       });
     } catch (err) {

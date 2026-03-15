@@ -150,13 +150,17 @@ function SettingsPageContent() {
 
   // ── Fetch user data ──────────────────────────────────
   const getUserData = useCallback(async () => {
-    if (!user) {
+    if (!user || !user.isAuthenticated) {
       router.push("/auth");
       return;
     }
     setLoadingUser(true);
     try {
-      const token = await getAuth().currentUser?.getIdToken();
+      const token = user.token || (await getAuth().currentUser?.getIdToken());
+      if (!token) {
+        router.push("/auth");
+        return;
+      }
       const [dataRes, visitedRes, likedRes] = await Promise.all([
         fetch("/api/user/data", {
           headers: { Authorization: `Bearer ${token}` },
@@ -203,7 +207,11 @@ function SettingsPageContent() {
 
     const storage = getStorage();
     try {
-      const token = await getAuth().currentUser?.getIdToken();
+      const token = user.token || (await getAuth().currentUser?.getIdToken());
+      if (!token) {
+        router.push("/auth");
+        return;
+      }
 
       const [mapRes, userRes] = await Promise.all([
         fetch(`/api/maps/${countryId}`, {
@@ -265,7 +273,11 @@ function SettingsPageContent() {
   ) => {
     setVisibilityLoadingMap((prev) => ({ ...prev, [storyId]: true }));
     try {
-      const token = await getAuth().currentUser?.getIdToken();
+      const token = user.token || (await getAuth().currentUser?.getIdToken());
+      if (!token) {
+        router.push("/auth");
+        return;
+      }
       const res = await fetch(`/api/user/stories/${storyId}`, {
         method: "PATCH",
         headers: {
@@ -502,11 +514,7 @@ function SettingsPageContent() {
                               );
                             }}
                             disabled={!!visibilityLoadingMap[story.id]}
-                            title={
-                              isPublic
-                                ? "Make private"
-                                : "Make public"
-                            }
+                            title={isPublic ? "Make private" : "Make public"}
                           >
                             {visibilityLoadingMap[story.id] ? (
                               <SpinnerIcon />
@@ -550,7 +558,8 @@ function SettingsPageContent() {
         {/* ══ TAB: Visited Countries ══════════════════════ */}
         {activeTab === "visited" && (
           <>
-            {!userDB.visitedCountries || userDB.visitedCountries.length === 0 ? (
+            {!userDB.visitedCountries ||
+            userDB.visitedCountries.length === 0 ? (
               <div className={styles.empty}>
                 <div className={styles.emptyIcon}>🌍</div>
                 <h2 className={styles.emptyTitle}>No countries visited yet</h2>
@@ -567,17 +576,15 @@ function SettingsPageContent() {
                   {userDB.visitedCountries.length} countries explored
                 </p>
                 <div className={styles.visitedGrid}>
-                  {[...userDB.visitedCountries]
-                    .sort()
-                    .map((countryId) => (
-                      <Link
-                        key={countryId}
-                        href={`/stories?region=${countryId}&id=${countryId}`}
-                        className={styles.visitedChip}
-                      >
-                        {countryId}
-                      </Link>
-                    ))}
+                  {[...userDB.visitedCountries].sort().map((countryId) => (
+                    <Link
+                      key={countryId}
+                      href={`/stories?region=${countryId}&id=${countryId}`}
+                      className={styles.visitedChip}
+                    >
+                      {countryId}
+                    </Link>
+                  ))}
                 </div>
               </>
             )}
