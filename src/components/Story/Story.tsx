@@ -95,8 +95,12 @@ export default function StoryPage() {
     const fetchAndUpdateStory = async () => {
       if (!region || !id) return;
       try {
-        const token = user?.token || (await getAuth().currentUser?.getIdToken());
-        const res = await fetch(`/api/maps/${region}`, token ? { headers: { Authorization: `Bearer ${token}` } } : undefined);
+        const token =
+          user?.token || (await getAuth().currentUser?.getIdToken());
+        const res = await fetch(
+          `/api/maps/${region}`,
+          token ? { headers: { Authorization: `Bearer ${token}` } } : undefined,
+        );
         if (!res.ok) return;
         const { stories } = await res.json();
         if (!Array.isArray(stories)) return;
@@ -182,7 +186,10 @@ export default function StoryPage() {
 
     try {
       const token = user.token || (await getAuth().currentUser?.getIdToken());
-      const res = await fetch(`/api/maps/${region}`, token ? { headers: { Authorization: `Bearer ${token}` } } : undefined);
+      const res = await fetch(
+        `/api/maps/${region}`,
+        token ? { headers: { Authorization: `Bearer ${token}` } } : undefined,
+      );
       if (!res.ok) return;
       const { stories } = await res.json();
       if (!Array.isArray(stories)) return;
