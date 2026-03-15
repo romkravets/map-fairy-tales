@@ -154,6 +154,13 @@ export default function CountryStories() {
   // Зберігаємо лише stories для збереження в БД
   const [userStories, setUserStories] = useState<any[]>([]);
 
+  // Manual creation state (third option)
+  const [manualTitle, setManualTitle] = useState("");
+  const [manualBodyText, setManualBodyText] = useState("");
+  const [manualImageFile, setManualImageFile] = useState<File | null>(null);
+  const [manualImageUrl, setManualImageUrl] = useState("");
+  const [isManualSaving, setIsManualSaving] = useState(false);
+
   // ── Classic tales (Wikipedia + Gutenberg) ───────────
   const [classics, setClassics] = useState<
     Array<{
@@ -326,6 +333,104 @@ export default function CountryStories() {
       showNotification("Error saving story", "error");
     } finally {
       setIsLoadingSaveToDB(false);
+    }
+  };
+
+  // ── Save manually created story (no AI, free) ─────────────────
+  const saveManualStory = async () => {
+    if (!manualTitle.trim() || !manualBodyText.trim() || !user?.userId || !id) {
+      showNotification("Please provide a title and story text", "error");
+      return;
+    }
+
+    setIsManualSaving(true);
+    try {
+      const newStoryId = uuid();
+      const storage = getStorage();
+
+      let imageDownloadUrl = manualImageUrl?.trim() || "";
+      if (manualImageFile) {
+        const snap = await uploadBytes(
+          storageRef(
+            storage,
+            `stories/${user.userId}/${id}/${newStoryId}/${newStoryId}.jpg`,
+          ),
+          manualImageFile,
+        );
+        imageDownloadUrl = await getDownloadURL(snap.ref);
+      }
+
+      const paragraphs = manualBodyText
+        .split(/\n\s*\n/)
+        .map((p) => ({ paragraph: p.trim() }))
+        .filter((p) => p.paragraph.length > 0);
+
+      const newStory = {
+        id: newStoryId,
+        userId: user.userId,
+        regionId: id,
+        story: { title: manualTitle, paragraphs, imageUrl: imageDownloadUrl },
+        region,
+        like: 0,
+        likes: {},
+        isPublic: isPublicEnabled,
+        viewCount: 0,
+      };
+
+      const updatedUserStories = [
+        ...(userStories || []),
+        {
+          id: newStoryId,
+          nameStory: manualTitle,
+          link: newStoryId,
+          imageUrl: imageDownloadUrl,
+          countryId: id,
+          isPublic: isPublicEnabled,
+        },
+      ];
+
+      const token = user.token || (await getAuth().currentUser?.getIdToken());
+      if (!token) {
+        showNotification("Sign in to save story", "error");
+        setIsManualSaving(false);
+        return;
+      }
+
+      // Save user's story list
+      await fetch("/api/user/data", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ stories: updatedUserStories }),
+      });
+
+      // Save to map entry
+      await fetch(`/api/maps/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...countryMap,
+          stories: [...(countryMap.stories || []), newStory],
+        }),
+      });
+
+      showNotification("Saved in DB", "success");
+      setManualTitle("");
+      setManualBodyText("");
+      setManualImageFile(null);
+      setManualImageUrl("");
+      await getCountryStories();
+      await getUserStories();
+    } catch (error) {
+      console.error(error);
+      showNotification("Error saving story", "error");
+    } finally {
+      setIsManualSaving(false);
     }
   };
 
@@ -542,7 +647,7 @@ export default function CountryStories() {
             <fieldset className={styles.fieldset}>
               <legend className={styles.fieldsetLegend}>Story type</legend>
               <div className={styles.radioGroup}>
-                {["random", "custom"].map((val) => (
+                {["random", "custom", "manual"].map((val) => (
                   <label key={val} className={styles.radioLabel}>
                     <input
                       type="radio"
@@ -554,6 +659,9 @@ export default function CountryStories() {
                     {val.charAt(0).toUpperCase() + val.slice(1)}
                     {val === "custom" && (
                       <span className={styles.customBadge}>2 credits</span>
+                    )}
+                    {val === "manual" && (
+                      <span className={styles.customBadge}>Free</span>
                     )}
                   </label>
                 ))}
@@ -616,7 +724,60 @@ export default function CountryStories() {
             )}
 
             {/* Generate / No credits */}
-            {credits > 0 ? (
+            {selectedValue === "manual" ? (
+              <div style={{ marginTop: 12 }}>
+                <TextField
+                  size="small"
+                  fullWidth
+                  placeholder="Story title"
+                  aria-label="Manual story title"
+                  value={manualTitle}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setManualTitle(e.target.value)
+                  }
+                  sx={textFieldSx}
+                />
+                <TextField
+                  size="small"
+                  fullWidth
+                  placeholder="Write paragraphs separated by an empty line"
+                  aria-label="Manual story body"
+                  value={manualBodyText}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setManualBodyText(e.target.value)
+                  }
+                  multiline
+                  rows={6}
+                  sx={{ ...textFieldSx, marginTop: 2 }}
+                />
+                <div className={styles.manualRow}>
+                  <label className={styles.fileInputLabel}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className={styles.fileInput}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        setManualImageFile(e.target.files?.[0] ?? null)
+                      }
+                    />
+                    <span className={styles.fileInputButton}>Upload image</span>
+                  </label>
+                  <input
+                    className={styles.imageUrlInput}
+                    placeholder="Or image URL"
+                    value={manualImageUrl}
+                    onChange={(e) => setManualImageUrl(e.target.value)}
+                  />
+                  <button
+                    className={styles.btnPrimary}
+                    onClick={saveManualStory}
+                    disabled={isManualSaving}
+                  >
+                    {isManualSaving ? "Saving…" : "Save story"}
+                  </button>
+                </div>
+              </div>
+            ) : credits > 0 ? (
               <button
                 className={styles.btnPrimary}
                 onClick={createAIStory}

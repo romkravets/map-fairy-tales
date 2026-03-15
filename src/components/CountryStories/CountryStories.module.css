@@ -417,6 +417,49 @@
   box-shadow: 0 0 24px rgba(40, 180, 100, 0.25);
 }
 
+/* Manual creation inputs */
+.manualRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.fileInputLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(80,160,255,0.25);
+  background: rgba(10,25,60,0.45);
+  color: #c8e4ff;
+  cursor: pointer;
+  font-family: "Cinzel", serif;
+  font-size: 12px;
+}
+
+.fileInputLabel input[type="file"] {
+  display: none;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileInputButton {
+  color: inherit;
+}
+
+.imageUrlInput {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(8,20,40,0.5);
+  border: 1px solid rgba(80,140,210,0.2);
+  color: #c8dff5;
+}
+
 /* ── Limit countdown ──────────────────────────────── */
 .limitBox {
   display: flex;

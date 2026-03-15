@@ -91,6 +91,14 @@ export default function StoryPage() {
   const [translation, setTranslation] = useState<TranslationCache | null>(null);
   const [translating, setTranslating] = useState(false);
 
+  // Edit mode (owner only): manual edits or AI edits (paid)
+  const [editMode, setEditMode] = useState(false);
+  const [editTitle, setEditTitle] = useState("");
+  const [editBodyText, setEditBodyText] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  const [isAiProcessing, setIsAiProcessing] = useState(false);
+  const [aiInstruction, setAiInstruction] = useState("");
+
   // ── Fetch + increment view ──────────────────────
   useEffect(() => {
     const fetchAndUpdateStory = async () => {
@@ -223,6 +231,253 @@ export default function StoryPage() {
     }
   };
 
+  // ── Edit handlers (owner) ──────────────────────
+  const startEdit = () => {
+    setEditMode(true);
+    setEditTitle(englishTitle);
+    setEditBodyText(englishParagraphs.map((p) => p.paragraph).join("\n\n"));
+  };
+
+  const cancelEdit = () => {
+    setEditMode(false);
+  };
+
+  const handleManualSave = async () => {
+    if (!user?.userId || !user?.isAuthenticated) {
+      showNotification("Sign in to save edits", "error");
+      return;
+    }
+    if (!region || !id) return;
+
+    setIsSaving(true);
+    try {
+      const token = user.token || (await getAuth().currentUser?.getIdToken());
+      if (!token) {
+        showNotification("Sign in to save edits", "error");
+        setIsSaving(false);
+        return;
+      }
+
+      // Fetch current map entry
+      const mapRes = await fetch(`/api/maps/${region}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!mapRes.ok) {
+        showNotification("Failed to fetch map", "error");
+        setIsSaving(false);
+        return;
+      }
+      const mapData = await mapRes.json();
+      const stories = mapData.stories ?? [];
+      const idx = stories.findIndex((s: any) => s.id === id);
+      if (idx === -1) {
+        showNotification("Story not found", "error");
+        setIsSaving(false);
+        return;
+      }
+
+      const paragraphs = editBodyText
+        .split(/\n\s*\n/)
+        .map((p) => ({ paragraph: p.trim() }))
+        .filter((p) => p.paragraph.length > 0);
+
+      const updatedStory = {
+        ...stories[idx],
+        story: {
+          title: editTitle,
+          paragraphs,
+          imageUrl: stories[idx].story?.imageUrl,
+        },
+      } as any;
+
+      const updatedStories = [...stories];
+      updatedStories[idx] = updatedStory;
+
+      // Persist map entry
+      const putRes = await fetch(`/api/maps/${region}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ info: mapData.info, stories: updatedStories }),
+      });
+
+      if (!putRes.ok) {
+        const err = await putRes.json().catch(() => ({}));
+        showNotification(err?.error || "Failed to save map", "error");
+        setIsSaving(false);
+        return;
+      }
+
+      // Update user's stories list (if present)
+      const userRes = await fetch(`/api/user/data`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (userRes.ok) {
+        const udata = await userRes.json();
+        const userStories = udata.stories ?? [];
+        const updatedUserStories = userStories.map((us: any) =>
+          us.link === id || us.id === id
+            ? {
+                ...us,
+                nameStory: editTitle,
+                imageUrl: updatedStory.story?.imageUrl ?? us.imageUrl,
+              }
+            : us,
+        );
+
+        await fetch(`/api/user/data`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ stories: updatedUserStories }),
+        });
+      }
+
+      setStory(updatedStories[idx]);
+      showNotification("Saved changes", "success");
+      setEditMode(false);
+    } catch (err) {
+      console.error(err);
+      showNotification("Save error", "error");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleAiEdit = async () => {
+    if (!user?.userId || !user?.isAuthenticated) {
+      showNotification("Sign in to use AI edit", "error");
+      return;
+    }
+    if (!region || !id || !story) return;
+
+    setIsAiProcessing(true);
+    try {
+      const token = user.token || (await getAuth().currentUser?.getIdToken());
+      if (!token) {
+        showNotification("Sign in to use AI edit", "error");
+        setIsAiProcessing(false);
+        return;
+      }
+
+      const res = await fetch(`/api/openai/edit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          region,
+          story: story.story,
+          instruction: aiInstruction,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.status === 402) {
+        showNotification(data.message || "Not enough credits", "error");
+        setIsAiProcessing(false);
+        return;
+      }
+      if (!res.ok) {
+        showNotification(data.error || "AI edit failed", "error");
+        setIsAiProcessing(false);
+        return;
+      }
+
+      // Build paragraphs from AI response
+      const paragraphs = (data.paragraphs || []).map((p: any) => ({
+        paragraph: p.paragraph || p,
+      }));
+
+      // Fetch current map entry and persist updated story
+      const mapRes = await fetch(`/api/maps/${region}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!mapRes.ok) {
+        showNotification("Failed to fetch map", "error");
+        setIsAiProcessing(false);
+        return;
+      }
+      const mapData = await mapRes.json();
+      const stories = mapData.stories ?? [];
+      const idx = stories.findIndex((s: any) => s.id === id);
+      if (idx === -1) {
+        showNotification("Story not found", "error");
+        setIsAiProcessing(false);
+        return;
+      }
+
+      const updatedStory = {
+        ...stories[idx],
+        story: {
+          title: data.title || stories[idx].story?.title || "",
+          paragraphs,
+          imageUrl: stories[idx].story?.imageUrl,
+        },
+      } as any;
+
+      const updatedStories = [...stories];
+      updatedStories[idx] = updatedStory;
+
+      const putRes = await fetch(`/api/maps/${region}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ info: mapData.info, stories: updatedStories }),
+      });
+
+      if (!putRes.ok) {
+        const err = await putRes.json().catch(() => ({}));
+        showNotification(err?.error || "Failed to save map", "error");
+        setIsAiProcessing(false);
+        return;
+      }
+
+      // Update user stories list (if present)
+      const userRes = await fetch(`/api/user/data`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (userRes.ok) {
+        const udata = await userRes.json();
+        const userStories = udata.stories ?? [];
+        const updatedUserStories = userStories.map((us: any) =>
+          us.link === id || us.id === id
+            ? {
+                ...us,
+                nameStory: updatedStory.story?.title ?? us.nameStory,
+                imageUrl: updatedStory.story?.imageUrl ?? us.imageUrl,
+              }
+            : us,
+        );
+
+        await fetch(`/api/user/data`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ stories: updatedUserStories }),
+        });
+      }
+
+      setStory(updatedStories[idx]);
+      showNotification("AI edit applied", "success");
+      setEditMode(false);
+    } catch (err) {
+      console.error(err);
+      showNotification("AI edit error", "error");
+    } finally {
+      setIsAiProcessing(false);
+    }
+  };
+
   if (!story) return <Preloader />;
 
   // Resolve title & paragraphs from legacy or new shape
@@ -304,6 +559,65 @@ export default function StoryPage() {
           </span>
           <span className={styles.statItem}>{story.region}</span>
         </div>
+
+        {/* Owner edit controls */}
+        {user?.userId === story.userId && (
+          <div className={styles.editWrapper}>
+            {!editMode ? (
+              <button onClick={startEdit} className={styles.editButton}>
+                Edit story
+              </button>
+            ) : (
+              <div className={styles.editPanel}>
+                <input
+                  aria-label="Edit title"
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  placeholder="Story title"
+                  className={styles.editInput}
+                />
+                <textarea
+                  aria-label="Edit paragraphs"
+                  value={editBodyText}
+                  onChange={(e) => setEditBodyText(e.target.value)}
+                  rows={8}
+                  className={styles.editTextarea}
+                />
+                <div className={styles.editActions}>
+                  <button
+                    onClick={handleManualSave}
+                    disabled={isSaving}
+                    className={styles.editPrimaryBtn}
+                  >
+                    {isSaving ? "Saving…" : "Save"}
+                  </button>
+                  <button
+                    onClick={handleAiEdit}
+                    disabled={isAiProcessing}
+                    className={styles.editSecondaryBtn}
+                  >
+                    {isAiProcessing ? "Processing…" : "AI Edit · 30 credits"}
+                  </button>
+                  <button
+                    onClick={cancelEdit}
+                    disabled={isSaving || isAiProcessing}
+                    className={styles.editSecondaryBtn}
+                  >
+                    Cancel
+                  </button>
+                </div>
+                <div className={styles.aiInstruction}>
+                  <input
+                    value={aiInstruction}
+                    onChange={(e) => setAiInstruction(e.target.value)}
+                    placeholder="Optional AI instruction (tone, shorten, expand...)"
+                    className={styles.editInput}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Language tabs */}
         <div

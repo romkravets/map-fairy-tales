@@ -80,3 +80,28 @@ export async function addCredits(
     { upsert: true },
   );
 }
+
+// ── Deduct arbitrary amount of credits atomically ─────
+export async function deductCreditsAmount(
+  userId: string,
+  amount: number,
+): Promise<{ success: boolean; remainingCredits: number; error?: string }> {
+  await connectDB();
+  const updated = await User.findOneAndUpdate(
+    { firebaseUid: userId, credits: { $gte: amount } },
+    { $inc: { credits: -amount } },
+    { new: true },
+  ).lean();
+
+  if (!updated) {
+    const current = await User.findOne({ firebaseUid: userId }).lean();
+    const currentCredits = current?.credits ?? 0;
+    return {
+      success: false,
+      remainingCredits: currentCredits,
+      error: `Not enough credits. Need ${amount}, have ${currentCredits}.`,
+    };
+  }
+
+  return { success: true, remainingCredits: updated.credits };
+}
