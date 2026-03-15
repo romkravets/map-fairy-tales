@@ -221,15 +221,15 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       </head>
       <body>
         <AccessibilityProvider>
-        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <ThemeProvider theme={theme}>
-            <UserAuthBuilderProvider>
-              <AuthStateWrapper>
-                <PrimaryLayout>{props.children}</PrimaryLayout>
-              </AuthStateWrapper>
-            </UserAuthBuilderProvider>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+          <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+            <ThemeProvider theme={theme}>
+              <UserAuthBuilderProvider>
+                <AuthStateWrapper>
+                  <PrimaryLayout>{props.children}</PrimaryLayout>
+                </AuthStateWrapper>
+              </UserAuthBuilderProvider>
+            </ThemeProvider>
+          </AppRouterCacheProvider>
         </AccessibilityProvider>
       </body>
     </html>

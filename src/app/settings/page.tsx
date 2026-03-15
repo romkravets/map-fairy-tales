@@ -99,30 +99,38 @@ const CreditIcon = () => (
   </svg>
 );
 
+type ActiveTab = "stories" | "visited" | "liked";
+
 // ── Component ───────────────────────────────────────
 function SettingsPageContent() {
   const { user } = useContext(UserAuthBuilder);
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const [activeTab, setActiveTab] = useState<ActiveTab>("stories");
+
   const [userDB, setUserDB] = useState<UserData>({
     userName: "",
     countStoryOfDay: 0,
     expiryTime: 0,
     stories: [],
+    visitedCountries: [],
+    likedStories: [],
   });
 
   const [loadingUser, setLoadingUser] = useState(false);
   const [deleteStoryMap, setDeleteStoryMap] = useState<Record<string, boolean>>(
     {},
   );
+  const [visibilityLoadingMap, setVisibilityLoadingMap] = useState<
+    Record<string, boolean>
+  >({});
   const [activeCountry, setActiveCountry] = useState<string>("all");
   const [showCreditsPanel, setShowCreditsPanel] = useState(false);
 
-  // ── Кредити через новий hook ────────────────────────
   const { credits, loading: creditsLoading } = useCredits();
 
-  // ── Показати повідомлення після повернення зі Stripe ─
+  // ── Show notification after Stripe return ───────────
   useEffect(() => {
     const payment = searchParams?.get("payment");
     const addedCredits = searchParams?.get("credits");
@@ -132,7 +140,6 @@ function SettingsPageContent() {
         `✅ ${addedCredits} credits added to your account!`,
         "success",
       );
-      // Прибираємо query params з URL без перезавантаження
       window.history.replaceState({}, "", "/settings");
     }
     if (payment === "cancelled") {
@@ -141,7 +148,7 @@ function SettingsPageContent() {
     }
   }, [searchParams]);
 
-  // ── Fetch user stories ──────────────────────────────
+  // ── Fetch user data ──────────────────────────────────
   const getUserData = useCallback(async () => {
     if (!user) {
       router.push("/auth");
@@ -150,18 +157,30 @@ function SettingsPageContent() {
     setLoadingUser(true);
     try {
       const token = await getAuth().currentUser?.getIdToken();
-      const res = await fetch("/api/user/data", {
-        headers: { Authorization: `Bearer ${token}` },
+      const [dataRes, visitedRes, likedRes] = await Promise.all([
+        fetch("/api/user/data", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch("/api/user/visited", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch("/api/user/liked", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+      ]);
+
+      const data = dataRes.ok ? await dataRes.json() : {};
+      const visitedData = visitedRes.ok ? await visitedRes.json() : {};
+      const likedData = likedRes.ok ? await likedRes.json() : {};
+
+      setUserDB({
+        userName: data.userName ?? "",
+        countStoryOfDay: 0,
+        expiryTime: 0,
+        stories: data.stories ?? [],
+        visitedCountries: visitedData.visitedCountries ?? [],
+        likedStories: likedData.likedStories ?? [],
       });
-      if (res.ok) {
-        const data = await res.json();
-        setUserDB({
-          userName: data.userName ?? "",
-          countStoryOfDay: 0,
-          expiryTime: 0,
-          stories: data.stories ?? [],
-        });
-      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -173,7 +192,7 @@ function SettingsPageContent() {
     if (typeof window !== "undefined") getUserData().catch(console.error);
   }, [getUserData]);
 
-  // ── Delete story ────────────────────────────────────
+  // ── Delete story ─────────────────────────────────────
   const handleDeleteStory = async (
     storyId: string | undefined,
     userId: string | undefined,
@@ -186,9 +205,10 @@ function SettingsPageContent() {
     try {
       const token = await getAuth().currentUser?.getIdToken();
 
-      // Remove from maps and user stories in MongoDB
       const [mapRes, userRes] = await Promise.all([
-        fetch(`/api/maps/${countryId}`),
+        fetch(`/api/maps/${countryId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
         fetch("/api/user/data", {
           headers: { Authorization: `Bearer ${token}` },
         }),
@@ -206,7 +226,10 @@ function SettingsPageContent() {
       await Promise.all([
         fetch(`/api/maps/${countryId}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify({ stories: updatedMap }),
         }),
         fetch("/api/user/data", {
@@ -222,7 +245,7 @@ function SettingsPageContent() {
             storage,
             `stories/${userId}/${countryId}/${storyId}/${storyId}.jpg`,
           ),
-        ).catch(() => {}), // ignore if image not in Storage
+        ).catch(() => {}),
       ]);
 
       await getUserData();
@@ -234,7 +257,43 @@ function SettingsPageContent() {
     }
   };
 
-  // ── Filter logic ────────────────────────────────────
+  // ── Toggle story visibility ──────────────────────────
+  const handleToggleVisibility = async (
+    storyId: string,
+    countryId: string,
+    currentIsPublic: boolean,
+  ) => {
+    setVisibilityLoadingMap((prev) => ({ ...prev, [storyId]: true }));
+    try {
+      const token = await getAuth().currentUser?.getIdToken();
+      const res = await fetch(`/api/user/stories/${storyId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ isPublic: !currentIsPublic, countryId }),
+      });
+      if (res.ok) {
+        setUserDB((prev) => ({
+          ...prev,
+          stories: (prev.stories ?? []).map((s) =>
+            s.id === storyId ? { ...s, isPublic: !currentIsPublic } : s,
+          ),
+        }));
+        showNotification(
+          !currentIsPublic ? "Story is now public" : "Story is now private",
+          "success",
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setVisibilityLoadingMap((prev) => ({ ...prev, [storyId]: false }));
+    }
+  };
+
+  // ── Filter logic ─────────────────────────────────────
   const countries = useMemo(() => {
     if (!userDB.stories?.length) return [];
     const map: Record<string, number> = {};
@@ -250,7 +309,7 @@ function SettingsPageContent() {
     return userDB.stories.filter((s) => s.countryId === activeCountry);
   }, [userDB.stories, activeCountry]);
 
-  // ── Render ──────────────────────────────────────────
+  // ── Render ───────────────────────────────────────────
   if (loadingUser) return <Preloader />;
 
   if (!user || !user.isAuthenticated) {
@@ -279,14 +338,12 @@ function SettingsPageContent() {
           </div>
 
           <div className={styles.statsRow}>
-            {/* ── Credits badge — замінює старий таймер ── */}
             {creditsLoading ? (
               <div className={styles.statPill}>
                 <span className={styles.statDot} />
                 Loading...
               </div>
             ) : credits === 0 ? (
-              // Немає кредитів — показуємо кнопку купити
               <button
                 className={`${styles.statPill} ${styles.statPillWarning}`}
                 onClick={() => setShowCreditsPanel(true)}
@@ -297,7 +354,6 @@ function SettingsPageContent() {
                 No credits · Buy more
               </button>
             ) : (
-              // Є кредити — показуємо кількість, клік відкриває панель покупки
               <button
                 className={styles.statPill}
                 onClick={() => setShowCreditsPanel((v) => !v)}
@@ -314,7 +370,6 @@ function SettingsPageContent() {
           </div>
         </div>
 
-        {/* ── Credits panel (розгортається при кліку) ── */}
         {showCreditsPanel && (
           <div className={styles.creditsPanelWrap}>
             <CreditsPanel />
@@ -323,105 +378,254 @@ function SettingsPageContent() {
 
         <div className={styles.divider} />
 
-        {/* ── No stories ── */}
-        {!userDB.stories || userDB.stories.length === 0 ? (
-          <div className={styles.empty}>
-            <div className={styles.emptyIcon}>🗺️</div>
-            <h2 className={styles.emptyTitle}>No stories yet</h2>
-            <p className={styles.emptyText}>
-              Click on any country on the map to generate your first fairy tale
-            </p>
-            <Link href="/" className={styles.goMapBtn}>
-              <MapIcon /> Explore the Map
-            </Link>
-          </div>
-        ) : (
+        {/* ── Tabs ── */}
+        <div className={styles.tabs}>
+          <button
+            className={`${styles.tab} ${activeTab === "stories" ? styles.tabActive : ""}`}
+            onClick={() => setActiveTab("stories")}
+          >
+            My Stories
+            {userDB.stories?.length ? ` (${userDB.stories.length})` : ""}
+          </button>
+          <button
+            className={`${styles.tab} ${activeTab === "visited" ? styles.tabActive : ""}`}
+            onClick={() => setActiveTab("visited")}
+          >
+            Visited
+            {userDB.visitedCountries?.length
+              ? ` (${userDB.visitedCountries.length})`
+              : ""}
+          </button>
+          <button
+            className={`${styles.tab} ${activeTab === "liked" ? styles.tabActive : ""}`}
+            onClick={() => setActiveTab("liked")}
+          >
+            Liked
+            {userDB.likedStories?.length
+              ? ` (${userDB.likedStories.length})`
+              : ""}
+          </button>
+        </div>
+
+        {/* ══ TAB: My Stories ══════════════════════════════ */}
+        {activeTab === "stories" && (
           <>
-            {/* ── Country filter ── */}
-            <div className={styles.filterSection}>
-              <span className={styles.filterLabel}>Filter by country</span>
-              <div className={styles.filterScroll}>
-                <button
-                  className={`${styles.filterChip} ${activeCountry === "all" ? styles.filterChipActive : ""}`}
-                  onClick={() => setActiveCountry("all")}
-                >
-                  All stories
-                  <span className={styles.filterCount}>
-                    {userDB.stories.length}
-                  </span>
-                </button>
-
-                {countries.map(({ id, count }) => (
-                  <button
-                    key={id}
-                    className={`${styles.filterChip} ${activeCountry === id ? styles.filterChipActive : ""}`}
-                    onClick={() => setActiveCountry(id)}
-                  >
-                    {id}
-                    <span className={styles.filterCount}>{count}</span>
-                  </button>
-                ))}
+            {!userDB.stories || userDB.stories.length === 0 ? (
+              <div className={styles.empty}>
+                <div className={styles.emptyIcon}>🗺️</div>
+                <h2 className={styles.emptyTitle}>No stories yet</h2>
+                <p className={styles.emptyText}>
+                  Click on any country on the map to generate your first fairy
+                  tale
+                </p>
+                <Link href="/" className={styles.goMapBtn}>
+                  <MapIcon /> Explore the Map
+                </Link>
               </div>
-            </div>
-
-            {/* ── Results count ── */}
-            <p className={styles.resultsInfo}>
-              {filteredStories.length === userDB.stories.length
-                ? `${filteredStories.length} stories in your collection`
-                : `${filteredStories.length} of ${userDB.stories.length} stories`}
-            </p>
-
-            {/* ── Grid ── */}
-            <div className={styles.grid}>
-              {filteredStories.map((story, index) => (
-                <div
-                  className={styles.card}
-                  key={story.id || index}
-                  style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                  <Link
-                    href={`/story?region=${story.countryId}&id=${story.link}`}
-                    className={styles.cardLink}
-                  >
-                    {story.imageUrl && (
-                      <div className={styles.cardImageWrap}>
-                        <img
-                          src={story.imageUrl}
-                          alt={story.nameStory}
-                          className={styles.cardImage}
-                        />
-                      </div>
-                    )}
-                    <div className={styles.cardBody}>
-                      <p className={styles.cardCountry}>{story.countryId}</p>
-                      <h3 className={styles.cardTitle}>{story.nameStory}</h3>
-                    </div>
-                  </Link>
-
-                  <div className={styles.cardFooter}>
+            ) : (
+              <>
+                {/* ── Country filter ── */}
+                <div className={styles.filterSection}>
+                  <span className={styles.filterLabel}>Filter by country</span>
+                  <div className={styles.filterScroll}>
                     <button
-                      className={`${styles.deleteBtn} ${deleteStoryMap[story.id] ? styles.deleteBtnLoading : ""}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteStory(
-                          story.id,
-                          user?.userId,
-                          story.countryId,
-                        );
-                      }}
-                      disabled={!!deleteStoryMap[story.id]}
-                      title="Delete story"
+                      className={`${styles.filterChip} ${activeCountry === "all" ? styles.filterChipActive : ""}`}
+                      onClick={() => setActiveCountry("all")}
                     >
-                      {deleteStoryMap[story.id] ? (
-                        <SpinnerIcon />
-                      ) : (
-                        <TrashIcon />
-                      )}
+                      All stories
+                      <span className={styles.filterCount}>
+                        {userDB.stories.length}
+                      </span>
                     </button>
+
+                    {countries.map(({ id, count }) => (
+                      <button
+                        key={id}
+                        className={`${styles.filterChip} ${activeCountry === id ? styles.filterChipActive : ""}`}
+                        onClick={() => setActiveCountry(id)}
+                      >
+                        {id}
+                        <span className={styles.filterCount}>{count}</span>
+                      </button>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
+
+                <p className={styles.resultsInfo}>
+                  {filteredStories.length === userDB.stories.length
+                    ? `${filteredStories.length} stories in your collection`
+                    : `${filteredStories.length} of ${userDB.stories.length} stories`}
+                </p>
+
+                <div className={styles.grid}>
+                  {filteredStories.map((story, index) => {
+                    const isPublic = story.isPublic ?? true;
+                    return (
+                      <div
+                        className={styles.card}
+                        key={story.id || index}
+                        style={{ animationDelay: `${index * 0.05}s` }}
+                      >
+                        <Link
+                          href={`/story?region=${story.countryId}&id=${story.link}`}
+                          className={styles.cardLink}
+                        >
+                          {story.imageUrl && (
+                            <div className={styles.cardImageWrap}>
+                              <img
+                                src={story.imageUrl}
+                                alt={story.nameStory}
+                                className={styles.cardImage}
+                              />
+                            </div>
+                          )}
+                          <div className={styles.cardBody}>
+                            <p className={styles.cardCountry}>
+                              {story.countryId}
+                            </p>
+                            <h3 className={styles.cardTitle}>
+                              {story.nameStory}
+                            </h3>
+                          </div>
+                        </Link>
+
+                        <div className={styles.cardFooter}>
+                          {/* Visibility toggle */}
+                          <button
+                            className={`${styles.visibilityBtn} ${isPublic ? styles.visibilityBtnPublic : ""}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleToggleVisibility(
+                                story.id,
+                                story.countryId ?? "",
+                                isPublic,
+                              );
+                            }}
+                            disabled={!!visibilityLoadingMap[story.id]}
+                            title={
+                              isPublic
+                                ? "Make private"
+                                : "Make public"
+                            }
+                          >
+                            {visibilityLoadingMap[story.id] ? (
+                              <SpinnerIcon />
+                            ) : isPublic ? (
+                              "🌍 Public"
+                            ) : (
+                              "🔒 Private"
+                            )}
+                          </button>
+
+                          {/* Delete */}
+                          <button
+                            className={`${styles.deleteBtn} ${deleteStoryMap[story.id] ? styles.deleteBtnLoading : ""}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteStory(
+                                story.id,
+                                user?.userId,
+                                story.countryId,
+                              );
+                            }}
+                            disabled={!!deleteStoryMap[story.id]}
+                            title="Delete story"
+                          >
+                            {deleteStoryMap[story.id] ? (
+                              <SpinnerIcon />
+                            ) : (
+                              <TrashIcon />
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </>
+        )}
+
+        {/* ══ TAB: Visited Countries ══════════════════════ */}
+        {activeTab === "visited" && (
+          <>
+            {!userDB.visitedCountries || userDB.visitedCountries.length === 0 ? (
+              <div className={styles.empty}>
+                <div className={styles.emptyIcon}>🌍</div>
+                <h2 className={styles.emptyTitle}>No countries visited yet</h2>
+                <p className={styles.emptyText}>
+                  Open any country on the map to mark it as visited
+                </p>
+                <Link href="/" className={styles.goMapBtn}>
+                  <MapIcon /> Explore the Map
+                </Link>
+              </div>
+            ) : (
+              <>
+                <p className={styles.resultsInfo}>
+                  {userDB.visitedCountries.length} countries explored
+                </p>
+                <div className={styles.visitedGrid}>
+                  {[...userDB.visitedCountries]
+                    .sort()
+                    .map((countryId) => (
+                      <Link
+                        key={countryId}
+                        href={`/stories?region=${countryId}&id=${countryId}`}
+                        className={styles.visitedChip}
+                      >
+                        {countryId}
+                      </Link>
+                    ))}
+                </div>
+              </>
+            )}
+          </>
+        )}
+
+        {/* ══ TAB: Liked Stories ══════════════════════════ */}
+        {activeTab === "liked" && (
+          <>
+            {!userDB.likedStories || userDB.likedStories.length === 0 ? (
+              <div className={styles.empty}>
+                <div className={styles.emptyIcon}>♥</div>
+                <h2 className={styles.emptyTitle}>No liked stories yet</h2>
+                <p className={styles.emptyText}>
+                  Like stories while reading to save them here
+                </p>
+                <Link href="/" className={styles.goMapBtn}>
+                  <MapIcon /> Explore the Map
+                </Link>
+              </div>
+            ) : (
+              <>
+                <p className={styles.resultsInfo}>
+                  {userDB.likedStories.length} liked stories
+                </p>
+                <div className={styles.likedGrid}>
+                  {userDB.likedStories.map((s) => (
+                    <Link
+                      key={s.storyId}
+                      href={`/story?region=${s.countryId}&id=${s.storyId}`}
+                      className={styles.likedCard}
+                    >
+                      {s.imageUrl && (
+                        <img
+                          src={s.imageUrl}
+                          alt={s.title}
+                          className={styles.likedCardImage}
+                        />
+                      )}
+                      <div className={styles.likedCardBody}>
+                        <p className={styles.likedCardCountry}>{s.countryId}</p>
+                        <h3 className={styles.likedCardTitle}>{s.title}</h3>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </>
+            )}
           </>
         )}
       </div>

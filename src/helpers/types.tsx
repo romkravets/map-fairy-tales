@@ -6,47 +6,53 @@ export type UserData = {
     nameStory?: string;
     id: string;
     likes?: { [key: string]: boolean };
-    imageUrl?: string,
-    countryId?: string,
-    paragraphs?: [],
-    link?:string,
-
+    imageUrl?: string;
+    countryId?: string;
+    paragraphs?: [];
+    link?: string;
+    isPublic?: boolean;
   }>;
-}
-
+  visitedCountries?: string[];
+  likedStories?: Array<{
+    storyId: string;
+    countryId: string;
+    title: string;
+    imageUrl: string;
+  }>;
+};
 
 export type StoryData = {
   imageUrl: string;
   paragraphs: [
     {
-      paragraph: string
-    }
+      paragraph: string;
+    },
   ];
-  title: string,
+  title: string;
 };
 
 export type StoryItem = {
-  id: number,
+  id: number;
   regionName: string;
   story: StoryData;
   userId?: string;
   regionId: string;
   like: number;
-  status: boolean;
+  isPublic: boolean;
   viewCount?: boolean;
 };
 
 export type ItemCountryMap = {
   id: string;
   info: {
-    locationAndSize: string,
-    language: string,
-    food: [],
-    cultureAndTraditions: string,
-    festivalsAndHolidays: [],
-    natureAndWildlife: string,
-    funFacts: [],
-    friendlyPeople: string
+    locationAndSize: string;
+    language: string;
+    food: [];
+    cultureAndTraditions: string;
+    festivalsAndHolidays: [];
+    natureAndWildlife: string;
+    funFacts: [];
+    friendlyPeople: string;
   };
   stories?: StoryItem[];
 };
@@ -77,5 +83,5 @@ export interface CountryStoryItem {
   id: string;
   regionId: string;
   story: Story;
-  viewCount: boolean
+  viewCount: boolean;
 }
