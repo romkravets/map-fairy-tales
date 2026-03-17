@@ -15,6 +15,8 @@ interface StoryCard {
   likesCount: number;
   commentsCount: number;
   excerpt: string;
+  avgRating?: number;
+  ratingCount?: number;
 }
 
 const SORT_LABELS: Record<SortType, string> = {
@@ -28,6 +30,7 @@ export default function ExploreFeed() {
   const [total, setTotal] = useState(0);
   const [sort, setSort] = useState<SortType>("views");
   const [search, setSearch] = useState("");
+  const [minRating, setMinRating] = useState<number>(0);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -47,6 +50,7 @@ export default function ExploreFeed() {
         search: q,
         page: String(p),
       });
+      if (minRating && minRating > 0) params.set("minRating", String(minRating));
       const res = await fetch(`/api/stories/feed?${params}`);
       if (!res.ok) return;
       const data = await res.json();
@@ -63,7 +67,7 @@ export default function ExploreFeed() {
     setPage(0);
     fetchStories(sort, search, 0, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sort]);
+  }, [sort, minRating]);
 
   // Debounce search
   useEffect(() => {
@@ -76,7 +80,7 @@ export default function ExploreFeed() {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+  }, [search, minRating]);
 
   const handleLoadMore = () => {
     const next = page + 1;
@@ -137,6 +141,33 @@ export default function ExploreFeed() {
             </button>
           ))}
         </div>
+        <div className={styles.ratingFilter}>
+          <span className={styles.ratingLabel}>Rating</span>
+          <div
+            className={styles.ratingStars}
+            role="group"
+            aria-label="Minimum rating filter"
+          >
+            {[1, 2, 3, 4, 5].map((r) => (
+              <button
+                key={r}
+                type="button"
+                className={`${styles.starBtn} ${minRating >= r ? styles.starActive : ""}`}
+                onClick={() => setMinRating(minRating === r ? 0 : r)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setMinRating(minRating === r ? 0 : r);
+                  }
+                }}
+                aria-pressed={minRating >= r}
+                aria-label={`${r} star${r > 1 ? "s" : ""} and up`}
+              >
+                ★
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Results count */}
@@ -192,6 +223,10 @@ export default function ExploreFeed() {
                   <span title="Views">👁 {s.viewCount}</span>
                   <span title="Likes">♥ {s.likesCount}</span>
                   <span title="Comments">💬 {s.commentsCount}</span>
+                  <span title="Rating" className={styles.cardRating}>
+                    ★ {typeof s.avgRating === "number" ? s.avgRating.toFixed(1) : "—"}
+                    {s.ratingCount ? ` (${s.ratingCount})` : ""}
+                  </span>
                 </div>
               </div>
             </Link>

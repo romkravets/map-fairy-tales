@@ -121,6 +121,61 @@
   gap: 6px;
 }
 
+.ratingFilter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ratingLabel {
+  font-family: "Cinzel", serif;
+  font-size: 12px;
+  color: rgba(140, 185, 230, 0.6);
+}
+
+.ratingSelect {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(80, 140, 210, 0.25);
+  background: rgba(10, 25, 60, 0.55);
+  color: #c8dff5;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 13px;
+}
+
+.ratingStars {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.starBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: rgba(200, 220, 255, 0.25);
+  transition: transform 0.12s ease, color 0.12s ease;
+  padding: 4px;
+  line-height: 1;
+}
+
+.starBtn:hover {
+  transform: scale(1.12);
+  color: rgba(245, 200, 67, 0.95);
+}
+
+.starActive {
+  color: #f5c843;
+  text-shadow: 0 0 8px rgba(245, 200, 67, 0.28);
+}
+
+.starBtn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(245, 200, 67, 0.08);
+  border-radius: 6px;
+}
+
 .sortTab {
   padding: 9px 18px;
   border-radius: 30px;
@@ -308,6 +363,11 @@
   font-size: 12px;
   color: rgba(120, 170, 220, 0.55);
   font-family: "Inter", system-ui, sans-serif;
+}
+
+.cardRating {
+  color: rgba(245, 200, 67, 0.95);
+  font-weight: 600;
 }
 
 /* ── Load more ────────────────────────────────────── */

@@ -14,6 +14,8 @@ export async function GET(req: NextRequest) {
   const sort = searchParams.get("sort") ?? "views"; // views | likes | comments
   const search = (searchParams.get("search") ?? "").trim();
   const page = Math.max(0, parseInt(searchParams.get("page") ?? "0", 10));
+  const minRatingParam = searchParams.get("minRating") ?? "";
+  const minRating = minRatingParam ? parseFloat(minRatingParam) : null;
 
   await connectDB();
 
@@ -40,6 +42,26 @@ export async function GET(req: NextRequest) {
       viewCount: { $ifNull: ["$stories.viewCount", 0] },
       likesCount: {
         $size: { $ifNull: [{ $objectToArray: "$stories.likes" }, []] },
+      },
+      // ratingCount: use precomputed value when available, else derive from ratings map
+      ratingCount: {
+        $ifNull: [
+          "$stories.ratingCount",
+          { $size: { $ifNull: [{ $objectToArray: "$stories.ratings" }, []] } },
+        ],
+      },
+      // avgRating: prefer stored avg, otherwise compute from ratings map values
+      avgRating: {
+        $ifNull: [
+          "$stories.avgRating",
+          {
+            $cond: [
+              { $gt: [{ $size: { $ifNull: [{ $objectToArray: "$stories.ratings" }, []] } }, 0] },
+              { $avg: { $map: { input: { $objectToArray: "$stories.ratings" }, as: "r", in: "$$r.v" } } },
+              0,
+            ],
+          },
+        ],
       },
       excerpt: {
         $let: {
@@ -77,6 +99,11 @@ export async function GET(req: NextRequest) {
   });
 
   pipeline.push({ $project: { _c: 0 } });
+
+  // Optional rating filter (min average rating)
+  if (minRating !== null) {
+    pipeline.push({ $match: { avgRating: { $gte: minRating } } });
+  }
 
   const sortField =
     sort === "likes"
