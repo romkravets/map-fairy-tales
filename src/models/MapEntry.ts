@@ -15,6 +15,9 @@ export interface IMapStory {
   };
   region: string;
   likes: Record<string, boolean>;
+  ratings: Record<string, number>;
+  avgRating: number;
+  ratingCount: number;
   isPublic: boolean;
   viewCount: number;
 }
@@ -33,6 +36,9 @@ const MapStorySchema = new Schema<IMapStory>(
     story: { type: Schema.Types.Mixed, default: {} },
     region: { type: String, default: "" },
     likes: { type: Schema.Types.Mixed, default: {} },
+    ratings: { type: Schema.Types.Mixed, default: {} },
+    avgRating: { type: Number, default: 0 },
+    ratingCount: { type: Number, default: 0 },
     isPublic: { type: Boolean, default: true },
     viewCount: { type: Number, default: 0 },
   },

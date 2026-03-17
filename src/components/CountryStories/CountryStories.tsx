@@ -161,6 +161,11 @@ export default function CountryStories() {
   const [manualImageUrl, setManualImageUrl] = useState("");
   const [isManualSaving, setIsManualSaving] = useState(false);
 
+  // Edit-before-save state (AI generated story)
+  const [isEditingGenerated, setIsEditingGenerated] = useState(false);
+  const [editGenTitle, setEditGenTitle] = useState("");
+  const [editGenBody, setEditGenBody] = useState("");
+
   // ── Classic tales (Wikipedia + Gutenberg) ───────────
   const [classics, setClassics] = useState<
     Array<{
@@ -443,6 +448,26 @@ export default function CountryStories() {
       showNotification(err.message || "Payment error", "error");
       setBuyingPackageId(null);
     }
+  };
+
+  // ── Edit generated story before saving ─────────
+  const startEditGenerated = () => {
+    if (!storyCreated) return;
+    setEditGenTitle(storyCreated.title);
+    setEditGenBody(
+      storyCreated.paragraphs.map((p: any) => p.paragraph).join("\n\n"),
+    );
+    setIsEditingGenerated(true);
+  };
+
+  const applyEditGenerated = () => {
+    if (!storyCreated) return;
+    const paragraphs = editGenBody
+      .split(/\n\s*\n/)
+      .map((p) => ({ paragraph: p.trim() }))
+      .filter((p) => p.paragraph.length > 0);
+    setCreatedStory({ ...storyCreated, title: editGenTitle, paragraphs });
+    setIsEditingGenerated(false);
   };
 
   useEffect(() => {
@@ -805,26 +830,70 @@ export default function CountryStories() {
               {storyCreated && <StoryPreview storyData={storyCreated} />}
               {storyCreated && (
                 <div className={styles.storyPreview}>
-                  <label className={styles.publicToggle}>
-                    <input
-                      type="checkbox"
-                      checked={isPublicEnabled}
-                      onChange={(e) => setIsPublicEnabled(e.target.checked)}
-                      className={styles.publicToggleInput}
-                    />
-                    <span className={styles.publicToggleLabel}>
-                      {isPublicEnabled
-                        ? "🌍 Public — visible to everyone"
-                        : "🔒 Private — only you can see it"}
-                    </span>
-                  </label>
-                  <button
-                    className={styles.btnSave}
-                    onClick={setStoryToDB}
-                    disabled={isLoadingSaveToDB}
-                  >
-                    {isLoadingSaveToDB ? "✦ Saving…" : "✦ Save Story"}
-                  </button>
+                  {isEditingGenerated ? (
+                    <div className={styles.genEditPanel}>
+                      <input
+                        className={styles.genEditInput}
+                        value={editGenTitle}
+                        onChange={(e) => setEditGenTitle(e.target.value)}
+                        placeholder="Story title"
+                        aria-label="Edit generated story title"
+                      />
+                      <textarea
+                        className={styles.genEditTextarea}
+                        value={editGenBody}
+                        onChange={(e) => setEditGenBody(e.target.value)}
+                        rows={10}
+                        placeholder="Edit paragraphs (separate with empty lines)"
+                        aria-label="Edit generated story body"
+                      />
+                      <div className={styles.genEditActions}>
+                        <button
+                          className={styles.btnSave}
+                          onClick={applyEditGenerated}
+                        >
+                          Apply edits
+                        </button>
+                        <button
+                          className={styles.btnPrimary}
+                          onClick={() => setIsEditingGenerated(false)}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <label className={styles.publicToggle}>
+                        <input
+                          type="checkbox"
+                          checked={isPublicEnabled}
+                          onChange={(e) => setIsPublicEnabled(e.target.checked)}
+                          className={styles.publicToggleInput}
+                        />
+                        <span className={styles.publicToggleLabel}>
+                          {isPublicEnabled
+                            ? "🌍 Public — visible to everyone"
+                            : "🔒 Private — only you can see it"}
+                        </span>
+                      </label>
+                      <div className={styles.genEditActions}>
+                        <button
+                          className={styles.btnPrimary}
+                          onClick={startEditGenerated}
+                        >
+                          ✎ Edit before save
+                        </button>
+                        <button
+                          className={styles.btnSave}
+                          onClick={setStoryToDB}
+                          disabled={isLoadingSaveToDB}
+                        >
+                          {isLoadingSaveToDB ? "✦ Saving…" : "✦ Save Story"}
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
             </div>

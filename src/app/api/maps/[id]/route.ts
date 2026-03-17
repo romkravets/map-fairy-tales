@@ -79,6 +79,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     storyId?: string;
     viewCount?: number;
     likes?: Record<string, boolean>;
+    ratings?: Record<string, number>;
     isPublic?: boolean;
   };
   try {
@@ -90,57 +91,81 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   if (!body.storyId)
     return NextResponse.json({ error: "Missing storyId" }, { status: 400 });
 
-  await connectDB();
+  try {
+    await connectDB();
 
-  const setFields: Record<string, unknown> = {};
-  if (body.viewCount !== undefined)
-    setFields["stories.$[elem].viewCount"] = body.viewCount;
-  if (body.likes !== undefined) setFields["stories.$[elem].likes"] = body.likes;
-  if (body.isPublic !== undefined)
-    setFields["stories.$[elem].isPublic"] = body.isPublic;
+    const setFields: Record<string, unknown> = {};
+    if (body.viewCount !== undefined)
+      setFields["stories.$[elem].viewCount"] = body.viewCount;
+    if (body.likes !== undefined)
+      setFields["stories.$[elem].likes"] = body.likes;
+    if (body.ratings !== undefined) {
+      setFields["stories.$[elem].ratings"] = body.ratings;
+      const rKeys = Object.keys(body.ratings);
+      const count = rKeys.length;
+      const avg = count
+        ? rKeys.reduce(
+            (sum, k) => sum + (body.ratings as Record<string, number>)[k],
+            0,
+          ) / count
+        : 0;
+      setFields["stories.$[elem].ratingCount"] = count;
+      setFields["stories.$[elem].avgRating"] = Math.round(avg * 10) / 10;
+    }
+    if (body.isPublic !== undefined)
+      setFields["stories.$[elem].isPublic"] = body.isPublic;
 
-  await MapEntry.findOneAndUpdate(
-    { mapId: params.id },
-    { $set: setFields },
-    { arrayFilters: [{ "elem.id": body.storyId }] },
-  );
+    await MapEntry.findOneAndUpdate(
+      { mapId: params.id },
+      { $set: setFields },
+      { arrayFilters: [{ "elem.id": body.storyId }], strict: false },
+    );
 
-  // Sync likes → User.likedStories
-  if (body.likes !== undefined) {
-    const uid = await optionalAuth(req);
-    if (uid) {
-      const isLiked = body.likes[uid] === true;
+    // Sync likes → User.likedStories
+    if (body.likes !== undefined) {
+      const uid = await optionalAuth(req);
+      if (uid) {
+        const isLiked = body.likes[uid] === true;
 
-      if (isLiked) {
-        // Fetch story metadata to store in likedStories
-        const entry = await MapEntry.findOne(
-          { mapId: params.id, "stories.id": body.storyId },
-          { "stories.$": 1 },
-        ).lean();
-        const story = (entry?.stories as any[])?.[0];
-        if (story) {
-          await User.findOneAndUpdate(
-            { firebaseUid: uid, "likedStories.storyId": { $ne: body.storyId } },
-            {
-              $addToSet: {
-                likedStories: {
-                  storyId: body.storyId,
-                  countryId: params.id,
-                  title: story.story?.title ?? "",
-                  imageUrl: story.story?.imageUrl ?? "",
+        if (isLiked) {
+          const entry = await MapEntry.findOne(
+            { mapId: params.id, "stories.id": body.storyId },
+            { "stories.$": 1 },
+          ).lean();
+          const story = (entry?.stories as any[])?.[0];
+          if (story) {
+            await User.findOneAndUpdate(
+              {
+                firebaseUid: uid,
+                "likedStories.storyId": { $ne: body.storyId },
+              },
+              {
+                $addToSet: {
+                  likedStories: {
+                    storyId: body.storyId,
+                    countryId: params.id,
+                    title: story.story?.title ?? "",
+                    imageUrl: story.story?.imageUrl ?? "",
+                  },
                 },
               },
-            },
+            );
+          }
+        } else {
+          await User.findOneAndUpdate(
+            { firebaseUid: uid },
+            { $pull: { likedStories: { storyId: body.storyId } } },
           );
         }
-      } else {
-        await User.findOneAndUpdate(
-          { firebaseUid: uid },
-          { $pull: { likedStories: { storyId: body.storyId } } },
-        );
       }
     }
-  }
 
-  return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("PATCH /api/maps/[id] error:", err);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
 }

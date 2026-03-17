@@ -804,3 +804,56 @@
   padding: 1px 6px;
   vertical-align: middle;
 }
+
+/* ── Edit-before-save panel (AI story) ───────────── */
+.genEditPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(6, 12, 26, 0.5);
+  border: 1px solid rgba(80, 140, 210, 0.15);
+}
+
+.genEditInput {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(8, 20, 40, 0.55);
+  color: #c8dff5;
+  border: 1px solid rgba(80, 140, 210, 0.2);
+  font-family: "Cinzel", serif;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.genEditTextarea {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(8, 20, 40, 0.55);
+  color: #c8dff5;
+  border: 1px solid rgba(80, 140, 210, 0.2);
+  font-family: "Crimson Pro", serif;
+  font-size: 16px;
+  line-height: 1.7;
+  resize: vertical;
+  min-height: 200px;
+  box-sizing: border-box;
+}
+
+.genEditInput:focus,
+.genEditTextarea:focus {
+  outline: none;
+  border-color: rgba(100, 180, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(80, 150, 255, 0.08);
+}
+
+.genEditActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}

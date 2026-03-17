@@ -445,3 +445,108 @@
 .editSecondaryBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .aiInstruction { margin-top: 8px; }
+
+/* ── Star rating ─────────────────────────────────── */
+.starsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(80, 150, 220, 0.1);
+}
+
+.starsLabel {
+  font-family: "Cinzel", serif;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(120, 170, 220, 0.5);
+  margin: 0;
+}
+
+.stars {
+  display: flex;
+  gap: 6px;
+}
+
+.starBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 32px;
+  color: rgba(100, 140, 200, 0.25);
+  transition: color 0.15s ease, transform 0.12s ease;
+  padding: 2px;
+  line-height: 1;
+}
+
+.starBtn:hover {
+  transform: scale(1.15);
+}
+
+.starBtnActive {
+  color: #f5c843;
+  text-shadow: 0 0 14px rgba(245, 200, 67, 0.5);
+}
+
+.yourRating {
+  font-family: "Crimson Pro", serif;
+  font-size: 15px;
+  color: rgba(200, 220, 255, 0.5);
+  font-style: italic;
+}
+
+/* ── Share section ───────────────────────────────── */
+.shareSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(80, 150, 220, 0.1);
+}
+
+.shareLabel {
+  font-family: "Cinzel", serif;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(120, 170, 220, 0.5);
+  margin: 0;
+}
+
+.shareButtons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.shareBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 18px;
+  border-radius: 30px;
+  border: 1px solid rgba(80, 150, 220, 0.25);
+  background: rgba(10, 25, 60, 0.4);
+  color: rgba(160, 205, 250, 0.75);
+  font-family: "Cinzel", serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+.shareBtn:hover {
+  border-color: rgba(100, 180, 255, 0.5);
+  background: rgba(20, 55, 130, 0.5);
+  color: #c8e4ff;
+  box-shadow: 0 0 18px rgba(60, 130, 255, 0.2);
+  transform: translateY(-1px);
+}

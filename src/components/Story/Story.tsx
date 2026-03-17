@@ -67,6 +67,9 @@ interface Story {
   };
   region: string;
   likes?: { [key: string]: boolean };
+  ratings?: { [key: string]: number };
+  avgRating?: number;
+  ratingCount?: number;
   isPublic: boolean;
   viewCount: number;
 }
@@ -99,6 +102,13 @@ export default function StoryPage() {
   const [isAiProcessing, setIsAiProcessing] = useState(false);
   const [aiInstruction, setAiInstruction] = useState("");
 
+  // Rating & share
+  const [userRating, setUserRating] = useState(0);
+  const [avgRating, setAvgRating] = useState(0);
+  const [ratingCount, setRatingCount] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [shareUrl, setShareUrl] = useState("");
+
   // ── Fetch + increment view ──────────────────────
   useEffect(() => {
     const fetchAndUpdateStory = async () => {
@@ -124,6 +134,19 @@ export default function StoryPage() {
         setStory(updated);
         setLikeCount(Object.keys(updated.likes || {}).length);
         setLiked(!!updated.likes?.[user.userId]);
+
+        // Prefer pre-computed DB values; fall back to client computation for legacy docs
+        const ratings = updated.ratings || {};
+        const rKeys = Object.keys(ratings);
+        setRatingCount(updated.ratingCount ?? rKeys.length);
+        setAvgRating(
+          updated.avgRating ??
+            (rKeys.length
+              ? rKeys.reduce((s, k) => s + ratings[k], 0) / rKeys.length
+              : 0),
+        );
+        setUserRating(ratings[user.userId] || 0);
+        setShareUrl(window.location.href);
 
         await fetch(`/api/maps/${region}`, {
           method: "PATCH",
@@ -228,6 +251,60 @@ export default function StoryPage() {
       });
     } catch (err) {
       console.error("Error liking story:", err);
+    }
+  };
+
+  // ── Star rating ─────────────────────────────────
+  const handleRate = async (stars: number) => {
+    if (!user.userId || !user.isAuthenticated) {
+      showNotification("Sign in to rate stories", "success");
+      return;
+    }
+    if (!story || !region || !id) return;
+    const newRating = userRating === stars ? 0 : stars; // click same star = remove
+    try {
+      const token = user.token || (await getAuth().currentUser?.getIdToken());
+      const res = await fetch(
+        `/api/maps/${region}`,
+        token ? { headers: { Authorization: `Bearer ${token}` } } : undefined,
+      );
+      if (!res.ok) return;
+      const { stories } = await res.json();
+      const idx = stories.findIndex((s: any) => s.id === id);
+      if (idx === -1) return;
+
+      let updatedRatings: Record<string, number>;
+      if (newRating === 0) {
+        const { [user.userId]: _, ...rest } = stories[idx].ratings || {};
+        updatedRatings = rest;
+      } else {
+        updatedRatings = {
+          ...(stories[idx].ratings || {}),
+          [user.userId]: newRating,
+        };
+      }
+
+      setUserRating(newRating);
+      const rKeys = Object.keys(updatedRatings);
+      const count = rKeys.length;
+      const avg = count
+        ? Math.round(
+            (rKeys.reduce((s, k) => s + updatedRatings[k], 0) / count) * 10,
+          ) / 10
+        : 0;
+      setRatingCount(count);
+      setAvgRating(avg);
+
+      await fetch(`/api/maps/${region}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ storyId: id, ratings: updatedRatings }),
+      });
+    } catch (err) {
+      console.error("Error rating story:", err);
     }
   };
 
@@ -557,6 +634,11 @@ export default function StoryPage() {
           <span className={styles.statItem}>
             <HeartIcon filled={liked} /> {likeCount} likes
           </span>
+          {avgRating > 0 && (
+            <span className={styles.statItem}>
+              ★ {avgRating.toFixed(1)} ({ratingCount})
+            </span>
+          )}
           <span className={styles.statItem}>{story.region}</span>
         </div>
 
@@ -670,6 +752,70 @@ export default function StoryPage() {
             {liked ? "You liked this tale" : "Like this tale"}
             <span className={styles.likeCount}>{likeCount}</span>
           </button>
+        </div>
+
+        {/* ── Star rating ── */}
+        <div className={styles.starsSection}>
+          <p className={styles.starsLabel}>Rate this story</p>
+          <div className={styles.stars} role="group" aria-label="Star rating">
+            {[1, 2, 3, 4, 5].map((s) => (
+              <button
+                key={s}
+                className={`${styles.starBtn} ${(hoverRating || userRating) >= s ? styles.starBtnActive : ""}`}
+                onClick={() => handleRate(s)}
+                onMouseEnter={() => setHoverRating(s)}
+                onMouseLeave={() => setHoverRating(0)}
+                aria-label={`Rate ${s} out of 5`}
+              >
+                ★
+              </button>
+            ))}
+          </div>
+          {userRating > 0 && (
+            <span className={styles.yourRating}>
+              Your rating: {userRating} ★
+            </span>
+          )}
+        </div>
+
+        {/* ── Share ── */}
+        <div className={styles.shareSection}>
+          <p className={styles.shareLabel}>Share this tale</p>
+          <div className={styles.shareButtons}>
+            <button
+              className={styles.shareBtn}
+              onClick={() => {
+                navigator.clipboard.writeText(shareUrl);
+                showNotification("Link copied!", "success");
+              }}
+            >
+              Copy link
+            </button>
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(englishTitle + (englishParagraphs[0]?.paragraph ? "\n\n" + englishParagraphs[0].paragraph.slice(0, 180) + "…" : ""))}&url=${encodeURIComponent(shareUrl)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.shareBtn}
+            >
+              X / Twitter
+            </a>
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.shareBtn}
+            >
+              Facebook
+            </a>
+            <a
+              href={`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(englishTitle)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.shareBtn}
+            >
+              Telegram
+            </a>
+          </div>
         </div>
       </div>
 
