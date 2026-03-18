@@ -50,11 +50,14 @@ export default function ExploreFeed() {
         search: q,
         page: String(p),
       });
-      if (minRating && minRating > 0) params.set("minRating", String(minRating));
+      if (minRating && minRating > 0)
+        params.set("minRating", String(minRating));
       const res = await fetch(`/api/stories/feed?${params}`);
       if (!res.ok) return;
       const data = await res.json();
-      setStories((prev) => (append ? [...prev, ...data.stories] : data.stories));
+      setStories((prev) =>
+        append ? [...prev, ...data.stories] : data.stories,
+      );
       setTotal(data.total);
     } finally {
       setLoading(false);
@@ -216,15 +219,16 @@ export default function ExploreFeed() {
                   </span>
                 )}
                 <h2 className={styles.cardTitle}>{s.title}</h2>
-                {s.excerpt && (
-                  <p className={styles.cardExcerpt}>{s.excerpt}</p>
-                )}
+                {s.excerpt && <p className={styles.cardExcerpt}>{s.excerpt}</p>}
                 <div className={styles.cardMeta}>
                   <span title="Views">👁 {s.viewCount}</span>
                   <span title="Likes">♥ {s.likesCount}</span>
                   <span title="Comments">💬 {s.commentsCount}</span>
                   <span title="Rating" className={styles.cardRating}>
-                    ★ {typeof s.avgRating === "number" ? s.avgRating.toFixed(1) : "—"}
+                    ★{" "}
+                    {typeof s.avgRating === "number"
+                      ? s.avgRating.toFixed(1)
+                      : "—"}
                     {s.ratingCount ? ` (${s.ratingCount})` : ""}
                   </span>
                 </div>

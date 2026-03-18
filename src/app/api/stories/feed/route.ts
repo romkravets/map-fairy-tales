@@ -56,8 +56,25 @@ export async function GET(req: NextRequest) {
           "$stories.avgRating",
           {
             $cond: [
-              { $gt: [{ $size: { $ifNull: [{ $objectToArray: "$stories.ratings" }, []] } }, 0] },
-              { $avg: { $map: { input: { $objectToArray: "$stories.ratings" }, as: "r", in: "$$r.v" } } },
+              {
+                $gt: [
+                  {
+                    $size: {
+                      $ifNull: [{ $objectToArray: "$stories.ratings" }, []],
+                    },
+                  },
+                  0,
+                ],
+              },
+              {
+                $avg: {
+                  $map: {
+                    input: { $objectToArray: "$stories.ratings" },
+                    as: "r",
+                    in: "$$r.v",
+                  },
+                },
+              },
               0,
             ],
           },
@@ -67,10 +84,7 @@ export async function GET(req: NextRequest) {
         $let: {
           vars: {
             p0: {
-              $arrayElemAt: [
-                { $ifNull: ["$stories.story.paragraphs", []] },
-                0,
-              ],
+              $arrayElemAt: [{ $ifNull: ["$stories.story.paragraphs", []] }, 0],
             },
           },
           in: { $ifNull: ["$$p0.paragraph", ""] },
