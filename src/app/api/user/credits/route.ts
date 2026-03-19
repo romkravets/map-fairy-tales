@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdmin } from "@/db/firebaseAdmin";
 import { connectDB } from "@/db/mongodb";
 import User from "@/models/User";
+import { checkCreditsRateLimit } from "@/lib/ratelimit";
 
 export const runtime = "nodejs";
 
@@ -22,6 +23,13 @@ export async function GET(req: NextRequest) {
   } catch {
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
+
+  const rateLimit = await checkCreditsRateLimit(uid);
+  if (!rateLimit.success)
+    return NextResponse.json(
+      { error: "Too many requests." },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
 
   await connectDB();
 

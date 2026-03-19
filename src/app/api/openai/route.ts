@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdmin } from "@/db/firebaseAdmin";
 import { deductCredit, getUserCredits } from "@/lib/credits";
+import { checkStoryRateLimit } from "@/lib/ratelimit";
 
 export const runtime = "nodejs";
 
@@ -165,7 +166,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // ── 2. Отримати дані запиту ─────────────────────────
+  // ── 2. Rate limiting — 5 генерацій/хв на користувача ─
+  const rateLimit = await checkStoryRateLimit(userId);
+  if (!rateLimit.success) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait a minute before generating another story." },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
+  }
+
+  // ── 3. Отримати дані запиту ─────────────────────────
   let body: { region?: unknown; customValueForStory?: any };
   try {
     body = await req.json();
@@ -185,7 +195,7 @@ export async function POST(req: NextRequest) {
     customValueForStory?.events
   );
 
-  // ── 3. Санітизація вводу (запобігання prompt injection) ──
+  // ── 4. Санітизація вводу (запобігання prompt injection) ──
   const MAX_FIELD_LEN = 200;
   const sanitize = (v: unknown): string | undefined => {
     if (typeof v !== "string") return undefined;
@@ -214,7 +224,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // ── 4. Атомарно списати кредити ДО генерації ─────────
+  // ── 5. Атомарно списати кредити ДО генерації ─────────
   const cost = isCustom ? 2 : 1;
   const deductResult = await deductCredit(userId, isCustom);
 
@@ -235,7 +245,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // ── 5. Будуємо промпт ───────────────────────────────
+  // ── 6. Будуємо промпт ───────────────────────────────
   let storyContent = `You are a master storyteller specializing in folk tales and fairy tales from around the world.
 
 Your task: Write an immersive, emotionally rich fairy tale deeply rooted in the cultural traditions of the region identified by the code "${region}".
@@ -285,7 +295,7 @@ OUTPUT FORMAT — respond ONLY with valid JSON, no markdown, no extra text:
 }
 Do NOT include any text outside the JSON.`;
 
-  // ── 6. Генерація через Groq ─────────────────────────
+  // ── 7. Генерація через Groq ─────────────────────────
   const callGroq = async (strictJson: boolean) => {
     const groqBody: Record<string, unknown> = {
       model: "llama-3.1-8b-instant",
@@ -352,7 +362,7 @@ Do NOT include any text outside the JSON.`;
     );
   }
 
-  // ── 7. Генерація зображення ─────────────────────────
+  // ── 8. Генерація зображення ─────────────────────────
   const imagePrompt =
     `Children's fairy tale book illustration, full color, painterly style inspired by the folk art of the ${region} region. ` +
     `Scene from the story titled "${story.title}". ` +

@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/db/mongodb";
 import { getAdmin } from "@/db/firebaseAdmin";
 import Comment from "@/models/Comment";
+import { checkCommentRateLimit } from "@/lib/ratelimit";
 
 export const runtime = "nodejs";
 
@@ -38,6 +39,13 @@ export async function POST(req: NextRequest) {
   const uid = await verifyUser(req);
   if (!uid)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const rateLimit = await checkCommentRateLimit(uid);
+  if (!rateLimit.success)
+    return NextResponse.json(
+      { error: "Too many comments. Please slow down." },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
 
   let body: {
     storyId?: string;

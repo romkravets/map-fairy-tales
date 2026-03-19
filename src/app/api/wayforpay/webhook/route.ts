@@ -26,7 +26,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  console.log("WayForPay webhook received:", JSON.stringify(body));
+  console.log("WayForPay webhook received:", {
+    orderReference: body.orderReference,
+    transactionStatus: body.transactionStatus,
+    amount: body.amount,
+    currency: body.currency,
+  });
 
   // ── 1. Верифікація підпису від WayForPay ────────────
   const expectedSignature = signWebhook({
