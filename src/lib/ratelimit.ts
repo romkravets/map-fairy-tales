@@ -38,7 +38,10 @@ const makeUpstashLimiter = (limit: number, window: string, prefix: string) =>
   UPSTASH_URL && UPSTASH_TOKEN
     ? new Ratelimit({
         redis: new Redis({ url: UPSTASH_URL, token: UPSTASH_TOKEN }),
-        limiter: Ratelimit.slidingWindow(limit, window as `${number} ${"s" | "m" | "h" | "d"}`),
+        limiter: Ratelimit.slidingWindow(
+          limit,
+          window as `${number} ${"s" | "m" | "h" | "d"}`,
+        ),
         prefix,
       })
     : null;
@@ -60,8 +63,13 @@ async function checkLimit(
   windowMs: number,
 ): Promise<{ success: boolean; remaining: number }> {
   if (limiter) {
-    const result = await limiter.limit(key);
-    return { success: result.success, remaining: result.remaining };
+    try {
+      const result = await limiter.limit(key);
+      return { success: result.success, remaining: result.remaining };
+    } catch {
+      // Upstash unavailable — fall back to in-memory limiter
+      return memLimit(key, fallbackLimit, windowMs);
+    }
   }
   return memLimit(key, fallbackLimit, windowMs);
 }

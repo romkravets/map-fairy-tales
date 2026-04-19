@@ -134,7 +134,7 @@ export default function CountryStories() {
     credits,
     loading: creditsLoading,
     packages,
-    buyPackage,
+    earnCredits,
   } = useCredits();
   const [buyingPackageId, setBuyingPackageId] = useState<string | null>(null);
   const [showBuyPanel, setShowBuyPanel] = useState(false);
@@ -439,13 +439,20 @@ export default function CountryStories() {
     }
   };
 
-  // ── Купити пакет прямо зі сторінки ─────────────────
+  // ── Отримати пакет безкоштовно ───────────────────
   const handleBuyPackage = async (packageId: string) => {
     setBuyingPackageId(packageId);
     try {
-      await buyPackage(packageId);
-    } catch (err: any) {
-      showNotification(err.message || "Payment error", "error");
+      const result = await earnCredits(`free_${packageId}`);
+      if (result.success) {
+        showNotification(`+${result.creditsAwarded} credits!`, "success");
+        setShowBuyPanel(false);
+      } else {
+        showNotification(result.error || "Daily limit reached", "error");
+      }
+    } catch {
+      showNotification("Error claiming credits", "error");
+    } finally {
       setBuyingPackageId(null);
     }
   };
@@ -631,7 +638,7 @@ export default function CountryStories() {
                 onClick={() => setShowBuyPanel((v) => !v)}
                 aria-expanded={showBuyPanel}
               >
-                {showBuyPanel ? "Hide" : "Buy credits"}
+                {showBuyPanel ? "Hide" : "Get credits"}
               </button>
             </div>
 
@@ -640,7 +647,7 @@ export default function CountryStories() {
               <div className={styles.buyPanel}>
                 <p className={styles.buyPanelTitle}>Choose a package</p>
                 <p className={styles.buyPanelSub}>
-                  Payment via WayForPay · Visa / Mastercard / Privat24
+                  🎁 Demo mode — claim free credits (once per day)
                 </p>
                 <div className={styles.buyPackages}>
                   {packages.map((pack) => (
@@ -651,15 +658,13 @@ export default function CountryStories() {
                       disabled={buyingPackageId !== null}
                     >
                       {buyingPackageId === pack.id ? (
-                        "Redirecting..."
+                        "Claiming..."
                       ) : (
                         <>
                           <span className={styles.buyPackageCredits}>
                             {pack.credits} credits
                           </span>
-                          <span className={styles.buyPackagePrice}>
-                            {pack.priceUAH} ₴
-                          </span>
+                          <span className={styles.buyPackagePrice}>Free</span>
                         </>
                       )}
                     </button>
@@ -820,7 +825,7 @@ export default function CountryStories() {
                   className={styles.limitBuyBtn}
                   onClick={() => setShowBuyPanel(true)}
                 >
-                  Buy credits to continue →
+                  Get free credits to continue →
                 </button>
               </div>
             )}

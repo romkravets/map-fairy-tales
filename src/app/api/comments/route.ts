@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/db/mongodb";
 import { getAdmin } from "@/db/firebaseAdmin";
 import Comment from "@/models/Comment";
+import User from "@/models/User";
 import { checkCommentRateLimit } from "@/lib/ratelimit";
 
 export const runtime = "nodejs";
@@ -79,6 +80,25 @@ export async function POST(req: NextRequest) {
     authorName: authorName ?? "",
     text: text.trim(),
   });
+
+  // Award credit for commenting (max 2 per day)
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const user = await User.findOne({ firebaseUid: uid });
+  if (user) {
+    const todayCommentRewards = (user.rewardsClaimed ?? []).filter(
+      (r) => r.type === "comment" && new Date(r.claimedAt) >= todayStart,
+    );
+    if (todayCommentRewards.length < 2) {
+      await User.findOneAndUpdate(
+        { firebaseUid: uid },
+        {
+          $inc: { credits: 1 },
+          $push: { rewardsClaimed: { type: "comment", claimedAt: new Date() } },
+        },
+      );
+    }
+  }
 
   return NextResponse.json({ comment }, { status: 201 });
 }

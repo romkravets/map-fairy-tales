@@ -17,6 +17,11 @@ export interface ILikedStory {
   imageUrl: string;
 }
 
+export interface IRewardClaim {
+  type: string;
+  claimedAt: Date;
+}
+
 export interface IUser extends Document {
   firebaseUid: string;
   userName: string;
@@ -26,6 +31,7 @@ export interface IUser extends Document {
   stories: IUserStory[];
   visitedCountries: string[];
   likedStories: ILikedStory[];
+  rewardsClaimed: IRewardClaim[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -52,6 +58,14 @@ const LikedStorySchema = new Schema<ILikedStory>(
   { _id: false },
 );
 
+const RewardClaimSchema = new Schema<IRewardClaim>(
+  {
+    type: { type: String, required: true },
+    claimedAt: { type: Date, required: true },
+  },
+  { _id: false },
+);
+
 const UserSchema = new Schema<IUser>(
   {
     firebaseUid: { type: String, required: true, unique: true, index: true },
@@ -62,6 +76,7 @@ const UserSchema = new Schema<IUser>(
     stories: { type: [UserStorySchema], default: [] },
     visitedCountries: { type: [String], default: [] },
     likedStories: { type: [LikedStorySchema], default: [] },
+    rewardsClaimed: { type: [RewardClaimSchema], default: [] },
   },
   { timestamps: true },
 );

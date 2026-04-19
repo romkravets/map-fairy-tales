@@ -86,6 +86,15 @@
   font-size: 15px;
   font-weight: 600;
   color: #e8f4ff;
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.paymentNote {
+  font-size: 12px;
+  color: rgba(160, 200, 240, 0.6);
   margin: 0 0 14px;
 }
 
@@ -222,6 +231,111 @@
 .buyBtn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.buyBtnClaimed {
+  background: rgba(22, 163, 106, 0.15) !important;
+  border-color: rgba(22, 163, 106, 0.25) !important;
+  color: #4ade80 !important;
+}
+
+/* ── Success message ── */
+.success {
+  font-size: 13px;
+  color: #86efac;
+  background: rgba(22, 163, 106, 0.12);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 14px 0;
+  text-align: center;
+}
+
+/* ── Original price strikethrough ── */
+.originalPrice {
+  color: rgba(160, 200, 240, 0.4);
+  font-size: 13px;
+  font-weight: 400;
+  text-decoration: line-through;
+}
+
+.freeLabel {
+  color: #4ade80;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* ── Earn grid ── */
+.earnGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 12px 0 4px;
+}
+
+.earnCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 10px;
+  background: rgba(80, 150, 230, 0.04);
+  border: 1.5px solid rgba(80, 150, 220, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  text-align: center;
+}
+
+.earnCard:hover:not(:disabled) {
+  border-color: rgba(100, 180, 255, 0.25);
+  background: rgba(80, 150, 230, 0.08);
+  box-shadow: 0 2px 12px rgba(80, 150, 255, 0.06);
+}
+
+.earnCard:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.earnCardClaimed {
+  border-color: rgba(22, 163, 106, 0.25);
+  background: rgba(22, 163, 106, 0.06);
+}
+
+.earnIcon {
+  color: #7ec8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(80, 150, 230, 0.08);
+  margin-bottom: 2px;
+}
+
+.earnCardClaimed .earnIcon {
+  color: #4ade80;
+  background: rgba(22, 163, 106, 0.1);
+}
+
+.earnTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8f4ff;
+}
+
+.earnDesc {
+  font-size: 11px;
+  color: rgba(160, 200, 240, 0.6);
+}
+
+.earnBadge {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4ade80;
+  margin-top: 2px;
 }
 
 .loading {

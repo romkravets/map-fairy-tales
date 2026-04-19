@@ -249,6 +249,18 @@ export default function StoryPage() {
         },
         body: JSON.stringify({ storyId: id, likes: updatedLikes }),
       });
+
+      // Award credit for liking (only on like, not unlike)
+      if (!liked && token) {
+        fetch("/api/credits/earn", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ action: "like" }),
+        }).catch(() => {});
+      }
     } catch (err) {
       console.error("Error liking story:", err);
     }

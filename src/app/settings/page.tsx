@@ -363,7 +363,7 @@ function SettingsPageContent() {
                 <span
                   className={`${styles.statDot} ${styles.statDotWarning}`}
                 />
-                No credits · Buy more
+                No credits · Earn more
               </button>
             ) : (
               <button

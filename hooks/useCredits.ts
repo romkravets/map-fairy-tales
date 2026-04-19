@@ -119,6 +119,38 @@ export function useCredits() {
     };
   }, [user?.userId]);
 
+  // Earn credits via engagement action (share, like, daily visit, free pack)
+  const earnCredits = async (
+    action: string,
+  ): Promise<{ success: boolean; creditsAwarded?: number; error?: string }> => {
+    try {
+      const token = await getAuthToken();
+      const res = await fetch("/api/credits/earn", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ action }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return {
+          success: false,
+          error: data.error || "Failed to earn credits",
+        };
+      }
+      // Update local state immediately
+      setState((s) => ({
+        ...s,
+        credits: data.totalCredits ?? s.credits + (data.creditsAwarded ?? 0),
+      }));
+      return { success: true, creditsAwarded: data.creditsAwarded };
+    } catch {
+      return { success: false, error: "Network error" };
+    }
+  };
+
   // Отримати URL інвойсу і зробити редірект на WayForPay
   const buyPackage = async (packageId: string) => {
     setBuying(true);
@@ -150,6 +182,7 @@ export function useCredits() {
     packages: CREDIT_PACKAGES,
     getAuthToken,
     buyPackage,
+    earnCredits,
     refetchCredits: fetchCredits,
   };
 }
