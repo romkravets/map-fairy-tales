@@ -83,15 +83,15 @@ Tests live in `__tests__/`, environment is `node`, preset is `ts-jest`. Firebase
 
 ### API Route Protection
 
-| Route | Auth | Rate Limit | Notes |
-|-------|------|-----------|-------|
-| POST /api/openai | Firebase ✅ | 5/min ✅ | Credit-gated, input sanitized |
-| POST /api/translate | Firebase ✅ | 5/min ✅ | Auth + rate limit added |
-| POST /api/comments | Firebase ✅ | 20/min ✅ | Awards 1 credit (max 2/day) |
-| POST /api/comments/[id]/reply | Firebase ✅ | 20/min ✅ | Rate limit added |
-| POST /api/credits/earn | Firebase ✅ | 20/min ✅ | Daily limits per action |
-| PUT /api/maps/[id] | Firebase ✅ | — | Ownership: only user's own stories |
-| PATCH /api/maps/[id] | Optional ✅ | — | Auth for likes/ratings/isPublic; $inc for views |
+| Route                         | Auth        | Rate Limit | Notes                                           |
+| ----------------------------- | ----------- | ---------- | ----------------------------------------------- |
+| POST /api/openai              | Firebase ✅ | 5/min ✅   | Credit-gated, input sanitized                   |
+| POST /api/translate           | Firebase ✅ | 5/min ✅   | Auth + rate limit added                         |
+| POST /api/comments            | Firebase ✅ | 20/min ✅  | Awards 1 credit (max 2/day)                     |
+| POST /api/comments/[id]/reply | Firebase ✅ | 20/min ✅  | Rate limit added                                |
+| POST /api/credits/earn        | Firebase ✅ | 20/min ✅  | Daily limits per action                         |
+| PUT /api/maps/[id]            | Firebase ✅ | —          | Ownership: only user's own stories              |
+| PATCH /api/maps/[id]          | Optional ✅ | —          | Auth for likes/ratings/isPublic; $inc for views |
 
 ### Key Security Patterns
 

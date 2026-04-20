@@ -34,7 +34,8 @@ export async function generateMetadata({
     }
   }
 
-  const title = storyTitle || (region ? `Fairy Tale from ${region}` : "Read Story");
+  const title =
+    storyTitle || (region ? `Fairy Tale from ${region}` : "Read Story");
   const description = storyTitle
     ? `"${storyTitle}" — an AI-generated fairy tale from ${region}. Discover folk stories, mythology, and cultural legends from around the world on Map Fairy Tales.`
     : `Read an AI-generated fairy tale or folk story from ${region ?? "around the world"}. Explore cultural legends and mythology on Map Fairy Tales.`;
@@ -53,12 +54,15 @@ export async function generateMetadata({
       "cultural stories",
     ].filter(Boolean) as string[],
     alternates: {
-      canonical: region && id
-        ? `${BASE}/story?region=${encodeURIComponent(region)}&id=${encodeURIComponent(id)}`
-        : `${BASE}/story`,
+      canonical:
+        region && id
+          ? `${BASE}/story?region=${encodeURIComponent(region)}&id=${encodeURIComponent(id)}`
+          : `${BASE}/story`,
     },
     openGraph: {
-      title: storyTitle ? `${storyTitle} | Map Fairy Tales` : `${title} | Map Fairy Tales`,
+      title: storyTitle
+        ? `${storyTitle} | Map Fairy Tales`
+        : `${title} | Map Fairy Tales`,
       description,
     },
     twitter: {

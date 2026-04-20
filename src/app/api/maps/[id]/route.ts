@@ -122,8 +122,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     const incFields: Record<string, number> = {};
 
     // viewCount: server-side increment only (prevents arbitrary values)
-    if (body.incrementView)
-      incFields["stories.$[elem].viewCount"] = 1;
+    if (body.incrementView) incFields["stories.$[elem].viewCount"] = 1;
 
     // likes: only allow the authenticated user to toggle their own like
     if (body.likes !== undefined && uid) {
@@ -137,7 +136,11 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     if (body.ratings !== undefined && uid) {
       // Sanitize: only accept the caller's own uid rating (1-5)
       const userRating = body.ratings[uid];
-      if (typeof userRating === "number" && userRating >= 1 && userRating <= 5) {
+      if (
+        typeof userRating === "number" &&
+        userRating >= 1 &&
+        userRating <= 5
+      ) {
         setFields[`stories.$[elem].ratings.${uid}`] = userRating;
       }
     }
@@ -158,11 +161,10 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     if (Object.keys(incFields).length > 0) updateOps.$inc = incFields;
 
     if (Object.keys(updateOps).length > 0) {
-      await MapEntry.findOneAndUpdate(
-        { mapId: params.id },
-        updateOps,
-        { arrayFilters: [{ "elem.id": body.storyId }], strict: false },
-      );
+      await MapEntry.findOneAndUpdate({ mapId: params.id }, updateOps, {
+        arrayFilters: [{ "elem.id": body.storyId }],
+        strict: false,
+      });
     }
 
     // Recalculate ratings avg after individual rating update
@@ -176,7 +178,10 @@ export async function PATCH(req: NextRequest, { params }: Params) {
         const rKeys = Object.keys(story.ratings);
         const count = rKeys.length;
         const avg = count
-          ? rKeys.reduce((sum: number, k: string) => sum + (story.ratings[k] ?? 0), 0) / count
+          ? rKeys.reduce(
+              (sum: number, k: string) => sum + (story.ratings[k] ?? 0),
+              0,
+            ) / count
           : 0;
         await MapEntry.findOneAndUpdate(
           { mapId: params.id },

@@ -73,15 +73,15 @@ hooks/
 
 Users earn credits through engagement actions. No real payments active.
 
-| Action       | Credits | Daily Limit |
-|-------------|---------|-------------|
-| daily_visit  | +1      | 1/day       |
-| share        | +2      | 3/day       |
-| like         | +1      | 3/day       |
-| comment      | +1      | 2/day       |
-| free_pack_10 | +10     | 1/day       |
-| free_pack_30 | +30     | 1/day       |
-| free_pack_100| +100    | 1/day       |
+| Action        | Credits | Daily Limit |
+| ------------- | ------- | ----------- |
+| daily_visit   | +1      | 1/day       |
+| share         | +2      | 3/day       |
+| like          | +1      | 3/day       |
+| comment       | +1      | 2/day       |
+| free_pack_10  | +10     | 1/day       |
+| free_pack_30  | +30     | 1/day       |
+| free_pack_100 | +100    | 1/day       |
 
 Story generation costs: basic = 1 credit, custom = 2 credits.
 
@@ -111,37 +111,37 @@ Story generation costs: basic = 1 credit, custom = 2 credits.
 
 ### 🔴 CRITICAL
 
-| Rule | Why |
-|------|-----|
-| Missing Firebase auth check on write API route | Any unauthenticated user can modify data |
-| Missing ownership check on story/map mutations | Any auth user can modify any other user's stories |
-| Client-controlled `viewCount` set (not `$inc`) | Allows arbitrary view inflation — must use server-side increment |
-| `likes`/`ratings` object accepted without UID validation | Users can forge likes/ratings for any UID |
-| Missing rate limit on LLM-calling endpoint | DDoS/cost abuse — Groq API calls are expensive at scale |
-| Hardcoded API keys or Firebase credentials in source | Secrets exposed in git permanently |
-| `deductCredit` without atomic `$gte` guard | Double-spend: user can generate stories without sufficient credits |
+| Rule                                                     | Why                                                                |
+| -------------------------------------------------------- | ------------------------------------------------------------------ |
+| Missing Firebase auth check on write API route           | Any unauthenticated user can modify data                           |
+| Missing ownership check on story/map mutations           | Any auth user can modify any other user's stories                  |
+| Client-controlled `viewCount` set (not `$inc`)           | Allows arbitrary view inflation — must use server-side increment   |
+| `likes`/`ratings` object accepted without UID validation | Users can forge likes/ratings for any UID                          |
+| Missing rate limit on LLM-calling endpoint               | DDoS/cost abuse — Groq API calls are expensive at scale            |
+| Hardcoded API keys or Firebase credentials in source     | Secrets exposed in git permanently                                 |
+| `deductCredit` without atomic `$gte` guard               | Double-spend: user can generate stories without sufficient credits |
 
 ### 🟠 HIGH
 
-| Rule | Why |
-|------|-----|
-| Missing rate limit on write endpoint (comments, replies, credits) | Spam vector — can flood DB with unlimited writes |
-| Missing `"use client"` on component using hooks/events/browser APIs | Silent SSR failure — component renders as static HTML |
-| `react-simple-maps` or heavy component imported without `dynamic()` + `{ ssr: false }` | SSR crash on `window`/`document` access |
-| Firebase token not sent with authenticated API call | 401 errors on protected endpoints |
-| Missing input validation (text length, field existence) on POST routes | Unbounded input can crash LLM or overflow DB |
-| Credit reward without daily limit check | Infinite credit farming by repeating actions |
+| Rule                                                                                   | Why                                                   |
+| -------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Missing rate limit on write endpoint (comments, replies, credits)                      | Spam vector — can flood DB with unlimited writes      |
+| Missing `"use client"` on component using hooks/events/browser APIs                    | Silent SSR failure — component renders as static HTML |
+| `react-simple-maps` or heavy component imported without `dynamic()` + `{ ssr: false }` | SSR crash on `window`/`document` access               |
+| Firebase token not sent with authenticated API call                                    | 401 errors on protected endpoints                     |
+| Missing input validation (text length, field existence) on POST routes                 | Unbounded input can crash LLM or overflow DB          |
+| Credit reward without daily limit check                                                | Infinite credit farming by repeating actions          |
 
 ### 🟡 MEDIUM
 
-| Rule | Why |
-|------|-----|
-| Missing error handling around `fetch()` calls in components | Silent failures, broken UI on network errors |
-| Optimistic UI update without server confirmation rollback | UI shows stale data if server rejects the action |
-| `any` type in TypeScript | Bypasses type safety — use `unknown` and narrow |
-| Missing `try/catch` around `req.json()` in API routes | Malformed JSON body returns 500 instead of 400 |
-| Redis/Upstash call without fallback | Rate limiting fails open when Upstash is unreachable |
-| Polling interval too aggressive (< 5s for credits) | Wastes bandwidth and may trigger rate limits |
+| Rule                                                        | Why                                                  |
+| ----------------------------------------------------------- | ---------------------------------------------------- |
+| Missing error handling around `fetch()` calls in components | Silent failures, broken UI on network errors         |
+| Optimistic UI update without server confirmation rollback   | UI shows stale data if server rejects the action     |
+| `any` type in TypeScript                                    | Bypasses type safety — use `unknown` and narrow      |
+| Missing `try/catch` around `req.json()` in API routes       | Malformed JSON body returns 500 instead of 400       |
+| Redis/Upstash call without fallback                         | Rate limiting fails open when Upstash is unreachable |
+| Polling interval too aggressive (< 5s for credits)          | Wastes bandwidth and may trigger rate limits         |
 
 ---
 
@@ -154,8 +154,7 @@ Every API route that modifies data MUST verify the Firebase ID token.
 ```typescript
 // CORRECT
 const uid = await verifyUser(req);
-if (!uid)
-  return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+if (!uid) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 // WRONG — no auth check, public write access
 export async function POST(req: NextRequest) {
@@ -208,10 +207,10 @@ View counts MUST use `$inc`, never client-controlled values.
 
 ```typescript
 // CORRECT
-body: JSON.stringify({ storyId: id, incrementView: true })
+body: JSON.stringify({ storyId: id, incrementView: true });
 
 // WRONG
-body: JSON.stringify({ storyId: id, viewCount: 99999 })
+body: JSON.stringify({ storyId: id, viewCount: 99999 });
 ```
 
 ### 5. Likes/Ratings Ownership
