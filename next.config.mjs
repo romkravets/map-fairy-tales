@@ -18,18 +18,18 @@ const securityHeaders = [
     key: "Strict-Transport-Security",
     value: "max-age=63072000; includeSubDomains; preload",
   },
-  // Cross-Origin-Opener-Policy
-  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+  // Cross-Origin-Opener-Policy (allow-popups needed for Firebase Google Sign-In)
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
   // Content Security Policy
   {
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://*.firebaseio.com https://*.googleapis.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://*.firebaseio.com https://*.googleapis.com https://*.gstatic.com https://*.firebaseapp.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: blob: https:",
       "font-src 'self' https://fonts.gstatic.com",
-      "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://api.groq.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://engine.prod.bria-api.com",
+      "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.firebaseapp.com https://api.groq.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://engine.prod.bria-api.com",
       "frame-src 'self' https://*.firebaseapp.com https://*.google.com",
       "object-src 'none'",
       "base-uri 'self'",

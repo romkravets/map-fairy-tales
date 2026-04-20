@@ -32,11 +32,16 @@ function memLimit(
 
 // ── Upstash limiter (production) ─────────────────────────────────────────────
 // Strip stray quotes — some env managers wrap values in literal "..." chars
-const stripQuotes = (s?: string) => s?.replace(/^["']+|["']+$/g, "").trim() || "";
+const stripQuotes = (s?: string) =>
+  s?.replace(/^["']+|["']+$/g, "").trim() || "";
 const UPSTASH_URL = stripQuotes(process.env.UPSTASH_REDIS_REST_URL);
 const UPSTASH_TOKEN = stripQuotes(process.env.UPSTASH_REDIS_REST_TOKEN);
 
-function makeUpstashLimiter(limit: number, window: string, prefix: string): Ratelimit | null {
+function makeUpstashLimiter(
+  limit: number,
+  window: string,
+  prefix: string,
+): Ratelimit | null {
   if (!UPSTASH_URL || !UPSTASH_TOKEN) return null;
   try {
     return new Ratelimit({

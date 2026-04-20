@@ -52,7 +52,9 @@ const Login = () => {
         setUser((prev) => ({ ...prev, token: tokenId || "" }));
       }
     } catch (error) {
-      console.error("Login error:", error);
+      if (error?.code !== 'auth/popup-closed-by-user') {
+        console.error("Login error:", error);
+      }
     } finally {
       setLoading(false);
     }
