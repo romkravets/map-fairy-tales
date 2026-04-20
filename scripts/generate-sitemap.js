@@ -48,10 +48,7 @@ const PRETTY = process.env.SITEMAP_PRETTY === "true";
 const OUTPUT_DIR = path.join(process.cwd(), "public");
 
 async function fetchEntriesFromDb() {
-  await mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(MONGODB_URI);
   const db = mongoose.connection.db;
 
   const collections = await db.listCollections().toArray();
