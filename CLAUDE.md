@@ -76,3 +76,44 @@ No Redux/Zustand. Three layers:
 ### Tests
 
 Tests live in `__tests__/`, environment is `node`, preset is `ts-jest`. Firebase SDKs are mocked in `__tests__/setup.ts`.
+
+---
+
+## Security Model
+
+### API Route Protection
+
+| Route | Auth | Rate Limit | Notes |
+|-------|------|-----------|-------|
+| POST /api/openai | Firebase ✅ | 5/min ✅ | Credit-gated, input sanitized |
+| POST /api/translate | Firebase ✅ | 5/min ✅ | Auth + rate limit added |
+| POST /api/comments | Firebase ✅ | 20/min ✅ | Awards 1 credit (max 2/day) |
+| POST /api/comments/[id]/reply | Firebase ✅ | 20/min ✅ | Rate limit added |
+| POST /api/credits/earn | Firebase ✅ | 20/min ✅ | Daily limits per action |
+| PUT /api/maps/[id] | Firebase ✅ | — | Ownership: only user's own stories |
+| PATCH /api/maps/[id] | Optional ✅ | — | Auth for likes/ratings/isPublic; $inc for views |
+
+### Key Security Patterns
+
+- **View counts**: Server-side `$inc` only — clients send `incrementView: true`
+- **Likes/ratings**: Server only accepts the caller's own UID entry
+- **isPublic toggle**: Requires story ownership via `$elemMatch`
+- **PUT /api/maps/[id]**: Users can only modify stories where `userId === uid`
+- **Credit deduction**: Atomic `findOneAndUpdate` with `$gte` guard
+- **Rate limiting**: Upstash Redis with in-memory fallback
+
+### Security Headers (next.config.mjs)
+
+HSTS, X-Frame-Options, X-Content-Type-Options, CSP, COOP, Referrer-Policy, Permissions-Policy.
+
+### SEO
+
+- `src/app/sitemap.ts` — Dynamic: static + all public country/story pages
+- `src/app/robots.ts` — AI bot allowlist (GPTBot, ClaudeBot, PerplexityBot, etc.)
+- `public/llms.txt` — AI crawler context file
+- `src/app/story/page.tsx` — Dynamic metadata + CreativeWork JSON-LD per story
+
+### Code Review
+
+- `.github/prompts/review-base.md` — Universal code review template
+- `.github/prompts/review-georisk.md` — Project-specific overlay

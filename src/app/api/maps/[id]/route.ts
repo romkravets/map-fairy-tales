@@ -61,8 +61,22 @@ export async function PUT(req: NextRequest, { params }: Params) {
   await connectDB();
 
   const update: Record<string, unknown> = {};
-  if (body.stories !== undefined) update.stories = body.stories;
   if (body.info !== undefined) update.info = body.info;
+
+  // Security: only allow user to add/update their own stories
+  if (body.stories !== undefined && Array.isArray(body.stories)) {
+    const existing = await MapEntry.findOne({ mapId: params.id }).lean();
+    const existingStories = ((existing as any)?.stories ?? []) as any[];
+
+    // Keep all stories NOT owned by this user, then add user's submitted stories
+    const otherStories = existingStories.filter(
+      (s: any) => s.userId && s.userId !== uid,
+    );
+    const userStories = body.stories.filter(
+      (s: any) => !s.userId || s.userId === uid,
+    );
+    update.stories = [...otherStories, ...userStories];
+  }
 
   await MapEntry.findOneAndUpdate(
     { mapId: params.id },
@@ -77,7 +91,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
 export async function PATCH(req: NextRequest, { params }: Params) {
   let body: {
     storyId?: string;
-    viewCount?: number;
+    incrementView?: boolean;
     likes?: Record<string, boolean>;
     ratings?: Record<string, number>;
     isPublic?: boolean;
@@ -91,72 +105,125 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   if (!body.storyId)
     return NextResponse.json({ error: "Missing storyId" }, { status: 400 });
 
+  // Require auth for likes, ratings, isPublic — prevent anonymous manipulation
+  const needsAuth =
+    body.likes !== undefined ||
+    body.ratings !== undefined ||
+    body.isPublic !== undefined;
+
+  const uid = await optionalAuth(req);
+  if (needsAuth && !uid)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   try {
     await connectDB();
 
     const setFields: Record<string, unknown> = {};
-    if (body.viewCount !== undefined)
-      setFields["stories.$[elem].viewCount"] = body.viewCount;
-    if (body.likes !== undefined)
-      setFields["stories.$[elem].likes"] = body.likes;
-    if (body.ratings !== undefined) {
-      setFields["stories.$[elem].ratings"] = body.ratings;
-      const rKeys = Object.keys(body.ratings);
-      const count = rKeys.length;
-      const avg = count
-        ? rKeys.reduce(
-            (sum, k) => sum + (body.ratings as Record<string, number>)[k],
-            0,
-          ) / count
-        : 0;
-      setFields["stories.$[elem].ratingCount"] = count;
-      setFields["stories.$[elem].avgRating"] = Math.round(avg * 10) / 10;
-    }
-    if (body.isPublic !== undefined)
-      setFields["stories.$[elem].isPublic"] = body.isPublic;
+    const incFields: Record<string, number> = {};
 
-    await MapEntry.findOneAndUpdate(
-      { mapId: params.id },
-      { $set: setFields },
-      { arrayFilters: [{ "elem.id": body.storyId }], strict: false },
-    );
+    // viewCount: server-side increment only (prevents arbitrary values)
+    if (body.incrementView)
+      incFields["stories.$[elem].viewCount"] = 1;
+
+    // likes: only allow the authenticated user to toggle their own like
+    if (body.likes !== undefined && uid) {
+      // Sanitize: only accept the caller's own uid key
+      const userLikeValue = body.likes[uid];
+      if (typeof userLikeValue === "boolean") {
+        setFields[`stories.$[elem].likes.${uid}`] = userLikeValue;
+      }
+    }
+
+    if (body.ratings !== undefined && uid) {
+      // Sanitize: only accept the caller's own uid rating (1-5)
+      const userRating = body.ratings[uid];
+      if (typeof userRating === "number" && userRating >= 1 && userRating <= 5) {
+        setFields[`stories.$[elem].ratings.${uid}`] = userRating;
+      }
+    }
+
+    // isPublic: require ownership of the story
+    if (body.isPublic !== undefined && uid) {
+      const owns = await MapEntry.countDocuments({
+        mapId: params.id,
+        stories: { $elemMatch: { id: body.storyId, userId: uid } },
+      });
+      if (owns) {
+        setFields["stories.$[elem].isPublic"] = body.isPublic;
+      }
+    }
+
+    const updateOps: Record<string, unknown> = {};
+    if (Object.keys(setFields).length > 0) updateOps.$set = setFields;
+    if (Object.keys(incFields).length > 0) updateOps.$inc = incFields;
+
+    if (Object.keys(updateOps).length > 0) {
+      await MapEntry.findOneAndUpdate(
+        { mapId: params.id },
+        updateOps,
+        { arrayFilters: [{ "elem.id": body.storyId }], strict: false },
+      );
+    }
+
+    // Recalculate ratings avg after individual rating update
+    if (body.ratings !== undefined && uid) {
+      const entry = await MapEntry.findOne(
+        { mapId: params.id, "stories.id": body.storyId },
+        { "stories.$": 1 },
+      ).lean();
+      const story = (entry?.stories as any[])?.[0];
+      if (story?.ratings) {
+        const rKeys = Object.keys(story.ratings);
+        const count = rKeys.length;
+        const avg = count
+          ? rKeys.reduce((sum: number, k: string) => sum + (story.ratings[k] ?? 0), 0) / count
+          : 0;
+        await MapEntry.findOneAndUpdate(
+          { mapId: params.id },
+          {
+            $set: {
+              "stories.$[elem].ratingCount": count,
+              "stories.$[elem].avgRating": Math.round(avg * 10) / 10,
+            },
+          },
+          { arrayFilters: [{ "elem.id": body.storyId }], strict: false },
+        );
+      }
+    }
 
     // Sync likes → User.likedStories
-    if (body.likes !== undefined) {
-      const uid = await optionalAuth(req);
-      if (uid) {
-        const isLiked = body.likes[uid] === true;
+    if (body.likes !== undefined && uid) {
+      const isLiked = body.likes[uid] === true;
 
-        if (isLiked) {
-          const entry = await MapEntry.findOne(
-            { mapId: params.id, "stories.id": body.storyId },
-            { "stories.$": 1 },
-          ).lean();
-          const story = (entry?.stories as any[])?.[0];
-          if (story) {
-            await User.findOneAndUpdate(
-              {
-                firebaseUid: uid,
-                "likedStories.storyId": { $ne: body.storyId },
-              },
-              {
-                $addToSet: {
-                  likedStories: {
-                    storyId: body.storyId,
-                    countryId: params.id,
-                    title: story.story?.title ?? "",
-                    imageUrl: story.story?.imageUrl ?? "",
-                  },
+      if (isLiked) {
+        const entry = await MapEntry.findOne(
+          { mapId: params.id, "stories.id": body.storyId },
+          { "stories.$": 1 },
+        ).lean();
+        const story = (entry?.stories as any[])?.[0];
+        if (story) {
+          await User.findOneAndUpdate(
+            {
+              firebaseUid: uid,
+              "likedStories.storyId": { $ne: body.storyId },
+            },
+            {
+              $addToSet: {
+                likedStories: {
+                  storyId: body.storyId,
+                  countryId: params.id,
+                  title: story.story?.title ?? "",
+                  imageUrl: story.story?.imageUrl ?? "",
                 },
               },
-            );
-          }
-        } else {
-          await User.findOneAndUpdate(
-            { firebaseUid: uid },
-            { $pull: { likedStories: { storyId: body.storyId } } },
+            },
           );
         }
+      } else {
+        await User.findOneAndUpdate(
+          { firebaseUid: uid },
+          { $pull: { likedStories: { storyId: body.storyId } } },
+        );
       }
     }
 

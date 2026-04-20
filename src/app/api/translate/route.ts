@@ -1,12 +1,39 @@
 // src/app/api/translate/route.ts
 import { NextRequest, NextResponse } from "next/server";
+import { getAdmin } from "@/db/firebaseAdmin";
+import { checkStoryRateLimit } from "@/lib/ratelimit";
 
 export const runtime = "nodejs";
 
 const MAX_PARAGRAPHS = 30;
 const MAX_PARAGRAPH_LEN = 3000;
 
+async function verifyUser(req: NextRequest): Promise<string | null> {
+  const token = req.headers.get("authorization")?.split("Bearer ")[1];
+  if (!token) return null;
+  try {
+    const { adminAuth } = getAdmin();
+    const decoded = await adminAuth.verifyIdToken(token);
+    return decoded.uid;
+  } catch {
+    return null;
+  }
+}
+
 export async function POST(req: NextRequest) {
+  // Require auth — translation is an expensive LLM call
+  const uid = await verifyUser(req);
+  if (!uid)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  // Rate limit: 5/min per user (reuse story limiter)
+  const rateLimit = await checkStoryRateLimit(uid);
+  if (!rateLimit.success)
+    return NextResponse.json(
+      { error: "Too many translation requests. Please wait." },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
+
   let body: {
     paragraphs?: unknown;
     title?: unknown;

@@ -1,0 +1,28 @@
+# Map Fairy Tales
+
+> AI-generated fairy tales and folk stories from every corner of the world. Read, create, and share stories inspired by different cultures, countries, and legends.
+
+## What this site offers
+
+- Interactive world map with AI-generated fairy tales for 195+ countries
+- Users can create custom stories by providing prompts and cultural context
+- Each story is region-specific, drawing on local mythology, folklore, and traditions
+- Stories can be translated into the local language using AI
+- Community features: likes, ratings, comments, sharing
+
+## Pages
+
+- [Home — Interactive World Map](https://mapfairytales.com/)
+- [Explore Stories Feed](https://mapfairytales.com/stories)
+
+## Content types
+
+- AI-generated fairy tales (English, with on-demand translation)
+- Cultural folk stories inspired by real mythology
+- User-created custom stories with AI assistance
+- Region-specific imagery generated alongside stories
+
+## Technology
+
+Built with Next.js, MongoDB, Firebase Auth, and Groq AI (Llama 3.1).
+Story generation uses structured prompts with cultural context per country.

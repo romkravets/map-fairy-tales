@@ -15,11 +15,43 @@ const securityHeaders = [
     value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
   },
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  // Cross-Origin-Opener-Policy
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+  // Content Security Policy
+  {
+    key: "Content-Security-Policy",
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://*.firebaseio.com https://*.googleapis.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "img-src 'self' data: blob: https://firebasestorage.googleapis.com https://d1ei2xrl63k822.cloudfront.net https://*.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://api.groq.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com",
+      "frame-src 'self' https://*.firebaseapp.com",
+      "object-src 'none'",
+      "base-uri 'self'",
+    ].join("; "),
+  },
 ];
 
 const nextConfig = {
   async headers() {
-    return [{ source: "/(.*)", headers: securityHeaders }];
+    return [
+      { source: "/(.*)", headers: securityHeaders },
+      // Cache static assets aggressively
+      {
+        source: "/images/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+        ],
+      },
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+    ];
   },
   images: {
     domains: [

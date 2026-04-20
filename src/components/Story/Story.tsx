@@ -154,7 +154,7 @@ export default function StoryPage() {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-          body: JSON.stringify({ storyId: id, viewCount: updated.viewCount }),
+          body: JSON.stringify({ storyId: id, incrementView: true }),
         });
       } catch (err) {
         console.error("Error fetching story:", err);
@@ -167,6 +167,9 @@ export default function StoryPage() {
   const handleNativeTab = async () => {
     setLang("native");
     if (translation) return; // already cached
+
+    // Auth token for translate API
+    const token = user.token || (await getAuth().currentUser?.getIdToken());
 
     // Check legacy pre-translated data first
     if (story?.story?.native?.paragraphs?.length) {
@@ -187,7 +190,10 @@ export default function StoryPage() {
     try {
       const res = await fetch("/api/translate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({
           paragraphs,
           title,

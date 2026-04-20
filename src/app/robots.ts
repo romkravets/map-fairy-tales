@@ -11,7 +11,20 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        // Keep internal API routes and private settings page out of index
+        disallow: ["/api/", "/settings"],
+      },
+      // Explicitly allow AI crawlers for GEO visibility
+      {
+        userAgent: [
+          "GPTBot",
+          "ChatGPT-User",
+          "Google-Extended",
+          "PerplexityBot",
+          "ClaudeBot",
+          "Applebot-Extended",
+          "cohere-ai",
+        ],
+        allow: "/",
         disallow: ["/api/", "/settings"],
       },
     ],
