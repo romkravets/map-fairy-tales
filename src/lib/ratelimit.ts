@@ -31,20 +31,27 @@ function memLimit(
 }
 
 // ── Upstash limiter (production) ─────────────────────────────────────────────
-const UPSTASH_URL = process.env.UPSTASH_REDIS_REST_URL;
-const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
+// Strip stray quotes — some env managers wrap values in literal "..." chars
+const stripQuotes = (s?: string) => s?.replace(/^["']+|["']+$/g, "").trim() || "";
+const UPSTASH_URL = stripQuotes(process.env.UPSTASH_REDIS_REST_URL);
+const UPSTASH_TOKEN = stripQuotes(process.env.UPSTASH_REDIS_REST_TOKEN);
 
-const makeUpstashLimiter = (limit: number, window: string, prefix: string) =>
-  UPSTASH_URL && UPSTASH_TOKEN
-    ? new Ratelimit({
-        redis: new Redis({ url: UPSTASH_URL, token: UPSTASH_TOKEN }),
-        limiter: Ratelimit.slidingWindow(
-          limit,
-          window as `${number} ${"s" | "m" | "h" | "d"}`,
-        ),
-        prefix,
-      })
-    : null;
+function makeUpstashLimiter(limit: number, window: string, prefix: string): Ratelimit | null {
+  if (!UPSTASH_URL || !UPSTASH_TOKEN) return null;
+  try {
+    return new Ratelimit({
+      redis: new Redis({ url: UPSTASH_URL, token: UPSTASH_TOKEN }),
+      limiter: Ratelimit.slidingWindow(
+        limit,
+        window as `${number} ${"s" | "m" | "h" | "d"}`,
+      ),
+      prefix,
+    });
+  } catch {
+    // Invalid URL or token — fall back to in-memory
+    return null;
+  }
+}
 
 // 5 story generations per user per minute
 const storyLimiter = makeUpstashLimiter(5, "60 s", "rl:story");
