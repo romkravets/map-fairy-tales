@@ -27,7 +27,7 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://*.firebaseio.com https://*.googleapis.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: blob: https://firebasestorage.googleapis.com https://d1ei2xrl63k822.cloudfront.net https://*.googleapis.com https://*.wikimedia.org https://*.wikipedia.org https://*.bria.com https://*.bria-api.com",
+      "img-src 'self' data: blob: https:",
       "font-src 'self' https://fonts.gstatic.com",
       "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://api.groq.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://engine.prod.bria-api.com",
       "frame-src 'self' https://*.firebaseapp.com https://*.google.com",
