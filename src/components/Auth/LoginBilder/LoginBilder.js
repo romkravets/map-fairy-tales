@@ -58,7 +58,7 @@ const LoginBuilder = () => {
 
       router.push("/settings");
     } catch (error) {
-      if (error?.code !== 'auth/popup-closed-by-user') {
+      if (error?.code !== "auth/popup-closed-by-user") {
         console.error("Login error:", error);
       }
     } finally {
