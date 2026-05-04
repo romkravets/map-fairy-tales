@@ -6,6 +6,8 @@ An interactive world map where you can discover classic folk tales and generate 
 
 [![Map Fairy Tales demo]()]()
 
+![App screenshot](./docs/screenshot.png)
+
 ## Features
 
 - **Interactive World Map** — click any country to explore its stories
