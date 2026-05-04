@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Map Fairy Tales
+
+An interactive world map where you can discover classic folk tales and generate AI-powered fairy tales for any country.
+
+## Features
+
+- **Interactive World Map** — click any country to explore its stories
+- **AI Story Generation** — create unique fairy tales with Groq (Llama 3) + Bria AI image generation
+- **Classic Tales** — curated collection of traditional folk stories by country
+- **Explore Feed** — browse all user-created stories with search, sort, and star rating filter
+- **Rating & Comments** — rate stories with stars and leave comments
+- **Multi-language** — stories available in original and translated versions
+- **Credits System** — purchase credits via WayForPay (UAH) or Stripe to generate stories
+- **Accessibility Panel** — reduce motion, high contrast, large text, dyslexia-friendly font
+- **Mobile-first** — fully responsive with hamburger navigation
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 14 (App Router) |
+| Auth | Firebase Authentication (Google OAuth) |
+| Database | MongoDB + Mongoose |
+| Storage | Firebase Storage |
+| AI — Text | Groq (llama-3.1-8b-instant) |
+| AI — Images | Bria AI |
+| Payments | WayForPay + Stripe |
+| Rate Limiting | Upstash Redis |
+| Styling | CSS Modules + MUI v6 |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- MongoDB database
+- Firebase project
+- Groq API key
+- Upstash Redis instance
+
+### Installation
+
+```bash
+git clone https://github.com/romkravets/map-fairy-tales.git
+cd map-fairy-tales
+npm install
+```
+
+### Environment Variables
+
+Copy `.env.example` to `.env.local` and fill in your values:
+
+```bash
+cp .env.example .env.local
+```
+
+### Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/Story.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
+src/
+├── app/                  # Next.js App Router pages + API routes
+│   ├── api/              # Server-side API endpoints
+│   ├── explore/          # Story feed page
+│   ├── settings/         # Account & credits management
+│   ├── stories/          # Country stories page
+│   └── story/            # Single story view
+├── components/           # React components
+│   ├── MapWorld/         # Interactive SVG world map
+│   ├── Story/            # Full story reader
+│   ├── ExploreFeed/      # Stories grid with search/filter
+│   ├── CountryStories/   # Country page with AI story creator
+│   └── AccessibilityPanel/
+├── context/              # React Context (auth state)
+├── db/                   # Firebase + MongoDB clients
+├── helpers/              # Utilities & design tokens
+├── layout/               # PrimaryLayout (header + nav)
+├── lib/                  # Server-only utilities (credits, rate limiting)
+└── models/               # Mongoose schemas
+```
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev       # Development server
+npm run build     # Production build
+npm run start     # Start production server
+npm run lint      # ESLint
+npm test          # Jest tests
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+MIT
