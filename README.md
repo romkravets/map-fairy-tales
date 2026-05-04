@@ -4,7 +4,7 @@ An interactive world map where you can discover classic folk tales and generate 
 
 ## Demo
 
-[![Map Fairy Tales demo]()]()
+[![Map Fairy Tales demo](https://img.youtube.com/vi/A4CsLx5VScA/maxresdefault.jpg)](https://youtu.be/A4CsLx5VScA?si=9BCMOei7E7ZpkVwp)
 
 ![App screenshot](./docs/screenshot.png)
 
