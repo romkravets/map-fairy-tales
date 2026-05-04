@@ -857,3 +857,75 @@
   flex-wrap: wrap;
   margin-top: 4px;
 }
+
+/* ── Mobile responsive ────────────────────────────── */
+@media (max-width: 640px) {
+  .page {
+    padding: 24px 16px 60px;
+  }
+
+  .infoCard {
+    padding: 18px 16px;
+    gap: 12px 16px;
+  }
+
+  .sectionTitle {
+    font-size: 17px;
+    margin: 28px 0 14px;
+  }
+
+  .createPanel {
+    padding: 20px 16px;
+  }
+
+  .createPanelHeader {
+    margin-bottom: 16px;
+  }
+
+  .fieldset {
+    padding: 14px 16px;
+  }
+
+  .radioGroup {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .manualRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .fileInputLabel {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .imageUrlInput {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .storyPreviewImage {
+    max-height: 240px;
+  }
+
+  .genEditActions {
+    flex-direction: column;
+  }
+
+  .buyPackages {
+    gap: 8px;
+  }
+
+  .buyPackageBtn {
+    min-width: 80px;
+    padding: 12px 8px;
+  }
+
+  .storiesGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
